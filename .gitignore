@@ -1,0 +1,8 @@
+/build/
+/nbproject/
+build/
+nbproject/
+/dist/
+dist/
+bin/
+/bin/
