@@ -58,8 +58,10 @@ public class NewUnion {
 	// <-- Not finished
 	// merge components containing p and q
 	public void union(int p, int q) {
-		int i = find(p);
-		int j = find(q);
+		int p1 = hashIDs.get(p);
+		int p2 = hashIDs.get(q);
+		int i = find(p1);
+		int j = find(p2);
 		if (i == j)
 			return;
 		id[i] = j;
