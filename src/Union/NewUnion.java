@@ -1,39 +1,57 @@
 package Union;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+
 public class NewUnion {
-    private int[] id;    // id[i] = parent of i
-    private int[] sz;    // sz[i] = number of objects in subtree rooted at i
-    
-    public void NewUnion(int N){
-    	id = new int[N];
-        sz = new int[N];
-        for (int i = 0; i < N; i++) {
-            id[i] = i;
-            sz[i] = 1;
-        }
-    }
-    
- // Return component identifier for component containing p
-    public int find(int p) {
-        while (p != id[p])
-            p = id[p];
-        return p;
-    }
+	private BigDecimal[][] nodes; // Given nodes
+	private int connections[][]; //[ID][point ID, point ID, length]
+	private int numberOfNodes;
+	private HashMap hashIDs = new HashMap();
 
-   // Are objects p and q in the same set?
-    public boolean connected(int p, int q) {
-        return find(p) == find(q);
-    }
+	public void NewUnion(BigDecimal[][] nodes) {
+		this.nodes = nodes;
+		numberOfNodes = nodes.length;
+		hashify();
+	}
+	
+	//TODO Make connections[][] flexible in size
+	
+	private void hashify(){
+		for(int i = 1; i < nodes.length; i++){
+			hashIDs.put(nodes[i][0], i); //assuming original ID at [0]
+		}
+	}
 
-  
-   // Replace sets containing p and q with their union.
-    public void union(int p, int q) {
-        int i = find(p);
-        int j = find(q);
-        if (i == j) return;
+	// return number of nodes
+	public int numberOfNodes() {
+		return numberOfNodes;
+	}
 
-        // make smaller root point to larger one
-        if   (sz[i] < sz[j]) { id[i] = j; sz[j] += sz[i]; }
-        else                 { id[j] = i; sz[i] += sz[j]; }
-    }
+	// return number of connected components
+	public int numberOfConnections() {
+		return connections.length;
+	}
+
+	// <--
+	// return root of component corresponding to element p
+	public int find(int p) {
+		while (p != id[p])
+			p = id[p];
+		return p;
+	}
+
+	// are elements p and q in the same component?
+	public boolean connected(int p, int q) {
+		return find(p) == find(q);
+	}
+
+	// merge components containing p and q
+	public void union(int p, int q) {
+		int i = find(p);
+		int j = find(q);
+		if (i == j)
+			return;
+		id[i] = j;
+	}
 }
