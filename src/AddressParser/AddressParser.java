@@ -95,7 +95,7 @@ public class AddressParser {
         //If "Rued Langgaards Vej 7 A"
         int i;
         for (i = 0; i < s.length(); i++) {
-            if (Character.isAlphabetic(s.charAt(i))) {
+            if (Character.isLetter(s.charAt(i))) {
                 house += s.charAt(i);
             } else {
                 break;
@@ -178,7 +178,7 @@ public class AddressParser {
         int start = -1;
 
         for (int i = 0; i < s.length(); i++) {
-            if (Character.isAlphabetic(s.charAt(i))) {
+            if (Character.isLetter(s.charAt(i))) {
                 start = i;
                 break;
             }

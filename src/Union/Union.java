@@ -31,7 +31,7 @@ public class Union{
 	    	
 	    	boolean pFound = false, qFound = false;
 	    	//gemmer information om den nye connection og laver connection
-	    	for (int i=0; !pFound || !qFound; i++){
+	    	for (int i=2; !pFound || !qFound; i++){
 	    		if (!pFound && points[p][i] == null){
 	    			points[p][i] = new BigDecimal(q);
 	    			pFound = true;
