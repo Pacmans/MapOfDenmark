@@ -9,7 +9,7 @@ public class TextReader {
 	public static void main(String [ ] args)
 	{
 		try {
-			TextReader.reader("C:\\Users\\Phillip\\Dropbox\\Pacman\\Krak-data\\kdv_node_unload.txt");
+			TextReader.reader(System.in);
 		} catch (IOException e) {
 			System.out.println("file does not exist or wrong direction");
 		} 
@@ -22,13 +22,13 @@ public class TextReader {
 	//Throws IOException ("File does not exist or wrong direction")
 	//@param	s 		file location
 	//@return	cords	coordinates of X and Y for knobs
-public static HashMap<Integer, Point> reader(String s) throws IOException{
-	File a = new File(s);
-	LineNumberReader  lnr = new LineNumberReader(new FileReader(a));
+public static HashMap<Integer, Point> reader(InputStream s) throws IOException{
+	InputStreamReader irs = new InputStreamReader(s);
+	LineNumberReader  lnr = new LineNumberReader(irs);
 	lnr.skip(Long.MAX_VALUE);
 	HashMap<Integer, Point> cords = new HashMap<Integer, Point>(lnr.getLineNumber()-1); 
 	
-	BufferedReader input =  new BufferedReader(new FileReader(a));
+	BufferedReader input =  new BufferedReader(irs);
 	
 	String line = null;
 	 int index = -1;
