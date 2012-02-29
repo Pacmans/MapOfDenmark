@@ -12,7 +12,6 @@ public class Point {
 		this.xk = xk;
 		this.yk = yk;
 		connections = new double[2][2];
-		System.out.println(xk);
 	}
 	
 	public void addConnection(int id, double length){
