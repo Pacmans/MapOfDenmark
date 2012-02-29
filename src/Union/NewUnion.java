@@ -4,33 +4,18 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 
 public class NewUnion {
-	private BigDecimal[][] nodes; // Given nodes
-	private int connections[][]; //[ID][point ID, point ID, length]
-	private int numberOfNodes;
+	private int numberOfPoints;
 	private HashMap<Integer, Integer> hashIDs = new HashMap();
+	private HashMap<Integer, Point> points;
 
-	public void NewUnion(BigDecimal[][] nodes) {
-		this.nodes = nodes;
-		numberOfNodes = nodes.length;
-		hashify();
-	}
-	
-	//TODO Make connections[][] flexible in size
-	
-	private void hashify(){
-		for(int i = 1; i < nodes.length; i++){
-			hashIDs.put(new Integer(nodes[i][0].intValueExact()), new Integer(i)); //assuming original ID at [0]
-		}
+	public NewUnion(HashMap<Integer, Point> points) {
+		this.points = points;
+		numberOfPoints = points.size();
 	}
 
-	// return number of nodes
-	public int numberOfNodes() {
-		return numberOfNodes;
-	}
-
-	// return number of connected components
-	public int numberOfConnections() {
-		return connections.length;
+	// return number of points
+	public int numberOfPoints() {
+		return numberOfPoints;
 	}
 
 	// <-- Not finished
