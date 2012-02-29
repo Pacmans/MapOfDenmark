@@ -49,7 +49,12 @@ public class NewUnion {
 	private void output(){
 		System.out.println(numberOfConnections + points.size());
 		for(Point p : points.values()){
-			System.out.println();
+			double[][] con = p.getConnections();
+			for(int i = 0; i < con.length; i++){
+				if(con[i][0] > p.getID()){
+					System.out.println(p.getID() + " " + con[i][0] + " " + con[i][1]);
+				}
+			}
 		}
 	}
 
