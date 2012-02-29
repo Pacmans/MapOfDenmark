@@ -5,15 +5,6 @@ import java.util.HashMap;
 import java.io.*;
 
 public class TextReader {
-	
-	public static void main(String [ ] args)
-	{
-		try {
-			TextReader.Runner(System.in);
-		} catch (IOException e) {
-			System.out.println("file does not exist or wrong direction");
-		} 
-	}
 		
 
 	//Reads the given .txt file and prints out X-Cord and Y-Cord in a BigDecimal 2D Array.
@@ -22,13 +13,13 @@ public class TextReader {
 	//Throws IOException ("File does not exist or wrong direction")
 	//@param	s 		file location
 	//@return	cords	coordinates of X and Y for knobs
-public static HashMap<Integer, Point> reader(InputStream s) throws IOException{
-	InputStreamReader irs = new InputStreamReader(s);
-	LineNumberReader  lnr = new LineNumberReader(irs);
+public static HashMap<Integer, Point> reader(String s) throws IOException{
+	File a = new File(s);
+	LineNumberReader  lnr = new LineNumberReader(new FileReader(a));
 	lnr.skip(Long.MAX_VALUE);
 	HashMap<Integer, Point> cords = new HashMap<Integer, Point>(lnr.getLineNumber()-1); 
 	
-	BufferedReader input =  new BufferedReader(irs);
+	BufferedReader input =  new BufferedReader(new FileReader(a));
 	
 	String line = null;
 	 int index = -1;
@@ -44,10 +35,10 @@ public static HashMap<Integer, Point> reader(InputStream s) throws IOException{
 	 }
 	 return cords;}
 
-public static int[][] Runner(InputStream s) throws IOException {
-	InputStreamReader irs = new InputStreamReader(s);
-	BufferedReader input =  new BufferedReader(irs);
-	LineNumberReader  lnr = new LineNumberReader(irs);
+public static int[][] Runner(String s) throws IOException {
+	File a = new File(s);
+	BufferedReader input =  new BufferedReader(new FileReader(a));
+	LineNumberReader  lnr = new LineNumberReader(new FileReader(a));
 	lnr.skip(Long.MAX_VALUE);
 	
 	int[][] Nodes = new int[lnr.getLineNumber()-1][2];
