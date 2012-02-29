@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.io.*;
 
 public class TextReader {
-	
 
 
 	//Reads the given .txt file and prints out X-Cord and Y-Cord in a BigDecimal 2D Array.
@@ -40,6 +39,7 @@ public static int[][] Runner(String s) throws IOException {
 	File a = new File(s);
 	BufferedReader input =  new BufferedReader(new FileReader(a));
 	LineNumberReader  lnr = new LineNumberReader(new FileReader(a));
+
 	lnr.skip(Long.MAX_VALUE);
 	
 	int[][] Nodes = new int[lnr.getLineNumber()-1][2];
@@ -53,12 +53,7 @@ public static int[][] Runner(String s) throws IOException {
 	     String[] split = line.split(",");
 	     Nodes[index][0] = Integer.parseInt(split[0]);
 	     Nodes[index][1] = Integer.parseInt(split[1]);
-	     System.out.println(Nodes[index][0]+"--"+Nodes[index][1]);
 	     }
-	
-	
-	
-		
 	}return Nodes;
 }
 }
