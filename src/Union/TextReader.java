@@ -5,16 +5,6 @@ import java.util.HashMap;
 import java.io.*;
 
 public class TextReader {
-	
-	public static void main(String [ ] args)
-	{
-		try {
-			TextReader.Runner(System.in);
-		} catch (IOException e) {
-			System.out.println("file does not exist or wrong direction");
-		} 
-	}
-		
 
 	//Reads the given .txt file and prints out X-Cord and Y-Cord in a BigDecimal 2D Array.
 	//it skips the first line.
@@ -44,7 +34,7 @@ public static HashMap<Integer, Point> reader(InputStream s) throws IOException{
 	 }
 	 return cords;}
 
-public static int[][] Runner(InputStream s) throws IOException {
+public static int[][] runner(InputStream s) throws IOException {
 	InputStreamReader irs = new InputStreamReader(s);
 	BufferedReader input =  new BufferedReader(irs);
 	LineNumberReader  lnr = new LineNumberReader(irs);

@@ -1,14 +1,18 @@
 package Union;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class NewUnion {
 	private int numberOfConnections = 0;
 	private HashMap<Integer, Point> points;
+    private static Scanner scanner = new Scanner(new BufferedInputStream(System.in));
 
-	public NewUnion(HashMap<Integer, Point> points) {
-		this.points = points;
+	public NewUnion() {
+		points = TextReader.reader();
 		unify();
 		clean();
 		output();
@@ -21,7 +25,7 @@ public class NewUnion {
 
 	private void unify() {
 		// run through file of connections and connect
-		int[][] toConnect = lksdf();
+		int[][] toConnect = TextReader.runner();
 		for (int i = 0; i < toConnect.length; i++) {
 			union(toConnect[i][0], toConnect[i][1]);
 		}
