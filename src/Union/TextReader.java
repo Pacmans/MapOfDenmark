@@ -53,12 +53,7 @@ public static int[][] Runner(String s) throws IOException {
 	     String[] split = line.split(",");
 	     Nodes[index][0] = Integer.parseInt(split[0]);
 	     Nodes[index][1] = Integer.parseInt(split[1]);
-	     System.out.println(Nodes[index][0]+"--"+Nodes[index][1]);
 	     }
-	
-	
-	
-		
 	}return Nodes;
 }
 }

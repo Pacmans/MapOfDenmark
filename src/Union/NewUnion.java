@@ -9,10 +9,15 @@ import java.util.Scanner;
 public class NewUnion {
 	private int numberOfConnections = 0;
 	private HashMap<Integer, Point> points;
-    private static Scanner scanner = new Scanner(new BufferedInputStream(System.in));
+	private static Scanner scanner = new Scanner(new BufferedInputStream(
+			System.in));
 
 	public NewUnion() {
-		points = TextReader.reader();
+		try {
+			points = TextReader.reader("C:\\Users\\Admin\\MapOfDenmark\\src\\Union\\kdv_node_unload.txt");
+		} catch (IOException e) {
+			System.out.println("File not found");
+		}
 		unify();
 		clean();
 		output();
@@ -25,9 +30,14 @@ public class NewUnion {
 
 	private void unify() {
 		// run through file of connections and connect
-		int[][] toConnect = TextReader.runner();
-		for (int i = 0; i < toConnect.length; i++) {
-			union(toConnect[i][0], toConnect[i][1]);
+		int[][] toConnect;
+		try {
+			toConnect = TextReader.Runner("C:\\Users\\Admin\\MapOfDenmark\\src\\Union\\kdv_unload.txt");
+			for (int i = 0; i < toConnect.length; i++) {
+				union(toConnect[i][0], toConnect[i][1]);
+			}
+		} catch (IOException e) {
+			System.out.println("File not found");
 		}
 	}
 
@@ -39,20 +49,21 @@ public class NewUnion {
 				double[][] con = p.getConnections();
 				union((int) con[0][0], (int) con[1][0]);
 				points.remove(p.getID());
-			}else{
+			} else {
 				numberOfConnections += p.numberOfConnections();
 			}
 		}
-		numberOfConnections = numberOfConnections/2;
+		numberOfConnections = numberOfConnections / 2;
 	}
-	
-	private void output(){
+
+	private void output() {
 		System.out.println(numberOfConnections + points.size());
-		for(Point p : points.values()){
+		for (Point p : points.values()) {
 			double[][] con = p.getConnections();
-			for(int i = 0; i < con.length; i++){
-				if(con[i][0] > p.getID()){
-					System.out.println(p.getID() + " " + con[i][0] + " " + con[i][1]);
+			for (int i = 0; i < con.length; i++) {
+				if (con[i][0] > p.getID()) {
+					System.out.println(p.getID() + " " + con[i][0] + " "
+							+ con[i][1]);
 				}
 			}
 		}
@@ -89,5 +100,9 @@ public class NewUnion {
 		if (!points.get(q).isConnected(p)) {
 			points.get(q).addConnection(p, calcLength(p, q));
 		}
+	}
+	
+	public static void main(String args[]){
+		NewUnion asf = new NewUnion();
 	}
 }
