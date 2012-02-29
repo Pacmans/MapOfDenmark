@@ -47,9 +47,9 @@ public class NewUnion {
 	}
 	
 	private void output(){
-		System.out.println( + points.size());
+		System.out.println(numberOfConnections + points.size());
 		for(Point p : points.values()){
-			
+			System.out.println();
 		}
 	}
 
