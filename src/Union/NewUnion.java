@@ -14,7 +14,7 @@ public class NewUnion {
 
 	public NewUnion() {
 		try {
-			points = TextReader.reader("C:\\Users\\phillip\\Dropbox\\Pacman\\krak-data\\kdv_node_unload.txt");
+			points = TextReader.reader("C:\\Users\\admin\\Dropbox\\Pacman\\krak-data\\kdv_node_unload.txt");
 		} catch (IOException e) {
 			System.out.println("File not found");
 		}
@@ -32,7 +32,7 @@ public class NewUnion {
 		// run through file of connections and connect
 		int[][] toConnect;
 		try {
-			toConnect = TextReader.Runner("C:\\Users\\phillip\\Dropbox\\Pacman\\krak-data\\kdv_unload.txt");
+			toConnect = TextReader.Runner("C:\\Users\\admin\\Dropbox\\Pacman\\krak-data\\kdv_unload.txt");
 			for (int i = 0; i < toConnect.length; i++) {
 				union(toConnect[i][0], toConnect[i][1]);
 			}
