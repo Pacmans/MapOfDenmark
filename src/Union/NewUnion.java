@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 public class NewUnion {
 	private int numberOfPoints;
-	private HashMap<Integer, Integer> hashIDs = new HashMap();
 	private HashMap<Integer, Point> points;
 
 	public NewUnion(HashMap<Integer, Point> points) {
