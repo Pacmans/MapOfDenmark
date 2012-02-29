@@ -9,7 +9,7 @@ public class TextReader {
 	public static void main(String [ ] args)
 	{
 		try {
-			TextReader.reader(System.in);
+			TextReader.Runner(System.in);
 		} catch (IOException e) {
 			System.out.println("file does not exist or wrong direction");
 		} 
@@ -43,4 +43,31 @@ public static HashMap<Integer, Point> reader(InputStream s) throws IOException{
 	     
 	 }
 	 return cords;}
-	}
+
+public static int[][] Runner(InputStream s) throws IOException {
+	InputStreamReader irs = new InputStreamReader(s);
+	BufferedReader input =  new BufferedReader(irs);
+	LineNumberReader  lnr = new LineNumberReader(irs);
+	lnr.skip(Long.MAX_VALUE);
+	
+	int[][] Nodes = new int[lnr.getLineNumber()-1][2];
+	
+	String line = null;
+	
+	 int index = -1;
+	 while ((line = input.readLine()) != null){
+	     if (index == -1)index++;
+	     else{
+	     String[] split = line.split(",");
+	     Nodes[index][0] = Integer.parseInt(split[0]);
+	     Nodes[index][1] = Integer.parseInt(split[1]);
+	     System.out.println(Nodes[index][0]+"--"+Nodes[index][1]);
+	     }
+	
+	
+	
+		
+	}return Nodes;
+}
+}
+	
