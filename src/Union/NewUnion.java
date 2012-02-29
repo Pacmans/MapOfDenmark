@@ -28,21 +28,26 @@ public class NewUnion {
 
 	// are elements p and q in the same component?
 	public boolean connected(int p, int q) {
-		int p1 = hashIDs.get(p);
-		int p2 = hashIDs.get(q);
-		for(int i =2; i<20; i++){
-			//hvis plads er tom (set alle connections igennem)
-        	if(nodes[p1][i] == null) break; //breaks and returns false
-
-        	//hvis der er en connection
-        	if (nodes[p1][i].intValue() == p2) return true; 
-		}
-		return false;
+		return points.get(p).isConnected(q);
 	}
 
 	// <-- Not finished
 	// merge components containing p and q
 	public void union(int p, int q) {
+		Point p1 = points.get(p);
+		Point p2 = points.get(q);
+		
+		//see if already connected
+		if(!p1.isConnected(q)){
+			
+		}
+		
+		//see if already connected
+		if(!p2.isConnected(p)){
+			
+		}
+		
+		
 		int p1 = hashIDs.get(p);
 		int p2 = hashIDs.get(q);
 		int i = find(p1);
