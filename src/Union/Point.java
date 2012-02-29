@@ -21,7 +21,13 @@ public class Point {
 		numberOfConnections++;
 	}
 	
-	public boolean isConnected(int i){
+	public boolean isConnected(int j){
+		double t = j;
+		for(int i = 0; i < numberOfConnections; i++){
+			if(connections[i][0] == t){
+				return true;
+			}
+		}
 		return false;
 	}
 	

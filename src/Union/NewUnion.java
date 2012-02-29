@@ -18,37 +18,37 @@ public class NewUnion {
 		return numberOfPoints;
 	}
 
-	// <-- Not finished
-	// return root of component corresponding to element p
-	public int find(int p) {
-		while (p != id[p])
-			p = id[p];
-		return p;
-	}
-
 	// are elements p and q in the same component?
 	public boolean connected(int p, int q) {
-		int p1 = hashIDs.get(p);
-		int p2 = hashIDs.get(q);
-		for(int i =2; i<20; i++){
-			//hvis plads er tom (set alle connections igennem)
-        	if(nodes[p1][i] == null) break; //breaks and returns false
-
-        	//hvis der er en connection
-        	if (nodes[p1][i].intValue() == p2) return true; 
-		}
-		return false;
+		return points.get(p).isConnected(q);
+	}
+	
+	private double calcLength(int j, int k){
+		BigDecimal dx = new BigDecimal(0);
+		BigDecimal x1 = points.get(j).getX();
+		BigDecimal x2 = points.get(k).getX();
+		if (x1.compareTo(x2) == -1) dx = x2.subtract(x1);
+		else dx = x1.subtract(x2);
+		
+		BigDecimal dy = new BigDecimal(0);
+		BigDecimal y1 = points.get(j).getY();
+		BigDecimal y2 = points.get(k).getY();
+		if (y1.compareTo(y2) == -1) dy = y2.subtract(y1);
+		else dy = y1.subtract(y2);
+		
+		return Math.sqrt(dx.pow(2).add(dy.pow(2)).doubleValue());
 	}
 
-	// <-- Not finished
 	// merge components containing p and q
 	public void union(int p, int q) {
-		int p1 = hashIDs.get(p);
-		int p2 = hashIDs.get(q);
-		int i = find(p1);
-		int j = find(p2);
-		if (i == j)
-			return;
-		id[i] = j;
+		//if not already connected
+		if(!points.get(p).isConnected(q)){
+			points.get(p).addConnection(q, calcLength(p, q));
+		}
+		
+		//if not already connected
+		if(!points.get(q).isConnected(p)){
+			points.get(q).addConnection(p, calcLength(p, q));
+		}
 	}
 }
