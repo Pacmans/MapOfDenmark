@@ -21,6 +21,10 @@ public class Point {
 		numberOfConnections++;
 	}
 	
+	public boolean isConnected(int i){
+		return false;
+	}
+	
 	private void resize(int cap){
 		double[][] temp = new double[numberOfConnections*2][2];
 		for(int i = 0; i < numberOfConnections; i++){
