@@ -10,6 +10,8 @@ public class NewUnion {
 	public NewUnion(HashMap<Integer, Point> points) {
 		this.points = points;
 		numberOfPoints = points.size();
+		unify();
+		clean();
 	}
 
 	// return number of points
@@ -20,6 +22,32 @@ public class NewUnion {
 	// are elements p and q in the same component?
 	public boolean connected(int p, int q) {
 		return points.get(p).isConnected(q);
+	}
+	
+	private void unify(){
+		//run through file of connections and connect
+		int[][] toConnect = lksdf();
+		for(int i = 0; i<toConnect.length; i++){
+			union(toConnect[i][0], toConnect[i][1]);
+		}
+	}
+	
+	private void clean(){
+		//run through hashmap of points
+		for(int i = 1; i < points.size(); i++){
+			if(points.containsKey(i)){
+				if(points.get(i).numberOfConnections() == 2){
+					// for entities with 2 connections, remove and unify connections
+					double[][] con = points.get(i).getConnections();
+					union((int) con[0][0], (int) con[1][0]);
+				}else {
+					// copy entities with more than 2 connections or one connection to new array[]
+					
+				}
+			}
+		}
+
+
 	}
 	
 	private double calcLength(int j, int k){
