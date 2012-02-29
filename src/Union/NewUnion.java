@@ -1,54 +1,93 @@
 package Union;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class NewUnion {
-	private int numberOfPoints;
-	private HashMap<Integer, Integer> hashIDs = new HashMap();
+	private int numberOfConnections = 0;
 	private HashMap<Integer, Point> points;
+    private static Scanner scanner = new Scanner(new BufferedInputStream(System.in));
 
-	public NewUnion(HashMap<Integer, Point> points) {
-		this.points = points;
-		numberOfPoints = points.size();
-	}
-
-	// return number of points
-	public int numberOfPoints() {
-		return numberOfPoints;
-	}
-
-	// <-- Not finished
-	// return root of component corresponding to element p
-	public int find(int p) {
-		while (p != id[p])
-			p = id[p];
-		return p;
+	public NewUnion() {
+		points = TextReader.reader();
+		unify();
+		clean();
+		output();
 	}
 
 	// are elements p and q in the same component?
 	public boolean connected(int p, int q) {
-		int p1 = hashIDs.get(p);
-		int p2 = hashIDs.get(q);
-		for(int i =2; i<20; i++){
-			//hvis plads er tom (set alle connections igennem)
-        	if(nodes[p1][i] == null) break; //breaks and returns false
-
-        	//hvis der er en connection
-        	if (nodes[p1][i].intValue() == p2) return true; 
-		}
-		return false;
+		return points.get(p).isConnected(q);
 	}
 
-	// <-- Not finished
+	private void unify() {
+		// run through file of connections and connect
+		int[][] toConnect = TextReader.runner();
+		for (int i = 0; i < toConnect.length; i++) {
+			union(toConnect[i][0], toConnect[i][1]);
+		}
+	}
+
+	private void clean() {
+		// run through hashmap of points
+		for (Point p : points.values()) {
+			if (p.numberOfConnections() == 2) {
+				// for entities with 2 connections, remove and unify connections
+				double[][] con = p.getConnections();
+				union((int) con[0][0], (int) con[1][0]);
+				points.remove(p.getID());
+			}else{
+				numberOfConnections += p.numberOfConnections();
+			}
+		}
+		numberOfConnections = numberOfConnections/2;
+	}
+	
+	private void output(){
+		System.out.println(numberOfConnections + points.size());
+		for(Point p : points.values()){
+			double[][] con = p.getConnections();
+			for(int i = 0; i < con.length; i++){
+				if(con[i][0] > p.getID()){
+					System.out.println(p.getID() + " " + con[i][0] + " " + con[i][1]);
+				}
+			}
+		}
+	}
+
+	private double calcLength(int j, int k) {
+		BigDecimal dx = new BigDecimal(0);
+		BigDecimal x1 = points.get(j).getX();
+		BigDecimal x2 = points.get(k).getX();
+		if (x1.compareTo(x2) == -1)
+			dx = x2.subtract(x1);
+		else
+			dx = x1.subtract(x2);
+
+		BigDecimal dy = new BigDecimal(0);
+		BigDecimal y1 = points.get(j).getY();
+		BigDecimal y2 = points.get(k).getY();
+		if (y1.compareTo(y2) == -1)
+			dy = y2.subtract(y1);
+		else
+			dy = y1.subtract(y2);
+
+		return Math.sqrt(dx.pow(2).add(dy.pow(2)).doubleValue());
+	}
+
 	// merge components containing p and q
 	public void union(int p, int q) {
-		int p1 = hashIDs.get(p);
-		int p2 = hashIDs.get(q);
-		int i = find(p1);
-		int j = find(p2);
-		if (i == j)
-			return;
-		id[i] = j;
+		// if not already connected
+		if (!points.get(p).isConnected(q)) {
+			points.get(p).addConnection(q, calcLength(p, q));
+		}
+
+		// if not already connected
+		if (!points.get(q).isConnected(p)) {
+			points.get(q).addConnection(p, calcLength(p, q));
+		}
 	}
 }
