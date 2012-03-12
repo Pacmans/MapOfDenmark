@@ -73,7 +73,7 @@ public class xmlWriter{
 	  output.write("<roaddata>Danmark");
 	  ((BufferedWriter) output).newLine();
 	  for(int i = 0; i < lines.length-1; i++){
-	  output.write("<connection xmlns:xsi='file:///C:/Users/Morten/Dropbox/Pacman/KRAX.xsd'>connecten "+i);
+	  output.write("<connection xmlns:xsi='file:./KRAX.xsd'>connecten "+i);
 	  ((BufferedWriter) output).newLine();
 	  output.write("<xcoord1>"+cords[lines[i][0]][0]+"</xcoord1>");
 	  ((BufferedWriter) output).newLine();
