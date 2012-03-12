@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.Writer;
 
 public class xmlWriter{
+	private double xMin = 9000000, yMin = 9000000, yMax = 0; //setting very big and very small numbers
 
 	public static void main(String[] args){
 		xmlWriter lol = new xmlWriter();
@@ -36,20 +37,21 @@ public class xmlWriter{
 	     if (index == -1)index++;
 	     else{
 	     String[] split = line.split(",");
-	     cords[index][0]=Double.parseDouble(split[3]);
-	     cords[index][1]=Double.parseDouble(split[4]);
+	     cords[index][0]=Double.parseDouble(split[3]); //x-cord
+	     cords[index][1]=Double.parseDouble(split[4]); //y-cord
+
+	     //set max and min
+	     if(cords[index][0] < xMin) xMin = cords[index][0];
+	     if(cords[index][1] < yMin) yMin = cords[index][1];
+	     if(cords[index][1] > yMax) yMax = cords[index][1];
 
 	     index++;
-
 	     }
-
-
-
-
-
-
 	 }
 	 System.out.println("done part 1");
+	 System.out.println("xMin " + xMin);
+	 System.out.println("yMin " + yMin);
+	 System.out.println("yMax " + yMax);
      index = -1;
      while ((line = inputB.readLine()) != null){
 	     if (index == -1)index++;
@@ -60,11 +62,10 @@ public class xmlWriter{
 	     lines[index][2]=Integer.parseInt(split[5]);
 	     index++;
 	     }
-
-
-
 	}
 	System.out.println("done part 2");
+
+
 
 	Writer output = null;
 	  File file = new File("write.txt");
@@ -75,13 +76,13 @@ public class xmlWriter{
 	  for(int i = 0; i < lines.length-1; i++){
 	  output.write("<connection xmlns:xsi='file:./KRAX.xsd'>connecten "+i);
 	  ((BufferedWriter) output).newLine();
-	  output.write("<xcoord1>"+cords[lines[i][0]][0]+"</xcoord1>");
+	  output.write("<xcoord1>"+(cords[lines[i][0]][0] - xMin + 10)+"</xcoord1>");
 	  ((BufferedWriter) output).newLine();
-	  output.write("<ycoord1>"+cords[lines[i][0]][1]+"</ycoord1>");
+	  output.write("<ycoord1>"+((cords[lines[i][0]][1]*-1)+ yMax)+"</ycoord1>");
 	  ((BufferedWriter) output).newLine();
-	  output.write("<xcoord2>"+cords[lines[i][1]][0]+"</xcoord2>");
+	  output.write("<xcoord2>"+(cords[lines[i][1]][0] - xMin + 10)+"</xcoord2>");
 	  ((BufferedWriter) output).newLine();
-	  output.write("<ycoord2>"+cords[lines[i][1]][1]+"</ycoord2>");
+	  output.write("<ycoord2>"+((cords[lines[i][1]][1]*-1) + yMax) +"</ycoord2>");
 	  ((BufferedWriter) output).newLine();
 	  output.write("<rtype>"+lines[i][2]+"</rtype>");
 	  ((BufferedWriter) output).newLine();
@@ -91,7 +92,8 @@ public class xmlWriter{
 	  ((BufferedWriter) output).newLine();
 	  output.write("<svg xmlns='http://www.w3.org/2000/svg' version='1.1'>");
 	  ((BufferedWriter) output).newLine();
-	  output.write("<line id='line' x1='"+cords[lines[i][0]][0]+"' y1='"+cords[lines[i][0]][1]+"' x2='"+cords[lines[i][1]][0]+"' y2='"+cords[lines[i][1]][1]+"' style='stroke:rgb(255,0,0);stroke-width:"+lines[i][2]+"'/>");
+	  //output.write("<line id='line' x1='"+cords[lines[i][0]][0]+"' y1='"+cords[lines[i][0]][1]+"' x2='"+cords[lines[i][1]][0]+"' y2='"+cords[lines[i][1]][1]+"' style='stroke:rgb(255,0,0);stroke-width:"+lines[i][2]+"'/>");
+	  output.write("<line id='line' x1='"+(cords[lines[i][0]][0] - xMin + 10)+"' y1='"+((cords[lines[i][0]][1]*-1) + yMax) +"' x2='"+(cords[lines[i][1]][0] - xMin + 10) +"' y2='"+((cords[lines[i][1]][1] * -1) + yMax) +"' style='stroke:rgb(255,0,0);stroke-width:"+lines[i][2]+"'/>");
 	  ((BufferedWriter) output).newLine();
 	  output.write("</svg>");
 	  ((BufferedWriter) output).newLine();
