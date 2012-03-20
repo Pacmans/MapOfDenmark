@@ -1,3 +1,5 @@
+package dataStructure;
+
 /**
  * @(#)Connections.java
  *
@@ -21,7 +23,9 @@ public class Connections {
    *  Returns all connections within the given coordinates
    */
   public Connection[] getConnections(int x1, int x2, int y1, int y2){
+    //TODO Resizeable
     Connection[] temp = new Connection[2];
+    int tsize = 0;
     int i = floor(x1); //find largest key equal or smaller than x1
     int j = ceiling(x2); //find smallest key equal or greater than x2
 
@@ -33,7 +37,8 @@ public class Connections {
       connections[9].length = 50;
 
       for(k; k<l; k++){
-        temp.add(connections[i][k]);
+        temp[tsize] = connections[i][k]);
+        tsize++;
       }
     }
     return temp;
@@ -42,7 +47,7 @@ public class Connections {
   private int floor(double k) {
     int x = -1;
     for(int i = 0; i<connections.length-1; i++){
-      if(connections[i].getX =< k) x = i;
+      if(connections[i].getX() =< k) x = i;
       else break;
     }
     return x;

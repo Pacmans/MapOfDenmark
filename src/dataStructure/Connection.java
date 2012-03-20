@@ -1,3 +1,5 @@
+package dataStructure;
+
 /**
  * @(#)Connection.java
  *
@@ -30,14 +32,14 @@ public class Connection implements Comparable<Connection>{
   }
 
   public int compareTo(Connection con){
-    if(con.getX1 == x1) return 0;
-    if(con.getX1 > x1) return -1;
+    if(con.getX1() == x1) return 0;
+    if(con.getX1() > x1) return -1;
     else return 1;
   }
 
   public int compareY(Connection con){
-    if(con.getY1 == y1) return 0;
-    if(con.getY1 > y1) return -1;
+    if(con.getY1() == y1) return 0;
+    if(con.getY1() > y1) return -1;
     else return 1;
   }
 
@@ -53,7 +55,7 @@ public class Connection implements Comparable<Connection>{
   public double getY2(){
     return y2;
   }
-  public enum getType(){
+  public RoadType getType(){
     return type;
   }
 }

@@ -1,3 +1,5 @@
+package dataStructure;
+
 /**
  * @(#)ROADTYPE.java
  *
@@ -36,9 +38,9 @@ public enum RoadType {
   PROJSTI(7, new Color(0,0,0), 1),
   STITUNNEL(7, new Color(0,0,0), 1);
 
-  private final int priotet = 0;
+  private final int priotet;
   private final Color color;
-  private final double width = 0.0;
+  private final double width;
 
   RoadType(int prio, Color color, double width){
     this.priotet = prio;
