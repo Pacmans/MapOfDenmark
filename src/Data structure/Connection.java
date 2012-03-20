@@ -9,10 +9,10 @@
 
 public class Connection {
   private double x1, x2, y1, y2;
-  private enum type;
+  private RoadType type;
   //private String name;
 
-    public Connection(double x1, double y1, double x2, double y2, enum type) {
+    public Connection(double x1, double y1, double x2, double y2, RoadType type) {
       this.x1 = x1;
       this.x2 = x2;
       this.y1 = y1;
