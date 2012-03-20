@@ -1,5 +1,7 @@
 package dataStructure;
 
+import java.util.Collections;
+
 /**
  * @(#)Connections.java
  *
@@ -12,14 +14,48 @@ package dataStructure;
 public class Connections {
   private Connection[][] connections = new Connection[2][2];
   private int size = 0;
+  private int sizeY = 2;
   
   //TODO Sort
+  public void sort(){
+    Connection[][] aux = new Connection[connections.length][sizeY];
+    sort(aux, 0, connections.length-1);
+  }
+  
+  private void sort(Connection[][] aux, int lo, int hi){
+    if(hi <= lo) return;
+    int mid = lo + (hi-lo) /2;
+    sort(aux, lo, mid);
+    sort(aux, mid+1, hi);
+    merge(aux, lo, mid, hi);
+  }
+  
+  private void merge(Connection[][] aux, int lo, int mid, int hi){
+    for(int k = lo; k <= hi; k++){
+      aux[k] = connections[k];
+    }
+    
+    int i = lo, j = mid+1;
+    for (int k = lo; k <= hi; k++) {
+      if(i > mid) connections[k] = aux[j++];
+      else if(j > hi)connections[k] = aux[i++];
+      else if(less(aux[j][0], aux[i][0])) connections[k] = aux[j++];
+      else connections[k] = aux[i++];
+    }
+  }
+  
+  private boolean less(Connection v, Connection w){
+    return v.compareTo(w) < 0;
+  }
 
   public void addConnections(Connection[] cons){
+    if(connections.length == size) resize(size*2);
      for(int i = 0; i < cons.length; i++){
+       if(i == sizeY) resizeY(sizeY*2);
        connections[size][i] = cons[i];
-       size++;
+       if(i>sizeY) sizeY = i;
      }
+     size++;
   }
   
   //TODO binsearch this
@@ -27,7 +63,6 @@ public class Connections {
     return null;
   }
 
-  //TODO floor, ceiling
   //TODO enlarge coordinate restraints to ensure inclusion of all connections within
   //TODO add priority constraint
   /**
@@ -50,6 +85,38 @@ public class Connections {
       }
     }
     return temp;
+  }
+  
+  /**
+   * Resize connections y-index.
+   * @param newsize
+   */
+  private void resizeY(int newsize){
+    Connection[][] tmp = new Connection[size][newsize];
+    for(int i = 0; i < connections.length; i++){
+      if(connections[i] == null) break; //stop when empty
+      for(int k = 0; k < sizeY; k++){
+        if(connections[i][k] == null) break;
+        tmp[i][k] = connections[i][k];
+      }
+    }
+    connections = tmp;
+  }
+  
+  /**
+   * Resize connections x-index.
+   * @param newsize
+   */
+  private void resize(int newsize){
+    Connection[][] tmp = new Connection[newsize][sizeY];
+    for(int i = 0; i < connections.length; i++){
+      if(connections[i] == null) break; //stop when empty
+      for(int k = 0; k < sizeY; k++){
+        if(connections[i][k] == null) break;
+        tmp[i][k] = connections[i][k];
+      }
+    }
+    connections = tmp;
   }
   
   /**
