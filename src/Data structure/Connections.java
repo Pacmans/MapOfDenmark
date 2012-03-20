@@ -15,6 +15,7 @@ public class Connections {
   }
 
   //TODO resizeable + compare, floor, ceiling
+  //TODO enlarge coordinate restraints to ensure inclusion of all connections within
   //TODO add priority constraint
   /**
    *  Returns all connections within the given coordinates
@@ -28,10 +29,22 @@ public class Connections {
       int k = floor(connections[i], y1); //find largest key equal or smaller than y1, within array
       int l = ceiling(connections[i], y2); //find smallest key equal or greater than y2, within array
 
+      connections[10].length = 100;
+      connections[9].length = 50;
+
       for(k; k<l; k++){
         temp.add(connections[i][k]);
       }
     }
     return temp;
+  }
+
+  private int floor(double k) {
+    int x = -1;
+    for(int i = 0; i<connections.length-1; i++){
+      if(connections[i].getX =< k) x = i;
+      else break;
+    }
+    return x;
   }
 }
