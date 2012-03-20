@@ -35,9 +35,9 @@ public enum RoadType {
   MINDREVEJTUNNEL(5, new Color(0,0,0), 1),
   STITUNNEL(5, new Color(0,0,0), 1);
 
-  int priotet = 0;
-  Color color;
-  double width = 0.0;
+  private final int priotet = 0;
+  private final Color color;
+  private final double width = 0.0;
 
   RoadType(int prio, Color color, double width){
     this.priotet = prio;
