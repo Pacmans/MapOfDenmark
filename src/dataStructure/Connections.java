@@ -1,10 +1,7 @@
 package dataStructure;
 
-import java.util.Collections;
-
 /**
  * @(#)Connections.java
- *
  *
  * @author Pacmans
  * @version 20. Marts 2012
@@ -58,11 +55,6 @@ public class Connections {
        if(i>sizeY) sizeY = i;
      }
      size++;
-  }
-  
-  //TODO binsearch this
-  public Connection getConnection(double x1, double y1, double x2, double y2){
-    return null;
   }
 
   //TODO enlarge coordinate restraints to ensure inclusion of all connections within
@@ -150,7 +142,7 @@ public class Connections {
     while(lo <= hi){
       mid = lo + (hi-lo) / 2;
       if(k < connections[mid][0].getX1()) hi = mid-1;
-      if(k > connections[mid][0].getX1()) hi = mid+1;
+      else if(k > connections[mid][0].getX1()) hi = mid+1;
       else return mid;
     }
     //if no exact match
@@ -177,7 +169,7 @@ public class Connections {
     while(lo <= hi){
       mid = lo + (hi-lo) / 2;
       if(k < cons[mid].getY1()) hi = mid-1;
-      if(k > cons[mid].getY1()) hi = mid+1;
+      else if(k > cons[mid].getY1()) hi = mid+1;
       else return mid;
     }
     //if no exact match
@@ -203,7 +195,7 @@ public class Connections {
     while(lo <= hi){
       mid = lo + (hi-lo) / 2;
       if(k < connections[mid][0].getX1()) hi = mid-1;
-      if(k > connections[mid][0].getX1()) hi = mid+1;
+      else if(k > connections[mid][0].getX1()) hi = mid+1;
       else return mid;
     }
     //if no exact match
@@ -230,7 +222,7 @@ public class Connections {
     while(lo <= hi){
       mid = lo + (hi-lo) / 2;
       if(k < cons[mid].getY1()) hi = mid-1;
-      if(k > cons[mid].getY1()) hi = mid+1;
+      else if(k > cons[mid].getY1()) hi = mid+1;
       else return mid;
     }
     //if no exact match
