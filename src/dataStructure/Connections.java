@@ -16,7 +16,9 @@ public class Connections {
   private int size = 0;
   private int sizeY = 2;
   
-  //TODO Sort
+  /**
+   * Sorts connections by x-index
+   */
   public void sort(){
     Connection[][] aux = new Connection[connections.length][sizeY];
     sort(aux, 0, connections.length-1);
@@ -85,7 +87,7 @@ public class Connections {
       }
     }
     return temp;
-  }
+  }  
   
   /**
    * Resize connections y-index.
@@ -141,13 +143,24 @@ public class Connections {
    * @return
    */
   private int floor(double k) {
-    //TODO binsearch this
-    int x = -1;
-    for(int i = 0; i<connections.length; i++){
-      if(connections[i][0].getX1() <= k) x = i;
-      else break;
+    //binsearch
+    int lo = 0;
+    int hi = connections.length;
+    int mid = lo + (hi-lo) / 2;
+    while(lo <= hi){
+      mid = lo + (hi-lo) / 2;
+      if(k < connections[mid][0].getX1()) hi = mid-1;
+      if(k > connections[mid][0].getX1()) hi = mid+1;
+      else return mid;
     }
-    return x;
+    //if no exact match
+    if(connections[mid][0].getX1() > k){
+      while(connections[mid][0].getX1() > k) mid--;
+      return mid;
+    }else{
+      while(connections[mid][0].getX1() < k) mid++;
+      return mid-1;
+    }
   }
   
   /**
@@ -157,13 +170,24 @@ public class Connections {
    * @return
    */
   private int floor(Connection[] cons, double k){
-  //TODO binsearch this
-    int y = -1;
-    for(int i = 0; i<cons.length; i++){
-      if(cons[i].getY1() <= k) y = i;
-      else break;
+    //binsearch
+    int lo = 0;
+    int hi = cons.length;
+    int mid = lo + (hi-lo) / 2;
+    while(lo <= hi){
+      mid = lo + (hi-lo) / 2;
+      if(k < cons[mid].getY1()) hi = mid-1;
+      if(k > cons[mid].getY1()) hi = mid+1;
+      else return mid;
     }
-    return y;
+    //if no exact match
+    if(cons[mid].getY1() > k){
+      while(cons[mid].getY1() > k) mid--;
+      return mid;
+    }else{
+      while(cons[mid].getY1() < k) mid++;
+      return mid-1;
+    }
   }
   
   /**
@@ -172,13 +196,24 @@ public class Connections {
    * @returns
    */
   private int ceiling(double k){
-    //TODO binsearch this
-    int x = -1;
-    for(int i = connections.length; i>=0; i--){
-      if(connections[i][0].getY1() >= k) x = i;
-      else break;
+    //binsearch
+    int lo = 0;
+    int hi = connections.length;
+    int mid = lo + (hi-lo) / 2;
+    while(lo <= hi){
+      mid = lo + (hi-lo) / 2;
+      if(k < connections[mid][0].getX1()) hi = mid-1;
+      if(k > connections[mid][0].getX1()) hi = mid+1;
+      else return mid;
     }
-    return x;
+    //if no exact match
+    if(connections[mid][0].getX1() > k){
+      while(connections[mid][0].getX1() > k) mid--;
+      return mid+1;
+    }else{
+      while(connections[mid][0].getX1() < k) mid++;
+      return mid;
+    }
   }
   
   /**
@@ -188,12 +223,23 @@ public class Connections {
    * @return
    */
   private int ceiling(Connection[] cons, double k){
-    //TODO binsearch this
-    int y = -1;
-    for(int i = cons.length; i>=0; i--){
-      if(cons[i].getY1() >= k) y = i;
-      else break;
+  //binsearch
+    int lo = 0;
+    int hi = cons.length;
+    int mid = lo + (hi-lo) / 2;
+    while(lo <= hi){
+      mid = lo + (hi-lo) / 2;
+      if(k < cons[mid].getY1()) hi = mid-1;
+      if(k > cons[mid].getY1()) hi = mid+1;
+      else return mid;
     }
-    return y;    
+    //if no exact match
+    if(cons[mid].getY1() > k){
+      while(cons[mid].getY1() > k) mid--;
+      return mid+1;
+    }else{
+      while(cons[mid].getY1() < k) mid++;
+      return mid;
+    }
   }
 }
