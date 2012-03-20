@@ -36,7 +36,9 @@ public enum RoadType {
   MINDREVEJTUNNEL(6, new Color(0,0,0), 1),
   STI(7, new Color(0,0,0), 1),
   PROJSTI(7, new Color(0,0,0), 1),
-  STITUNNEL(7, new Color(0,0,0), 1);
+  STITUNNEL(7, new Color(0,0,0), 1),
+  FÆRGE(1, new Color(0,0,0), 1),
+  UKENDT(7, new Color(0,0,0), 1);
 
   private final int priotet;
   private final Color color;

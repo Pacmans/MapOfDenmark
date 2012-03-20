@@ -4,8 +4,8 @@ package dataStructure;
  * @(#)ConnectionsLoader.java
  *
  *
- * @author 
- * @version 1.00 2012/3/20
+ * @author Pacmans
+ * @version 20. Marts 2012
  */
 
 
