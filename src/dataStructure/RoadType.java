@@ -14,6 +14,7 @@ public enum RoadType {
   MOTORVEJ(1, new Color(0,0,0), 1),
   PROJMOTVEJ(1, new Color(0,0,0), 1),
   MOTORVEJSTUNNEL(1, new Color(0,0,0), 1),
+  FÆRGE(1, new Color(0,0,0), 1),
   MOTORTRAFIKVEJ(2, new Color(0,0,0), 1),
   PROJPRIMÆRVEJ(2, new Color(0,0,0), 1),
   MOTORVEJSAFKØRSEL(2, new Color(0,0,0), 1),
@@ -37,7 +38,6 @@ public enum RoadType {
   STI(7, new Color(0,0,0), 1),
   PROJSTI(7, new Color(0,0,0), 1),
   STITUNNEL(7, new Color(0,0,0), 1),
-  FÆRGE(1, new Color(0,0,0), 1),
   UKENDT(7, new Color(0,0,0), 1);
 
   private final int priotet;
