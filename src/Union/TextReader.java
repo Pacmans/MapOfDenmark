@@ -23,8 +23,8 @@ public static HashMap<Integer, Point> reader(String s) throws IOException{
 
 	String line = null;
 	 int index = -1;
-	 while ((line = input.readLine()) != null && !line.equals("")){
-	     if (index == -1)index++;
+	 while ((line = input.readLine()) != null){
+	     if (index == -1)index = 1;
 	     else{
   	   String[] split = line.split(",");
 	     cords.put(index, new Point(Integer.parseInt(split[2]), new BigDecimal(split[3]), new BigDecimal(split[4])));
