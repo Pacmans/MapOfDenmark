@@ -92,14 +92,18 @@ public class NewUnion {
 	// merge components containing p and q
 	public void union(int p, int q) {
 		// if not already connected
-		if (!points.get(p).isConnected(q)) {
-			points.get(p).addConnection(q, calcLength(p, q));
-		}
-
-		// if not already connected
-		if (!points.get(q).isConnected(p)) {
-			points.get(q).addConnection(p, calcLength(p, q));
-		}
+	  try{
+  		if (!points.get(p).isConnected(q)) {
+  			points.get(p).addConnection(q, calcLength(p, q));
+  		}
+  
+  		// if not already connected
+  		if (!points.get(q).isConnected(p)) {
+  			points.get(q).addConnection(p, calcLength(p, q));
+  		}
+	  }catch(NullPointerException e){
+	    System.out.println("NullPointerException at: " + p + " " + q);
+	  }
 	}
 	
 	public static void main(String args[]){

@@ -17,21 +17,21 @@ public static HashMap<Integer, Point> reader(String s) throws IOException{
 	File a = new File(s);
 	LineNumberReader  lnr = new LineNumberReader(new FileReader(a));
 	lnr.skip(Long.MAX_VALUE);
-	HashMap<Integer, Point> cords = new HashMap<Integer, Point>(lnr.getLineNumber()-1); 
-	
+	HashMap<Integer, Point> cords = new HashMap<Integer, Point>(lnr.getLineNumber()-1);
+
 	BufferedReader input =  new BufferedReader(new FileReader(a));
-	
+
 	String line = null;
 	 int index = -1;
 	 while ((line = input.readLine()) != null){
 	     if (index == -1)index++;
 	     else{
-	     String[] split = line.split(",");
-	     cords.put(index, new Point(Integer.parseInt(split[2]), new BigDecimal(split[3]), new BigDecimal(split[4])));
-	     index++;
-
+  	   String[] split = line.split(",");
+  	   if(split[0] != null && !split[0].equals("") && !split[0].equals(" ")){
+  	     cords.put(index, new Point(Integer.parseInt(split[2]), new BigDecimal(split[3]), new BigDecimal(split[4])));
+  	     index++;
+	       }
 	     }
-	     
 	 }
 	 return cords;}
 
@@ -41,20 +41,19 @@ public static int[][] Runner(String s) throws IOException {
 	LineNumberReader  lnr = new LineNumberReader(new FileReader(a));
 
 	lnr.skip(Long.MAX_VALUE);
-	
+
 	int[][] Nodes = new int[lnr.getLineNumber()-1][2];
-	
+
 	String line = null;
-	
+
 	 int index = -1;
 	 while ((line = input.readLine()) != null){
 	     if (index == -1)index++;
 	     else{
 	     String[] split = line.split(",");
 	     Nodes[index][0] = Integer.parseInt(split[0]);
-	     Nodes[index][1] = Integer.parseInt(split[1]);
+	     Nodes[index++][1] = Integer.parseInt(split[1]);
 	     }
 	}return Nodes;
 }
 }
-	
