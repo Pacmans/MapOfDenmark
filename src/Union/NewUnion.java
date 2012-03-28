@@ -8,6 +8,7 @@ import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import dataStructure.Connection;
 import dataStructure.Point;
 
 public class NewUnion {
@@ -52,7 +53,7 @@ public class NewUnion {
 		for (Point p : pointsv) {
 			if (p.numberOfConnections() == 2) {
 				// for entities with 2 connections, remove and unify connections
-				double[][] con = p.getConnections();
+				Connection[] con = p.getConnections();
 				union((int) con[0][0], (int) con[1][0]);
 				points.remove(p.getID());
 			} else {
@@ -95,6 +96,9 @@ public class NewUnion {
 		return Math.sqrt(dx.pow(2).add(dy.pow(2)).doubleValue());
 	}
 
+	//TODO !! Union does no longer calculate or store then length of a connection
+	//TODO Add correct type of road
+	
 	// merge components containing p and q
 	public void union(int p, int q) {
 	  try{

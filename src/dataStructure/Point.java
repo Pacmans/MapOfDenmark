@@ -5,26 +5,24 @@ import java.math.BigDecimal;
 public class Point {
 	private int ID, numberOfConnections = 0;
 	private BigDecimal xk, yk;
-	private double[][] connections;
+	private Connection[] connections;
 	
 	public Point(int id, BigDecimal xk, BigDecimal yk){
 		this.ID = id;
 		this.xk = xk;
 		this.yk = yk;
-		connections = new double[2][2];
+		connections = new Connection[2];
 	}
 	
-	public void addConnection(int id, double length){
+	public void addConnection(Connection connection){
 		if(numberOfConnections == connections.length) resize(2);
-		connections[numberOfConnections][0] = new Double(id);
-		connections[numberOfConnections][1] = length;
-		numberOfConnections++;
+		connections[numberOfConnections++] = connection;
 	}
 	
 	public boolean isConnected(int j){
 		double t = j;
 		for(int i = 0; i < numberOfConnections; i++){
-			if(connections[i][0] == t){
+			if(connections[i].hasID(j)){
 				return true;
 			}
 		}
@@ -32,10 +30,10 @@ public class Point {
 	}
 	
 	private void resize(int cap){
-		double[][] temp = new double[numberOfConnections*2][2];
+		Connection[] temp = new Connection[numberOfConnections*2];
 		for(int i = 0; i < numberOfConnections; i++){
-			temp[i][0] = connections[i][0];
-			temp[i][1] = connections[i][1];
+			temp[i] = connections[i];
+			temp[i] = connections[i];
 		}
 		connections = temp;
 	}
@@ -50,7 +48,7 @@ public class Point {
 	
 	public void removeConnection(int j){
 		for(int i = 0; i < numberOfConnections; i++){
-			if(connections[i][0] == j){
+			if(connections[i]. == j){
 				connections[i][0] = connections[numberOfConnections][0];
 				connections[i][1] = connections[numberOfConnections][1];
 				numberOfConnections--;
@@ -63,7 +61,7 @@ public class Point {
 		return ID;
 	}
 	
-	public double[][] getConnections(){
+	public Connection[] getConnections(){
 		return connections;
 	}
 	
