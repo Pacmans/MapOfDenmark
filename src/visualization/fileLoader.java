@@ -16,13 +16,12 @@ public class FileLoader{
 	private BigDecimal yMin = new BigDecimal(700000);
 	private BigDecimal yMax = new BigDecimal(0);
 	private BigDecimal Scale = new BigDecimal(500);
+	private int index;
 	
-	//TODO Make connections and cords resizeable. This is not flexible.
 	//TODO Make points instead of points. Points has IDs
+	 //TODO Make points resizeable. This is not flexible.
 
-	Connection[] connections = new Connection[812302];
-	
-
+	Connection[] connections = new Connection[2];
 	BigDecimal[][] cords = new BigDecimal[675903][2];
 	
 	public FileLoader() throws IOException {
@@ -35,7 +34,7 @@ public class FileLoader{
 		BufferedReader inputB =  new BufferedReader(new FileReader(b));
 
 	String line = null;
-	 int index = -1;
+	 index = -1;
 	 while ((line = inputA.readLine()) != null){
 	     if (index == -1)index=1;
 	     else{
@@ -54,6 +53,7 @@ public class FileLoader{
 	 }
      index = -1;
      while ((line = inputB.readLine()) != null){
+       if(index == connections.length) resizeC(index*2);
     	 
 	     if (index == -1)index = 0;
      	else{
@@ -113,5 +113,13 @@ public class FileLoader{
 
 	public BigDecimal[][] getCords() {
 		return cords;
+	}
+	
+	private void resizeC(int newsize){
+	  Connection[] tmp = new Connection[newsize];
+	  for(int i = 0; i < index; i++){
+	    tmp[i] = connections[i];
+	    connections = tmp;
+	  }
 	}
 }
