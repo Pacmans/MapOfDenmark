@@ -3,8 +3,13 @@ package Union;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import dataStructure.Connection;
+import dataStructure.Point;
 
 public class NewUnion {
 	private int numberOfConnections = 0;
@@ -20,7 +25,7 @@ public class NewUnion {
 		}
 		unify();
 		clean();
-		output();
+		//output();
 	}
 
 	// are elements p and q in the same component?
@@ -43,11 +48,13 @@ public class NewUnion {
 
 	private void clean() {
 		// run through hashmap of points
-		for (Point p : points.values()) {
+	    ArrayList<Point> pointsv = new ArrayList<Point>();
+	    pointsv.addAll(points.values());
+		for (Point p : pointsv) {
 			if (p.numberOfConnections() == 2) {
 				// for entities with 2 connections, remove and unify connections
-				double[][] con = p.getConnections();
-				union((int) con[0][0], (int) con[1][0]);
+				Connection[] con = p.getConnections();
+				union(con[0]., con[1].);
 				points.remove(p.getID());
 			} else {
 				numberOfConnections = numberOfConnections + p.numberOfConnections();
@@ -89,17 +96,24 @@ public class NewUnion {
 		return Math.sqrt(dx.pow(2).add(dy.pow(2)).doubleValue());
 	}
 
+	//TODO !! Union does no longer calculate or store then length of a connection
+	//TODO Add correct type of road
+	
 	// merge components containing p and q
 	public void union(int p, int q) {
+	  try{
 		// if not already connected
-		if (!points.get(p).isConnected(q)) {
-			points.get(p).addConnection(q, calcLength(p, q));
-		}
-
-		// if not already connected
-		if (!points.get(q).isConnected(p)) {
-			points.get(q).addConnection(p, calcLength(p, q));
-		}
+  		if (!points.get(p).isConnected(q)) {
+  			points.get(p).addConnection(q, calcLength(p, q));
+  		}
+  
+  		// if not already connected
+  		if (!points.get(q).isConnected(p)) {
+  			points.get(q).addConnection(p, calcLength(p, q));
+  		}
+	  }catch(NullPointerException e){
+	    System.out.println("Unable to connect points: " + p + " " + q + " Points not found");
+	  }
 	}
 	
 	public static void main(String args[]){
