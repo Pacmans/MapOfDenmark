@@ -18,6 +18,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import controller.Controller;
+
 public class GUI {
 
 	// This field contains the current version of the program.
@@ -26,8 +28,10 @@ public class GUI {
     private JFrame frame;
     private JPanel contentPane;
     private int number = 1;
+    private Controller controller;
 
-    public GUI() {
+    public GUI(Controller controller) {
+    this.controller = controller;
 		makeFrame();
 		makeMenuBar();
 //		makeMap(controller.getCanvas());
@@ -164,7 +168,7 @@ public class GUI {
 		box.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent e) {
-				controller.updateMap(number);
+				controller.updateMap(number, ((JCheckBox) e.getSource()).isSelected());
 			}
 		});
 		box.setSelected(selected);

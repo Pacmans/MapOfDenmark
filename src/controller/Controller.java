@@ -37,34 +37,7 @@ public class Controller {
     return connections;
   }
   
-  //Phillip: Do not implement yet
-  
-//  public void filterHighway(boolean b){
-//    canvas.setFilterHighway(b);
-//    canvas.repaint();
-//  }
-//  public void filterExpressways(boolean b){
-//    canvas.setFilterExpressways(b);
-//    canvas.repaint();
-//  }
-//  public void filterPrimaryRoads(boolean b){
-//    canvas.setFilterPrimaryRoads(b);
-//    canvas.repaint();
-//  }
-//  public void filterSecondaryRoads(boolean b){
-//    canvas.setFilterSecondaryRoads(b);
-//    canvas.repaint();
-//  }
-//  public void filterNormalRoads(boolean b){
-//    canvas.setFilterNormalRoads(b);
-//    canvas.repaint();
-//  }
-//  public void filterStreets(boolean b){
-//    canvas.setFilterStreets(b);
-//    canvas.repaint();
-//  }
-//  public void filterPaths(boolean b){
-//    canvas.setFilterPaths(b);
-//    canvas.repaint();
-//  }
+  public void updateMap(int n, boolean b){
+    canvas.updateFilter(n, b);
+  }
 }
