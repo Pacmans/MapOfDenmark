@@ -40,18 +40,18 @@ public enum RoadType {
   STITUNNEL(7, new Color(0,0,0), 1),
   UKENDT(7, new Color(0,0,0), 1);
 
-  private final int priotet;
+  private final int priority;
   private final Color color;
   private final double width;
 
   RoadType(int prio, Color color, double width){
-    this.priotet = prio;
+    this.priority = prio;
     this.color = color;
     this.width = width;
   }
 
-  public int priotet(){
-    return priotet;
+  public int priority(){
+    return priority;
   }
   public Color color(){
     return color;
