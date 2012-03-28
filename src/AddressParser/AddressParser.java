@@ -5,7 +5,7 @@ package AddressParser;
  *
  * KF04-F2012
  * Att. Filip Sieczkowski
- *
+ *.
  * @author Pacmans
  * @version 19. Feb. 2012
  */
