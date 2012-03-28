@@ -13,3 +13,18 @@ Command-line arguments:  -data C:\Users\Phillip\MapOfDenmark -os win32 -ws win32
 !MESSAGE Problems occurred while trying to save the state of the workbench.
 !SUBENTRY 1 org.eclipse.core.resources 2 234 2012-02-29 10:38:50.732
 !MESSAGE The project description file (.project) for 'de.vogella.git.first' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.
+!SESSION 2012-03-26 10:52:13.798 -----------------------------------------------
+eclipse.buildId=M20110909-1335
+java.version=1.7.0_01
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=da_DK
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -data C:\Users\Phillip\MapOfDenmark -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.ui.ide 4 4 2012-03-26 10:52:38.975
+!MESSAGE Problems saving workspace
+
+!ENTRY org.eclipse.ui.ide 2 1 2012-03-26 10:52:39.000
+!MESSAGE Problems occurred while trying to save the state of the workbench.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2012-03-26 10:52:39.000
+!MESSAGE The project description file (.project) for 'de.vogella.git.first' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.

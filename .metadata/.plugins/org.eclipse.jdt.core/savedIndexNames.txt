@@ -1,8 +1,2 @@
 INDEX VERSION 1.126+C:\Users\Phillip\MapOfDenmark\.metadata\.plugins\org.eclipse.jdt.core
-1789169078.index
 3813666597.index
-3730526690.index
-4251467834.index
-2877109961.index
-3277441100.index
-3585733931.index
