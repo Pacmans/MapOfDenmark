@@ -7,11 +7,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Writer;
 
-public class xmlWriter{
+public class XMLWriter{
 	private double xMin = 9000000, yMin = 9000000, yMax = 0; //setting very big and very small numbers
 
 	public static void main(String[] args){
-		xmlWriter lol = new xmlWriter();
+		XMLWriter lol = new XMLWriter();
 		try {
 			lol.writer();
 		} catch (Exception e) {

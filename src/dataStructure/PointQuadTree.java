@@ -17,7 +17,7 @@ import java.math.BigDecimal;
  * @param <Point>
  * @see Point
  */
-public class PointQuadTree<Point> {
+public class PointQuadTree {
   private Node root;
   private ArrayList<Point> array;
   

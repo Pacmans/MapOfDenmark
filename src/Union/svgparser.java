@@ -7,12 +7,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Writer;
 
-public class SvgParser{
+public class SVGParser{
 	private double xMin = 7000000, xMax = 0, yMin = 7000000, yMax = 0, scale = 500;
 	
 	
  public static void main(String[] args){
-		SvgParser lol = new SvgParser();
+		SVGParser lol = new SVGParser();
 		try {
 			lol.writer();
 		} catch (Exception e) {

@@ -10,21 +10,22 @@ import dataStructure.Connection;
 import dataStructure.Point;
 import dataStructure.RoadType;
 
-public class fileLoader{
+public class FileLoader{
 	private BigDecimal xMin = new BigDecimal(700000);
 	private BigDecimal xMax = new BigDecimal(0);
 	private BigDecimal yMin = new BigDecimal(700000);
 	private BigDecimal yMax = new BigDecimal(0);
 	private BigDecimal Scale = new BigDecimal(500);
 	
-	
+	//TODO Make connections and cords resizeable. This is not flexible.
+	//TODO Make points instead of points. Points has IDs
 
-	Object[] connections = new Object[812302];
+	Connection[] connections = new Connection[812302];
 	
 
 	BigDecimal[][] cords = new BigDecimal[675903][2];
 	
-	public fileLoader() throws IOException {
+	public FileLoader() throws IOException {
 	
 		
 	File a = new File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_node_unload.txt");
@@ -106,7 +107,7 @@ public class fileLoader{
 		return yMax;
 	}
 
-	public Object[] getConnections() {
+	public Connection[] getConnections() {
 		return connections;
 	}
 

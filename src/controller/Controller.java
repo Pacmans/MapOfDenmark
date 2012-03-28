@@ -1,6 +1,11 @@
 package controller;
 
+import java.io.IOException;
+
 import javax.swing.JComponent;
+
+import visualization.Map;
+import visualization.FileLoader;
 import dataStructure.Connection;
 import dataStructure.Point;
 import dataStructure.PointQuadTree;
@@ -10,7 +15,8 @@ import GUI.GUI;
 public final class Controller {
   private static Controller instance; //singleton
   private static GUI gui; //singleton
-  private static JComponent canvas; //singleton
+  private static Map map; //singleton
+  private static FileLoader fileLoader;
   private Point[] points;
   private Connection[] connections;
   private PointQuadTree qt;
@@ -21,8 +27,9 @@ public final class Controller {
    */
   public Controller(){
     if(instance == null) instance = this;
-    connections = FileLoader.getConnections();
-    points = FileLoader.getPoints();
+    fileLoader = new FileLoader();
+    connections = fileLoader.getConnections();
+    points = fileLoader.getPoints();
   }
   
   /**
@@ -72,9 +79,19 @@ public final class Controller {
    * @return Returns instance of the singleton class _____ which paints the map
    * @see _____
    */
-  public static JComponent getCanvas(){
-    if(canvas == null) canvas = new Canvas();
-    return cavas;
+  public static JComponent getMap(){
+    if(map == null) map = new Map();
+    return map;
+  }
+  
+  public static FileLoader getFileLoader(){
+    try{
+      if(fileLoader == null) fileLoader = new FileLoader();
+      return fileLoader;
+    }catch(IOException e){
+      System.out.println("FileLoader: " + e);
+      return null;
+    }
   }
   
   /**
@@ -101,7 +118,7 @@ public final class Controller {
    * @param b To show or not to show
    */
   public void updateMap(int n, boolean b){
-    canvas.updateFilter(n, b);
+    map.updateFilter(n, b);
   }
   
   /**
