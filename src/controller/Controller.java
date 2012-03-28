@@ -76,8 +76,8 @@ public final class Controller {
   
   /**
    * 
-   * @return Returns instance of the singleton class _____ which paints the map
-   * @see _____
+   * @return Returns instance of the singleton class Map which paints the map
+   * @see Map
    */
   public static JComponent getMap(){
     if(map == null) map = new Map();
