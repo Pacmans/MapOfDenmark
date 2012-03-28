@@ -2,12 +2,18 @@ package GUI;
 
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 public class GUI {
 
@@ -15,11 +21,13 @@ public class GUI {
     private static final String VERSION = "Version 1.0";
         // The main frame of our program.
     private JFrame frame;
+    private JPanel contentPane;
 
     public GUI() {
 		makeFrame();
 		makeMenuBar();
-		fillFrame();
+		makeMap(controller.getCanvas());
+    	makeRightPanel();
 		setupFrame();
     }
     
@@ -27,6 +35,11 @@ public class GUI {
 	private void setupFrame() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
+		frame.setSize(800, 600);
+		// place the frame at the center of the screen and show.
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setLocation(d.width/2 - frame.getWidth()/2, 
+				d.height/2 - frame.getHeight()/2);
 		// make the user unable to resize the window.
 		frame.setResizable(false);
 		frame.setVisible(true);
@@ -52,8 +65,8 @@ public class GUI {
     
     private void makeFrame() {
     	// create the frame set the layout and border.
-    	frame = new JFrame("Car Rental");
-    	JPanel contentPane = (JPanel) frame.getContentPane();
+    	frame = new JFrame("Map Of Denmark");
+    	contentPane = (JPanel) frame.getContentPane();
     	contentPane.setBorder(new EmptyBorder(6, 6, 6, 6));
     	contentPane.setLayout(new BorderLayout(10, 10));
     }
@@ -106,18 +119,43 @@ public class GUI {
     	menu.add(item);
     }
     
-    private void fillFrame() {
-    	makeMap();
-    	makeRightPanel();
-    	
-    }
-
-	private void makeMap() {
-		
+	private void makeMap(JComponent map) {
+		JPanel mapPanel = new JPanel();
+		mapPanel.add(map);
+		contentPane.add(mapPanel,"Center");
 	}
 
 	private void makeRightPanel() {
+		// initialize a new JPanel.
+		JPanel optionPanel = new JPanel();
+		// create a vertical BoxLayout on the optionPanel.
+		optionPanel.setLayout(new BoxLayout(optionPanel,BoxLayout.Y_AXIS));
+
+		// add the checkbox, and the other GUI to the right panel.
+		optionPanel.add(createCheckbox());
 		
+    	// add the optionPanel to the contentPanes borderlayout.
+		contentPane.add(optionPanel,"East");
+	}
+
+	private JPanel createCheckbox() {
+		// initialize checkboxPanel
+		JPanel checkboxPanel = new JPanel(new GridLayout(15, 1));
+		// create a vertical BoxLayout on the optionPanel.
+		checkboxPanel.setBorder(new TitledBorder(new EtchedBorder(), "Vejtyper"));
+		
+		// fill the checkboxPanel
+		checkboxPanel.add(createRoadtypeBox("Highway"));
+		checkboxPanel.add(createRoadtypeBox("Normal road"));
+		checkboxPanel.add(createRoadtypeBox("Country road"));
+		checkboxPanel.add(createRoadtypeBox("Cycle path"));
+		return checkboxPanel;
+	}
+
+	private JPanel createRoadtypeBox(String string) {
+		JPanel fl = new JPanel(new FlowLayout(0));
+		fl.add(new JCheckBox(string));
+		return fl;
 	}
 
 
