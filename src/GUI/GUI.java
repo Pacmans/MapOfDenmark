@@ -30,8 +30,8 @@ public class GUI {
     private int number = 1;
     private Controller controller;
 
-    public GUI(Controller controller) {
-    this.controller = controller;
+    public GUI() {
+    controller = Controller.getInstance();
 		makeFrame();
 		makeMenuBar();
 //		makeMap(controller.getCanvas());
