@@ -26,7 +26,7 @@ public class GUI {
     public GUI() {
 		makeFrame();
 		makeMenuBar();
-		makeMap(controller.getCanvas());
+//		makeMap(controller.getCanvas());
     	makeRightPanel();
 		setupFrame();
     }
@@ -133,22 +133,24 @@ public class GUI {
 
 		// add the checkbox, and the other GUI to the right panel.
 		optionPanel.add(createCheckbox());
-		
-    	// add the optionPanel to the contentPanes borderlayout.
+		optionPanel.add(Box.createRigidArea(new Dimension(50,350)));
+		// add the optionPanel to the contentPanes borderlayout.
 		contentPane.add(optionPanel,"East");
 	}
 
 	private JPanel createCheckbox() {
 		// initialize checkboxPanel
-		JPanel checkboxPanel = new JPanel(new GridLayout(15, 1));
-		// create a vertical BoxLayout on the optionPanel.
+		JPanel checkboxPanel = new JPanel(new GridLayout(7, 1));
 		checkboxPanel.setBorder(new TitledBorder(new EtchedBorder(), "Vejtyper"));
 		
 		// fill the checkboxPanel
-		checkboxPanel.add(createRoadtypeBox("Highway"));
-		checkboxPanel.add(createRoadtypeBox("Normal road"));
-		checkboxPanel.add(createRoadtypeBox("Country road"));
-		checkboxPanel.add(createRoadtypeBox("Cycle path"));
+		checkboxPanel.add(createRoadtypeBox("Highways")); // Priority 1 roads
+		checkboxPanel.add(createRoadtypeBox("Expressways")); // Priority 2 roads
+		checkboxPanel.add(createRoadtypeBox("Primary roads")); // and so on..
+		checkboxPanel.add(createRoadtypeBox("Secondary roads"));
+		checkboxPanel.add(createRoadtypeBox("Normal roads"));
+		checkboxPanel.add(createRoadtypeBox("Trails & streets"));
+		checkboxPanel.add(createRoadtypeBox("Paths"));
 		return checkboxPanel;
 	}
 
