@@ -1,4 +1,4 @@
-package xmlWriter;
+package Union;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

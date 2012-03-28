@@ -7,11 +7,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Writer;
 
-public class xmlWriter{
-	private double xMin = 0, yMin = 0, yMax = 0;
-
-	public static void main(String[] args){
-		xmlWriter lol = new xmlWriter();
+public class SvgParser{
+	private double xMin = 7000000, xMax = 0, yMin = 7000000, yMax = 0, scale = 500;
+	
+	
+ public static void main(String[] args){
+		SvgParser lol = new SvgParser();
 		try {
 			lol.writer();
 		} catch (Exception e) {
@@ -22,8 +23,8 @@ public class xmlWriter{
 
 
 	public void writer() throws Exception {
-	File a = new File("./kdv_node_unload.txt");
-	File b = new File("./kdv_unload.txt");
+	File a = new File("C:/Users/Morten/workspace/MapOfDenmark/bin/xmlWriter/kdv_node_unload.txt");
+	File b = new File("C:/Users/Morten/workspace/MapOfDenmark/bin/xmlWriter/kdv_unload.txt");
 
 		BufferedReader inputA =  new BufferedReader(new FileReader(a));
 
@@ -34,7 +35,7 @@ public class xmlWriter{
 	String line = null;
 	 int index = -1;
 	 while ((line = inputA.readLine()) != null){
-	     if (index == -1)index++;
+	     if (index == -1)index=1;
 	     else{
 	     String[] split = line.split(",");
 	     cords[index][0]=Double.parseDouble(split[3]); //x-cord
@@ -42,16 +43,18 @@ public class xmlWriter{
 
 	     //set max and min
 	     if(cords[index][0] < xMin) xMin = cords[index][0];
+	     if(cords[index][0] > xMax) xMax = cords[index][0];
 	     if(cords[index][1] < yMin) yMin = cords[index][1];
 	     if(cords[index][1] > yMax) yMax = cords[index][1];
 
 	     index++;
 	     }
-	 }
+	     	 }
 	 System.out.println("done part 1");
+	 
      index = -1;
      while ((line = inputB.readLine()) != null){
-	     if (index == -1)index++;
+	     if (index == -1)index=1;
 	     else{
 	     String[] split = line.split(",");
 	     lines[index][0]=Integer.parseInt(split[0]);
@@ -61,18 +64,15 @@ public class xmlWriter{
 	     }
 	}
 	System.out.println("done part 2");
-
-
-
 	Writer output = null;
 	  File file = new File("write.txt");
 	  output = new BufferedWriter(new FileWriter(file));
 
 	  output.write("<svg xmlns='http://www.w3.org/2000/svg' version='1.1'>");
 	  ((BufferedWriter) output).newLine();
-	  for(int i = 0; i < lines.length-1; i++){
+	  for(int i = 1; i < lines.length-1; i++){
 	  //output.write("<line id='line' x1='"+cords[lines[i][0]][0]+"' y1='"+cords[lines[i][0]][1]+"' x2='"+cords[lines[i][1]][0]+"' y2='"+cords[lines[i][1]][1]+"' style='stroke:rgb(255,0,0);stroke-width:"+lines[i][2]+"'/>");
-	  output.write("<line id='line' x1='"+(cords[lines[i][0]][0] - xMin + 10)+"' y1='"+((cords[lines[i][0]][1]*-1) + yMax) +"' x2='"+(cords[lines[i][1]][0] - xMin + 10) +"' y2='"+((cords[lines[i][1]][1] * -1) + yMax) +"' style='stroke:rgb(255,0,0);stroke-width:"+lines[i][2]+"'/>");
+	  output.write("<line id='line' x1='"+ ((cords[lines[i][0]][0]/scale)-(xMin/scale)) +"' y1='"+(((cords[lines[i][0]][1]/scale)* -1)+(yMax/scale)) +"' x2='"+((cords[lines[i][1]][0]/scale)-(xMin/scale)) +"' y2='"+(((cords[lines[i][1]][1]/scale)* -1)+(yMax/scale)) +"' style='stroke:rgb(255,0,0);stroke-width:"+1+"'/>");
 	  ((BufferedWriter) output).newLine();
 	  }
 	  output.write("</svg>");

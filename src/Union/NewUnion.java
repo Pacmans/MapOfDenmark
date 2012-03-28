@@ -3,6 +3,8 @@ package Union;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -20,7 +22,7 @@ public class NewUnion {
 		}
 		unify();
 		clean();
-		output();
+		//output();
 	}
 
 	// are elements p and q in the same component?
@@ -43,7 +45,9 @@ public class NewUnion {
 
 	private void clean() {
 		// run through hashmap of points
-		for (Point p : points.values()) {
+	    ArrayList<Point> pointsv = new ArrayList<Point>();
+	    pointsv.addAll(points.values());
+		for (Point p : pointsv) {
 			if (p.numberOfConnections() == 2) {
 				// for entities with 2 connections, remove and unify connections
 				double[][] con = p.getConnections();
@@ -91,15 +95,19 @@ public class NewUnion {
 
 	// merge components containing p and q
 	public void union(int p, int q) {
+	  try{
 		// if not already connected
-		if (!points.get(p).isConnected(q)) {
-			points.get(p).addConnection(q, calcLength(p, q));
-		}
-
-		// if not already connected
-		if (!points.get(q).isConnected(p)) {
-			points.get(q).addConnection(p, calcLength(p, q));
-		}
+  		if (!points.get(p).isConnected(q)) {
+  			points.get(p).addConnection(q, calcLength(p, q));
+  		}
+  
+  		// if not already connected
+  		if (!points.get(q).isConnected(p)) {
+  			points.get(q).addConnection(p, calcLength(p, q));
+  		}
+	  }catch(NullPointerException e){
+	    System.out.println("Unable to connect points: " + p + " " + q + " Points not found");
+	  }
 	}
 	
 	public static void main(String args[]){
