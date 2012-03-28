@@ -10,6 +10,9 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -22,6 +25,7 @@ public class GUI {
         // The main frame of our program.
     private JFrame frame;
     private JPanel contentPane;
+    private int number = 1;
 
     public GUI() {
 		makeFrame();
@@ -144,22 +148,29 @@ public class GUI {
 		checkboxPanel.setBorder(new TitledBorder(new EtchedBorder(), "Vejtyper"));
 		
 		// fill the checkboxPanel
-		checkboxPanel.add(createRoadtypeBox("Highways")); // Priority 1 roads
-		checkboxPanel.add(createRoadtypeBox("Expressways")); // Priority 2 roads
-		checkboxPanel.add(createRoadtypeBox("Primary roads")); // and so on..
-		checkboxPanel.add(createRoadtypeBox("Secondary roads"));
-		checkboxPanel.add(createRoadtypeBox("Normal roads"));
-		checkboxPanel.add(createRoadtypeBox("Trails & streets"));
-		checkboxPanel.add(createRoadtypeBox("Paths"));
+		checkboxPanel.add(createRoadtypeBox("Highways", true)); // Priority 1 roads
+		checkboxPanel.add(createRoadtypeBox("Expressways", true)); // Priority 2 roads
+		checkboxPanel.add(createRoadtypeBox("Primary roads", true)); // and so on..
+		checkboxPanel.add(createRoadtypeBox("Secondary roads", false));
+		checkboxPanel.add(createRoadtypeBox("Normal roads", false));
+		checkboxPanel.add(createRoadtypeBox("Trails & streets", false));
+		checkboxPanel.add(createRoadtypeBox("Paths", false));
 		return checkboxPanel;
 	}
 
-	private JPanel createRoadtypeBox(String string) {
+	private JPanel createRoadtypeBox(String string, boolean selected) {
 		JPanel fl = new JPanel(new FlowLayout(0));
-		fl.add(new JCheckBox(string));
+		JCheckBox box = new JCheckBox(string);
+		box.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent e) {
+				controller.updateMap(number);
+			}
+		});
+		box.setSelected(selected);
+		fl.add(box);
+		number++;
 		return fl;
 	}
-
-
 
 }
