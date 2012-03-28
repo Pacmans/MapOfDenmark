@@ -18,11 +18,11 @@ public class FileLoader{
 	private BigDecimal Scale = new BigDecimal(500);
 	private int index;
 	
-	//TODO Make points instead of points. Points has IDs
+	
 	 //TODO Make points resizeable. This is not flexible.
 
 	Connection[] connections = new Connection[2];
-	BigDecimal[][] cords = new BigDecimal[675903][2];
+	Point[] cords = new Point[675903];
 	
 	public FileLoader() throws IOException {
 	
@@ -39,14 +39,13 @@ public class FileLoader{
 	     if (index == -1)index=1;
 	     else{
 	     String[] split = line.split(",");
-	     cords[index][0]= new BigDecimal(split[3]);
-	     cords[index][1]= new BigDecimal(split[4]);
-
+	     Point p = new Point(index, new BigDecimal(split[3]), new BigDecimal(split[4]));
+	     cords[index] = p;
 	     //set max and min
-	     if(cords[index][0].compareTo(xMin)==1) xMin = cords[index][0];
-	     if(cords[index][0].compareTo(xMax)==1) xMax = cords[index][0];
-	     if(cords[index][1].compareTo(yMin)==1) yMin = cords[index][1];
-	     if(cords[index][1].compareTo(yMax)==1) yMax = cords[index][1];
+	     if(cords[index].getX().compareTo(xMin)==1) xMin = cords[index].getX();
+	     if(cords[index].getX().compareTo(xMax)==1) xMax = cords[index].getX();
+	     if(cords[index].getY().compareTo(yMin)==1) yMin = cords[index].getY();
+	     if(cords[index].getY().compareTo(yMax)==1) yMax = cords[index].getY();
 
 	     index++;
 	     }
@@ -58,8 +57,8 @@ public class FileLoader{
 	     if (index == -1)index = 0;
      	else{
 	     String[] split =line.split(",");
-	     Point p = new Point(Integer.parseInt(split[0]),cords[Integer.parseInt(split[0])][0].divide(Scale),cords[Integer.parseInt(split[0])][1].divide(Scale));
-	     Point q = new Point(Integer.parseInt(split[1]),cords[Integer.parseInt(split[1])][0].divide(Scale),cords[Integer.parseInt(split[1])][1].divide(Scale));
+	     Point p = new Point(Integer.parseInt(split[0]),cords[Integer.parseInt(split[0])].getX().divide(Scale),cords[Integer.parseInt(split[0])].getY().divide(Scale));
+	     Point q = new Point(Integer.parseInt(split[1]),cords[Integer.parseInt(split[1])].getX().divide(Scale),cords[Integer.parseInt(split[1])].getY().divide(Scale));
 	     RoadType r = null;
 	    switch(Integer.parseInt(split[5])){
 	    case 1: r = RoadType.MOTORVEJ;
@@ -111,7 +110,7 @@ public class FileLoader{
 		return connections;
 	}
 
-	public BigDecimal[][] getCords() {
+	public Point[] getCords() {
 		return cords;
 	}
 	
