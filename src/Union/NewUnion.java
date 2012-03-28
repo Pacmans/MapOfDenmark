@@ -54,7 +54,7 @@ public class NewUnion {
 			if (p.numberOfConnections() == 2) {
 				// for entities with 2 connections, remove and unify connections
 				Connection[] con = p.getConnections();
-				union((int) con[0][0], (int) con[1][0]);
+				union(con[0]., con[1].);
 				points.remove(p.getID());
 			} else {
 				numberOfConnections = numberOfConnections + p.numberOfConnections();
