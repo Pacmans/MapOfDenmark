@@ -83,10 +83,10 @@ public class PointQuadTree<Point> {
    */
   private ArrayList<Point> getRect(Node h, Interval2D rect){
     if (h == null) return null;
-    double xmin = rect.intervalX.low;
-    double ymin = rect.intervalY.low;
-    double xmax = rect.intervalX.high;
-    double ymax = rect.intervalY.high;
+    double xmin = rect.getIntervalX().getLow();
+    double ymin = rect.getIntervalY().getLow();
+    double xmax = rect.getIntervalX().getHigh();
+    double ymax = rect.getIntervalY().getHigh();
     if (rect.contains(h.point.getX().doubleValue(), h.point.getY().doubleValue()))
         array.add(h.point);
     if ( less(xmin, h.point.getX().doubleValue()) &&  less(ymin, h.point.getY().doubleValue())) getRect(h.SW, rect);
