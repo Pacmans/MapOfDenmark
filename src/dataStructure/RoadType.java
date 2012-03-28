@@ -16,6 +16,7 @@ public enum RoadType {
   MOTORVEJSTUNNEL(1, new Color(0,0,0), 1),
   FÆRGE(1, new Color(0,0,0), 1),
   MOTORTRAFIKVEJ(2, new Color(0,0,0), 1),
+  PROJMOTORTRAFIKVEJ(2, new Color(0,0,0), 1),
   PROJPRIMÆRVEJ(2, new Color(0,0,0), 1),
   MOTORVEJSAFKØRSEL(2, new Color(0,0,0), 1),
   MOTORTRAFIKVEJSTUNNEL(2, new Color(0,0,0), 1),
@@ -23,6 +24,7 @@ public enum RoadType {
   MOTORTRAFIKVEJSAFKØRSEL(3, new Color(0,0,0), 1),
   PRIMÆRVEJSTUNNEL(3, new Color(0,0,0), 1),
   SEKUNDÆRRUTE(4, new Color(0,0,0), 1),
+  PROJSEKUNDÆRRUTE(4, new Color(0,0,0),1),
   PRIMÆRVEJSAFKØRSEL(4, new Color(0,0,0), 1),
   SEKUNDÆRVEJSTUNNEL(4, new Color(0,0,0), 1),
   VEJ3(5, new Color(0,0,0), 1), //3-6m
@@ -40,18 +42,18 @@ public enum RoadType {
   STITUNNEL(7, new Color(0,0,0), 1),
   UKENDT(7, new Color(0,0,0), 1);
 
-  private final int priority;
+  private final int priotet;
   private final Color color;
   private final double width;
 
   RoadType(int prio, Color color, double width){
-    this.priority = prio;
+    this.priotet = prio;
     this.color = color;
     this.width = width;
   }
 
-  public int priority(){
-    return priority;
+  public int priotet(){
+    return priotet;
   }
   public Color color(){
     return color;
