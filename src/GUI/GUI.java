@@ -144,22 +144,29 @@ public class GUI {
 		checkboxPanel.setBorder(new TitledBorder(new EtchedBorder(), "Vejtyper"));
 		
 		// fill the checkboxPanel
-		checkboxPanel.add(createRoadtypeBox("Highways")); // Priority 1 roads
-		checkboxPanel.add(createRoadtypeBox("Expressways")); // Priority 2 roads
-		checkboxPanel.add(createRoadtypeBox("Primary roads")); // and so on..
-		checkboxPanel.add(createRoadtypeBox("Secondary roads"));
-		checkboxPanel.add(createRoadtypeBox("Normal roads"));
-		checkboxPanel.add(createRoadtypeBox("Trails & streets"));
-		checkboxPanel.add(createRoadtypeBox("Paths"));
+		checkboxPanel.add(createCheckedRoadtypeBox("Highways")); // Priority 1 roads
+		checkboxPanel.add(createCheckedRoadtypeBox("Expressways")); // Priority 2 roads
+		checkboxPanel.add(createCheckedRoadtypeBox("Primary roads")); // and so on..
+		checkboxPanel.add(createUncheckedRoadtypeBox("Secondary roads"));
+		checkboxPanel.add(createUncheckedRoadtypeBox("Normal roads"));
+		checkboxPanel.add(createUncheckedRoadtypeBox("Trails & streets"));
+		checkboxPanel.add(createUncheckedRoadtypeBox("Paths"));
 		return checkboxPanel;
 	}
 
-	private JPanel createRoadtypeBox(String string) {
+	private JPanel createCheckedRoadtypeBox(String string) {
+		JPanel fl = new JPanel(new FlowLayout(0));
+		JCheckBox box = new JCheckBox(string);
+		box.setSelected(true);
+		fl.add(box);
+		return fl;
+	}
+
+	private JPanel createUncheckedRoadtypeBox(String string) {
 		JPanel fl = new JPanel(new FlowLayout(0));
 		fl.add(new JCheckBox(string));
 		return fl;
 	}
-
 
 
 }
