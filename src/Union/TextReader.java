@@ -4,6 +4,8 @@ import java.math.*;
 import java.util.HashMap;
 import java.io.*;
 
+import dataStructure.Point;
+
 public class TextReader {
 
 

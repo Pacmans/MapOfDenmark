@@ -8,6 +8,8 @@ import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import dataStructure.Point;
+
 public class NewUnion {
 	private int numberOfConnections = 0;
 	private HashMap<Integer, Point> points;
