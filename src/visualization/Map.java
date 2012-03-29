@@ -16,7 +16,8 @@ public class Map extends JComponent {
 			g.drawLine((int) s.getX1(), (int) s.getY1(), (int) s.getX2(), (int) s.getY2());
 			}	
 		}
-		
-	
-	
+
+  public void updateFilter(int n, boolean b) {
+    // TODO Something
+  }
 }
