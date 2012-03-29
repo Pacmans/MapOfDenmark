@@ -14,12 +14,12 @@ import java.math.BigDecimal;
  * 
  * @author Claus L. Henriksen
  * @version 28. Marts 2012
- * @param <Point>
- * @see Point
+ * @param <PointImplementation>
+ * @see PointImplementation
  */
 public class PointQuadTree {
   private Node root;
-  private ArrayList<Point> array;
+  private ArrayList<PointImplementation> array;
   
   /**
    * Wrapper class used for the 2D data structure. 
@@ -27,9 +27,9 @@ public class PointQuadTree {
    */
   private class Node{
     Node NW, NE, SE, SW; //Four subtrees
-    Point point;
+    PointImplementation point;
     
-    Node(Point point){
+    Node(PointImplementation point){
       this.point = point;
     }
   }
@@ -40,7 +40,7 @@ public class PointQuadTree {
    * 
    * @param point
    */
-  public void inset(Point point){
+  public void inset(PointImplementation point){
     root = insert(root, point);
   }
   
@@ -52,7 +52,7 @@ public class PointQuadTree {
    * @param point The point to be placed
    * @return The inserted node
    */
-  private Node insert(Node h, Point point){
+  private Node insert(Node h, PointImplementation point){
     if(h == null) return new Node(point); //First point inserted becomes root
     else if ( less(point.getX().doubleValue(), h.point.getX().doubleValue()) &&  less(point.getY().doubleValue(), h.point.getY().doubleValue())) h.SW = insert(h.SW, point);
     else if ( less(point.getX().doubleValue(), h.point.getX().doubleValue()) && !less(point.getY().doubleValue(), h.point.getY().doubleValue())) h.NW = insert(h.NW, point);
@@ -66,11 +66,11 @@ public class PointQuadTree {
    * 
    * @param rect A rectangular interval defined by the Interval2D class
    * @see Interval2D
-   * @see Point
+   * @see PointImplementation
    * @return ArrayList of points within interval
    */
-  public ArrayList<Point> getRect(Interval2D rect){
-    array = new ArrayList<Point>();
+  public ArrayList<PointImplementation> getRect(Interval2D rect){
+    array = new ArrayList<PointImplementation>();
     getRect(root, rect);
     return array;
   }
@@ -81,7 +81,7 @@ public class PointQuadTree {
    * @param rect Interval to be within
    * @return ArrayList of points within interval
    */
-  private ArrayList<Point> getRect(Node h, Interval2D rect){
+  private ArrayList<PointImplementation> getRect(Node h, Interval2D rect){
     if (h == null) return null;
     double xmin = rect.getIntervalX().getLow();
     double ymin = rect.getIntervalY().getLow();

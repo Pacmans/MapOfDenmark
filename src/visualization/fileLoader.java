@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 
 import dataStructure.Connection;
 import dataStructure.Point;
+import dataStructure.PointImplementation;
 import dataStructure.RoadType;
 
 public class FileLoader{
@@ -19,7 +20,7 @@ public class FileLoader{
 	private int index;
 
 	Connection[] connections = new Connection[2];
-	Point[] cords = new Point[2];
+	PointImplementation[] cords = new PointImplementation[2];
 	
 	public FileLoader() throws IOException {
 	
@@ -37,7 +38,7 @@ public class FileLoader{
 	     if (index == cords.length) resizeP(index*2);
 	     else{
 	     String[] split = line.split(",");
-	     Point p = new Point(index, new BigDecimal(split[3]), new BigDecimal(split[4]));
+	     PointImplementation p = new PointImplementation(index, new BigDecimal(split[3]), new BigDecimal(split[4]));
 	     cords[index] = p;
 	     //set max and min
 	     if(cords[index].getX().compareTo(xMin)==1) xMin = cords[index].getX();
@@ -55,8 +56,8 @@ public class FileLoader{
 	     if (index == -1)index = 0;
      	else{
 	     String[] split =line.split(",");
-	     Point p = new Point(Integer.parseInt(split[0]),cords[Integer.parseInt(split[0])].getX().divide(Scale),cords[Integer.parseInt(split[0])].getY().divide(Scale));
-	     Point q = new Point(Integer.parseInt(split[1]),cords[Integer.parseInt(split[1])].getX().divide(Scale),cords[Integer.parseInt(split[1])].getY().divide(Scale));
+	     Point p = new PointImplementation(Integer.parseInt(split[0]),cords[Integer.parseInt(split[0])].getX().divide(Scale),cords[Integer.parseInt(split[0])].getY().divide(Scale));
+	     Point q = new PointImplementation(Integer.parseInt(split[1]),cords[Integer.parseInt(split[1])].getX().divide(Scale),cords[Integer.parseInt(split[1])].getY().divide(Scale));
 	     RoadType r = null;
 	    switch(Integer.parseInt(split[5])){
 	    case 1: r = RoadType.MOTORVEJ;
@@ -108,7 +109,7 @@ public class FileLoader{
 		return connections;
 	}
 
-	public Point[] getCords() {
+	public PointImplementation[] getCords() {
 		return cords;
 	}
 	
@@ -121,7 +122,7 @@ public class FileLoader{
 	}
 	
 	private void resizeP(int newsize){
-	  Point[] tmp = new Point[newsize];
+	  PointImplementation[] tmp = new PointImplementation[newsize];
 	  for(int i = 0; i < index; i++){
 	    tmp[i] = cords[i];
 	  }

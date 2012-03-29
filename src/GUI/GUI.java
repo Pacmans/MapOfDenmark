@@ -34,8 +34,8 @@ public class GUI {
     controller = Controller.getInstance();
 		makeFrame();
 		makeMenuBar();
-//		makeMap(controller.getCanvas());
-    	makeRightPanel();
+		makeMap(controller.getMap());
+  	makeRightPanel();
 		setupFrame();
     }
     

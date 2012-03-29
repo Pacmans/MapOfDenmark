@@ -4,7 +4,7 @@ import java.math.*;
 import java.util.HashMap;
 import java.io.*;
 
-import dataStructure.Point;
+import dataStructure.PointImplementation;
 
 public class TextReader {
 
@@ -15,11 +15,11 @@ public class TextReader {
 	//Throws IOException ("File does not exist or wrong direction")
 	//@param	s 		file location
 	//@return	cords	coordinates of X and Y for knobs
-public static HashMap<Integer, Point> reader(String s) throws IOException{
+public static HashMap<Integer, PointImplementation> reader(String s) throws IOException{
 	File a = new File(s);
 	LineNumberReader  lnr = new LineNumberReader(new FileReader(a));
 	lnr.skip(Long.MAX_VALUE);
-	HashMap<Integer, Point> cords = new HashMap<Integer, Point>(lnr.getLineNumber()-1);
+	HashMap<Integer, PointImplementation> cords = new HashMap<Integer, PointImplementation>(lnr.getLineNumber()-1);
 
 	BufferedReader input =  new BufferedReader(new FileReader(a));
 
@@ -29,7 +29,7 @@ public static HashMap<Integer, Point> reader(String s) throws IOException{
 	     if (index == -1)index = 1;
 	     else{
   	   String[] split = line.split(",");
-	     cords.put(index, new Point(Integer.parseInt(split[2]), new BigDecimal(split[3]), new BigDecimal(split[4])));
+	     cords.put(index, new PointImplementation(Integer.parseInt(split[2]), new BigDecimal(split[3]), new BigDecimal(split[4])));
 	     index++;
 	     }
 	 }
