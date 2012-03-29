@@ -27,9 +27,13 @@ public final class Controller {
    */
   public Controller(){
     if(instance == null) instance = this;
-    fileLoader = new FileLoader();
-    connections = fileLoader.getConnections();
-    points = fileLoader.getPoints();
+    try{
+      fileLoader = new FileLoader();
+      connections = fileLoader.getConnections();
+      points = fileLoader.getCords();
+    }catch(IOException e){
+      System.out.println("Fileloader: " + e);
+    }
   }
   
   /**

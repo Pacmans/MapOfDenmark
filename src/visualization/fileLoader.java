@@ -17,12 +17,9 @@ public class FileLoader{
 	private BigDecimal yMax = new BigDecimal(0);
 	private BigDecimal Scale = new BigDecimal(500);
 	private int index;
-	
-	
-	 //TODO Make points resizeable. This is not flexible.
 
 	Connection[] connections = new Connection[2];
-	Point[] cords = new Point[675903];
+	Point[] cords = new Point[2];
 	
 	public FileLoader() throws IOException {
 	
@@ -37,6 +34,7 @@ public class FileLoader{
 	 index = -1;
 	 while ((line = inputA.readLine()) != null){
 	     if (index == -1)index=1;
+	     if (index == cords.length) resizeP(index*2);
 	     else{
 	     String[] split = line.split(",");
 	     Point p = new Point(index, new BigDecimal(split[3]), new BigDecimal(split[4]));
@@ -118,7 +116,15 @@ public class FileLoader{
 	  Connection[] tmp = new Connection[newsize];
 	  for(int i = 0; i < index; i++){
 	    tmp[i] = connections[i];
-	    connections = tmp;
 	  }
+	  connections = tmp;
+	}
+	
+	private void resizeP(int newsize){
+	  Point[] tmp = new Point[newsize];
+	  for(int i = 0; i < index; i++){
+	    tmp[i] = cords[i];
+	  }
+	  cords = tmp;
 	}
 }
