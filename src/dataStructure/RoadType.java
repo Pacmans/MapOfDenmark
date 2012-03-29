@@ -10,6 +10,13 @@ package dataStructure;
 
 import java.awt.Color;
 
+/**
+ * 
+ * @author Claus L. Henriksen clih@itu.dk
+ * @author Pacmans
+ * @version 29. Marts 2012
+ *
+ */
 public enum RoadType {
   HIGHWAY(1, new Color(0,0,0), 1),
   PROJHIGHWAY(1, new Color(0,0,0), 1),

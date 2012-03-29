@@ -13,6 +13,7 @@ import java.math.BigDecimal;
  * Thanks to hypesystem and Morten Roed for pushing we towards this data structure and implementation
  * 
  * @author Claus L. Henriksen
+ * @author Pacmans
  * @version 28. Marts 2012
  * @param <Point>
  * @see Point

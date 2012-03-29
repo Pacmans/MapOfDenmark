@@ -7,6 +7,11 @@ import javax.swing.JComponent;
 import controller.Controller;
 import dataStructure.Connection;
 
+/**
+ * 
+ * @author Pacmans
+ *
+ */
 public class OurMapImpl extends JComponent implements OurMap {
   
   //TODO JavaDoc

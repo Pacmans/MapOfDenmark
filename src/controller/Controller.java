@@ -14,6 +14,13 @@ import dataStructure.PointQuadTree;
 
 import GUI.GUI;
 
+/**
+ * 
+ * @author Claus L. Henriksen clih@itu.dk
+ * @author Pacmans
+ * @version 29. Marts 2012
+ *
+ */
 public final class Controller {
   private static Controller instance; //singleton
   private static GUI gui; //singleton

@@ -3,6 +3,7 @@ package dataStructure;
 /**
  * @(#)Connection.java
  *
+ * @author Claus L. Henriksen clih@itu.dk
  * @author Pacmans
  * @version 20. Marts. 2012
  */
