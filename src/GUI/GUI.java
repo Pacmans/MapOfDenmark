@@ -66,7 +66,7 @@ public class GUI {
     private void showAbout() {
 	JOptionPane.showMessageDialog(frame, 
 				      "Map Of Denmark - " + VERSION + 
-				      "\nMade by Claus, Bj¿rn, Phillip, Morten & Anders.",
+				      "\nMade by Claus, Bjï¿½rn, Phillip, Morten & Anders.",
 				      "About Map Of Denmark", 
 				      JOptionPane.INFORMATION_MESSAGE);
     }
@@ -165,13 +165,13 @@ public class GUI {
 	private JPanel createRoadtypeBox(String string, boolean selected) {
 		JPanel fl = new JPanel(new FlowLayout(0));
 		JCheckBox box = new JCheckBox(string);
+		box.setSelected(selected);
 		box.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent e) {
 				controller.updateMap(number, ((JCheckBox) e.getSource()).isSelected());
 			}
 		});
-		box.setSelected(selected);
 		fl.add(box);
 		number++;
 		return fl;
