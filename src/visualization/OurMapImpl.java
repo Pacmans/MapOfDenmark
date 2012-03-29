@@ -8,6 +8,8 @@ import controller.Controller;
 import dataStructure.Connection;
 
 public class OurMapImpl extends JComponent implements OurMap {
+  
+  //TODO JavaDoc
 	
 	/* 
    * @see visualization.OurMap#paint(java.awt.Graphics)

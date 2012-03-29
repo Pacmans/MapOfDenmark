@@ -22,6 +22,19 @@ public class Connection{
   public boolean hasID(int j){
     return (p.getID() == j || q.getID() == j);
   }
+  
+  /**
+   * Connection ID is defined by the lowest ID of the two points, followed by the remaining point ID. 
+   * @return Returns Connection ID
+   */
+  public int getID(){
+    String tmp ="";
+    int id1 = p.getID();
+    int id2 = q.getID();
+    if(id1<id2) tmp = id1 + "" + id2;
+    else tmp = id2 + "" + id1;
+    return Integer.parseInt(tmp);
+  }
 
   public double getX1(){
     return p.getX().doubleValue();
