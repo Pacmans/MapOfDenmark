@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.swing.JComponent;
 
@@ -19,7 +20,7 @@ public final class Controller {
   private static OurMapImpl map; //singleton
   private static FileLoader fileLoader;
   private Point[] points;
-  private Connection[] connections;
+  private Connection[] connections; //sorted by connection ID
   private PointQuadTree qt;
   
   /**
@@ -31,6 +32,7 @@ public final class Controller {
     try{
       fileLoader = new FileLoaderImpl();
       connections = fileLoader.getConnections();
+      Arrays.sort(connections);
       points = fileLoader.getCords();
     }catch(IOException e){
       System.out.println("Fileloader: " + e);
