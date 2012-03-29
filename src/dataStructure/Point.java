@@ -2,12 +2,25 @@ package dataStructure;
 
 import java.math.BigDecimal;
 
-public interface Point {
-
-  public abstract BigDecimal getX();
-
-  public abstract BigDecimal getY();
-
-  public abstract int getID();
-
+public class Point {
+	private int ID;
+	private BigDecimal xk, yk;
+	
+	public Point(int id, BigDecimal xk, BigDecimal yk){
+		this.ID = id;
+		this.xk = xk;
+		this.yk = yk;
+	}
+	
+	public BigDecimal getX(){
+		return xk;
+	}
+	
+	public BigDecimal getY(){
+		return yk;
+	}
+	
+	public int getID(){
+		return ID;
+	}
 }

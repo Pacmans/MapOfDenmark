@@ -8,7 +8,6 @@ import visualization.Map;
 import visualization.FileLoader;
 import dataStructure.Connection;
 import dataStructure.Point;
-import dataStructure.PointImplementation;
 import dataStructure.PointQuadTree;
 
 import GUI.GUI;
@@ -18,7 +17,7 @@ public final class Controller {
   private static GUI gui; //singleton
   private static Map map; //singleton
   private static FileLoader fileLoader;
-  private PointImplementation[] points;
+  private Point[] points;
   private Connection[] connections;
   private PointQuadTree qt;
   
@@ -49,11 +48,11 @@ public final class Controller {
   /**
    * Private method creates quad tree and inserts all points
    * @see PointQuadTree
-   * @see PointImplementation
+   * @see Point
    */
   private void initialiseQt() {
     qt = new PointQuadTree();
-    for(PointImplementation point : points){
+    for(Point point : points){
       qt.inset(point);
     }
   }
@@ -61,7 +60,7 @@ public final class Controller {
   /**
    * 
    * @return Returns a quad tree of Points
-   * @see PointImplementation
+   * @see Point
    * @see PointQuadTree
    */
   public PointQuadTree getPointQuadTree(){
@@ -102,7 +101,7 @@ public final class Controller {
   /**
    * Get array of all points
    * @return Array of all points
-   * @see PointImplementation
+   * @see Point
    */
   public Point[] getPoints(){
     return points;
