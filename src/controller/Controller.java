@@ -4,8 +4,9 @@ import java.io.IOException;
 
 import javax.swing.JComponent;
 
-import visualization.Map;
 import visualization.FileLoader;
+import visualization.Map;
+import visualization.FileLoaderImpl;
 import dataStructure.Connection;
 import dataStructure.Point;
 import dataStructure.PointQuadTree;
@@ -23,12 +24,12 @@ public final class Controller {
   
   /**
    * Constructor for this class loads connections and points fomr FileLoader
-   * @see FileLoader
+   * @see FileLoaderImpl
    */
   public Controller(){
     if(instance == null) instance = this;
     try{
-      fileLoader = new FileLoader();
+      fileLoader = new FileLoaderImpl();
       connections = fileLoader.getConnections();
       points = fileLoader.getCords();
     }catch(IOException e){
@@ -90,7 +91,7 @@ public final class Controller {
   
   public static FileLoader getFileLoader(){
     try{
-      if(fileLoader == null) fileLoader = new FileLoader();
+      if(fileLoader == null) fileLoader = new FileLoaderImpl();
       return fileLoader;
     }catch(IOException e){
       System.out.println("FileLoader: " + e);
