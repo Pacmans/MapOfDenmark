@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.swing.JComponent;
 
 import visualization.FileLoader;
-import visualization.Map;
+import visualization.OurMapImpl;
 import visualization.FileLoaderImpl;
 import dataStructure.Connection;
 import dataStructure.Point;
@@ -16,7 +16,7 @@ import GUI.GUI;
 public final class Controller {
   private static Controller instance; //singleton
   private static GUI gui; //singleton
-  private static Map map; //singleton
+  private static OurMapImpl map; //singleton
   private static FileLoader fileLoader;
   private Point[] points;
   private Connection[] connections;
@@ -82,10 +82,10 @@ public final class Controller {
   /**
    * 
    * @return Returns instance of the singleton class Map which paints the map
-   * @see Map
+   * @see OurMapImpl
    */
   public static JComponent getMap(){
-    if(map == null) map = new Map();
+    if(map == null) map = new OurMapImpl();
     return map;
   }
   
