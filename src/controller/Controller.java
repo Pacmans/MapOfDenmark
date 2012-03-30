@@ -30,7 +30,7 @@ public final class Controller {
   private static OurMapImpl map; //singleton
   private static FileLoader fileLoader;
   private Point[] points;
-  private Connection[] connections; //sorted by connection ID
+  private Connection[] connections;
   private PointQuadTree qt;
   
   /**
@@ -42,7 +42,6 @@ public final class Controller {
     try{
       fileLoader = new FileLoaderImpl();
       connections = fileLoader.getConnections();
-      Arrays.sort(connections);
       points = fileLoader.getCords();
     }catch(IOException e){
       System.out.println("Fileloader: " + e);

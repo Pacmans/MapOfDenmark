@@ -17,7 +17,7 @@ public class FileLoaderFast implements FileLoader {
   private BigDecimal xMax = new BigDecimal(0);
   private BigDecimal yMin = new BigDecimal(700000);
   private BigDecimal yMax = new BigDecimal(0);
-  private BigDecimal Scale = new BigDecimal(500);
+  private int scale = 500; // alskdjalskdj
   private int index;
   private File a, b;
   private BufferedReader inputA, inputB;
@@ -44,7 +44,7 @@ public class FileLoaderFast implements FileLoader {
       if (index == points.length) resizeP(index*2);
       else{
       String[] split = line.split(",");
-      Point p = new Point(index, new BigDecimal(split[3]), new BigDecimal(split[4]));
+      Point p = new Point(index, new BigDecimal(Integer.parseInt(split[3])/scale), new BigDecimal(Integer.parseInt(split[4])/scale));
       points[index] = p;
       //set max and min
       if(points[index].getX().compareTo(xMin)==1) xMin = points[index].getX();
@@ -56,7 +56,7 @@ public class FileLoaderFast implements FileLoader {
       }
     }
     
-    Arrays.sort(points);
+    Arrays.sort(points, 0, index);
   }
   
   private void loadConnections() throws IOException{
@@ -111,7 +111,7 @@ public class FileLoaderFast implements FileLoader {
      index++;
      }
     }
-    Arrays.sort(connections); //sorted by ID
+    Arrays.sort(connections, 0, index); //sorted by ID
   }
 
   @Override
