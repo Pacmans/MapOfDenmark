@@ -1,6 +1,7 @@
 package dataStructure;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 import java.math.BigDecimal;
 
 /**
@@ -70,7 +71,7 @@ public class PointQuadTree {
    * @see Point
    * @return ArrayList of points within interval
    */
-  public ArrayList<Point> getRect(Interval2D rect){
+  public ArrayList<Point> getPoints(Interval2D rect){
     array = new ArrayList<Point>();
     getRect(root, rect);
     return array;
@@ -95,6 +96,15 @@ public class PointQuadTree {
     if (!less(xmax, h.point.getX().doubleValue()) &&  less(ymin, h.point.getY().doubleValue())) getRect(h.SE, rect);
     if (!less(xmax, h.point.getX().doubleValue()) && !less(ymax, h.point.getY().doubleValue())) getRect(h.NE, rect);
     return array;
+  }
+  
+  public ArrayList<Connection> getConnections(Interval2D rect){
+    ArrayList<Point> points = getPoints(rect);
+    TreeSet cons = new TreeSet();
+    for(Point point : points){
+      
+    }
+    return null;
   }
   
   /**

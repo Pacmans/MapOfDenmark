@@ -9,7 +9,7 @@ package dataStructure;
  */
 
 
-public class Connection implements Comparable{
+public class Connection implements Comparable<Connection>{
   private Point p, q;
   private RoadType type;
   //private String name;
@@ -53,9 +53,8 @@ public class Connection implements Comparable{
     return type;
   }
   
-  public int compareTo(Object con){
-    Connection conn = (Connection) con;
-    int a = this.getID() - conn.getID();
+  public int compareTo(Connection con){
+    int a = this.getID() - con.getID();
     if(a < 0) return -1;
     else if(a > 0) return 1;
     else return 0;

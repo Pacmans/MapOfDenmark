@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JComponent;
@@ -9,6 +10,8 @@ import visualization.FileLoader;
 import visualization.OurMapImpl;
 import visualization.FileLoaderImpl;
 import dataStructure.Connection;
+import dataStructure.Interval;
+import dataStructure.Interval2D;
 import dataStructure.Point;
 import dataStructure.PointQuadTree;
 
@@ -115,6 +118,20 @@ public final class Controller {
    */
   public Point[] getPoints(){
     return points;
+  }
+  
+  /**
+   * Get all points within rectangle
+   * @param x1 
+   * @param y1
+   * @param x2
+   * @param y2
+   * @return ArrayList of points within rectangle
+   */
+  public ArrayList<Point> getPoints(int x1, int y1, int x2, int y2){
+    //TODO ArrayList?
+    if(qt == null)  initialiseQt();
+    return qt.getPoints(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
   }
   
   /**
