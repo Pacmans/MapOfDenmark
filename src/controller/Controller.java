@@ -44,6 +44,8 @@ public final class Controller {
       fileLoader = new FileLoaderImpl();
       connections = fileLoader.getConnections();
       points = fileLoader.getCords();
+      Arrays.sort(connections);
+      Arrays.sort(points);
     }catch(IOException e){
       System.out.println("Fileloader: " + e);
     }
@@ -144,7 +146,6 @@ public final class Controller {
   public ArrayList<Connection> getConnections(int x1, int y1, int x2, int y2){
     HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
     ArrayList<Connection> cs = new ArrayList<Connection>();
-    Arrays.sort(connections); //TODO Delete this when implemented in a better place
     for(Integer i : cons){
       cs.add(connections[Arrays.binarySearch(connections, i)]);
     }
