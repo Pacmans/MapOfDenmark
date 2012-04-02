@@ -143,15 +143,25 @@ public final class Controller {
    * @param y2 ArrayList of connections within rectangle
    * @return
    */
-  public ArrayList<Connection> getConnections(int x1, int y1, int x2, int y2){
+  public Connection[] getConnections(int x1, int y1, int x2, int y2){
     HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
-    ArrayList<Connection> cs = new ArrayList<Connection>();
+    Connection[] cs = new Connection[2];
+    int size = 0;
     for(Integer i : cons){
-      cs.add(connections[Arrays.binarySearch(connections, i)]);
+      if(cs.length == size) cs = resize(cs, size*2);
+      cs[size++] = connections[Arrays.binarySearch(connections, i)];
     }
     return cs;
   }
   
+  private Connection[] resize(Connection[] cs, int i) {
+    Connection[] tmp = new Connection[i];
+    for(int k = 0; k < cs.length; k++){
+      cs[k] = tmp[k];
+    }
+    return tmp;
+  }
+
   /**
    * Get array of all connections
    * @return Array of all connections
