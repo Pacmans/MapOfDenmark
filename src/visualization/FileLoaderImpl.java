@@ -21,8 +21,8 @@ public class FileLoaderImpl implements FileLoader{
 	private BigDecimal Scale = new BigDecimal(500);
 	private int index;
 
-	Connection[] connections = new Connection[2];
-	Point[] cords = new Point[2];
+	Connection[] connections = new Connection[812301];
+	Point[] cords = new Point[675902];
 	
 	public FileLoaderImpl() throws IOException {
 	
@@ -37,7 +37,6 @@ public class FileLoaderImpl implements FileLoader{
 	 index = -1;
 	 while ((line = inputA.readLine()) != null){
 	     if (index == -1)index=1;
-	     if (index == cords.length) resizeP(index*2);
 	     else{
 	     String[] split = line.split(",");
 	     Point p = new Point(index, new BigDecimal(split[3]), new BigDecimal(split[4]));
@@ -50,11 +49,14 @@ public class FileLoaderImpl implements FileLoader{
 
 	     index++;
 	     }
+	     
 	 }
+	 xMax = xMax.divide(Scale);
+	 xMin = xMin.divide(Scale);
+	 yMax = yMax.divide(Scale);
+	 yMin = yMin.divide(Scale);
      index = -1;
-     while ((line = inputB.readLine()) != null){
-       if(index == connections.length) resizeC(index*2);
-    	 
+     while ((line = inputB.readLine()) != null){  	 
 	     if (index == -1)index = 0;
      	else{
 	     String[] split =line.split(",");
@@ -131,19 +133,4 @@ public class FileLoaderImpl implements FileLoader{
 		return cords;
 	}
 	
-	private void resizeC(int newsize){
-	  Connection[] tmp = new Connection[newsize];
-	  for(int i = 0; i < index; i++){
-	    tmp[i] = connections[i];
-	  }
-	  connections = tmp;
-	}
-	
-	private void resizeP(int newsize){
-	  Point[] tmp = new Point[newsize];
-	  for(int i = 0; i < index; i++){
-	    tmp[i] = cords[i];
-	  }
-	  cords = tmp;
-	}
 }
