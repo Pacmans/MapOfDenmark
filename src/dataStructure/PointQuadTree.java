@@ -1,6 +1,7 @@
 package dataStructure;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.TreeSet;
 import java.math.BigDecimal;
 
@@ -98,13 +99,13 @@ public class PointQuadTree {
     return array;
   }
   
-  public ArrayList<Connection> getConnections(Interval2D rect){
+  public HashSet<Integer> getConnections(Interval2D rect){
     ArrayList<Point> points = getPoints(rect);
-    TreeSet cons = new TreeSet();
+    HashSet<Integer> cons = new HashSet<Integer>();
     for(Point point : points){
-      
+      cons.addAll(point.getConnections());
     }
-    return null;
+    return cons;
   }
   
   /**

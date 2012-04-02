@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 import javax.swing.JComponent;
 
@@ -128,9 +129,25 @@ public final class Controller {
    * @return ArrayList of points within rectangle
    */
   public ArrayList<Point> getPoints(int x1, int y1, int x2, int y2){
-    //TODO ArrayList?
     if(qt == null)  initialiseQt();
     return qt.getPoints(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
+  }
+  
+  /**
+   * Get all connections within rectangle
+   * @param x1
+   * @param y1
+   * @param x2
+   * @param y2 ArrayList of connections within rectangle
+   * @return
+   */
+  public ArrayList<Connection> getConnections(int x1, int y1, int x2, int y2){
+    HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
+    ArrayList<Connection> cs = new ArrayList<Connection>();
+    for(Integer i : cons){
+      cs.add(connections[Arrays.binarySearch(connections, i)]);
+    }
+    return cs;
   }
   
   /**

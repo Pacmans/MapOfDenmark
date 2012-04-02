@@ -1,6 +1,8 @@
 package dataStructure;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Simple class containing a single point.
@@ -12,13 +14,12 @@ import java.math.BigDecimal;
 public class Point implements Comparable<Point>{
 	private int ID, numberOfConnections = 0;
 	private BigDecimal xk, yk;
-	private int[] connections;
+	private HashSet<Integer> connections = new HashSet<Integer>();
 	
 	public Point(int id, BigDecimal xk, BigDecimal yk){
 		this.ID = id;
 		this.xk = xk;
 		this.yk = yk;
-		connections = new int[2];
 	}
 	
 	public BigDecimal getX(){
@@ -34,8 +35,7 @@ public class Point implements Comparable<Point>{
 	}
 	
 	public void addConnection(int id){
-	  if(numberOfConnections == connections.length) resize(numberOfConnections*2);
-	  connections[numberOfConnections++] = id;
+	  connections.add(id);
 	}
 	
 	public int compareTo(Point point){
@@ -45,15 +45,15 @@ public class Point implements Comparable<Point>{
 	  else return 0;
 	}
 	
-	public int[] getConnections(){
+	public Collection<? extends Integer> getConnections(){
 	  return connections;
 	}
 	
-	private void resize(int newsize){
-	  int[] tmp = new int[newsize];
-	  for(int i = 0; i < numberOfConnections; i++){
-	    tmp[i] = connections[i];
-	  }
-	  connections = tmp;
-	}
+//	private void resize(int newsize){
+//	  int[] tmp = new int[newsize];
+//	  for(int i = 0; i < numberOfConnections; i++){
+//	    tmp[i] = connections[i];
+//	  }
+//	  connections = tmp;
+//	}
 }
