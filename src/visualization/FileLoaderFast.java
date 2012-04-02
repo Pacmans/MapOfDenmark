@@ -17,7 +17,7 @@ public class FileLoaderFast implements FileLoader {
   private BigDecimal xMax = new BigDecimal(0);
   private BigDecimal yMin = new BigDecimal(700000);
   private BigDecimal yMax = new BigDecimal(0);
-  private int scale = 500; // alskdjalskdj
+  private int scale = 500;
   private int index;
   private File a, b;
   private BufferedReader inputA, inputB;
