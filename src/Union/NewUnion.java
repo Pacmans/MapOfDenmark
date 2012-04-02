@@ -11,6 +11,14 @@ import java.util.Scanner;
 import dataStructure.Connection;
 import dataStructure.Point;
 
+/**
+ * 
+ * @author Claus L. Henriksen clih@itu.dk
+ * @author Bjørn
+ * @author Pacmans
+ * @version 20. Marts 2012
+ *
+ */
 public class NewUnion {
 	private int numberOfConnections = 0;
 	private HashMap<Integer, Point> points;

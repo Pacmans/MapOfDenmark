@@ -1,21 +1,34 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import javax.swing.JComponent;
 
-import visualization.Map;
 import visualization.FileLoader;
+import visualization.OurMapImpl;
+import visualization.FileLoaderImpl;
 import dataStructure.Connection;
+import dataStructure.Interval;
+import dataStructure.Interval2D;
 import dataStructure.Point;
 import dataStructure.PointQuadTree;
 
 import GUI.GUI;
 
+/**
+ * 
+ * @author Claus L. Henriksen clih@itu.dk
+ * @author Pacmans
+ * @version 29. Marts 2012
+ *
+ */
 public final class Controller {
   private static Controller instance; //singleton
   private static GUI gui; //singleton
-  private static Map map; //singleton
+  private static OurMapImpl map; //singleton
   private static FileLoader fileLoader;
   private Point[] points;
   private Connection[] connections;
@@ -23,13 +36,17 @@ public final class Controller {
   
   /**
    * Constructor for this class loads connections and points fomr FileLoader
-   * @see FileLoader
+   * @see FileLoaderImpl
    */
   public Controller(){
     if(instance == null) instance = this;
-    fileLoader = new FileLoader();
-    connections = fileLoader.getConnections();
-    points = fileLoader.getPoints();
+    try{
+      fileLoader = new FileLoaderImpl();
+      connections = fileLoader.getConnections();
+      points = fileLoader.getCords();
+    }catch(IOException e){
+      System.out.println("Fileloader: " + e);
+    }
   }
   
   /**
@@ -77,16 +94,16 @@ public final class Controller {
   /**
    * 
    * @return Returns instance of the singleton class Map which paints the map
-   * @see Map
+   * @see OurMapImpl
    */
   public static JComponent getMap(){
-    if(map == null) map = new Map();
+    if(map == null) map = new OurMapImpl();
     return map;
   }
   
   public static FileLoader getFileLoader(){
     try{
-      if(fileLoader == null) fileLoader = new FileLoader();
+      if(fileLoader == null) fileLoader = new FileLoaderImpl();
       return fileLoader;
     }catch(IOException e){
       System.out.println("FileLoader: " + e);
@@ -101,6 +118,37 @@ public final class Controller {
    */
   public Point[] getPoints(){
     return points;
+  }
+  
+  /**
+   * Get all points within rectangle
+   * @param x1 
+   * @param y1
+   * @param x2
+   * @param y2
+   * @return ArrayList of points within rectangle
+   */
+  public ArrayList<Point> getPoints(int x1, int y1, int x2, int y2){
+    if(qt == null)  initialiseQt();
+    return qt.getPoints(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
+  }
+  
+  /**
+   * Get all connections within rectangle
+   * @param x1
+   * @param y1
+   * @param x2
+   * @param y2 ArrayList of connections within rectangle
+   * @return
+   */
+  public ArrayList<Connection> getConnections(int x1, int y1, int x2, int y2){
+    HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
+    ArrayList<Connection> cs = new ArrayList<Connection>();
+    Arrays.sort(connections); //TODO Delete this when implemented in a better place
+    for(Integer i : cons){
+      cs.add(connections[Arrays.binarySearch(connections, i)]);
+    }
+    return cs;
   }
   
   /**

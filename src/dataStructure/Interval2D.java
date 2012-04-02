@@ -1,5 +1,11 @@
 package dataStructure;
 
+/**
+ * 
+ * @author Claus L. Henriksen clih@itu.dk
+ * @author Pacmans
+ * @version 29. Marts 2012
+ */
 public class Interval2D {
   private final Interval intervalX, intervalY;
   
