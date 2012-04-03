@@ -28,10 +28,10 @@ public class GUI {
     private JFrame frame;
     private JPanel contentPane;
     private int number = 1;
-    private Controller controller;
+//    private Controller controller;
 
     public GUI() {
-    controller = Controller.getInstance();
+//    controller = Controller.getInstance();
 		makeFrame();
 		makeMenuBar();
 		makeMap(controller.getMap());
@@ -169,7 +169,7 @@ public class GUI {
 		box.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent e) {
-				controller.updateMap(number, ((JCheckBox) e.getSource()).isSelected());
+//				controller.updateMap(number, ((JCheckBox) e.getSource()).isSelected());
 			}
 		});
 		fl.add(box);

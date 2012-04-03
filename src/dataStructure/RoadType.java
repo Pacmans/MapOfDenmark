@@ -30,19 +30,19 @@ public enum RoadType {
   PRIMARYWAY(3, new Color(0,0,0), 1),
   EXPRESSWAYEXIT(3, new Color(0,0,0), 1),
   PRIMARYWAYTUNNEL(3, new Color(0,0,0), 1),
-  SEKUNDARYWAY(4, new Color(0,0,0), 1),
+  SECONDARYWAY(4, new Color(0,0,0), 1),
   PROJSEKUNDARYWAY(4, new Color(0,0,0),1),
   PRIMARYWAYINTERSECTION(4, new Color(0,0,0), 1),
-  SEKUNDARYWAYTUNNEL(4, new Color(0,0,0), 1),
+  SECONDARYWAYTUNNEL(4, new Color(0,0,0), 1),
   ROAD3M(5, new Color(0,0,0), 1), //3-6m
-  ANDENVEJ(5, new Color(0,0,0), 1), //PAS PÅ HVORDAN DEN SKULLE OVERSÆTTES
+  OTHERROAD(5, new Color(0,0,0), 1), //PAS PÅ HVORDAN DEN SKULLE OVERSÆTTES
   PROJROAD6M(5, new Color(0,0,0), 1), //3-6 m
-  SEKUNDARYWAYINTERSECTION(5, new Color(0,0,0), 1),
-  ANDENVEJTUNNEL(5, new Color(0,0,0), 1), //IGEN PAS
+  SECONDARYWAYINTERSECTION(5, new Color(0,0,0), 1),
+  OTHERROADTUNNEL(5, new Color(0,0,0), 1), // ANDEN VEJ
   LANE(6, new Color(0,0,0), 1),
   PEDESTRIAN(6, new Color(0,0,0), 1),
   PROJROAD3M(6, new Color(0,0,0), 1), //<3m
-  SEKUNDARYWAYINTERSECTION(6, new Color(0,0,0), 1),
+  OTHERROADINTERSECTION(6, new Color(0,0,0), 1), // ANDEN VEJ
   SMALLROADTUNNEL(6, new Color(0,0,0), 1),
   PATH(7, new Color(0,0,0), 1),
   PROJPATH(7, new Color(0,0,0), 1),
