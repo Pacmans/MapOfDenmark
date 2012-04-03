@@ -14,15 +14,23 @@ import dataStructure.Connection;
  * @author Pacmans
  *
  */
-public class OurMapImpl extends JComponent implements OurMap {
+public class OurMapImpl extends JComponent{
 	private BigDecimal zoomed = new BigDecimal(500);
 	private BigDecimal xMin = new BigDecimal(0);
 	private BigDecimal yMin = new BigDecimal(0);
 	private BigDecimal xMax = Controller.getFileLoader().getxMax();
 	private BigDecimal yMax = Controller.getFileLoader().getyMax();
+	private boolean zoom = false;
+	private Graphics g;
+	private boolean[] showPrio;
   
   public OurMapImpl() {
+	  showPrio = new boolean[7];
+	  for(boolean s : showPrio)s = true;
+	  System.out.println("somebody called?");
+	  paint(g);
 	  addListener();
+
   }
 	
 	/* 
@@ -30,10 +38,17 @@ public class OurMapImpl extends JComponent implements OurMap {
    */
 	@Override
   public void paint(Graphics g){
-		Connection[] a = Controller.getInstance().getConnections();
+		Connection[] a;
+		if(zoom){a = Controller.getInstance().getConnections();}
+		else {a = Controller.getInstance().getConnections();}
+		int p = 0;
+		System.out.println(a.length);
 		for(Connection s : a){
+			System.out.println(p);
+			if(showPrio[s.getType().priority()-1]){
 			g.setColor(s.getType().color());
-			g.drawLine((int) s.getX1(), (int) s.getY1(), (int) s.getX2(), (int) s.getY2());
+			g.drawLine((int) s.getX1(), (int) s.getY1(), (int) s.getX2(), (int) s.getY2());}
+			p++;
 			}	
 		}
 	
@@ -41,28 +56,21 @@ public class OurMapImpl extends JComponent implements OurMap {
 		
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) { 
-				System.out.println(xMin);
-				System.out.println(yMin);
-				xMin = new BigDecimal(e.getX());
-				yMin = new BigDecimal(e.getY());
-				System.out.println(xMin);
-				System.out.println(yMin);
+				xMin = new BigDecimal(e.getX()).divide(zoomed);
+				yMin = new BigDecimal(e.getY()).divide(zoomed);
 			}
 			public void mouseReleased(MouseEvent e){
-				System.out.println(xMax);
-				System.out.println(yMax);
-				xMax = new BigDecimal(e.getX());
-				yMax = new BigDecimal(e.getY());
-				System.out.println(xMax);
-				System.out.println(yMax);
+				xMax = new BigDecimal(e.getX()).divide(zoomed);
+				yMax = new BigDecimal(e.getY()).divide(zoomed);
+				zoom = true;
 			}
 		});
 		
 	}
+	
 
-@Override
 public void updateFilter(int n, boolean b) {
-	// TODO Auto-generated method stub
+	showPrio[n-1] = b;
 	
 }
 }

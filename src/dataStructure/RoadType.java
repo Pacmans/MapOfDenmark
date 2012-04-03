@@ -31,7 +31,7 @@ public enum RoadType {
   EXPRESSWAYEXIT(3, new Color(0,0,0), 1),
   PRIMARYWAYTUNNEL(3, new Color(0,0,0), 1),
   SECONDARYWAY(4, new Color(0,0,0), 1),
-  PROJSEKUNDARYWAY(4, new Color(0,0,0),1),
+  PROJSECONDARYWAY(4, new Color(0,0,0),1),
   PRIMARYWAYINTERSECTION(4, new Color(0,0,0), 1),
   SECONDARYWAYTUNNEL(4, new Color(0,0,0), 1),
   ROAD3M(5, new Color(0,0,0), 1), //3-6m
