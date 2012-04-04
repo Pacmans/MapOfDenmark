@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 import visualization.FileLoader;
 import visualization.OurMapImpl;
@@ -35,7 +36,7 @@ public final class Controller {
   private PointQuadTree qt;
   
   /**
-   * Constructor for this class loads connections and points fomr FileLoader
+   * Constructor for this class loads connections and points from FileLoader
    * @see FileLoaderImpl
    */
   public Controller(){
@@ -168,6 +169,7 @@ public final class Controller {
    * @see Connection
    */
   public Connection[] getConnections(){
+	  System.out.println("got connections?");
     return connections;
   }
   
