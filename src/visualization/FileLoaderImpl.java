@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 import dataStructure.Connection;
 import dataStructure.Point;
+import dataStructure.PointQuadTree;
 import dataStructure.RoadType;
 
 //TODO Java doc
@@ -22,6 +23,7 @@ public class FileLoaderImpl implements FileLoader{
 	private BigDecimal yMax = new BigDecimal(0);
 	private BigDecimal Scale = new BigDecimal(750);
 	private int index;
+	private PointQuadTree qt;
 
 	Connection[] connections = new Connection[812301];
 	Point[] cords = new Point[675902];
@@ -30,11 +32,12 @@ public class FileLoaderImpl implements FileLoader{
 		
 //	File a = new File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_node_unload.txt");
 //	File b = new File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_unload.txt");
-	  File a = new File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_node_unload.txt");
-    File b = new File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_unload.txt");
+	  File a = new File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_node_unload.txt");
+    File b = new File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_unload.txt");
 
 		BufferedReader inputA =  new BufferedReader(new FileReader(a));
 		BufferedReader inputB =  new BufferedReader(new FileReader(b));
+		qt = new PointQuadTree();
 		System.out.println("files loaded");
 	String line = null;
 	 index = -1;
@@ -44,6 +47,7 @@ public class FileLoaderImpl implements FileLoader{
 	     String[] split = line.split(",");
 	     Point p = new Point(index+1, new BigDecimal(split[3]).divide(Scale, 2, RoundingMode.HALF_UP), new BigDecimal("-"+split[4]).divide(Scale, 2, RoundingMode.HALF_UP));
 	     cords[index] = p;
+	     qt.insert(p);
 	     //set max and min
 	     if(cords[index].getX().compareTo(xMin)==-1) xMin = cords[index].getX();
 	     if(cords[index].getX().compareTo(xMax)==1) xMax = cords[index].getX();
@@ -172,5 +176,9 @@ public class FileLoaderImpl implements FileLoader{
   public Point[] getCords() {
 		return cords;
 	}
+  @Override
+  public PointQuadTree getPointQuadTree() {
+    return qt;
+  }
 	
 }

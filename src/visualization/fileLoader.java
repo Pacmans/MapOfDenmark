@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import dataStructure.Connection;
 import dataStructure.Point;
+import dataStructure.PointQuadTree;
 
 /**
  * 
@@ -25,5 +26,7 @@ public interface FileLoader {
 public abstract BigDecimal getxMin();
 
 public abstract BigDecimal getyMin();
+
+public abstract PointQuadTree getPointQuadTree();
 
 }

@@ -6,10 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 
 import dataStructure.Connection;
 import dataStructure.Point;
+import dataStructure.PointQuadTree;
 import dataStructure.RoadType;
 
 public class FileLoaderFast implements FileLoader {
@@ -17,10 +19,11 @@ public class FileLoaderFast implements FileLoader {
   private BigDecimal xMax = new BigDecimal(0);
   private BigDecimal yMin = new BigDecimal(700000);
   private BigDecimal yMax = new BigDecimal(0);
-  private int scale = 500;
+  private BigDecimal Scale = new BigDecimal(750);
   private int index;
   private File a, b;
   private BufferedReader inputA, inputB;
+  private PointQuadTree qt; 
 
   Connection[] connections = new Connection[2]; //sorted by ID
   Point[] points = new Point[2]; //sorted by ID
@@ -28,29 +31,33 @@ public class FileLoaderFast implements FileLoader {
   //TODO Specify exception
   //TODO Update controller to not sort
   //TODO Multithread this
+  //TODO Remove points and only use qt as pointers to connections
   public FileLoaderFast() throws IOException{
     loadPoints();
     loadConnections();
   }
   
   private void loadPoints() throws IOException{
-    a = new File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_node_unload.txt");
+    a = new File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_node_unload.txt");
     inputA =  new BufferedReader(new FileReader(a));
     String line = null;
     int index = -1;
+    qt = new PointQuadTree();
     
     while ((line = inputA.readLine()) != null){
       if (index == -1)index=1;
       if (index == points.length) resizeP(index*2);
       else{
       String[] split = line.split(",");
-      Point p = new Point(index, new BigDecimal(Integer.parseInt(split[3])/scale), new BigDecimal(Integer.parseInt(split[4])/scale));
+      Point p = new Point(index+1, new BigDecimal(split[3]).divide(Scale, 2, RoundingMode.HALF_UP), new BigDecimal("-"+split[4]).divide(Scale, 2, RoundingMode.HALF_UP));
       points[index] = p;
       //set max and min
       if(points[index].getX().compareTo(xMin)==1) xMin = points[index].getX();
       if(points[index].getX().compareTo(xMax)==1) xMax = points[index].getX();
       if(points[index].getY().compareTo(yMin)==1) yMin = points[index].getY();
       if(points[index].getY().compareTo(yMax)==1) yMax = points[index].getY();
+      
+      qt.insert(p);
 
       index++;
       }
@@ -60,7 +67,7 @@ public class FileLoaderFast implements FileLoader {
   }
   
   private void loadConnections() throws IOException{
-    b = new File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_unload.txt");
+    b = new File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_unload.txt");
     inputB =  new BufferedReader(new FileReader(b));
     String line = null;
     int index = -1;
@@ -113,6 +120,10 @@ public class FileLoaderFast implements FileLoader {
     }
     Arrays.sort(connections, 0, index); //sorted by ID
   }
+  
+  public PointQuadTree getPointQuadTree(){
+    return qt;
+  }
 
   @Override
   public BigDecimal getxMax() {
@@ -148,6 +159,16 @@ public class FileLoaderFast implements FileLoader {
       tmp[i] = points[i];
     }
     points = tmp;
+  }
+
+  @Override
+  public BigDecimal getxMin() {
+    return xMin;
+  }
+
+  @Override
+  public BigDecimal getyMin() {
+    return yMin;
   }
 
 }

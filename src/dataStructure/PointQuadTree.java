@@ -37,13 +37,7 @@ public class PointQuadTree {
     }
   }
   
-  /**
-   * Insert new point to the quad tree.
-   * The point will be wrapped and placed correctly within the tree.
-   * 
-   * @param point
-   */
-  public void inset(Point point){
+  public void insert(Point point){
     root = insert(root, point);
   }
   
@@ -84,8 +78,8 @@ public class PointQuadTree {
    * @param rect Interval to be within
    * @return ArrayList of points within interval
    */
-  private ArrayList<Point> getRect(Node h, Interval2D rect){
-    if (h == null) return null;
+  private void getRect(Node h, Interval2D rect){
+    if (h == null) return;
     double xmin = rect.getIntervalX().getLow();
     double ymin = rect.getIntervalY().getLow();
     double xmax = rect.getIntervalX().getHigh();
@@ -96,7 +90,6 @@ public class PointQuadTree {
     if ( less(xmin, h.point.getX().doubleValue()) && !less(ymax, h.point.getY().doubleValue())) getRect(h.NW, rect);
     if (!less(xmax, h.point.getX().doubleValue()) &&  less(ymin, h.point.getY().doubleValue())) getRect(h.SE, rect);
     if (!less(xmax, h.point.getX().doubleValue()) && !less(ymax, h.point.getY().doubleValue())) getRect(h.NE, rect);
-    return array;
   }
   
   public HashSet<Integer> getConnections(Interval2D rect){
