@@ -25,8 +25,7 @@ public class OurMapImpl extends JComponent{
 	private boolean[] showPrio;
   
   public OurMapImpl() {
-	  showPrio = new boolean[7];
-	  for(boolean s : showPrio)s = true;
+	  showPrio = new boolean[]{  true, true, true, true, true, true, true };
 	  System.out.println("somebody called?");
 	  paint(g);
 	  addListener();
@@ -44,7 +43,7 @@ public class OurMapImpl extends JComponent{
 		int p = 0;
 		System.out.println(a.length);
 		for(Connection s : a){
-			System.out.println(p);
+			//System.out.println(p);
 			if(showPrio[s.getType().priority()-1]){
 			g.setColor(s.getType().color());
 			g.drawLine((int) s.getX1(), (int) s.getY1(), (int) s.getX2(), (int) s.getY2());}

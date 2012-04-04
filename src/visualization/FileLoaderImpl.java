@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import dataStructure.Connection;
 import dataStructure.Point;
@@ -26,8 +27,10 @@ public class FileLoaderImpl implements FileLoader{
 	
 	public FileLoaderImpl() throws IOException { 	
 		
-	File a = new File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_node_unload.txt");
-	File b = new File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_unload.txt");
+//	File a = new File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_node_unload.txt");
+//	File b = new File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_unload.txt");
+	  File a = new File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_node_unload.txt");
+    File b = new File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_unload.txt");
 
 		BufferedReader inputA =  new BufferedReader(new FileReader(a));
 		BufferedReader inputB =  new BufferedReader(new FileReader(b));
@@ -94,12 +97,12 @@ public class FileLoaderImpl implements FileLoader{
 	    case 80: r = RoadType.FERRY;
 	    case 99: r = RoadType.UNKNOWN;
 	    }
-	    connections[index] = new Connection(cords[Integer.parseInt(split[0])-1],cords[Integer.parseInt(split[1])-1], r);
+	    connections[index] = new Connection(index, cords[Integer.parseInt(split[0])-1],cords[Integer.parseInt(split[1])-1], r);
 	    index++;
      	}
 	     
 	}
-     System.out.println("Connections created"); 
+     System.out.println("Connections created");
 }
 	/* 
    * @see visualization.FileLoader#getxMax()
