@@ -3,6 +3,7 @@ package visualization;
 import java.math.BigDecimal;
 
 import dataStructure.Connection;
+import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
 import dataStructure.PointQuadTree;
 
@@ -29,4 +30,5 @@ public abstract BigDecimal getyMin();
 
 public abstract PointQuadTree getPointQuadTree();
 
+public abstract ConnectionQuadTree getConnectionQuadTree();
 }

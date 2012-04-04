@@ -184,44 +184,40 @@ public class FileLoaderConnectionOnly implements FileLoader {
 
   @Override
   public BigDecimal getxMax() {
-    // TODO Auto-generated method stub
-    return null;
+    return xMax;
   }
 
   @Override
   public BigDecimal getyMax() {
-    // TODO Auto-generated method stub
-    return null;
+    return yMax;
   }
 
   @Override
   public Connection[] getConnections() {
-    // TODO Auto-generated method stub
-    return null;
+    return connections;
   }
 
   @Override
   public Point[] getCords() {
-    // TODO Auto-generated method stub
-    return null;
+    return cords;
   }
 
   @Override
   public BigDecimal getxMin() {
-    // TODO Auto-generated method stub
-    return null;
+    return xMin;
   }
 
   @Override
   public BigDecimal getyMin() {
-    // TODO Auto-generated method stub
-    return null;
+    return yMin;
   }
 
   @Override
   public PointQuadTree getPointQuadTree() {
-    // TODO Auto-generated method stub
     return null;
   }
-
+  
+  public ConnectionQuadTree getConnectionQuadTree(){
+    return cqt;
+  }
 }

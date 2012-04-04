@@ -35,6 +35,10 @@ public class ConnectionQuadTree{
   }
   
   public void insert(BigDecimal x, BigDecimal y, int connection){
+    if(root == null){
+      root = new Node(x, y, connection);
+      return;
+    }
     //Check if exists
     Node n = contains(root, x, y);
     if(n != null) n.addConnection(connection);
@@ -43,7 +47,8 @@ public class ConnectionQuadTree{
   }
   
   private Node contains(Node n, BigDecimal x, BigDecimal y){
-    if(n.x == x && n.y == y) return n;
+    if(n == null) return null;
+    else if(n.x == x && n.y == y) return n;
     else if(x.compareTo(n.x)<0 && y.compareTo(n.y)<0) contains(n.SW, x, y);
     else if(x.compareTo(n.x)<0 && y.compareTo(n.y)>0) contains(n.NW, x, y);
     else if(x.compareTo(n.x)>0 && y.compareTo(n.y)<0) contains(n.SE, x, y);
@@ -68,6 +73,11 @@ public class ConnectionQuadTree{
     return h;
   }
   
+  public HashSet<Integer> getConnections(Interval2D rect){
+    getRect(root, rect);
+    return array;
+  }
+  
   /**
    * Private method for finding points within interval. Method works recursively.
    * @param h Root of subtree to be searched
@@ -87,11 +97,6 @@ public class ConnectionQuadTree{
     if ( less(xmin, h.x.doubleValue()) && !less(ymax, h.y.doubleValue())) getRect(h.NW, rect);
     if (!less(xmax, h.x.doubleValue()) &&  less(ymin, h.y.doubleValue())) getRect(h.SE, rect);
     if (!less(xmax, h.x.doubleValue()) && !less(ymax, h.y.doubleValue())) getRect(h.NE, rect);
-  }
-  
-  public HashSet<Integer> getConnections(Interval2D rect){
-    getRect(root, rect);
-    return array;
   }
   
   /**
