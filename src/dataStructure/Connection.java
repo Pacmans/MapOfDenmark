@@ -34,17 +34,17 @@ public class Connection implements Comparable<Connection>{
     return id;
   }
 
-  public double getX1(){
-    return p.getX().doubleValue();
+  public int getX1(){
+    return p.getX().intValue();
   }
-  public double getX2(){
-    return q.getX().doubleValue();
+  public int getX2(){
+    return q.getX().intValue();
   }
-  public double getY1(){
-    return p.getY().doubleValue();
+  public int getY1(){
+    return p.getY().intValue();
   }
-  public double getY2(){
-    return q.getY().doubleValue();
+  public int getY2(){
+    return q.getY().intValue();
   }
   public RoadType getType(){
     return type;
