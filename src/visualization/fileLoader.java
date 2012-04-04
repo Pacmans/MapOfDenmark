@@ -22,4 +22,8 @@ public interface FileLoader {
 
   public abstract Point[] getCords();
 
+public abstract BigDecimal getxMin();
+
+public abstract BigDecimal getyMin();
+
 }

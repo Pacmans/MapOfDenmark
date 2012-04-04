@@ -45,7 +45,6 @@ public final class Controller {
       fileLoader = new FileLoaderImpl();
       connections = fileLoader.getConnections();
       points = fileLoader.getCords();
-      System.out.println("Files loaded");
       Arrays.sort(points);
       System.out.println("Points sorted");
       Arrays.sort(connections);
@@ -172,7 +171,6 @@ public final class Controller {
    * @see Connection
    */
   public Connection[] getConnections(){
-	  System.out.println("got connections?");
     return connections;
   }
   
@@ -191,6 +189,6 @@ public final class Controller {
    * @param args
    */
   public static void main(String[] args) {
-    GUI gui = new GUI();
+	 GUI gui = new GUI();
   }
 }
