@@ -74,6 +74,7 @@ public class ConnectionQuadTree{
   }
   
   public HashSet<Integer> getConnections(Interval2D rect){
+    array = new HashSet<Integer>();
     getRect(root, rect);
     return array;
   }
