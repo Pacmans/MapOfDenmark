@@ -12,9 +12,11 @@ package dataStructure;
 public class Connection implements Comparable<Connection>{
   private Point p, q;
   private RoadType type;
+  private int id;
   //private String name;
 
-  public Connection(Point p, Point q, RoadType type) {
+  public Connection(int id, Point p, Point q, RoadType type) {
+    this.id = id;
     this.p = p;
     this.q = q;
     this.type = type;
@@ -29,12 +31,7 @@ public class Connection implements Comparable<Connection>{
    * @return Returns Connection ID
    */
   public int getID(){
-    String tmp ="";
-    int id1 = p.getID();
-    int id2 = q.getID();
-    if(id1<id2) tmp = id1 + "" + id2;
-    else tmp = id2 + "" + id1;
-    return Integer.parseInt(tmp);
+    return id;
   }
 
   public double getX1(){

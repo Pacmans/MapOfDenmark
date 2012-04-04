@@ -45,8 +45,11 @@ public final class Controller {
       fileLoader = new FileLoaderImpl();
       connections = fileLoader.getConnections();
       points = fileLoader.getCords();
-      Arrays.sort(connections);
+      System.out.println("Files loaded");
       Arrays.sort(points);
+      System.out.println("Points sorted");
+      Arrays.sort(connections);
+      System.out.println("Connections sorted");
     }catch(IOException e){
       System.out.println("Fileloader: " + e);
     }
