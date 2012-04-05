@@ -11,7 +11,7 @@ public class Interval {
   private final double low, high;
   
   public Interval(double low, double high){
-    //TODO if(high < low) throw new RuntimeException("Illegal argument");
+    //TODO if(high < low) throw new RuntimeException("Illegal argument"); (problem will not occur, Map got it covered bitch)
     this.low = low;
     this.high = high;
   }

@@ -147,13 +147,15 @@ public final class Controller {
    * @return
    */
   public Connection[] getConnections(int x1, int y1, int x2, int y2){
-    HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
-    Connection[] cs = new Connection[2];
+	  System.out.println(x1+" "+y1+" "+x2+" "+y2);
+    HashSet<Integer> cons = this.getPointQuadTree().getConnections(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
+    Connection[] cs = new Connection[cons.size()];
+    System.out.println(cons.size());
     int size = 0;
     for(Integer i : cons){
-      if(cs.length == size) cs = resize(cs, size*2);
       cs[size++] = connections[Arrays.binarySearch(connections, i)];
     }
+    System.out.println("connections send "+cs.length);
     return cs;
   }
   
