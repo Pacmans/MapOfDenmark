@@ -92,6 +92,10 @@ public class ConnectionQuadTree{
     double xmax = rect.getIntervalX().getHigh();
     double ymax = rect.getIntervalY().getHigh();
     
+    System.out.println("xmin " + xmin + " xmax " + xmax);
+    System.out.println("ymin " + ymin + " ymax " + ymax);
+    System.out.println("x " + h.x.doubleValue() + " y " + h.y.doubleValue());
+    
     if (rect.contains(h.x.doubleValue(), h.y.doubleValue())) array.addAll(h.getConnections());
     
     if ( less(xmin, h.x.doubleValue()) &&  less(ymin, h.y.doubleValue())) getRect(h.SW, rect);

@@ -181,7 +181,7 @@ public final class Controller {
   // }
   // }
 
-  public Connection[] getConnections(int x1, int y1, int x2, int y2) {
+  public Connection[] getConnections(double x1, double y1, double x2, double y2) {
     try {
 
       HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1,
