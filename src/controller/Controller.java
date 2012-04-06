@@ -164,42 +164,18 @@ public final class Controller {
    *          ArrayList of connections within rectangle
    * @return
    */
-  // public Connection[] getConnections(int x1, int y1, int x2, int y2) {
-  // try {
-  // HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1,
-  // x2), new Interval(y1, y2)));
-  // Connection[] cs = new Connection[2];
-  // int size = 0;
-  // for (Integer i : cons) {
-  // if (cs.length == size) cs = resize(cs, size * 2);
-  // cs[size++] = connections[Arrays.binarySearch(connections, i)];
-  // }
-  // return cs;
-  // } catch (Exception e) {
-  // System.out.println(e);
-  // return null;
-  // }
-  // }
 
-  public Connection[] getConnections(double x1, double y1, double x2, double y2) {
-    try {
-
-      HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1,
-          x2), new Interval(y1, y2)));
-      // Error ! cons == null
-
-      Connection[] cs = new Connection[2];
-      int size = 0;
-      for (Integer i : cons) {
-        if (cs.length == size)
-          cs = resize(cs, size * 2);
-        cs[size++] = connections[i];
-      }
-      return cs;
-    } catch (Exception e) {
-      System.out.println(e);
-      return null;
+  public Connection[] getConnections(int x1, int y1, int x2, int y2){
+	  System.out.println(x1+" "+y1+" "+x2+" "+y2);
+    HashSet<Integer> cons = this.getPointQuadTree().getConnections(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
+    Connection[] cs = new Connection[cons.size()];
+    System.out.println(cons.size());
+    int size = 0;
+    for(Integer i : cons){
+      cs[size++] = connections[Arrays.binarySearch(connections, i)];
     }
+    System.out.println("connections send "+cs.length);
+    return cs;
   }
 
   private Connection[] resize(Connection[] cs, int i) {
