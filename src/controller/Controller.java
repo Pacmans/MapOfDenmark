@@ -58,6 +58,7 @@ public final class Controller {
     } catch (IOException e) {
       System.out.println("Fileloader: " + e);
     }
+    fileLoader = null;
   }
 
   /**
@@ -115,17 +116,6 @@ public final class Controller {
     if (map == null)
       map = new OurMapImpl();
     return map;
-  }
-
-  public static FileLoader getFileLoader() {
-    try {
-      if (fileLoader == null)
-        fileLoader = new FileLoaderImpl();
-      return fileLoader;
-    } catch (IOException e) {
-      System.out.println("FileLoader: " + e);
-      return null;
-    }
   }
 
   /**

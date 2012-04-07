@@ -79,14 +79,9 @@ public class PointQuadTree {
    * @param rect Interval to be within
    * @return ArrayList of points within interval
    */
-<<<<<<< HEAD
-  private void getRect(Node h, Interval2D rect){
-    if (h == null) return;
-=======
-  private ArrayList<Point> getRect(Node h, Interval2D rect){
 
-    if (h == null) return null;
->>>>>>> 0444bfede91a923b457a63b3bb3415401183c66e
+  private void getRect(Node h, Interval2D rect){ 
+    if (h == null) return;
     double xmin = rect.getIntervalX().getLow();
     double ymin = rect.getIntervalY().getLow();
     double xmax = rect.getIntervalX().getHigh();

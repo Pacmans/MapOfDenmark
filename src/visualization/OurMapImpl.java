@@ -50,9 +50,7 @@ public class OurMapImpl extends JComponent{
 
 			if(showPrio[s.getType().priority()-1]){
 			g.setColor(s.getType().color());
-
 			g.drawLine(s.getX1()-xMin, -s.getY1()+yMax, s.getX2()-xMin, -s.getY2()+yMax);
-
 			}
 			}	
 		}
