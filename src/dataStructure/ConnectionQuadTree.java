@@ -116,5 +116,5 @@ public class ConnectionQuadTree{
    * @param k2 Second double
    * @return True if first double is less than the second double
    */
-  private boolean less(double k1, double k2) { return k1 - k2 < 0; }
+  private boolean less(double k1, double k2) { return k1 < k2; }
 }
