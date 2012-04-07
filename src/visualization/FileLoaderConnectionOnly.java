@@ -26,13 +26,13 @@ public class FileLoaderConnectionOnly implements FileLoader {
   Point[] cords = new Point[675902];
 
   public FileLoaderConnectionOnly() throws IOException {
-    // File a = new
-    // File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_node_unload.txt");
-    // File b = new
-    // File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_unload.txt");
-    File a = new File(
-        "C:/Users/Admin/MapOfDenmark/src/Union/kdv_node_unload.txt");
-    File b = new File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_unload.txt");
+     File a = new
+     File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_node_unload.txt");
+     File b = new
+     File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_unload.txt");
+    //File a = new File(
+    //    "C:/Users/Admin/MapOfDenmark/src/Union/kdv_node_unload.txt");
+    //File b = new File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_unload.txt");
 
     BufferedReader inputA = new BufferedReader(new FileReader(a));
     BufferedReader inputB = new BufferedReader(new FileReader(b));
@@ -45,7 +45,7 @@ public class FileLoaderConnectionOnly implements FileLoader {
       else {
         String[] split = line.split(",");
         Point p = new Point(index + 1, new BigDecimal(split[3]).divide(Scale,
-            2, RoundingMode.HALF_UP), new BigDecimal("-" + split[4]).divide(
+            2, RoundingMode.HALF_UP), new BigDecimal(split[4]).divide(
             Scale, 2, RoundingMode.HALF_UP));
         cords[index] = p;
         // set max and min
@@ -172,8 +172,8 @@ public class FileLoaderConnectionOnly implements FileLoader {
             cords[Integer.parseInt(split[0]) - 1],
             cords[Integer.parseInt(split[1]) - 1], r);
         
-        cqt.insert(cords[Integer.parseInt(split[0]) - 1].getX(), cords[Integer.parseInt(split[0]) - 1].getX(), index);
-        cqt.insert(cords[Integer.parseInt(split[1]) - 1].getX(), cords[Integer.parseInt(split[1]) - 1].getX(), index);
+        cqt.insert(cords[Integer.parseInt(split[0]) - 1].getX(), cords[Integer.parseInt(split[0]) - 1].getY(), index);
+        cqt.insert(cords[Integer.parseInt(split[1]) - 1].getX(), cords[Integer.parseInt(split[1]) - 1].getY(), index);
         
         index++;
       }

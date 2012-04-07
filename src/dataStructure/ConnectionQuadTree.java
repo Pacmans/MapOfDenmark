@@ -7,6 +7,7 @@ import java.util.HashSet;
 public class ConnectionQuadTree{
   private Node root;
   private HashSet<Integer> array;
+  private int nodes = 0;
   
   //TODO Change javadoc !point
   
@@ -43,7 +44,9 @@ public class ConnectionQuadTree{
     Node n = contains(root, x, y);
     if(n != null) n.addConnection(connection);
     //else insert
-    else root = insert(root, x, y, connection);
+    else{
+    	root = insert(root, x, y, connection);
+    }
   }
   
   private Node contains(Node n, BigDecimal x, BigDecimal y){
@@ -76,6 +79,8 @@ public class ConnectionQuadTree{
   public HashSet<Integer> getConnections(Interval2D rect){
     array = new HashSet<Integer>();
     getRect(root, rect);
+    System.out.println(array.size());
+    System.out.println(nodes);
     return array;
   }
   
@@ -92,11 +97,12 @@ public class ConnectionQuadTree{
     double xmax = rect.getIntervalX().getHigh();
     double ymax = rect.getIntervalY().getHigh();
     
-    System.out.println("xmin " + xmin + " xmax " + xmax);
-    System.out.println("ymin " + ymin + " ymax " + ymax);
     System.out.println("x " + h.x.doubleValue() + " y " + h.y.doubleValue());
     
-    if (rect.contains(h.x.doubleValue(), h.y.doubleValue())) array.addAll(h.getConnections());
+    if (rect.contains(h.x.doubleValue(), h.y.doubleValue())){
+    	array.addAll(h.getConnections());
+    	nodes++;
+    }
     
     if ( less(xmin, h.x.doubleValue()) &&  less(ymin, h.y.doubleValue())) getRect(h.SW, rect);
     if ( less(xmin, h.x.doubleValue()) && !less(ymax, h.y.doubleValue())) getRect(h.NW, rect);

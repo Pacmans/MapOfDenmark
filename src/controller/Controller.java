@@ -36,10 +36,12 @@ public final class Controller {
   private static FileLoader fileLoader;
   private Point[] points;
   private Connection[] connections;
-   private PointQuadTree qt;
-  //private ConnectionQuadTree qt;
+  private ConnectionQuadTree qt;
+	private static int xMin, yMin, xMax, yMax;
 
-  /**
+  
+
+/**
    * Constructor for this class loads connections and points from FileLoader
    * 
    * @see FileLoaderImpl
@@ -48,12 +50,16 @@ public final class Controller {
     if (instance == null)
       instance = this;
     try {
-      //fileLoader = new FileLoaderConnectionOnly();
+      fileLoader = new FileLoaderConnectionOnly();
       connections = fileLoader.getConnections();
       points = fileLoader.getCords();
+      xMin = fileLoader.getxMin().intValue();
+      yMin = fileLoader.getyMin().intValue();
+      xMax = fileLoader.getxMax().intValue();
+      yMax = fileLoader.getyMax().intValue();
       Arrays.sort(connections);
       System.out.println("Connections sorted");
-      //qt = fileLoader.getConnectionQuadTree();
+      qt = fileLoader.getConnectionQuadTree();
       System.out.println("KD-tree created");
     } catch (IOException e) {
       System.out.println("Fileloader: " + e);
@@ -155,25 +161,15 @@ public final class Controller {
    * @return
    */
 
-  public Connection[] getConnections(int x1, int y1, int x2, int y2){
+  public Connection[] getConnections(double x1, double y1, double x2, double y2){
 	  System.out.println(x1+" "+y1+" "+x2+" "+y2);
-    HashSet<Integer> cons = this.getPointQuadTree().getConnections(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
+    HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
     Connection[] cs = new Connection[cons.size()];
-    System.out.println(cons.size());
     int size = 0;
     for(Integer i : cons){
-      cs[size++] = connections[Arrays.binarySearch(connections, i)];
+      cs[size++] = connections[i];
     }
-    System.out.println("connections send "+cs.length);
     return cs;
-  }
-
-  private Connection[] resize(Connection[] cs, int i) {
-    Connection[] tmp = new Connection[i];
-    for (int k = 0; k < cs.length; k++) {
-      cs[k] = tmp[k];
-    }
-    return tmp;
   }
 
   /**
@@ -198,6 +194,21 @@ public final class Controller {
     map.updateFilter(n, b);
   }
 
+  public static int getxMin() {
+		return xMin;
+	}
+
+	public static int getyMin() {
+		return yMin;
+	}
+
+	public static int getxMax() {
+		return xMax;
+	}
+
+	public static int getyMax() {
+		return yMax;
+	}
   /**
    * Main method creates a new GUI
    * 
