@@ -1,4 +1,4 @@
-package Union;
+package union;
 
 import java.math.*;
 import java.util.HashMap;

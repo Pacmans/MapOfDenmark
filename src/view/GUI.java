@@ -1,4 +1,4 @@
-package gui;
+package view;
 
 
 import java.awt.BorderLayout;
@@ -28,13 +28,13 @@ public class GUI {
     private JFrame frame;
     private JPanel contentPane;
     private int number = 1;
-    private Controller controller;
+//    private Controller controller;
 
     public GUI() {
-    	controller = Controller.getInstance();
+//    controller = Controller.getInstance();
 		makeFrame();
 		makeMenuBar();
-		makeMap(Controller.getMap());
+		makeMap(controller.getMap());
 		makeRightPanel();
 		setupFrame();
     }

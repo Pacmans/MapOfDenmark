@@ -1,4 +1,4 @@
-package Union;
+package union;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

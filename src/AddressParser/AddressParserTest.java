@@ -1,4 +1,4 @@
-package AddressParser;
+package addressParser;
 
 /*
  * To change this template, choose Tools | Templates

@@ -1,5 +1,7 @@
 package controller;
 
+import gui.GUI;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +22,6 @@ import dataStructure.Interval2D;
 import dataStructure.Point;
 import dataStructure.PointQuadTree;
 
-import GUI.GUI;
 
 /**
  * 

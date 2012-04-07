@@ -23,12 +23,12 @@ public interface FileLoader {
   public abstract Connection[] getConnections();
 
   public abstract Point[] getCords();
+	
+  public abstract BigDecimal getxMin();
+	
+  public abstract BigDecimal getyMin();
 
-public abstract BigDecimal getxMin();
+  public abstract PointQuadTree getPointQuadTree();
 
-public abstract BigDecimal getyMin();
-
-public abstract PointQuadTree getPointQuadTree();
-
-public abstract ConnectionQuadTree getConnectionQuadTree();
+  public abstract ConnectionQuadTree getConnectionQuadTree();
 }

@@ -1,4 +1,4 @@
-package Union;
+package union;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
