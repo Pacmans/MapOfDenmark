@@ -69,6 +69,7 @@ public class PointQuadTree {
   public ArrayList<Point> getPoints(Interval2D rect){
     array = new ArrayList<Point>();
     getRect(root, rect);
+    System.out.println(array.size());
     return array;
   }
   
@@ -78,8 +79,14 @@ public class PointQuadTree {
    * @param rect Interval to be within
    * @return ArrayList of points within interval
    */
+<<<<<<< HEAD
   private void getRect(Node h, Interval2D rect){
     if (h == null) return;
+=======
+  private ArrayList<Point> getRect(Node h, Interval2D rect){
+
+    if (h == null) return null;
+>>>>>>> 0444bfede91a923b457a63b3bb3415401183c66e
     double xmin = rect.getIntervalX().getLow();
     double ymin = rect.getIntervalY().getLow();
     double xmax = rect.getIntervalX().getHigh();
@@ -93,7 +100,9 @@ public class PointQuadTree {
   }
   
   public HashSet<Integer> getConnections(Interval2D rect){
+	 System.out.println("getting connections");
     ArrayList<Point> points = getPoints(rect);
+    System.out.println(points.size());
     HashSet<Integer> cons = new HashSet<Integer>();
     for(Point point : points){
       cons.addAll(point.getConnections());

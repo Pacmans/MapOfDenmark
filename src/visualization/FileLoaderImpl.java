@@ -23,7 +23,6 @@ public class FileLoaderImpl implements FileLoader{
 	private BigDecimal yMax = new BigDecimal(0);
 	private BigDecimal Scale = new BigDecimal(750);
 	private int index;
-	private PointQuadTree qt;
 
 	Connection[] connections = new Connection[812301];
 	Point[] cords = new Point[675902];
@@ -45,9 +44,8 @@ public class FileLoaderImpl implements FileLoader{
 	     if (index == -1)index=0;
 	     else{
 	     String[] split = line.split(",");
-	     Point p = new Point(index+1, new BigDecimal(split[3]).divide(Scale, 2, RoundingMode.HALF_UP), new BigDecimal("-"+split[4]).divide(Scale, 2, RoundingMode.HALF_UP));
+	     Point p = new Point(index+1, new BigDecimal(split[3]).divide(Scale, 2, RoundingMode.HALF_UP), new BigDecimal(split[4]).divide(Scale, 2, RoundingMode.HALF_UP));
 	     cords[index] = p;
-	     qt.insert(p);
 	     //set max and min
 	     if(cords[index].getX().compareTo(xMin)==-1) xMin = cords[index].getX();
 	     if(cords[index].getX().compareTo(xMax)==1) xMax = cords[index].getX();
@@ -59,7 +57,6 @@ public class FileLoaderImpl implements FileLoader{
 
 	     
 	 }
-     System.out.println("Points created");
      index = -1;
      while ((line = inputB.readLine()) != null){  	 
 	     if (index == -1)index = 0;
@@ -136,7 +133,6 @@ public class FileLoaderImpl implements FileLoader{
      	}
  
 	}
-     System.out.println("Connections created");
 }
 	/* 
    * @see visualization.FileLoader#getxMax()
@@ -145,7 +141,6 @@ public class FileLoaderImpl implements FileLoader{
   public BigDecimal getxMax() {
 		return xMax;
 	}
-
 	/* 
    * @see visualization.FileLoader#getyMax()
    */
@@ -160,7 +155,6 @@ public class FileLoaderImpl implements FileLoader{
   public BigDecimal getyMin() {
 		return yMin;
 	}
-
 	/* 
    * @see visualization.FileLoader#getConnections()
    */
@@ -168,7 +162,6 @@ public class FileLoaderImpl implements FileLoader{
   public Connection[] getConnections() {
 		return connections;
 	}
-
 	/* 
    * @see visualization.FileLoader#getCords()
    */
@@ -176,9 +169,6 @@ public class FileLoaderImpl implements FileLoader{
   public Point[] getCords() {
 		return cords;
 	}
-  @Override
-  public PointQuadTree getPointQuadTree() {
-    return qt;
-  }
+  
 	
 }
