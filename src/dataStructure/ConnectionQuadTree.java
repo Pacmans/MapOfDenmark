@@ -8,6 +8,8 @@ public class ConnectionQuadTree{
   private Node root;
   private HashSet<Integer> array;
   private int nodes = 0;
+  private double xmin, ymin, xmax, ymax;
+  
   
   //TODO Change javadoc !point
   
@@ -77,6 +79,10 @@ public class ConnectionQuadTree{
   }
   
   public HashSet<Integer> getConnections(Interval2D rect){
+    xmin = rect.getIntervalX().getLow();
+    ymin = rect.getIntervalY().getLow();
+    xmax = rect.getIntervalX().getHigh();
+    ymax = rect.getIntervalY().getHigh();
     array = new HashSet<Integer>();
     getRect(root, rect);
     System.out.println(array.size());
@@ -92,10 +98,6 @@ public class ConnectionQuadTree{
    */
   private void getRect(Node h, Interval2D rect){
     if (h == null) return;
-    double xmin = rect.getIntervalX().getLow();
-    double ymin = rect.getIntervalY().getLow();
-    double xmax = rect.getIntervalX().getHigh();
-    double ymax = rect.getIntervalY().getHigh();
     
     System.out.println("x " + h.x.doubleValue() + " y " + h.y.doubleValue());
     
@@ -104,17 +106,9 @@ public class ConnectionQuadTree{
     	nodes++;
     }
     
-    if ( less(xmin, h.x.doubleValue()) &&  less(ymin, h.y.doubleValue())) getRect(h.SW, rect);
-    if ( less(xmin, h.x.doubleValue()) && !less(ymax, h.y.doubleValue())) getRect(h.NW, rect);
-    if (!less(xmax, h.x.doubleValue()) &&  less(ymin, h.y.doubleValue())) getRect(h.SE, rect);
-    if (!less(xmax, h.x.doubleValue()) && !less(ymax, h.y.doubleValue())) getRect(h.NE, rect);
+    if (xmin < h.x.doubleValue() && ymin < h.y.doubleValue()) getRect(h.SW, rect);
+    if (xmin < h.x.doubleValue() && ymax > h.y.doubleValue()) getRect(h.NW, rect);
+    if (xmax > h.x.doubleValue() && ymin < h.y.doubleValue()) getRect(h.SE, rect);
+    if (xmax > h.x.doubleValue() && ymax > h.y.doubleValue()) getRect(h.NE, rect);
   }
-  
-  /**
-   * Private method to compare doubles
-   * @param k1 First double
-   * @param k2 Second double
-   * @return True if first double is less than the second double
-   */
-  private boolean less(double k1, double k2) { return k1 < k2; }
 }
