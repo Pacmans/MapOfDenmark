@@ -32,6 +32,7 @@ public class Interval2D {
    * @return True if coordinate is within rectangle
    */
   public boolean contains(double x, double y){
+	  System.out.println(intervalX.contains(x)+" "+intervalY.contains(y));
     return intervalX.contains(x) && intervalY.contains(y);
   }
   

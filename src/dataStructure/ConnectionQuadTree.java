@@ -40,6 +40,7 @@ public class ConnectionQuadTree{
   public void insert(BigDecimal x, BigDecimal y, int connection){
     if(root == null){
       root = new Node(x, y, connection);
+      nodes++;
       return;
     }
     //Check if exists
@@ -70,7 +71,9 @@ public class ConnectionQuadTree{
    * @return The inserted node
    */
   private Node insert(Node h, BigDecimal x, BigDecimal y, int connection){
-    if(h == null) return new Node(x, y, connection); //First point inserted becomes root
+    if(h == null) {
+    	nodes++;
+    	return new Node(x, y, connection);} //First point inserted becomes root
     else if (x.compareTo(h.x)<0 && (y.compareTo(h.y)<0)) h.SW = insert(h.SW, x, y, connection);
     else if (x.compareTo(h.x)<0 && (y.compareTo(h.y)>0)) h.SW = insert(h.NW, x, y, connection);
     else if (x.compareTo(h.x)>0 && (y.compareTo(h.y)<0)) h.SW = insert(h.SE, x, y, connection);
@@ -79,6 +82,7 @@ public class ConnectionQuadTree{
   }
   
   public HashSet<Integer> getConnections(Interval2D rect){
+	  System.out.println(nodes);
     xmin = rect.getIntervalX().getLow();
     ymin = rect.getIntervalY().getLow();
     xmax = rect.getIntervalX().getHigh();
@@ -86,7 +90,6 @@ public class ConnectionQuadTree{
     array = new HashSet<Integer>();
     getRect(root, rect);
     System.out.println(array.size());
-    System.out.println(nodes);
     return array;
   }
   
@@ -97,13 +100,15 @@ public class ConnectionQuadTree{
    * @return ArrayList of points within interval
    */
   private void getRect(Node h, Interval2D rect){
-    if (h == null) return;
-    
+    if (h == null) {
+    	System.out.println("null");
+    	return;
+    }
     System.out.println("x " + h.x.doubleValue() + " y " + h.y.doubleValue());
     
     if (rect.contains(h.x.doubleValue(), h.y.doubleValue())){
     	array.addAll(h.getConnections());
-    	nodes++;
+    	System.out.println("added line");
     }
     
     if (xmin < h.x.doubleValue() && ymin < h.y.doubleValue()) getRect(h.SW, rect);

@@ -36,7 +36,6 @@ public class FileLoaderConnectionOnly implements FileLoader {
 
     BufferedReader inputA = new BufferedReader(new FileReader(a));
     BufferedReader inputB = new BufferedReader(new FileReader(b));
-    System.out.println("files loaded");
     String line = null;
     index = -1;
     while ((line = inputA.readLine()) != null) {
@@ -62,7 +61,6 @@ public class FileLoaderConnectionOnly implements FileLoader {
       }
 
     }
-    System.out.println("Points created");
     index = -1;
     cqt = new ConnectionQuadTree();
     
@@ -179,7 +177,8 @@ public class FileLoaderConnectionOnly implements FileLoader {
       }
 
     }
-    System.out.println("Connections created");
+    System.out.println(index);
+    System.out.println("QuadTree created");
   }
 
   @Override
