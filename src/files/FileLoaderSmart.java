@@ -5,56 +5,49 @@ import java.math.BigDecimal;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
-import dataStructure.PointQuadTree;
 
 public class FileLoaderSmart implements FileLoader {
+  private BigDecimal xMin = new BigDecimal(700000);
+  private BigDecimal xMax = new BigDecimal(0);
+  private BigDecimal yMin = new BigDecimal(700000);
+  private BigDecimal yMax = new BigDecimal(0);
+  private BigDecimal Scale = new BigDecimal(750);
+  private int index;
+  private ConnectionQuadTree cqt;
+  private Connection[] connections = new Connection[812301];
+  
+  public FileLoaderSmart(){
+    
+  }
 
   @Override
   public BigDecimal getxMax() {
-    // TODO Auto-generated method stub
-    return null;
+    return xMax;
   }
 
   @Override
   public BigDecimal getyMax() {
-    // TODO Auto-generated method stub
-    return null;
+    return yMax;
   }
 
   @Override
   public Connection[] getConnections() {
-    // TODO Auto-generated method stub
-    return null;
+    return connections;
   }
 
   @Override
-  public Point[] getCords() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public BigDecimal getxMin() {
-    // TODO Auto-generated method stub
-    return null;
+  public BigDecimal getxMin() { 
+    return xMin;
   }
 
   @Override
   public BigDecimal getyMin() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public PointQuadTree getPointQuadTree() {
-    // TODO Auto-generated method stub
-    return null;
+    return yMin;
   }
 
   @Override
   public ConnectionQuadTree getConnectionQuadTree() {
-    // TODO Auto-generated method stub
-    return null;
+    return cqt;
   }
 
 }

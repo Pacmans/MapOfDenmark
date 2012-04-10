@@ -199,11 +199,6 @@ public class FileLoaderConnectionOnly implements FileLoader {
   }
 
   @Override
-  public Point[] getCords() {
-    return cords;
-  }
-
-  @Override
   public BigDecimal getxMin() {
     return xMin;
   }
