@@ -39,10 +39,10 @@ public class FileLoaderConnectionOnly implements FileLoader {
 //	File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_unload.txt");
 	  
 //	Anders sti 
-//	File a = new
-//	File("/Users/Anders/git/MapOfDenmark/MapOfDenmark/src/union/kdv_node_unload.txt");
-//	File b = new
-//	File("/Users/Anders/git/MapOfDenmark/MapOfDenmark/src/union/kdv_unload.txt");
+	File a = new
+	File("/Users/Anders/git/MapOfDenmark/MapOfDenmark/src/union/kdv_node_unload.txt");
+	File b = new
+	File("/Users/Anders/git/MapOfDenmark/MapOfDenmark/src/union/kdv_unload.txt");
 
     BufferedReader inputA = new BufferedReader(new FileReader(a));
     BufferedReader inputB = new BufferedReader(new FileReader(b));
