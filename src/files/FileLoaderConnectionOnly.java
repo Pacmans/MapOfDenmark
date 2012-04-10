@@ -12,6 +12,14 @@ import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
 import dataStructure.RoadType;
 
+/**
+ * 
+ * @author Claus L. Henriksen clih@itu.dk
+ * @author Phillip
+ * @author Pacmans
+ * @version 10. April 2012
+ */
+
 public class FileLoaderConnectionOnly implements FileLoader {
   private BigDecimal xMin = new BigDecimal(700000);
   private BigDecimal xMax = new BigDecimal(0);
