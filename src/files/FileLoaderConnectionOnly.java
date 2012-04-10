@@ -12,6 +12,14 @@ import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
 import dataStructure.RoadType;
 
+/**
+ * 
+ * @author Claus L. Henriksen clih@itu.dk
+ * @author Phillip
+ * @author Pacmans
+ * @version 10. April 2012
+ */
+
 public class FileLoaderConnectionOnly implements FileLoader {
   private BigDecimal xMin = new BigDecimal(700000);
   private BigDecimal xMax = new BigDecimal(0);
@@ -26,9 +34,9 @@ public class FileLoaderConnectionOnly implements FileLoader {
 
   public FileLoaderConnectionOnly() throws IOException {
 	File a = new
-	File(System.getProperty("user.dir") + "kdv_node_unload.txt");
+	File("./src/files/kdv_node_unload.txt");
 	File b = new
-	File(System.getProperty("user.dir") + "kdv_unload.txt");
+	File("./src/files/kdv_unload.txt");
 
     BufferedReader inputA = new BufferedReader(new FileReader(a));
     BufferedReader inputB = new BufferedReader(new FileReader(b));

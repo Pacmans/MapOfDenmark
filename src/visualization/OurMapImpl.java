@@ -13,8 +13,9 @@ import controller.Controller;
 import dataStructure.Connection;
 
 /**
- * 
+ * @author Phillip
  * @author Pacmans
+ * @version 10. April 2012
  * 
  */
 public class OurMapImpl extends JComponent {

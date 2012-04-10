@@ -8,7 +8,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 
-import dataStructure.Point;
+/**
+ * 
+ * @author Claus L. Henriksen clih@itu.dk
+ * @author Pacmans
+ * @version 10. April 2012
+ */
 
 public class RewriterSmart {
   private String[][] array = new String[812301][5], 

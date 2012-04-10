@@ -29,6 +29,14 @@ import javax.swing.border.TitledBorder;
 import controller.Controller;
 import dataStructure.Connection;
 
+/**
+ * 
+ * @author Anders
+ * @author Pacmans
+ * @version 10. April 2012
+ *
+ */
+
 public class GUI extends JComponent {
 
 	// This field contains the current version of the program.
