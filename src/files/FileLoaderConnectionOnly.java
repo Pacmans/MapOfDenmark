@@ -1,9 +1,9 @@
 package files;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -33,13 +33,15 @@ public class FileLoaderConnectionOnly implements FileLoader {
   Point[] cords = new Point[675902];
 
   public FileLoaderConnectionOnly() throws IOException {
-	File a = new
-	File("./src/files/kdv_node_unload.txt");
-	File b = new
-	File("./src/files/kdv_unload.txt");
+//	File a = new
+//	File("./src/files/kdv_node_unload.txt");
+//	File b = new
+//	File("./src/files/kdv_unload.txt");
+	InputStream a = getClass().getResourceAsStream("kdv_node_unload.txt");
+	InputStream b = getClass().getResourceAsStream("kdv_unload.txt");
 
-    BufferedReader inputA = new BufferedReader(new FileReader(a));
-    BufferedReader inputB = new BufferedReader(new FileReader(b));
+    BufferedReader inputA = new BufferedReader(new InputStreamReader(a));
+    BufferedReader inputB = new BufferedReader(new InputStreamReader(b));
     String line = null; 
     index = -1;
     while ((line = inputA.readLine()) != null) {
