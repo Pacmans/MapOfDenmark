@@ -40,7 +40,7 @@ public class FileLoaderConnectionOnly implements FileLoader {
 
     BufferedReader inputA = new BufferedReader(new FileReader(a));
     BufferedReader inputB = new BufferedReader(new FileReader(b));
-    String line = null;
+    String line = null; 
     index = -1;
     while ((line = inputA.readLine()) != null) {
       if (index == -1)
