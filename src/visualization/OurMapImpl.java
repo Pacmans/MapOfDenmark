@@ -79,13 +79,12 @@ public class OurMapImpl extends JComponent {
 				xReleased = xReleased + xMin;
 				yReleased = yReleased + yMax;
 				check();
-				
+
 				zoom = true;
 				zoom();
 				repaint();
 			}
 		});
-
 	}
 
 	private void zoom() {
