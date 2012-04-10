@@ -32,9 +32,8 @@ public class GUI {
     private JFrame frame;
     private JPanel contentPane, mapPanel;
 	private int number = 1;
-    private Controller controller;
+    
     public GUI() {
-    	controller = Controller.getInstance();
 		makeFrame();
 		makeMenuBar();
 		makeMap(Controller.getMap());
@@ -74,7 +73,7 @@ public class GUI {
     private void showAbout() {
 	JOptionPane.showMessageDialog(frame, 
 				      "Map Of Denmark - " + VERSION + 
-				      "\nMade by Claus, Bjï¿½rn, Phillip, Morten & Anders.",
+				      "\nMade by Claus, Bj¿rn, Phillip, Morten & Anders.",
 				      "About Map Of Denmark", 
 				      JOptionPane.INFORMATION_MESSAGE);
     }
