@@ -26,17 +26,23 @@ public class FileLoaderConnectionOnly implements FileLoader {
   Point[] cords = new Point[675902];
 
   public FileLoaderConnectionOnly() throws IOException {
-     File a = new
-     File("C:/Users/phillip/MapOfDenmark/src/union/kdv_node_unload.txt");
-     File b = new
-     File("C:/Users/phillip/MapOfDenmark/src/union/kdv_unload.txt");
-    //File a = new File(
-    //    "C:/Users/Admin/MapOfDenmark/src/Union/kdv_node_unload.txt");
-    //File b = new File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_unload.txt");
-//     File a = new
-//     File("/Users/Anders/git/MapOfDenmark/MapOfDenmark/src/union/kdv_node_unload.txt");
-//     File b = new
-//     File("/Users/Anders/git/MapOfDenmark/MapOfDenmark/src/union/kdv_unload.txt");
+//	Phillip's sti
+//	File a = new
+//  File("C:/Users/phillip/MapOfDenmark/src/union/kdv_node_unload.txt");
+//  File b = new
+//  File("C:/Users/phillip/MapOfDenmark/src/union/kdv_unload.txt");
+
+//	Claus sti
+//	File a = new 
+//	File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_node_unload.txt");
+//	File b = new 
+//	File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_unload.txt");
+	  
+//	Anders sti 
+//	File a = new
+//	File("/Users/Anders/git/MapOfDenmark/MapOfDenmark/src/union/kdv_node_unload.txt");
+//	File b = new
+//	File("/Users/Anders/git/MapOfDenmark/MapOfDenmark/src/union/kdv_unload.txt");
 
     BufferedReader inputA = new BufferedReader(new FileReader(a));
     BufferedReader inputB = new BufferedReader(new FileReader(b));
