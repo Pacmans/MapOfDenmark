@@ -137,11 +137,23 @@ public class GUI {
 
 		// add the checkbox, and the other GUI to the right panel.
 		optionPanel.add(createCheckbox());
+		optionPanel.add(createZoomOutButton());
 		optionPanel.add(Box.createRigidArea(new Dimension(50,350)));
 		// add the optionPanel to the contentPanes borderlayout.
 		contentPane.add(optionPanel,"East");
 	}
 
+	private JPanel createZoomOutButton() {
+		JPanel zoomPanel = new JPanel(new FlowLayout(1));
+		JButton zoomOut = new JButton("Zoom out");
+		zoomOut.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) { 
+            	Controller.showAll();
+             } } );
+		zoomPanel.add(zoomOut);
+		return zoomPanel;
+	}
+	
 	private JPanel createCheckbox() {
 		// initialize checkboxPanel
 		JPanel checkboxPanel = new JPanel(new GridLayout(7, 1));
@@ -162,6 +174,7 @@ public class GUI {
 		JCheckBox box = new JCheckBox(string);
 		box.setSelected(selected);
 		box.addItemListener(new ItemListener() {
+			@SuppressWarnings("deprecation")
 			public void itemStateChanged(ItemEvent e) {
 				if(((AbstractButton) e.getItem()).getLabel() == "Highways")number = 1;
 				else if(((AbstractButton) e.getItem()).getLabel() == "Expressways")number = 2;
