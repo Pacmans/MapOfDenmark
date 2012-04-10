@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
-import dataStructure.Point;
 import dataStructure.RoadType;
 
 public class FileLoaderSmart implements FileLoader {
@@ -18,7 +17,6 @@ public class FileLoaderSmart implements FileLoader {
   private BigDecimal yMin = new BigDecimal(700000);
   private BigDecimal yMax = new BigDecimal(0);
   private BigDecimal Scale = new BigDecimal(750);
-  private int index;
   private ConnectionQuadTree cqt = new ConnectionQuadTree();
   private Connection[] connections = new Connection[812301];
   
@@ -27,7 +25,7 @@ public class FileLoaderSmart implements FileLoader {
     BufferedReader input = new BufferedReader(new FileReader(a));
     
     String line = null; 
-    index = 0;
+    int index = 0;
     while ((line = input.readLine()) != null) {
       String[] split = line.split(",");
       
@@ -127,11 +125,28 @@ public class FileLoaderSmart implements FileLoader {
         r = RoadType.HIGHWAY;
         break;
       }
+      //add connection to data structures
+      BigDecimal x1 = new BigDecimal(split[0]);
+      BigDecimal y1 = new BigDecimal(split[1]);
+      BigDecimal x2 = new BigDecimal(split[2]);
+      BigDecimal y2 = new BigDecimal(split[3]);
+      connections[index] = new Connection(index, x1, y1, x2, y2, r);
+      cqt.insert(x1, y1, index);
+      cqt.insert(x2, y2, index);
+      index++;
       
+      //set max and min values
+      if(x1.compareTo(xMin) < 0) xMin = x1;
+      else if(x1.compareTo(xMax) > 0) xMax = x1;
+      if(x2.compareTo(xMin) < 0) xMin = x2;
+      else if(x2.compareTo(xMax) > 0) xMax = x2;
       
-      
+      if(y1.compareTo(yMin) < 0) yMin = y1;
+      else if(y1.compareTo(yMax) > 0) yMax = y1;
+      if(y2.compareTo(yMin) < 0) yMin = y2;
+      else if(y2.compareTo(yMax) > 0) yMax = y2;
     }
-
+    System.out.println("Connections loaded");
   }
 
   @Override
