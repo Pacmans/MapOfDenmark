@@ -8,14 +8,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 
+import dataStructure.Connection;
 import dataStructure.Point;
 
 public class RewriterThatWorks {
-  private Point[] array; 
+  private Point[] array;
+  private Connection[] arr;
 
   public RewriterThatWorks() {
     try {
       points();
+      connections();
     } catch (FileNotFoundException e) {
       System.out.println("File not found: " + e);
     } catch (IOException e) {
@@ -121,6 +124,45 @@ public class RewriterThatWorks {
       else return m;
     }
     return lo;
+  }
+  
+  private void connections() throws IOException{
+    File in = new File(
+        "C:/Users/Admin/MapOfDenmark/src/Union/kdv_unload.txt");
+    File out = new File("C:/Users/Admin/MapOfDenmark/src/Union/connections.txt");
+    BufferedReader input = new BufferedReader(new FileReader(in));
+    PrintWriter output = new PrintWriter(out);
+
+    System.out.println("Start");
+    System.out.println("Reading");
+    
+    arr = new Connection[812301];
+    String line = null;
+    int index = 0;
+    while ((line = input.readLine()) != null){
+      
+      if(index > 0){
+        String[] split = line.split(",");
+        
+        arr[index] = new Connection(index, 
+            findP(Integer.parseInt(split[0])-1)
+            findP(Integer.parseInt(split[1])-1)
+            
+            )
+        
+        array[index][0] = Double.parseDouble(split[2]); //ID
+        array[index][1] = Double.parseDouble(split[3]); //X
+        array[index++][2] = Double.parseDouble(split[4]); //Y
+      }else{
+        index++;
+      }
+    }
+    
+    System.out.println("Read");
+    System.out.println("Sorting");
+    System.out.println("Sorted");
+    System.out.println("Writing");
+    System.out.println("Written");
   }
 
   public static void main(String[] arge) {
