@@ -221,7 +221,8 @@ public class GUI extends JComponent {
 				repaint();
 			}
 
-			public void mouseMoved(MouseEvent e) {
+			public void mouseDragged(MouseEvent e) {
+				isMouseDown = true;
 				xMove = e.getX();
 				yMove = e.getY();
 				repaint();
