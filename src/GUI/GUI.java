@@ -112,23 +112,12 @@ public class GUI {
     		public void actionPerformed(ActionEvent e) { quit(); } } );
     	menu.add(item);
     	
-    	// create Menu2 menu
-    	menu = new JMenu("Menu2");
-    	menubar.add(menu);
-    	
-    	// create the menu item1 . 
-    	item = new JMenuItem("Menuitem1");
-    	item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, SHORTCUT_MASK));
-    	item.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) { 
-    			System.out.println("Menuitem1"); } } );
-    	menu.add(item);
-
     	// create Help menu
     	menu = new JMenu("Help");
     	menubar.add(menu);
     	
     	item = new JMenuItem("About Map Of Denmark");
+    	item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, SHORTCUT_MASK));
     	item.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) { 
     			showAbout(); } } );
@@ -157,7 +146,7 @@ public class GUI {
 	private JPanel createCheckbox() {
 		// initialize checkboxPanel
 		JPanel checkboxPanel = new JPanel(new GridLayout(7, 1));
-		checkboxPanel.setBorder(new TitledBorder(new EtchedBorder(), "Vejtyper"));
+		checkboxPanel.setBorder(new TitledBorder(new EtchedBorder(), "Road types"));
 		// fill the checkboxPanel
 		checkboxPanel.add(createRoadtypeBox("Highways", true)); // Priority 1 roads
 		checkboxPanel.add(createRoadtypeBox("Expressways", true)); // Priority 2 roads

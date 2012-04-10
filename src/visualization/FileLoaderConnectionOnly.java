@@ -27,9 +27,9 @@ public class FileLoaderConnectionOnly implements FileLoader {
 
   public FileLoaderConnectionOnly() throws IOException {
      File a = new
-     File("../union/kdv_node_unload.txt");
+     File("/Users/Anders/git/MapOfDenmark/MapOfDenmark/src/union/kdv_node_unload.txt");
      File b = new
-     File("../union/kdv_unload.txt");
+     File("/Users/Anders/git/MapOfDenmark/MapOfDenmark/src/union/kdv_unload.txt");
     //File a = new File(
     //    "C:/Users/Admin/MapOfDenmark/src/Union/kdv_node_unload.txt");
     //File b = new File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_unload.txt");
