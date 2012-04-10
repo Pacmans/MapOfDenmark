@@ -1,5 +1,7 @@
 package controller;
 
+import files.FileLoader;
+import files.FileLoaderConnectionOnly;
 import gui.GUI;
 
 import java.io.IOException;
@@ -10,18 +12,12 @@ import java.util.HashSet;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import visualization.FileLoader;
-import visualization.FileLoaderConnectionOnly;
-import visualization.FileLoaderFast;
 import visualization.OurMapImpl;
-import visualization.FileLoaderImpl;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Interval;
 import dataStructure.Interval2D;
 import dataStructure.Point;
-import dataStructure.PointQuadTree;
-
 
 /**
  * 
