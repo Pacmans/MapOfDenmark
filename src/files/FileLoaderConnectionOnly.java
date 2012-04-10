@@ -163,8 +163,11 @@ public class FileLoaderConnectionOnly implements FileLoader {
         }
 
         connections[index] = new Connection(index,
-            cords[Integer.parseInt(split[0]) - 1],
-            cords[Integer.parseInt(split[1]) - 1], r);
+            cords[Integer.parseInt(split[0]) - 1].getX(),
+            cords[Integer.parseInt(split[0]) - 1].getY(),
+            cords[Integer.parseInt(split[1]) - 1].getX(),
+            cords[Integer.parseInt(split[1]) - 1].getY(),
+            r);
         
         cqt.insert(cords[Integer.parseInt(split[0]) - 1].getX(), cords[Integer.parseInt(split[0]) - 1].getY(), index);
         cqt.insert(cords[Integer.parseInt(split[1]) - 1].getX(), cords[Integer.parseInt(split[1]) - 1].getY(), index);

@@ -21,7 +21,7 @@ public class FileLoaderSmart implements FileLoader {
   private Connection[] connections = new Connection[812301];
   
   public FileLoaderSmart() throws IOException{
-    File a = new File("C:/Users/Admin/MapOfDenmark/src/files/smart_data.txt");
+    File a = new File(System.getProperty("user.dir") + "/src/files/smart_data.txt");
     BufferedReader input = new BufferedReader(new FileReader(a));
     
     String line = null; 
@@ -30,7 +30,7 @@ public class FileLoaderSmart implements FileLoader {
       String[] split = line.split(",");
       
       RoadType r;
-      switch (Integer.parseInt(split[5])) {
+      switch (Integer.parseInt(split[4])) {
       case 1:
         r = RoadType.HIGHWAY;
         break;

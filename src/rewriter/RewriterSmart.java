@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import dataStructure.Point;
 
 public class RewriterSmart {
-  private String[][] array = new String[812302][5], 
+  private String[][] array = new String[812301][5], 
       points = new String[675903][2];
   
   public RewriterSmart(){

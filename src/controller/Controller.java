@@ -2,6 +2,7 @@ package controller;
 
 import files.FileLoader;
 import files.FileLoaderConnectionOnly;
+import files.FileLoaderSmart;
 import gui.GUI;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ import dataStructure.Interval2D;
  * 
  * @author Claus L. Henriksen clih@itu.dk
  * @author Pacmans
- * @version 29. Marts 2012
+ * @version 10. April 2012
  * 
  */
 public final class Controller {
@@ -34,12 +35,10 @@ public final class Controller {
   private ConnectionQuadTree qt;
 	private static int xMin, yMin, xMax, yMax;
 
-  
-
 /**
    * Constructor for this class loads connections and points from FileLoader
    * 
-   * @see FileLoaderImpl
+   * @see FileLoader
    */
   public Controller() {
     if (instance == null)
