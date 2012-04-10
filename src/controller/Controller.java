@@ -1,6 +1,5 @@
 package controller;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +8,7 @@ import java.util.HashSet;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import gui.GUI;
+import GUI.GUI;
 import visualization.FileLoader;
 import visualization.FileLoaderConnectionOnly;
 import visualization.FileLoaderFast;
@@ -194,7 +193,11 @@ public final class Controller {
   }
   public static void scaleMap(int i, int j) {
 	    map.scale(i, j);
-	  }
+	}
+  
+  public static void showAll(){
+    map.showAll();
+  }
 
   public static int getxMin() {
 		return xMin;
