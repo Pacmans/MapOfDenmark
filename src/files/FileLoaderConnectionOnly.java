@@ -34,9 +34,9 @@ public class FileLoaderConnectionOnly implements FileLoader {
 
   public FileLoaderConnectionOnly() throws IOException {
 	File a = new
-	File(System.getProperty("user.dir") + "/src/files/kdv_node_unload.txt");
+	File("./src/files/kdv_node_unload.txt");
 	File b = new
-	File(System.getProperty("user.dir") + "/src/files/kdv_unload.txt");
+	File("./src/files/kdv_unload.txt");
 
     BufferedReader inputA = new BufferedReader(new FileReader(a));
     BufferedReader inputB = new BufferedReader(new FileReader(b));
