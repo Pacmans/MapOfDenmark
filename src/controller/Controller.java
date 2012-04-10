@@ -1,5 +1,7 @@
 package controller;
 
+import gui.GUI;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +10,6 @@ import java.util.HashSet;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import gui.GUI;
 import visualization.FileLoader;
 import visualization.FileLoaderConnectionOnly;
 import visualization.FileLoaderFast;
