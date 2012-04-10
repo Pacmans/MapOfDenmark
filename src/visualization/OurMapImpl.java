@@ -20,7 +20,7 @@ import dataStructure.Connection;
 public class OurMapImpl extends JComponent {
 	private int xMin, yMin, xMax, yMax, scaleX = 100, scaleY = 100, zoomX = 100, zoomY = 100;
 	private double xClicked, yClicked, xReleased, yReleased;
-	private boolean zoom = false, vamp = true, zoomSquare = false;
+	private boolean zoom = false;
 	private boolean[] showPrio;
 	private Connection[] a;
 
@@ -46,7 +46,6 @@ public class OurMapImpl extends JComponent {
 			zoom = false;
 		} else if(a == null) {
 			a = Controller.getInstance().getConnections();
-			vamp = false;
 		}
 			for (Connection s : a) {
 				if (showPrio[s.getType().priority() - 1]) {
@@ -63,7 +62,6 @@ public class OurMapImpl extends JComponent {
 	
 
 	public void addListener() {
-
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				xClicked = e.getX()*100*100/(scaleX*zoomX);

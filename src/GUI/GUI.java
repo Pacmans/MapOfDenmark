@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +26,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.MouseInputAdapter;
 
 import controller.Controller;
 import dataStructure.Connection;
@@ -37,6 +39,7 @@ public class GUI extends JComponent {
     private JFrame frame;
     private JPanel contentPane, mapPanel;
 	private int number = 1;
+	private Rectangle currentRect;
 	// Coordinates for zoom box
 	private int xClicked, yClicked, xMove, yMove;
 	// The map from the controller
@@ -48,7 +51,6 @@ public class GUI extends JComponent {
 		makeFrame();
 		makeMenuBar();
 		map = Controller.getMap();
-		createZoomRect(map);
 		makeMap(map);
 		makeRightPanel();
 		setupFrame();
@@ -203,39 +205,6 @@ public class GUI extends JComponent {
 		fl.add(box);
 		number++;
 		return fl;
-	}
-	
-	public void paint(Graphics g) {
-		if(isMouseDown) {
-		g.setColor(new Color(255,255,255));
-		g.drawRect(xClicked, yClicked, xMove-xClicked, yMove-yClicked);
-		}
-	}
-	
-	private void createZoomRect(JComponent map) {
-		map.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				xClicked = e.getX();
-				yClicked = e.getY();
-				isMouseDown = true;
-				repaint();
-			}
-
-			public void mouseMoved(MouseEvent e) {
-				xMove = e.getX();
-				yMove = e.getY();
-				repaint();
-			}
-			
-			public void mouseReleased(MouseEvent e) {
-				xClicked = -10;
-				yClicked = -10;
-				xMove = -10;
-				yMove = -10;
-				isMouseDown = false;
-				repaint();
-			} 
-		});
 	}
 	
 	public Dimension getPreferredSize() {
