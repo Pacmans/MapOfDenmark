@@ -1,6 +1,6 @@
 package controller;
 
-import gui.GUI;
+import GUI.GUI;
 
 import java.io.IOException;
 import java.util.ArrayList;
