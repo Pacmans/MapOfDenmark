@@ -43,6 +43,7 @@ public class GUI extends JComponent {
 	private JComponent map;
 	
     public GUI() {
+    	Controller.getInstance();
 		makeFrame();
 		makeMenuBar();
 		map = Controller.getMap();
