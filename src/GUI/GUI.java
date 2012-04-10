@@ -1,9 +1,11 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -14,6 +16,8 @@ import java.awt.event.ComponentListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -23,8 +27,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import controller.Controller;
+import dataStructure.Connection;
 
-public class GUI {
+public class GUI extends JComponent {
 
 	// This field contains the current version of the program.
     private static final String VERSION = "Version 1.0";
@@ -32,11 +37,19 @@ public class GUI {
     private JFrame frame;
     private JPanel contentPane, mapPanel;
 	private int number = 1;
-    
+	// Coordinates for zoom box
+	private int xClicked, yClicked, xMove, yMove;
+	// The map from the controller
+	private JComponent map;
+	private boolean isMouseDown;
+	
     public GUI() {
+    	Controller.getInstance();
 		makeFrame();
 		makeMenuBar();
-		makeMap(Controller.getMap());
+		map = Controller.getMap();
+		createZoomRect(map);
+		makeMap(map);
 		makeRightPanel();
 		setupFrame();
     }
@@ -137,11 +150,23 @@ public class GUI {
 
 		// add the checkbox, and the other GUI to the right panel.
 		optionPanel.add(createCheckbox());
+		optionPanel.add(createZoomOutButton());
 		optionPanel.add(Box.createRigidArea(new Dimension(50,350)));
 		// add the optionPanel to the contentPanes borderlayout.
 		contentPane.add(optionPanel,"East");
 	}
 
+	private JPanel createZoomOutButton() {
+		JPanel zoomPanel = new JPanel(new FlowLayout(1));
+		JButton zoomOut = new JButton("Zoom out");
+		zoomOut.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) { 
+            	Controller.showAll();
+             } } );
+		zoomPanel.add(zoomOut);
+		return zoomPanel;
+	}
+	
 	private JPanel createCheckbox() {
 		// initialize checkboxPanel
 		JPanel checkboxPanel = new JPanel(new GridLayout(7, 1));
@@ -162,6 +187,7 @@ public class GUI {
 		JCheckBox box = new JCheckBox(string);
 		box.setSelected(selected);
 		box.addItemListener(new ItemListener() {
+			@SuppressWarnings("deprecation")
 			public void itemStateChanged(ItemEvent e) {
 				if(((AbstractButton) e.getItem()).getLabel() == "Highways")number = 1;
 				else if(((AbstractButton) e.getItem()).getLabel() == "Expressways")number = 2;
@@ -177,6 +203,47 @@ public class GUI {
 		fl.add(box);
 		number++;
 		return fl;
+	}
+	
+	public void paint(Graphics g) {
+		if(isMouseDown) {
+		g.setColor(new Color(255,255,255));
+		g.drawRect(xClicked, yClicked, xMove-xClicked, yMove-yClicked);
+		}
+	}
+	
+	private void createZoomRect(JComponent map) {
+		map.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				xClicked = e.getX();
+				yClicked = e.getY();
+				isMouseDown = true;
+				repaint();
+			}
+
+			public void mouseMoved(MouseEvent e) {
+				xMove = e.getX();
+				yMove = e.getY();
+				repaint();
+			}
+			
+			public void mouseReleased(MouseEvent e) {
+				xClicked = -10;
+				yClicked = -10;
+				xMove = -10;
+				yMove = -10;
+				isMouseDown = false;
+				repaint();
+			} 
+		});
+	}
+	
+	public Dimension getPreferredSize() {
+		return (new Dimension(map.getPreferredSize()));	
+	}
+	
+	public Dimension getMinimumSize() {
+		return getPreferredSize();
 	}
 
 }

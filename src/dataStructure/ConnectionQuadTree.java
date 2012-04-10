@@ -82,13 +82,13 @@ public class ConnectionQuadTree{
   }
   
   public HashSet<Integer> getConnections(Interval2D rect){
-	  System.out.println(nodes);
     xmin = rect.getIntervalX().getLow();
     ymin = rect.getIntervalY().getLow();
     xmax = rect.getIntervalX().getHigh();
     ymax = rect.getIntervalY().getHigh();
     array = new HashSet<Integer>();
     getRect(root, rect);
+    System.out.println(array.size());
     return array;
   }
   
