@@ -27,7 +27,7 @@ public class FileLoaderConnectionOnly implements FileLoader {
 
   public FileLoaderConnectionOnly() throws IOException {
      File a = new
-     File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_node_unload.txt");
+     File("../Union/kdv_node_unload.txt");
      File b = new
      File("C:/Users/Phillip/MapOfDenmark/src/Union/kdv_unload.txt");
     //File a = new File(
