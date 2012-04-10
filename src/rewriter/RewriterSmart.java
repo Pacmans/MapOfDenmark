@@ -25,11 +25,11 @@ public class RewriterSmart {
   }
   
   private void load() throws IOException{
-    File in1 = new File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_node_unload.txt");
+    File in1 = new File("C:/Users/Admin/MapOfDenmark/src/Files/kdv_node_unload.txt");
     BufferedReader ps = new BufferedReader(new FileReader(in1));
-    File in2 = new File("C:/Users/Admin/MapOfDenmark/src/Union/kdv_unload.txt");
+    File in2 = new File("C:/Users/Admin/MapOfDenmark/src/Files/kdv_unload.txt");
     BufferedReader cs = new BufferedReader(new FileReader(in2));
-    File out = new File("C:/Users/Admin/MapOfDenmark/src/Union/smart_data.txt");
+    File out = new File("C:/Users/Admin/MapOfDenmark/src/Files/smart_data.txt");
     PrintWriter output = new PrintWriter(out);
 
     System.out.println("Start");
