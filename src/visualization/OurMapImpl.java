@@ -88,7 +88,6 @@ public class OurMapImpl extends JComponent {
 				repaint();
 			}
 		});
-
 	}
 
 	private void zoom() {

@@ -31,19 +31,19 @@ public class Rewriter {
     System.out.println("Start");
     
     //Read file
-    array = new double[2][2];
+    array = new double[675903][3];
     String line = null;
     int index = 0;
     while ((line = input.readLine()) != null){
       
       //debug
       
-      
-      if(index == array.length) array = resize(array, index*2);
       if(index > 0){
         String[] split = line.split(",");
-        array[index][0] = Double.parseDouble(split[3]);
-        array[index++][1] = Double.parseDouble(split[4]);
+        
+        array[index][0] = Double.parseDouble(split[2]); //ID
+        array[index][1] = Double.parseDouble(split[3]); //X
+        array[index++][2] = Double.parseDouble(split[4]); //Y
       }else{
         index++;
       }
@@ -54,10 +54,10 @@ public class Rewriter {
     //2D mergesort;
     sort(array);
     
-    System.out.println("Sort");
+    System.out.println("Sorted");
     
     //find middle
-    double val = array[index-1][0] - array[0][0];
+    double val = array[array.length-1][0] - array[0][0];
     int med = binarySearch(array, val);
     
     //write
@@ -66,12 +66,12 @@ public class Rewriter {
     while(a || b){
       a = false; b = false;
       if(i >= 0){
-        output.println(array[i][0] + "," + array[i][1]);
+        output.println(array[i][0] + "," + array[i][1] + "," + array[i][2]);
         a = true;
         i--;
       }
       if(k < index-1){
-        output.println(array[k][0] + "," + array[k][1]);
+        output.println(array[k][0] + "," + array[k][1] + "," + array[k][2]);
         a = true;
         k++;
       }
@@ -84,7 +84,7 @@ public class Rewriter {
     int lo = 0, hi = a.length-1;
     while(lo <= hi){
       int m = lo + (hi - lo) /2;
-      double cmp = val - array[m][0];
+      double cmp = val - array[m][1];
       if      (cmp < 0) hi = m - 1; 
       else if (cmp > 0) lo = m + 1; 
       else return m;
@@ -93,7 +93,7 @@ public class Rewriter {
   }
   
   private void sort(double[][] a){
-    double[][] aux = new double[a.length][2];
+    double[][] aux = new double[a.length][3];
     sort(a, aux, 0 , a.length-1);
   }
   
@@ -110,6 +110,7 @@ public class Rewriter {
     for (int k = lo; k <= hi; k++) {
         aux[k][0] = a[k][0];
         aux[k][1] = a[k][1];
+        aux[k][2] = a[k][2];
     }
 
     // merge back to a[]
@@ -117,7 +118,7 @@ public class Rewriter {
     for (int k = lo; k <= hi; k++) {
         if      (i > mid)               a[k] = aux[j++];
         else if (j > hi)                a[k] = aux[i++];
-        else if (aux[j][0] < aux[i][0]) a[k] = aux[j++];
+        else if (aux[j][1] < aux[i][1]) a[k] = aux[j++];
         else                            a[k] = aux[i++];
     }
 }
