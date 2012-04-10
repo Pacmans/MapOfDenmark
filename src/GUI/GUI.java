@@ -41,6 +41,7 @@ public class GUI extends JComponent {
 	private int xClicked, yClicked, xMove, yMove;
 	// The map from the controller
 	private JComponent map;
+	private boolean isMouseDown;
 	
     public GUI() {
     	Controller.getInstance();
@@ -205,8 +206,10 @@ public class GUI extends JComponent {
 	}
 	
 	public void paint(Graphics g) {
+		if(isMouseDown) {
 		g.setColor(new Color(255,255,255));
 		g.drawRect(xClicked, yClicked, xMove-xClicked, yMove-yClicked);
+		}
 	}
 	
 	private void createZoomRect(JComponent map) {
@@ -214,6 +217,7 @@ public class GUI extends JComponent {
 			public void mousePressed(MouseEvent e) {
 				xClicked = e.getX();
 				yClicked = e.getY();
+				isMouseDown = true;
 				repaint();
 			}
 
@@ -228,6 +232,7 @@ public class GUI extends JComponent {
 				yClicked = -10;
 				xMove = -10;
 				yMove = -10;
+				isMouseDown = false;
 				repaint();
 			} 
 		});
