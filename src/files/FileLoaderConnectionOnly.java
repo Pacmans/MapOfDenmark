@@ -37,10 +37,12 @@ public class FileLoaderConnectionOnly implements FileLoader {
   Point[] cords = new Point[675902];
 
   public FileLoaderConnectionOnly() throws IOException {
-    File a = new File("./src/files/kdv_node_unload.txt");
-    File b = new File("./src/files/kdv_unload.txt");
-    BufferedReader inputA = new BufferedReader(new FileReader(a));
-    BufferedReader inputB = new BufferedReader(new FileReader(b));
+//    File a = new File("./src/files/kdv_node_unload.txt");
+//    File b = new File("./src/files/kdv_unload.txt");
+	InputStream a = getClass().getResourceAsStream("kdv_node_unload.txt");
+	InputStream b = getClass().getResourceAsStream("kdv_unload.txt");
+    BufferedReader inputA = new BufferedReader(new InputStreamReader(a));
+    BufferedReader inputB = new BufferedReader(new InputStreamReader(b));
     
     String line = null; 
     index = -1;
