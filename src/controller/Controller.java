@@ -9,7 +9,7 @@ import java.util.HashSet;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import GUI.GUI;
+import gui.GUI;
 import visualization.FileLoader;
 import visualization.FileLoaderConnectionOnly;
 import visualization.FileLoaderFast;
