@@ -177,7 +177,6 @@ public class FileLoaderConnectionOnly implements FileLoader {
       }
 
     }
-    System.out.println(index);
     System.out.println("QuadTree created");
   }
 

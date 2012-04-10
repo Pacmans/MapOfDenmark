@@ -18,10 +18,11 @@ import dataStructure.Connection;
  * 
  */
 public class OurMapImpl extends JComponent {
-	private int xMin, yMin, xMax, yMax, scaleX, scaleY;
+	private int xMin, yMin, xMax, yMax, scaleX = 100, scaleY = 100, zoomX = 100, zoomY = 100;
 	private double xClicked, yClicked, xReleased, yReleased;
-	private boolean zoom = false;
+	private boolean zoom = false, vamp = true;
 	private boolean[] showPrio;
+	private Connection[] a;
 
 	public OurMapImpl() {
 		showPrio = new boolean[] { true, true, true, false, false, false, false };
@@ -29,8 +30,6 @@ public class OurMapImpl extends JComponent {
 		yMin = Controller.getyMin();
 		xMax = Controller.getxMax();
 		yMax = Controller.getyMax();
-		scaleX = 100;
-		scaleY = 100;
 		repaint();
 		addListener();
 
@@ -41,12 +40,14 @@ public class OurMapImpl extends JComponent {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		Connection[] a;
+		
 		if (zoom) {
 			a = Controller.getInstance().getConnections(xClicked, yClicked,
 					xReleased, yReleased);
-		} else {
+			zoom = false;
+		} else if(vamp) {
 			a = Controller.getInstance().getConnections();
+			vamp = false;
 		}
 
 		if (a == null || a.length==0){
@@ -57,10 +58,10 @@ public class OurMapImpl extends JComponent {
 			for (Connection s : a) {
 				if (showPrio[s.getType().priority() - 1]) {
 					g.setColor(s.getType().color());
-					g.drawLine(((s.getX1() - xMin)*scaleX)/100, 
-							((-s.getY1() + yMax)*scaleY)/100, 
-							((s.getX2() - xMin)*scaleX)/100, 
-							((-s.getY2() + yMax)*scaleY)/100);
+					g.drawLine(((s.getX1() - xMin)*scaleX*zoomX)/(100*100), 
+							((-s.getY1() + yMax)*scaleY*zoomY)/(100*100), 
+							((s.getX2() - xMin)*scaleX*zoomX)/(100*100), 
+							((-s.getY2() + yMax)*scaleY*zoomY)/(100*100));
 				}
 			}
 		}
@@ -70,19 +71,24 @@ public class OurMapImpl extends JComponent {
 
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				xClicked = ((e.getX() + xMin)*scaleX)/100;
-				yClicked = ((-e.getY() + yMax)*scaleX)/100;
+				xClicked = (e.getX() + xMin)*((scaleX*zoomX)/(100*100));
+				yClicked = (e.getY() + yMin)*((scaleY*zoomY)/(100*100));
 			}
 
 			public void mouseReleased(MouseEvent e) {
-				xReleased = ((e.getX() + xMin)*scaleY)/100;
-				yReleased = ((-e.getY() + yMax)*scaleY)/100;
+				xReleased = (e.getX() + xMin)*((scaleX*zoomX)/(100*100));
+				yReleased = (e.getY() + yMin)*((scaleY*zoomY)/(100*100));
 				check();
 				zoom = true;
 				repaint();
 			}
 		});
 
+	}
+
+	private void zoom() {
+		zoomX = (int) (((xMax-xMin)/(xReleased-xClicked))*100);
+		zoomY = (int) (((yMax-yMin)/(yReleased-yClicked))*100);
 	}
 
 	public void updateFilter(int n, int m) {
