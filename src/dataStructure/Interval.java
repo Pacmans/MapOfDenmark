@@ -22,7 +22,9 @@ public class Interval {
    * @return True if x is within interval
    */
   public boolean contains(double x){
-    return x > low && x < high; 
+	  boolean tmp = false;
+	  if(x>=low && x<= high) tmp=true;
+	  return tmp; 
   }
   
   /**
