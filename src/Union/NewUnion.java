@@ -23,6 +23,9 @@ public class NewUnion {
 	private int numberOfConnections = 0;
 	private HashMap<Integer, Point> points;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f48ace0dbd8eafd197d6d859a063ea184e9f21ba
 	private static Scanner scanner = new Scanner(new BufferedInputStream(
 			System.in));
 
@@ -35,6 +38,7 @@ public class NewUnion {
 		unify();
 		clean();
 		//output();
+<<<<<<< HEAD
 =======
     private static Scanner scanner = new Scanner(new BufferedInputStream(System.in));
 
@@ -44,6 +48,8 @@ public class NewUnion {
 		clean();
 		output();
 >>>>>>> 90c43035d7b93af19dda004251fdf660d1745d51
+=======
+>>>>>>> f48ace0dbd8eafd197d6d859a063ea184e9f21ba
 	}
 
 	// are elements p and q in the same component?

@@ -63,7 +63,8 @@ public class RewriterSmart {
       }else{
         index++;
       }
-    } 
+    }
+
     System.out.println("Roads read");
     System.out.println("Sorting roads");
     
