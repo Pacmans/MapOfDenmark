@@ -18,8 +18,7 @@ import dataStructure.Connection;
  * 
  */
 public class OurMapImpl extends JComponent {
-	private BigDecimal zoomed = new BigDecimal(500);
-	private int xMin, yMin, xMax, yMax;
+	private int xMin, yMin, xMax, yMax, scaleX, scaleY;
 	private double xClicked, yClicked, xReleased, yReleased;
 	private boolean zoom = false;
 	private boolean[] showPrio;
@@ -30,6 +29,8 @@ public class OurMapImpl extends JComponent {
 		yMin = Controller.getyMin();
 		xMax = Controller.getxMax();
 		yMax = Controller.getyMax();
+		scaleX = 100;
+		scaleY = 100;
 		repaint();
 		addListener();
 
@@ -40,7 +41,6 @@ public class OurMapImpl extends JComponent {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		System.out.println("im painting...");
 		Connection[] a;
 		if (zoom) {
 			a = Controller.getInstance().getConnections(xClicked, yClicked,
@@ -49,14 +49,18 @@ public class OurMapImpl extends JComponent {
 			a = Controller.getInstance().getConnections();
 		}
 
-		if (a == null || a[0] == null)
+		if (a == null || a.length==0){
 			System.out.println("Connections empty");
+			a = Controller.getInstance().getConnections();
+		}
 		else {
 			for (Connection s : a) {
 				if (showPrio[s.getType().priority() - 1]) {
 					g.setColor(s.getType().color());
-					g.drawLine(s.getX1() - xMin, -s.getY1() + yMax, s.getX2()
-							- xMin, -s.getY2() + yMax);
+					g.drawLine(((s.getX1() - xMin)*scaleX)/100, 
+							((-s.getY1() + yMax)*scaleY)/100, 
+							((s.getX2() - xMin)*scaleX)/100, 
+							((-s.getY2() + yMax)*scaleY)/100);
 				}
 			}
 		}
@@ -66,15 +70,14 @@ public class OurMapImpl extends JComponent {
 
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				xClicked = e.getX() + xMin;
-				yClicked = -e.getY() + yMax;
+				xClicked = ((e.getX() + xMin)*scaleX)/100;
+				yClicked = ((-e.getY() + yMax)*scaleX)/100;
 			}
 
 			public void mouseReleased(MouseEvent e) {
-				xReleased = e.getX() + xMin;
-				yReleased = -e.getY() + yMax;
+				xReleased = ((e.getX() + xMin)*scaleY)/100;
+				yReleased = ((-e.getY() + yMax)*scaleY)/100;
 				check();
-				System.out.println("zoom");
 				zoom = true;
 				repaint();
 			}
@@ -82,8 +85,10 @@ public class OurMapImpl extends JComponent {
 
 	}
 
-	public void updateFilter(int n, boolean b) {
-		showPrio[n - 1] = b;
+	public void updateFilter(int n, int m) {
+		if(m == 2)showPrio[n - 1] = false;
+		else showPrio[n - 1] = true;
+		
 		repaint();
 	}
 
@@ -99,13 +104,20 @@ public class OurMapImpl extends JComponent {
 			xClicked = tmp;
 		}
 	}
+	public void scale(int i, int j){
 
-	public Dimension getPreferredSize() {
-		return (new Dimension(800, 700));
+		scaleX = (i*100)/(xMax-xMin);
+		scaleY = (j*100)/(yMax-yMin);
+		repaint();
+		
 	}
 
-	// the minimum dimensions
+	public Dimension getPreferredSize() {
+		return (new Dimension(((xMax-xMin)*scaleX)/100, ((yMax-yMin)*scaleY)/100));
+	}
+	
 	public Dimension getMinimumSize() {
 		return getPreferredSize();
 	}
+
 }

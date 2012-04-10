@@ -1,6 +1,9 @@
 package controller;
 
+<<<<<<< HEAD
 import GUI.GUI;
+=======
+>>>>>>> 016ac3722db02b96a7a5a501dc5bc7630b5da56e
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import java.util.HashSet;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import gui.GUI;
 import visualization.FileLoader;
 import visualization.FileLoaderConnectionOnly;
 import visualization.FileLoaderFast;
@@ -59,9 +63,7 @@ public final class Controller {
       xMax = fileLoader.getxMax().intValue();
       yMax = fileLoader.getyMax().intValue();
       Arrays.sort(connections);
-      System.out.println("Connections sorted");
       qt = fileLoader.getConnectionQuadTree();
-      System.out.println("KD-tree created");
     } catch (IOException e) {
       System.out.println("Fileloader: " + e);
     }
@@ -191,9 +193,12 @@ public final class Controller {
    * @param b
    *          To show or not to show
    */
-  public void updateMap(int n, boolean b) {
-    map.updateFilter(n, b);
+  public static void updateMap(int n, int m) {
+    map.updateFilter(n, m);
   }
+  public static void scaleMap(int i, int j) {
+	    map.scale(i, j);
+	  }
 
   public static int getxMin() {
 		return xMin;
@@ -218,5 +223,6 @@ public final class Controller {
    */
   public static void main(String[] args) {
     GUI gui = new GUI();
+    System.out.println("GUI created");
   }
 }

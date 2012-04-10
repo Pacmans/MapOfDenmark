@@ -1,6 +1,5 @@
 package GUI;
 
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -9,6 +8,11 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -26,10 +30,9 @@ public class GUI {
     private static final String VERSION = "Version 1.0";
         // The main frame of our program.
     private JFrame frame;
-    private JPanel contentPane;
-    private int number = 1;
+    private JPanel contentPane, mapPanel;
+	private int number = 1;
     private Controller controller;
-
     public GUI() {
     	controller = Controller.getInstance();
 		makeFrame();
@@ -49,8 +52,13 @@ public class GUI {
 		frame.setLocation(d.width/2 - frame.getWidth()/2, 
 				d.height/2 - frame.getHeight()/2);
 		// make the user unable to resize the window.
-		frame.setResizable(false);
 		frame.setVisible(true);
+		frame.addComponentListener(new ComponentAdapter(){
+			public void componentResized(ComponentEvent e) {
+				 Controller.scaleMap(mapPanel.getWidth(),mapPanel.getHeight());
+				 mapPanel.updateUI();
+			}
+		});
 	}
 
 
@@ -104,23 +112,12 @@ public class GUI {
     		public void actionPerformed(ActionEvent e) { quit(); } } );
     	menu.add(item);
     	
-    	// create Menu2 menu
-    	menu = new JMenu("Menu2");
-    	menubar.add(menu);
-    	
-    	// create the menu item1 . 
-    	item = new JMenuItem("Menuitem1");
-    	item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, SHORTCUT_MASK));
-    	item.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) { 
-    			System.out.println("Menuitem1"); } } );
-    	menu.add(item);
-
     	// create Help menu
     	menu = new JMenu("Help");
     	menubar.add(menu);
     	
     	item = new JMenuItem("About Map Of Denmark");
+    	item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, SHORTCUT_MASK));
     	item.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) { 
     			showAbout(); } } );
@@ -128,7 +125,7 @@ public class GUI {
     }
     
 	private void makeMap(JComponent map) {
-		JPanel mapPanel = new JPanel();
+		mapPanel = new JPanel();
 		mapPanel.add(map);
 		contentPane.add(mapPanel,"Center");
 	}
@@ -149,8 +146,7 @@ public class GUI {
 	private JPanel createCheckbox() {
 		// initialize checkboxPanel
 		JPanel checkboxPanel = new JPanel(new GridLayout(7, 1));
-		checkboxPanel.setBorder(new TitledBorder(new EtchedBorder(), "Vejtyper"));
-		
+		checkboxPanel.setBorder(new TitledBorder(new EtchedBorder(), "Road types"));
 		// fill the checkboxPanel
 		checkboxPanel.add(createRoadtypeBox("Highways", true)); // Priority 1 roads
 		checkboxPanel.add(createRoadtypeBox("Expressways", true)); // Priority 2 roads
@@ -166,10 +162,17 @@ public class GUI {
 		JPanel fl = new JPanel(new FlowLayout(0));
 		JCheckBox box = new JCheckBox(string);
 		box.setSelected(selected);
-		box.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent e) {
-//				controller.updateMap(number, ((JCheckBox) e.getSource()).isSelected());
+		box.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(((AbstractButton) e.getItem()).getLabel() == "Highways")number = 1;
+				else if(((AbstractButton) e.getItem()).getLabel() == "Expressways")number = 2;
+				else if(((AbstractButton) e.getItem()).getLabel() == "Primary roads")number = 3;
+				else if(((AbstractButton) e.getItem()).getLabel() == "Secondary roads")number = 4;
+				else if(((AbstractButton) e.getItem()).getLabel() == "Normal roads")number = 5;
+				else if(((AbstractButton) e.getItem()).getLabel() == "Trails & streets")number = 6;
+				else if(((AbstractButton) e.getItem()).getLabel() == "Paths")number = 7;
+				Controller.updateMap(number, e.getStateChange());
+				
 			}
 		});
 		fl.add(box);
