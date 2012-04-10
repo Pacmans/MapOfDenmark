@@ -111,6 +111,7 @@ public class OurMapImpl extends JComponent {
 		scaleY = 100;
 		a = null;
 		zoom = false;
+		repaint();
 	}
 
 	public void updateFilter(int n, int m) {

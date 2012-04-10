@@ -34,6 +34,7 @@ public class GUI {
 	private int number = 1;
     
     public GUI() {
+    	Controller.getInstance();
 		makeFrame();
 		makeMenuBar();
 		makeMap(Controller.getMap());
