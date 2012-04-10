@@ -38,7 +38,6 @@ public class FileLoaderConnectionOnly implements FileLoader {
 //     File b = new
 //     File("/Users/Anders/git/MapOfDenmark/MapOfDenmark/src/union/kdv_unload.txt");
 
-
     BufferedReader inputA = new BufferedReader(new FileReader(a));
     BufferedReader inputB = new BufferedReader(new FileReader(b));
     String line = null;
