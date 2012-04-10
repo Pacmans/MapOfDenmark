@@ -1,7 +1,6 @@
 package dataStructure;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ConnectionQuadTree{
