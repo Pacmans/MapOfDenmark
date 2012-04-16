@@ -31,13 +31,14 @@ import controller.Controller;
  *
  */
 
+@SuppressWarnings("serial")
 public class GUI extends JComponent {
 
 	// This field contains the current version of the program.
     private static final String VERSION = "Version 1.0";
         // The main frame of our program.
     private JFrame frame;
-    private JPanel contentPane, mapPanel;
+    private JPanel contentPane, mapPanel, loadingPanel;
 	private int number = 1;
 	// Coordinates for zoom box
 	private int xClicked, yClicked, xMove, yMove;
@@ -46,14 +47,12 @@ public class GUI extends JComponent {
 	private boolean isMouseDown;
 	
     public GUI() {
-    	Controller.getInstance();
 		makeFrame();
 		makeMenuBar();
-		map = Controller.getMap();
-		createZoomRect(map);
-		makeMap(map);
 		makeRightPanel();
 		setupFrame();
+		Controller.getInstance();
+		setupMap();
     }
     
     
@@ -67,14 +66,25 @@ public class GUI extends JComponent {
 				d.height/2 - frame.getHeight()/2);
 		// make the user unable to resize the window.
 		frame.setVisible(true);
+		
+	}
+
+	private void setupMap() {
+		map = Controller.getMap();
+		createZoomRect(map);
+		mapPanel = new JPanel();
+		mapPanel.add(map);
+		contentPane.remove(loadingPanel);
+		contentPane.add(mapPanel,"Center");
 		frame.addComponentListener(new ComponentAdapter(){
 			public void componentResized(ComponentEvent e) {
 				 Controller.scaleMap(mapPanel.getWidth(),mapPanel.getHeight());
 				 mapPanel.updateUI();
 			}
 		});
+		frame.pack();
+		frame.setSize(800, 600);
 	}
-
 
 	public void quit() {
 		// Exits the application.
@@ -88,7 +98,7 @@ public class GUI extends JComponent {
     private void showAbout() {
 	JOptionPane.showMessageDialog(frame, 
 				      "Map Of Denmark - " + VERSION + 
-				      "\nMade by Claus, Bj¿rn, Phillip, Morten & Anders.",
+				      "\nMade by Claus, Bjï¿½rn, Phillip, Morten & Anders.",
 				      "About Map Of Denmark", 
 				      JOptionPane.INFORMATION_MESSAGE);
     }
@@ -99,6 +109,10 @@ public class GUI extends JComponent {
     	contentPane = (JPanel) frame.getContentPane();
     	contentPane.setBorder(new EmptyBorder(6, 6, 6, 6));
     	contentPane.setLayout(new BorderLayout(10, 10));
+    	loadingPanel = new JPanel(new FlowLayout(1));
+    	loadingPanel.setBorder(new EmptyBorder(150, 6, 6, 6));
+    	loadingPanel.add(new JLabel("Loading map..."));
+    	contentPane.add(loadingPanel, "Center");
     }
     
     private void makeMenuBar() {
@@ -138,12 +152,6 @@ public class GUI extends JComponent {
     	menu.add(item);
     }
     
-	private void makeMap(JComponent map) {
-		mapPanel = new JPanel();
-		mapPanel.add(map);
-		contentPane.add(mapPanel,"Center");
-	}
-
 	private void makeRightPanel() {
 		// initialize a new JPanel.
 		JPanel optionPanel = new JPanel();
@@ -154,8 +162,17 @@ public class GUI extends JComponent {
 		optionPanel.add(createCheckbox());
 		optionPanel.add(createZoomOutButton());
 		optionPanel.add(Box.createRigidArea(new Dimension(50,350)));
+		optionPanel.add(createRouteplanningBox());
 		// add the optionPanel to the contentPanes borderlayout.
 		contentPane.add(optionPanel,"East");
+	}
+	
+	private JPanel createRouteplanningBox() {
+		JPanel routePlanning = new JPanel(new GridLayout(3, 1));
+		routePlanning.setBorder(new TitledBorder(new EtchedBorder(), "Route planning"));
+		
+		return routePlanning;		
+		
 	}
 
 	private JPanel createZoomOutButton() {
