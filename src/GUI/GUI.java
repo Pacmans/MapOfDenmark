@@ -1,25 +1,9 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
+import javax.swing.border.*;
 
 import controller.Controller;
 
@@ -31,7 +15,7 @@ import controller.Controller;
  *
  */
 
-public class GUI extends JComponent {
+public class GUI {
 
 	// This field contains the current version of the program.
     private static final String VERSION = "Version 1.0";
@@ -50,7 +34,7 @@ public class GUI extends JComponent {
 		makeFrame();
 		makeMenuBar();
 		map = Controller.getMap();
-		createZoomRect(map);
+		//createZoomRect(map);
 		makeMap(map);
 		makeRightPanel();
 		setupFrame();
@@ -69,7 +53,7 @@ public class GUI extends JComponent {
 		frame.setVisible(true);
 		frame.addComponentListener(new ComponentAdapter(){
 			public void componentResized(ComponentEvent e) {
-				 Controller.scaleMap(mapPanel.getWidth(),mapPanel.getHeight());
+				 //Controller.scaleMap(mapPanel.getWidth(),mapPanel.getHeight());
 				 mapPanel.updateUI();
 			}
 		});
@@ -139,7 +123,7 @@ public class GUI extends JComponent {
     }
     
 	private void makeMap(JComponent map) {
-		mapPanel = new JPanel();
+		mapPanel = new JPanel(new GridLayout(1,1));
 		mapPanel.add(map);
 		contentPane.add(mapPanel,"Center");
 	}
@@ -198,7 +182,10 @@ public class GUI extends JComponent {
 				else if(((AbstractButton) e.getItem()).getLabel() == "Normal roads")number = 5;
 				else if(((AbstractButton) e.getItem()).getLabel() == "Trails & streets")number = 6;
 				else if(((AbstractButton) e.getItem()).getLabel() == "Paths")number = 7;
-				Controller.updateMap(number, e.getStateChange());
+				if (e.getStateChange() == 1)
+					Controller.updateMap(number, true);
+				else
+					Controller.updateMap(number, false);
 				
 			}
 		});
@@ -212,33 +199,6 @@ public class GUI extends JComponent {
 		g.setColor(new Color(255,255,255));
 		g.drawRect(xClicked, yClicked, xMove-xClicked, yMove-yClicked);
 		}
-	}
-	
-	private void createZoomRect(JComponent map) {
-		map.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				xClicked = e.getX();
-				yClicked = e.getY();
-				isMouseDown = true;
-				repaint();
-			}
-
-			public void mouseDragged(MouseEvent e) {
-				isMouseDown = true;
-				xMove = e.getX();
-				yMove = e.getY();
-				repaint();
-			}
-			
-			public void mouseReleased(MouseEvent e) {
-				xClicked = -10;
-				yClicked = -10;
-				xMove = -10;
-				yMove = -10;
-				isMouseDown = false;
-				repaint();
-			} 
-		});
 	}
 	
 	public Dimension getPreferredSize() {

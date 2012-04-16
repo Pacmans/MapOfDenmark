@@ -2,18 +2,14 @@ package controller;
 
 import files.FileLoader;
 import files.FileLoaderConnectionOnly;
-import files.FileLoaderSmart;
 import gui.GUI;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 
-import visualization.OurMapImpl;
+import visualization.MapImpl;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Interval;
@@ -29,11 +25,11 @@ import dataStructure.Interval2D;
 public final class Controller {
   private static Controller instance; // singleton
   private static GUI gui; // singleton
-  private static OurMapImpl map; // singleton
+  private static MapImpl map; // singleton
   private static FileLoader fileLoader;
   private Connection[] connections;
   private ConnectionQuadTree qt;
-	private static double xMin, yMin, xMax, yMax;
+	private static int xMin, yMin, xMax, yMax;
 
 /**
    * Constructor for this class loads connections and points from FileLoader
@@ -46,10 +42,10 @@ public final class Controller {
     try {
       fileLoader = new FileLoaderConnectionOnly();
       connections = fileLoader.getConnections();
-      xMin = fileLoader.getxMin().doubleValue();
-      yMin = fileLoader.getyMin().doubleValue();
-      xMax = fileLoader.getxMax().doubleValue();
-      yMax = fileLoader.getyMax().doubleValue();
+      xMin = fileLoader.getxMin().intValue();
+      yMin = fileLoader.getyMin().intValue();
+      xMax = fileLoader.getxMax().intValue();
+      yMax = fileLoader.getyMax().intValue();
       qt = fileLoader.getConnectionQuadTree();
     } catch (IOException e) {
       System.out.println("Fileloader: " + e);
@@ -81,11 +77,11 @@ public final class Controller {
   /**
    * 
    * @return Returns instance of the singleton class Map which paints the map
-   * @see OurMapImpl
+   * @see MapImpl
    */
   public static JComponent getMap() {
     if (map == null)
-      map = new OurMapImpl();
+      map = new MapImpl();
     return map;
   }
 
@@ -130,30 +126,30 @@ public final class Controller {
    * @param b
    *          To show or not to show
    */
-  public static void updateMap(int n, int m) {
-    map.updateFilter(n, m);
+  public static void updateMap(int n, boolean m) {
+    map.updateRoadTypes(n, m);
   }
-  public static void scaleMap(int i, int j) {
-	    map.scale(i, j);
-	}
+//  public static void scaleMap(int i, int j) {
+//	    map.setScale();
+//	}
   
   public static void showAll(){
-    map.showAll();
+    map.resetZoom();
   }
 
-  public static double getxMin() {
+  public static int getxMin() {
 		return xMin;
 	}
 
-	public static double getyMin() {
+	public static int getyMin() {
 		return yMin;
 	}
 
-	public static double getxMax() {
+	public static int getxMax() {
 		return xMax;
 	}
 
-	public static double getyMax() {
+	public static int getyMax() {
 		return yMax;
 	}
   /**
@@ -163,7 +159,6 @@ public final class Controller {
    * @param args
    */
   public static void main(String[] args) {
-    GUI gui = new GUI();
-    System.out.println("GUI created");
+    new GUI();
   }
 }
