@@ -101,10 +101,12 @@ public final class Controller {
    */
   public Connection[] getConnections(double x1, double y1, double x2, double y2){
 	  System.out.println(x1+" "+y1+" "+x2+" "+y2);
+	  //get HashSet of connection IDs from QuadTree
+	  //this is fast?
     HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
     Connection[] cs = new Connection[cons.size()];
     int size = 0;
-    for(Integer i : cons){
+    for(Integer i : cons){ //this is slow
       cs[size++] = connections[i];
     }
     return cs;
