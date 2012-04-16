@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -159,10 +160,9 @@ public class GUI extends JComponent {
 		optionPanel.setLayout(new BoxLayout(optionPanel,BoxLayout.Y_AXIS));
 
 		// add the checkbox, and the other GUI to the right panel.
-		optionPanel.add(createCheckbox());
-		optionPanel.add(createZoomOutButton());
-		optionPanel.add(Box.createRigidArea(new Dimension(50,350)));
 		optionPanel.add(createRouteplanningBox());
+		optionPanel.add(createZoomOutButton());
+		optionPanel.add(createCheckbox());
 		// add the optionPanel to the contentPanes borderlayout.
 		contentPane.add(optionPanel,"East");
 	}
@@ -171,8 +171,32 @@ public class GUI extends JComponent {
 		JPanel routePlanning = new JPanel(new GridLayout(3, 1));
 		routePlanning.setBorder(new TitledBorder(new EtchedBorder(), "Route planning"));
 		
-		return routePlanning;		
+		// from row
+		JLabel labelFrom = new JLabel("From");
+		JTextField textFrom = new JTextField(10);
+		textFrom.setBackground(Color.lightGray);
+		JPanel fromPanel = new JPanel(new FlowLayout(2));
+		fromPanel.add(labelFrom);
+		fromPanel.add(textFrom);
 		
+		// to row
+		JLabel labelTo = new JLabel("To");
+		JTextField textTo = new JTextField(10);
+		textTo.setBackground(Color.lightGray);
+		JPanel toPanel = new JPanel(new FlowLayout(2));
+		toPanel.add(labelTo);
+		toPanel.add(textTo);
+
+		// go row
+		JButton go = new JButton("Go");
+		JPanel goPanel = new JPanel(new FlowLayout(1));
+		goPanel.add(go);
+		
+		routePlanning.add(fromPanel);
+		routePlanning.add(toPanel);
+		routePlanning.add(go);
+
+		return routePlanning;		
 	}
 
 	private JPanel createZoomOutButton() {
