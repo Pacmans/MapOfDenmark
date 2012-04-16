@@ -31,10 +31,10 @@ public class MapImpl extends JComponent {
 	 * gets all the needed coordinates
 	 */
 	private void resetCoordinates() {
-		xMin = (double) Controller.getxMin() -10;
-		yMin = (double) Controller.getyMin() -10;
-		xMax = (double) Controller.getxMax() +10;
-		yMax = (double) Controller.getyMax() +10;
+		xMin = Controller.getxMin() -10;
+		yMin = Controller.getyMin() -10;
+		xMax = Controller.getxMax() +10;
+		yMax = Controller.getyMax() +10;
 	}
 
 	private void CalcCoordinates() {

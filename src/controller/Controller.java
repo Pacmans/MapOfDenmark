@@ -29,7 +29,7 @@ public final class Controller {
   private static FileLoader fileLoader;
   private Connection[] connections;
   private ConnectionQuadTree qt;
-	private static int xMin, yMin, xMax, yMax;
+	private static double xMin, yMin, xMax, yMax;
 
 /**
    * Constructor for this class loads connections and points from FileLoader
@@ -137,19 +137,19 @@ public final class Controller {
     map.resetZoom();
   }
 
-  public static int getxMin() {
+  public static double getxMin() {
 		return xMin;
 	}
 
-	public static int getyMin() {
+	public static double getyMin() {
 		return yMin;
 	}
 
-	public static int getxMax() {
+	public static double getxMax() {
 		return xMax;
 	}
 
-	public static int getyMax() {
+	public static double getyMax() {
 		return yMax;
 	}
   /**
