@@ -1,16 +1,11 @@
 package files;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
@@ -46,6 +41,7 @@ public class FileLoaderConnectionOnly implements FileLoader {
     
     String line = null; 
     index = -1;
+    if(inputA.ready()) {
     while ((line = inputA.readLine()) != null) {
       if (index == -1)
         index = 0;
@@ -67,11 +63,12 @@ public class FileLoaderConnectionOnly implements FileLoader {
 
         index++;
       }
+    }
 
     }
     index = -1;
     cqt = new ConnectionQuadTree();
-    
+    if(inputB.ready()) {
     while ((line = inputB.readLine()) != null) {
       if (index == -1)
         index = 0;
@@ -186,6 +183,7 @@ public class FileLoaderConnectionOnly implements FileLoader {
         
         index++;
       }
+    }
 
     }
     System.out.println("QuadTree created");
