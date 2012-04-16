@@ -55,11 +55,10 @@ public class GUI extends JComponent {
 		makeFrame();
 		makeMenuBar();
 		makeRightPanel();
-		setupFrame();
-		Controller.getInstance();
-		setupMap();
+		setupFrame(); // show frame
+		Controller.getInstance(); // get the Controller
+		setupMap(); // load the map
     }
-    
     
 	private void setupFrame() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
