@@ -7,6 +7,14 @@ import javax.swing.JComponent;
 import controller.Controller;
 import dataStructure.Connection;
 
+/**
+ * 
+ * @author Claus L. Henriksen - clih@itu.dk
+ * @author Bjørn
+ * @author The Pacmans
+ * @version 16 April 2012
+ *
+ */
 @SuppressWarnings("serial")
 public class MapImpl extends JComponent {
 
