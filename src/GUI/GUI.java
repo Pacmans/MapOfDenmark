@@ -16,28 +16,31 @@ import controller.Controller;
  */
 
 public class GUI {
-
 	// This field contains the current version of the program.
-    private static final String VERSION = "Version 1.0";
+   private static final String VERSION = "Version 1.0";
         // The main frame of our program.
     private JFrame frame;
-    private JPanel contentPane, mapPanel;
+    private JPanel contentPane, mapPanel, loadingPanel;
 	private int number = 1;
 	// Coordinates for zoom box
 	private int xClicked, yClicked, xMove, yMove;
 	// The map from the controller
 	private JComponent map;
+	// A ButtonGroup with car, bike, and walk.
+	private ButtonGroup group;
+	// selected JToggleButton - 0 if car, 1 if bike, 2 if walk.
+	private int selectedTransport = 0;
 	private boolean isMouseDown;
 	
     public GUI() {
-    	Controller.getInstance();
 		makeFrame();
 		makeMenuBar();
 		map = Controller.getMap();
-		//createZoomRect(map);
 		makeMap(map);
 		makeRightPanel();
 		setupFrame();
+		Controller.getInstance();
+		setupMap();
     }
     
     
@@ -51,14 +54,24 @@ public class GUI {
 				d.height/2 - frame.getHeight()/2);
 		// make the user unable to resize the window.
 		frame.setVisible(true);
+		
+	}
+
+	private void setupMap() {
+		map = Controller.getMap();
+		mapPanel = new JPanel();
+		mapPanel.add(map);
+		contentPane.remove(loadingPanel);
+		contentPane.add(mapPanel,"Center");
 		frame.addComponentListener(new ComponentAdapter(){
 			public void componentResized(ComponentEvent e) {
 				 //Controller.scaleMap(mapPanel.getWidth(),mapPanel.getHeight());
 				 mapPanel.updateUI();
 			}
 		});
+		frame.pack();
+		frame.setSize(800, 600);
 	}
-
 
 	public void quit() {
 		// Exits the application.
@@ -72,7 +85,7 @@ public class GUI {
     private void showAbout() {
 	JOptionPane.showMessageDialog(frame, 
 				      "Map Of Denmark - " + VERSION + 
-				      "\nMade by Claus, Bjørn, Phillip, Morten & Anders.",
+				      "\nMade by Claus, Bj√∏rn, Phillip, Morten & Anders.",
 				      "About Map Of Denmark", 
 				      JOptionPane.INFORMATION_MESSAGE);
     }
@@ -81,8 +94,12 @@ public class GUI {
     	// create the frame set the layout and border.
     	frame = new JFrame("Map Of Denmark");
     	contentPane = (JPanel) frame.getContentPane();
-    	contentPane.setBorder(new EmptyBorder(6, 6, 6, 6));
-    	contentPane.setLayout(new BorderLayout(10, 10));
+    	contentPane.setBorder(new EmptyBorder(4, 4, 4, 4));
+    	contentPane.setLayout(new BorderLayout(5, 5));
+    	loadingPanel = new JPanel(new FlowLayout(1));
+    	loadingPanel.setBorder(new EmptyBorder(150, 6, 6, 6));
+    	loadingPanel.add(new JLabel("Loading map..."));
+    	contentPane.add(loadingPanel, "Center");
     }
     
     private void makeMenuBar() {
@@ -135,13 +152,103 @@ public class GUI {
 		optionPanel.setLayout(new BoxLayout(optionPanel,BoxLayout.Y_AXIS));
 
 		// add the checkbox, and the other GUI to the right panel.
+		optionPanel.add(createRouteplanningBox());
 		optionPanel.add(createCheckbox());
 		optionPanel.add(createZoomOutButton());
-		optionPanel.add(Box.createRigidArea(new Dimension(50,350)));
 		// add the optionPanel to the contentPanes borderlayout.
 		contentPane.add(optionPanel,"East");
 	}
+	
+	private JPanel createRouteplanningBox() {
+//		JPanel routePlanningBox = new JPanel(new BorderLayout());
 
+		JPanel routePlanning = new JPanel();
+		routePlanning.setLayout(new BoxLayout(routePlanning,BoxLayout.Y_AXIS));
+		routePlanning.setBorder(new TitledBorder(new EtchedBorder(), "Route planning"));
+		
+		// from row
+		JLabel label = new JLabel("From");
+		JTextField text = new JTextField(10);
+		text.setBackground(Color.lightGray);
+		JPanel fromPanel = new JPanel(new FlowLayout(2));
+		fromPanel.add(label);
+		fromPanel.add(text);
+		
+		// to row
+		label = new JLabel("To");
+		text = new JTextField(10);
+		text.setBackground(Color.lightGray);
+		JPanel toPanel = new JPanel(new FlowLayout(2));
+		toPanel.add(label);
+		toPanel.add(text);
+		
+		// go button
+		JButton go = new JButton("Go");
+		go.setPreferredSize(new Dimension(60,25));
+		go.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// get the selected transportation type and DO SOMETHING
+//				getSelectedTransportation()
+			}
+		} );
+		JPanel goPanel = new JPanel(new FlowLayout(1));
+		goPanel.add(go);
+		
+		routePlanning.add(fromPanel);
+		routePlanning.add(toPanel);
+		routePlanning.add(createTogglePanel());
+		routePlanning.add(goPanel);
+		
+		return routePlanning;		
+	}
+
+	// toggleButtons in a ButtonGroup
+	private JPanel createTogglePanel() {
+		JPanel togglePanel = new JPanel(new FlowLayout(1));
+		group = new ButtonGroup();
+		ImageIcon icon = getScaledIcon(new ImageIcon("./src/icons/car.png"));
+		togglePanel.add(createJToggleButton(icon,true, 0));
+		
+		icon = getScaledIcon(new ImageIcon("./src/icons/bike.png"));
+		togglePanel.add(createJToggleButton(icon,false, 1));
+		
+		icon = getScaledIcon(new ImageIcon("./src/icons/walk.png"));
+		togglePanel.add(createJToggleButton(icon,false, 2));
+		return togglePanel;
+	}
+	
+	private ImageIcon getScaledIcon(ImageIcon icon) {
+		Image img = icon.getImage();  
+		Image newimg = img.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH);  
+		return new ImageIcon(newimg);
+	}
+	
+	private JToggleButton createJToggleButton(ImageIcon ico, boolean selected, int number) {
+		JToggleButton button = new JToggleButton();
+		final int _number = number;
+		if(selected == true) 
+			button.setSelected(true);
+		button.setIcon(ico);
+		button.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED)
+					setSelectedTransportation(_number);
+			}
+		});
+		group.add(button);
+		return button;
+	}
+	
+	// return 0 if car, 1 if bike, 2 if walk.
+	private int getSelectedTransportation() {
+		return selectedTransport;
+	}
+	
+	// return 0 if car, 1 if bike, 2 if walk.
+		private void setSelectedTransportation(int number) {
+			selectedTransport = number;
+		}
+	
 	private JPanel createZoomOutButton() {
 		JPanel zoomPanel = new JPanel(new FlowLayout(1));
 		JButton zoomOut = new JButton("Zoom out");
@@ -169,11 +276,11 @@ public class GUI {
 	}
 
 	private JPanel createRoadtypeBox(String string, boolean selected) {
+		final String _string = string;
 		JPanel fl = new JPanel(new FlowLayout(0));
 		JCheckBox box = new JCheckBox(string);
 		box.setSelected(selected);
 		box.addItemListener(new ItemListener() {
-			@SuppressWarnings("deprecation")
 			public void itemStateChanged(ItemEvent e) {
 				if(((AbstractButton) e.getItem()).getLabel() == "Highways")number = 1;
 				else if(((AbstractButton) e.getItem()).getLabel() == "Expressways")number = 2;
@@ -186,7 +293,6 @@ public class GUI {
 					Controller.updateMap(number, true);
 				else
 					Controller.updateMap(number, false);
-				
 			}
 		});
 		fl.add(box);
