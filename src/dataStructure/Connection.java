@@ -45,6 +45,15 @@ public class Connection implements Comparable<Connection>{
     return type;
   }
   
+  //TODO Calculate this
+  public double getLength(){
+    return 0;
+  }
+  //TODO Make this realistic
+  public double getWeight(){
+    return getLength()*type.priority();
+  }
+  
   public int compareTo(Connection con){
     int a = id - con.getID();
     if(a < 0) return -1;
