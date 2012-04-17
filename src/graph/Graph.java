@@ -7,7 +7,8 @@ public class Graph {
   private EdgeWeightedDigraph g;
   
   public void buildGraph(){
-    //Get points
+    //Get points (or numberOfPoints)
+    //Reintroduce point as a class?
     
     //Get roads
     Connection[] connections = Controller.getInstance().getConnections();
