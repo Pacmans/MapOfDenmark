@@ -152,6 +152,7 @@ public final class Controller {
 	public static double getyMax() {
 		return yMax;
 	}
+	
   /**
    * Main method creates a new GUI
    * 
