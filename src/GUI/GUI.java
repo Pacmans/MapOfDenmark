@@ -33,16 +33,26 @@ public class GUI {
 	private boolean isMouseDown;
 	
     public GUI() {
-		makeFrame();
-		makeMenuBar();
-		map = Controller.getMap();
-		makeMap(map);
-		makeRightPanel();
-		setupFrame();
-		Controller.getInstance();
-		setupMap();
+		makeFrame(); // make the JFrame and add loadingPanel
+		makeMenuBar(); // create and add the menu bar to the JFrame
+		makeRightPanel(); // make the right panel with the menus
+		setupFrame(); // setup and show JFrame
+		Controller.getInstance(); // get the Controller
+		setupMap(); 
+		// load the map - when ready, delete loadingPanel and show map.
     }
     
+    private void makeFrame() {
+    	// create the frame set the layout and border.
+    	frame = new JFrame("Map Of Denmark");
+    	contentPane = (JPanel) frame.getContentPane();
+    	contentPane.setBorder(new EmptyBorder(4, 4, 4, 4));
+    	contentPane.setLayout(new BorderLayout(5, 5));
+    	loadingPanel = new JPanel(new FlowLayout(1));
+    	loadingPanel.setBorder(new EmptyBorder(150, 6, 6, 6));
+    	loadingPanel.add(new JLabel("Loading map..."));
+    	contentPane.add(loadingPanel, "Center");
+    }
     
 	private void setupFrame() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,17 +100,6 @@ public class GUI {
 				      JOptionPane.INFORMATION_MESSAGE);
     }
     
-    private void makeFrame() {
-    	// create the frame set the layout and border.
-    	frame = new JFrame("Map Of Denmark");
-    	contentPane = (JPanel) frame.getContentPane();
-    	contentPane.setBorder(new EmptyBorder(4, 4, 4, 4));
-    	contentPane.setLayout(new BorderLayout(5, 5));
-    	loadingPanel = new JPanel(new FlowLayout(1));
-    	loadingPanel.setBorder(new EmptyBorder(150, 6, 6, 6));
-    	loadingPanel.add(new JLabel("Loading map..."));
-    	contentPane.add(loadingPanel, "Center");
-    }
     
     private void makeMenuBar() {
     	// Create key stroke shortcuts for the menu.
@@ -139,11 +138,6 @@ public class GUI {
     	menu.add(item);
     }
     
-	private void makeMap(JComponent map) {
-		mapPanel = new JPanel(new GridLayout(1,1));
-		mapPanel.add(map);
-		contentPane.add(mapPanel,"Center");
-	}
 
 	private void makeRightPanel() {
 		// initialize a new JPanel.
@@ -231,8 +225,11 @@ public class GUI {
 		button.setIcon(ico);
 		button.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED)
+				if(e.getStateChange() == ItemEvent.SELECTED) {
 					setSelectedTransportation(_number);
+					System.out.println("You selected: " + 
+							getSelectedTransportation());
+				}
 			}
 		});
 		group.add(button);
@@ -282,19 +279,20 @@ public class GUI {
 		box.setSelected(selected);
 		box.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if(((AbstractButton) e.getItem()).getLabel() == "Highways")number = 1;
-				else if(((AbstractButton) e.getItem()).getLabel() == "Expressways")number = 2;
-				else if(((AbstractButton) e.getItem()).getLabel() == "Primary roads")number = 3;
-				else if(((AbstractButton) e.getItem()).getLabel() == "Secondary roads")number = 4;
-				else if(((AbstractButton) e.getItem()).getLabel() == "Normal roads")number = 5;
-				else if(((AbstractButton) e.getItem()).getLabel() == "Trails & streets")number = 6;
-				else if(((AbstractButton) e.getItem()).getLabel() == "Paths")number = 7;
-				if (e.getStateChange() == 1)
-					Controller.updateMap(number, true);
-				else
-					Controller.updateMap(number, false);
-			}
-		});
+				if(_string.equals("Highways")) number = 1;
+				if(_string.equals("Expressways")) number = 2;
+				if(_string.equals("Primary roads")) number = 3;
+				if(_string.equals("Secondary roads")) number = 4;
+				if(_string.equals("Normal roads")) number = 5;
+				if(_string.equals("Trails & streets")) number = 6;
+				if(_string.equals("Trails & streets")) number = 7;
+				if(map != null) {
+					if (e.getStateChange() == 1)
+						Controller.updateMap(number, true);
+					else
+						Controller.updateMap(number, false);
+				}
+		}});
 		fl.add(box);
 		number++;
 		return fl;
