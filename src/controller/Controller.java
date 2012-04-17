@@ -117,6 +117,22 @@ public final class Controller {
   public Connection[] getConnections() {
     return connections;
   }
+  
+  /**
+   * Show alert on GUI 
+   * @param s Alert to be shown
+   */
+  public void showAlert(String s){
+    
+  }
+  
+  /**
+   * Set status label on GUI
+   * @param s Status to be shown
+   */
+  public void setStatus(String s){
+    
+  }
 
   /**
    * Show or hide a type of road
