@@ -27,10 +27,10 @@ public class OurMapImpl extends JComponent {
 
 	public OurMapImpl() {
 		showPrio = new boolean[] { true, true, true, false, false, false, false };
-		xMin = Controller.getxMin();
-		yMin = Controller.getyMin();
-		xMax = Controller.getxMax();
-		yMax = Controller.getyMax();
+		xMin = (int) Controller.getxMin();
+		yMin = (int) Controller.getyMin();
+		xMax = (int) Controller.getxMax();
+		yMax = (int) Controller.getyMax();
 		repaint();
 		addListener();
 
@@ -100,10 +100,10 @@ public class OurMapImpl extends JComponent {
 	}
 	
 	public void showAll(){
-		xMin = Controller.getxMin();
-		yMin = Controller.getyMin();
-		xMax = Controller.getxMax();
-		yMax = Controller.getyMax();
+		xMin = (int) Controller.getxMin();
+		yMin = (int) Controller.getyMin();
+		xMax = (int) Controller.getxMax();
+		yMax = (int) Controller.getyMax();
 		zoomX = 100;
 		zoomY = 100;
 		scaleX = 100;

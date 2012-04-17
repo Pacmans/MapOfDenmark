@@ -1,26 +1,9 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
+import javax.swing.border.*;
 
 import controller.Controller;
 
@@ -32,11 +15,9 @@ import controller.Controller;
  *
  */
 
-@SuppressWarnings("serial")
-public class GUI extends JComponent {
-
+public class GUI {
 	// This field contains the current version of the program.
-    private static final String VERSION = "Version 1.0";
+   private static final String VERSION = "Version 1.0";
         // The main frame of our program.
     private JFrame frame;
     private JPanel contentPane, mapPanel, loadingPanel;
@@ -52,12 +33,25 @@ public class GUI extends JComponent {
 	private boolean isMouseDown;
 	
     public GUI() {
-		makeFrame();
-		makeMenuBar();
-		makeRightPanel();
-		setupFrame(); // show frame
+		makeFrame(); // make the JFrame and add loadingPanel
+		makeMenuBar(); // create and add the menu bar to the JFrame
+		makeRightPanel(); // make the right panel with the menus
+		setupFrame(); // setup and show JFrame
 		Controller.getInstance(); // get the Controller
-		setupMap(); // load the map
+		setupMap(); 
+		// load the map - when ready, delete loadingPanel and show map.
+    }
+    
+    private void makeFrame() {
+    	// create the frame set the layout and border.
+    	frame = new JFrame("Map Of Denmark");
+    	contentPane = (JPanel) frame.getContentPane();
+    	contentPane.setBorder(new EmptyBorder(4, 4, 4, 4));
+    	contentPane.setLayout(new BorderLayout(5, 5));
+    	loadingPanel = new JPanel(new FlowLayout(1));
+    	loadingPanel.setBorder(new EmptyBorder(150, 6, 6, 6));
+    	loadingPanel.add(new JLabel("Loading map..."));
+    	contentPane.add(loadingPanel, "Center");
     }
     
 	private void setupFrame() {
@@ -75,14 +69,13 @@ public class GUI extends JComponent {
 
 	private void setupMap() {
 		map = Controller.getMap();
-		createZoomRect(map);
 		mapPanel = new JPanel();
 		mapPanel.add(map);
 		contentPane.remove(loadingPanel);
 		contentPane.add(mapPanel,"Center");
 		frame.addComponentListener(new ComponentAdapter(){
 			public void componentResized(ComponentEvent e) {
-				 Controller.scaleMap(mapPanel.getWidth(),mapPanel.getHeight());
+				 //Controller.scaleMap(mapPanel.getWidth(),mapPanel.getHeight());
 				 mapPanel.updateUI();
 			}
 		});
@@ -107,17 +100,6 @@ public class GUI extends JComponent {
 				      JOptionPane.INFORMATION_MESSAGE);
     }
     
-    private void makeFrame() {
-    	// create the frame set the layout and border.
-    	frame = new JFrame("Map Of Denmark");
-    	contentPane = (JPanel) frame.getContentPane();
-    	contentPane.setBorder(new EmptyBorder(4, 4, 4, 4));
-    	contentPane.setLayout(new BorderLayout(5, 5));
-    	loadingPanel = new JPanel(new FlowLayout(1));
-    	loadingPanel.setBorder(new EmptyBorder(150, 6, 6, 6));
-    	loadingPanel.add(new JLabel("Loading map..."));
-    	contentPane.add(loadingPanel, "Center");
-    }
     
     private void makeMenuBar() {
     	// Create key stroke shortcuts for the menu.
@@ -156,6 +138,7 @@ public class GUI extends JComponent {
     	menu.add(item);
     }
     
+
 	private void makeRightPanel() {
 		// initialize a new JPanel.
 		JPanel optionPanel = new JPanel();
@@ -242,8 +225,11 @@ public class GUI extends JComponent {
 		button.setIcon(ico);
 		button.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED)
+				if(e.getStateChange() == ItemEvent.SELECTED) {
 					setSelectedTransportation(_number);
+					System.out.println("You selected: " + 
+							getSelectedTransportation());
+				}
 			}
 		});
 		group.add(button);
@@ -300,9 +286,13 @@ public class GUI extends JComponent {
 				if(_string.equals("Normal roads")) number = 5;
 				if(_string.equals("Trails & streets")) number = 6;
 				if(_string.equals("Trails & streets")) number = 7;
-				Controller.updateMap(number, e.getStateChange());
-			}
-		});
+				if(map != null) {
+					if (e.getStateChange() == 1)
+						Controller.updateMap(number, true);
+					else
+						Controller.updateMap(number, false);
+				}
+		}});
 		fl.add(box);
 		number++;
 		return fl;
@@ -313,33 +303,6 @@ public class GUI extends JComponent {
 		g.setColor(new Color(255,255,255));
 		g.drawRect(xClicked, yClicked, xMove-xClicked, yMove-yClicked);
 		}
-	}
-	
-	private void createZoomRect(JComponent map) {
-		map.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				xClicked = e.getX();
-				yClicked = e.getY();
-				isMouseDown = true;
-				repaint();
-			}
-
-			public void mouseDragged(MouseEvent e) {
-				isMouseDown = true;
-				xMove = e.getX();
-				yMove = e.getY();
-				repaint();
-			}
-			
-			public void mouseReleased(MouseEvent e) {
-				xClicked = -10;
-				yClicked = -10;
-				xMove = -10;
-				yMove = -10;
-				isMouseDown = false;
-				repaint();
-			} 
-		});
 	}
 	
 	public Dimension getPreferredSize() {

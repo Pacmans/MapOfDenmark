@@ -2,18 +2,14 @@ package controller;
 
 import files.FileLoader;
 import files.FileLoaderConnectionOnly;
-import files.FileLoaderSmart;
 import gui.GUI;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 
-import visualization.OurMapImpl;
+import visualization.MapImpl;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Interval;
@@ -29,11 +25,11 @@ import dataStructure.Interval2D;
 public final class Controller {
   private static Controller instance; // singleton
   private static GUI gui; // singleton
-  private static OurMapImpl map; // singleton
+  private static MapImpl map; // singleton
   private static FileLoader fileLoader;
   private Connection[] connections;
   private ConnectionQuadTree qt;
-	private static int xMin, yMin, xMax, yMax;
+	private static double xMin, yMin, xMax, yMax;
 
 /**
    * Constructor for this class loads connections and points from FileLoader
@@ -81,11 +77,11 @@ public final class Controller {
   /**
    * 
    * @return Returns instance of the singleton class Map which paints the map
-   * @see OurMapImpl
+   * @see MapImpl
    */
   public static JComponent getMap() {
     if (map == null)
-      map = new OurMapImpl();
+      map = new MapImpl();
     return map;
   }
 
@@ -130,30 +126,30 @@ public final class Controller {
    * @param b
    *          To show or not to show
    */
-  public static void updateMap(int n, int m) {
-    map.updateFilter(n, m);
+  public static void updateMap(int n, boolean m) {
+    map.updateRoadTypes(n, m);
   }
-  public static void scaleMap(int i, int j) {
-	    map.scale(i, j);
-	}
+//  public static void scaleMap(int i, int j) {
+//	    map.setScale();
+//	}
   
   public static void showAll(){
-    map.showAll();
+    map.resetZoom();
   }
 
-  public static int getxMin() {
+  public static double getxMin() {
 		return xMin;
 	}
 
-	public static int getyMin() {
+	public static double getyMin() {
 		return yMin;
 	}
 
-	public static int getxMax() {
+	public static double getxMax() {
 		return xMax;
 	}
 
-	public static int getyMax() {
+	public static double getyMax() {
 		return yMax;
 	}
   /**
@@ -163,7 +159,6 @@ public final class Controller {
    * @param args
    */
   public static void main(String[] args) {
-    GUI gui = new GUI();
-    System.out.println("GUI created");
+    new GUI();
   }
 }
