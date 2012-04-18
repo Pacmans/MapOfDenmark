@@ -17,7 +17,7 @@ public class Graph {
     g = new EdgeWeightedDigraph(2, connections.length); //vertices, edges 
     
     //add edges
-    for(Connection con : connections){
+    for(iterate over Nodes in ConnectionQuadTree){
       g.addEdge(new DirectedEdge(v, w, con.getWeight()));
     }
   }
