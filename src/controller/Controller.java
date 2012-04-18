@@ -10,7 +10,6 @@ import java.util.HashSet;
 import javax.swing.JComponent;
 
 import visualization.MapComponent;
-import visualization.MapImpl;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Interval;
