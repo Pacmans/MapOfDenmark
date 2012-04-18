@@ -1,26 +1,9 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
+import javax.swing.border.*;
 
 import controller.Controller;
 
@@ -31,26 +14,20 @@ import controller.Controller;
  * @version 10. April 2012
  *
  */
-
-@SuppressWarnings("serial")
-public class GUI extends JComponent {
+public class GUI{
 
   // This field contains the current version of the program.
     private static final String VERSION = "Version 1.0";
         // The main frame of our program.
     private JFrame frame;
     private JPanel contentPane, mapPanel, loadingPanel;
-  private int number = 1;
-  // Coordinates for zoom box
-  private int xClicked, yClicked, xMove, yMove;
   // The map from the controller
   private JComponent map;
   // A ButtonGroup with car, bike, and walk.
   private ButtonGroup group;
   // selected JToggleButton - 0 if car, 1 if bike, 2 if walk.
-  private int selectedTransport = 0;
-  private boolean isMouseDown;
-
+  private int selectedTransport = 0, number;
+  
     public GUI() {
     makeFrame();
     makeMenuBar();
@@ -76,14 +53,13 @@ public class GUI extends JComponent {
 
   private void setupMap() {
     map = Controller.getMap();
-    createZoomRect(map);
     mapPanel = new JPanel();
     mapPanel.add(map);
     contentPane.remove(loadingPanel);
     contentPane.add(mapPanel,"Center");
     frame.addComponentListener(new ComponentAdapter(){
       public void componentResized(ComponentEvent e) {
-         Controller.scaleMap(mapPanel.getWidth(),mapPanel.getHeight());
+//         Controller.scaleMap(mapPanel.getWidth(),mapPanel.getHeight());
          mapPanel.updateUI();
       }
     });
@@ -299,52 +275,13 @@ public class GUI extends JComponent {
         if(_string.equals("Normal roads")) number = 5;
         if(_string.equals("Trails & streets")) number = 6;
         if(_string.equals("Trails & streets")) number = 7;
-        Controller.updateMap(number, e.getStateChange());
+        if (e.getStateChange() == 1)
+          Controller.updateMap(number, true);
+        else
+          Controller.updateMap(number, false);
       }
     });
     fl.add(box);
     return fl;
-  }
-
-  public void paint(Graphics g) {
-    if(isMouseDown) {
-    g.setColor(new Color(255,255,255));
-    g.drawRect(xClicked, yClicked, xMove-xClicked, yMove-yClicked);
-    }
-  }
-
-  private void createZoomRect(JComponent map) {
-    map.addMouseListener(new MouseAdapter() {
-      public void mousePressed(MouseEvent e) {
-        xClicked = e.getX();
-        yClicked = e.getY();
-        isMouseDown = true;
-        repaint();
-      }
-
-      public void mouseDragged(MouseEvent e) {
-        isMouseDown = true;
-        xMove = e.getX();
-        yMove = e.getY();
-        repaint();
-      }
-
-      public void mouseReleased(MouseEvent e) {
-        xClicked = -10;
-        yClicked = -10;
-        xMove = -10;
-        yMove = -10;
-        isMouseDown = false;
-        repaint();
-      } 
-    });
-  }
-
-  public Dimension getPreferredSize() {
-    return (new Dimension(map.getPreferredSize())); 
-  }
-
-  public Dimension getMinimumSize() {
-    return getPreferredSize();
   }
 }
