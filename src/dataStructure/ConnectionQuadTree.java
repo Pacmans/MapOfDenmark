@@ -2,11 +2,11 @@ package dataStructure;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Iterator;
 
-public class ConnectionQuadTree{
+public class ConnectionQuadTree implements Iterable<Node>{
   private Node root;
   private HashSet<Integer> array;
-  private int nodes = 0;
   private double xmin, ymin, xmax, ymax;
   
   /**
@@ -18,34 +18,9 @@ public class ConnectionQuadTree{
   
   //TODO Change javadoc !point
   
-  /**
-   * Wrapper class used for the 2D data structure. 
-   * Each leaf is a Node.
-   */
-  private class Node{
-    Node NW, NE, SE, SW; //Four subtrees
-    BigDecimal x, y;
-    HashSet<Integer> connections = new HashSet<Integer>();
-    
-    Node(BigDecimal x, BigDecimal y, int connection){
-      this.x = x;
-      this.y = y;
-      connections.add(connection);
-    }
-    
-    public void addConnection(int id){
-      connections.add(id);
-    }
-    
-    public HashSet<Integer> getConnections(){
-      return connections;
-    }
-  }
-  
   public void insert(BigDecimal x, BigDecimal y, int connection){
     if(root == null){
       root = new Node(x, y, connection);
-      nodes++;
       return;
     }
     //Check if exists
@@ -82,7 +57,6 @@ public class ConnectionQuadTree{
     else if (x.compareTo(h.x)<1 && (y.compareTo(h.y)>0)) h.NW = insert(h.NW, x, y, connection);
     else if (x.compareTo(h.x)>0 && (y.compareTo(h.y)<1)) h.SE = insert(h.SE, x, y, connection);
     else if (x.compareTo(h.x)>0 && (y.compareTo(h.y)>0)) h.NE = insert(h.NE, x, y, connection);
-    else nodes++;
     return h;
   }
   
@@ -116,5 +90,11 @@ public class ConnectionQuadTree{
     if(xmin <= h.x.doubleValue() && ymax >  h.y.doubleValue()) getRect(h.NW, rect);
     if(xmax >  h.x.doubleValue() && ymin <= h.y.doubleValue()) getRect(h.SE, rect);
     if(xmax >  h.x.doubleValue() && ymax >  h.y.doubleValue()) getRect(h.NE, rect);
+  }
+
+  @Override
+  public Iterator<Node> iterator() {
+    // TODO DFS or BFS?
+    return null;
   }
 }
