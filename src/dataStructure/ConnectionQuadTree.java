@@ -2,8 +2,9 @@ package dataStructure;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Iterator;
 
-public class ConnectionQuadTree{
+public class ConnectionQuadTree implements Iterable{
   private Node root;
   private HashSet<Integer> array;
   private int nodes = 0;
@@ -116,5 +117,11 @@ public class ConnectionQuadTree{
     if(xmin <= h.x.doubleValue() && ymax >  h.y.doubleValue()) getRect(h.NW, rect);
     if(xmax >  h.x.doubleValue() && ymin <= h.y.doubleValue()) getRect(h.SE, rect);
     if(xmax >  h.x.doubleValue() && ymax >  h.y.doubleValue()) getRect(h.NE, rect);
+  }
+
+  @Override
+  public Iterator iterator() {
+    // TODO DFS or BFS?
+    return null;
   }
 }
