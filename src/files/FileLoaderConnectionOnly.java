@@ -1,16 +1,11 @@
 package files;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
@@ -37,13 +32,16 @@ public class FileLoaderConnectionOnly implements FileLoader {
   Point[] cords = new Point[675902];
 
   public FileLoaderConnectionOnly() throws IOException {
-    File a = new File("./src/files/kdv_node_unload.txt");
-    File b = new File("./src/files/kdv_unload.txt");
-    BufferedReader inputA = new BufferedReader(new FileReader(a));
-    BufferedReader inputB = new BufferedReader(new FileReader(b));
+//    File a = new File("./src/files/kdv_node_unload.txt");
+//    File b = new File("./src/files/kdv_unload.txt");
+	InputStream a = getClass().getResourceAsStream("kdv_node_unload.txt");
+	InputStream b = getClass().getResourceAsStream("kdv_unload.txt");
+    BufferedReader inputA = new BufferedReader(new InputStreamReader(a));
+    BufferedReader inputB = new BufferedReader(new InputStreamReader(b));
     
     String line = null; 
     index = -1;
+    if(inputA.ready()) {
     while ((line = inputA.readLine()) != null) {
       if (index == -1)
         index = 0;
@@ -65,11 +63,12 @@ public class FileLoaderConnectionOnly implements FileLoader {
 
         index++;
       }
+    }
 
     }
     index = -1;
     cqt = new ConnectionQuadTree();
-    
+    if(inputB.ready()) {
     while ((line = inputB.readLine()) != null) {
       if (index == -1)
         index = 0;
@@ -184,6 +183,7 @@ public class FileLoaderConnectionOnly implements FileLoader {
         
         index++;
       }
+    }
 
     }
     System.out.println("QuadTree created");
