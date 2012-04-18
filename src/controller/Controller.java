@@ -29,7 +29,7 @@ public final class Controller {
   private static FileLoader fileLoader;
   private Connection[] connections;
   private ConnectionQuadTree qt;
-	private static double xMin, yMin, xMax, yMax;
+  private static double xMin, yMin, xMax, yMax;
 
 /**
    * Constructor for this class loads connections and points from FileLoader
@@ -96,9 +96,9 @@ public final class Controller {
    * @return
    */
   public Connection[] getConnections(double x1, double y1, double x2, double y2){
-	  System.out.println(x1+" "+y1+" "+x2+" "+y2);
-	  //get HashSet of connection IDs from QuadTree
-	  //this is fast?
+    System.out.println(x1+" "+y1+" "+x2+" "+y2);
+    //get HashSet of connection IDs from QuadTree
+    //this is fast?
     HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
     Connection[] cs = new Connection[cons.size()];
     int size = 0;
@@ -146,28 +146,28 @@ public final class Controller {
     map.updateRoadTypes(n, m);
   }
 //  public static void scaleMap(int i, int j) {
-//	    map.setScale();
-//	}
+//      map.setScale();
+//  }
   
   public static void showAll(){
     map.resetZoom();
   }
 
   public static double getxMin() {
-		return xMin;
-	}
+    return xMin;
+  }
 
-	public static double getyMin() {
-		return yMin;
-	}
+  public static double getyMin() {
+    return yMin;
+  }
 
-	public static double getxMax() {
-		return xMax;
-	}
+  public static double getxMax() {
+    return xMax;
+  }
 
-	public static double getyMax() {
-		return yMax;
-	}
+  public static double getyMax() {
+    return yMax;
+  }
   /**
    * Main method creates a new GUI
    * 
