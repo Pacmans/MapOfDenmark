@@ -305,7 +305,6 @@ public class GUI extends JComponent {
 			}
 		});
 		fl.add(box);
-		number++;
 		return fl;
 	}
 	
