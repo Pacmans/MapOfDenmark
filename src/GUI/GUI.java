@@ -53,7 +53,8 @@ public class GUI{
 
   private void setupMap() {
     map = Controller.getMap();
-    mapPanel = new JPanel();
+    mapPanel = new JPanel(new GridLayout(1,1));
+    mapPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.darkGray));
     mapPanel.add(map);
     contentPane.remove(loadingPanel);
     contentPane.add(mapPanel,"Center");
@@ -217,8 +218,10 @@ public class GUI{
     button.setIcon(ico);
     button.addItemListener(new ItemListener() {
       public void itemStateChanged(ItemEvent e) {
-        if(e.getStateChange() == ItemEvent.SELECTED)
+        if(e.getStateChange() == ItemEvent.SELECTED) {
           setSelectedTransportation(_number);
+          System.out.println(getSelectedTransportation());
+        }
       }
     });
     group.add(button);
@@ -274,7 +277,7 @@ public class GUI{
         if(_string.equals("Secondary roads")) number = 4;
         if(_string.equals("Normal roads")) number = 5;
         if(_string.equals("Trails & streets")) number = 6;
-        if(_string.equals("Trails & streets")) number = 7;
+        if(_string.equals("Paths")) number = 7;
         if (e.getStateChange() == 1)
           Controller.updateMap(number, true);
         else
