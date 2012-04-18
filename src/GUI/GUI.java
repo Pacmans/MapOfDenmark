@@ -172,8 +172,6 @@ public class GUI extends JComponent {
 	}
 	
 	private JPanel createRouteplanningBox() {
-//		JPanel routePlanningBox = new JPanel(new BorderLayout());
-
 		JPanel routePlanning = new JPanel();
 		routePlanning.setLayout(new BoxLayout(routePlanning,BoxLayout.Y_AXIS));
 		routePlanning.setBorder(new TitledBorder(new EtchedBorder(), "Route planning"));
