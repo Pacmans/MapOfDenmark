@@ -1,5 +1,6 @@
 package controller;
 
+import exceptions.ExceptionController;
 import files.FileLoader;
 import files.FileLoaderConnectionOnly;
 import gui.GUI;
@@ -10,6 +11,7 @@ import java.util.HashSet;
 import javax.swing.JComponent;
 
 import visualization.MapComponent;
+import visualization.MapImpl;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Interval;
@@ -122,9 +124,10 @@ public final class Controller {
    * Show alert on GUI 
    * @param s Alert to be shown
    */
-  public void showAlert(String s){
-    
+  public void showAlert(Exception e){
+	ExceptionController.recieveException(e);
   }
+  
   
   /**
    * Set status label on GUI
