@@ -29,13 +29,13 @@ public class ExceptionController {
 			// adds the cause of the error
 			// to the message if it exists
 			while (t != null) {
-				message += "\n" + t.getCause();
+				message += " " + t.getCause();
 			}
+			message += "\n" + "Program will now execute!";
 			printMessage(message,title);
-			
+			System.exit(0);
 		}
 	}
-	
 	
 	public static void printMessage(String message, String title) {
 		JOptionPane.showMessageDialog(null, message, title,
