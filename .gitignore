@@ -10,6 +10,7 @@ build/
 kdv_node_unload.txt
 kdv_unload.txt
 .DS_Store
-points.txt
-src/Union/kdv_node_unload.txt
-src/Union/kdv_unload.txt
+src/files/kdv_node_unload.txt
+src/files/kdv_unload.txt
+smart_data.txt
+src/files/smart_data.txt

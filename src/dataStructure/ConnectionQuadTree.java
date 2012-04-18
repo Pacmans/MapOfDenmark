@@ -1,7 +1,6 @@
 package dataStructure;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ConnectionQuadTree{
@@ -10,6 +9,12 @@ public class ConnectionQuadTree{
   private int nodes = 0;
   private double xmin, ymin, xmax, ymax;
   
+  /**
+   * 
+   * @author Claus L. Henriksen clih@itu.dk
+   * @author Pacmans
+   * @version 30. Marts 2012
+   */
   
   //TODO Change javadoc !point
   

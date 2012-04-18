@@ -1,61 +1,59 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.MouseInputAdapter;
+import javax.swing.border.*;
 
 import controller.Controller;
-import dataStructure.Connection;
 
-public class GUI extends JComponent {
+/**
+ * 
+ * @author Anders
+ * @author Pacmans
+ * @version 10. April 2012
+ *
+ */
 
+public class GUI {
 	// This field contains the current version of the program.
-    private static final String VERSION = "Version 1.0";
+   private static final String VERSION = "Version 1.0";
         // The main frame of our program.
     private JFrame frame;
-    private JPanel contentPane, mapPanel;
+    private JPanel contentPane, mapPanel, loadingPanel;
 	private int number = 1;
 	private Rectangle currentRect;
 	// Coordinates for zoom box
 	private int xClicked, yClicked, xMove, yMove;
 	// The map from the controller
 	private JComponent map;
+	// A ButtonGroup with car, bike, and walk.
+	private ButtonGroup group;
+	// selected JToggleButton - 0 if car, 1 if bike, 2 if walk.
+	private int selectedTransport = 0;
 	private boolean isMouseDown;
 	
     public GUI() {
-    	Controller.getInstance();
-		makeFrame();
-		makeMenuBar();
-		map = Controller.getMap();
-		makeMap(map);
-		makeRightPanel();
-		setupFrame();
+		makeFrame(); // make the JFrame and add loadingPanel
+		makeMenuBar(); // create and add the menu bar to the JFrame
+		makeRightPanel(); // make the right panel with the menus
+		setupFrame(); // setup and show JFrame
+		Controller.getInstance(); // get the Controller
+		setupMap(); 
+		// load the map - when ready, delete loadingPanel and show map.
     }
     
+    private void makeFrame() {
+    	// create the frame set the layout and border.
+    	frame = new JFrame("Map Of Denmark");
+    	contentPane = (JPanel) frame.getContentPane();
+    	contentPane.setBorder(new EmptyBorder(4, 4, 4, 4));
+    	contentPane.setLayout(new BorderLayout(5, 5));
+    	loadingPanel = new JPanel(new FlowLayout(1));
+    	loadingPanel.setBorder(new EmptyBorder(150, 6, 6, 6));
+    	loadingPanel.add(new JLabel("Loading map..."));
+    	contentPane.add(loadingPanel, "Center");
+    }
     
 	private void setupFrame() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,14 +65,24 @@ public class GUI extends JComponent {
 				d.height/2 - frame.getHeight()/2);
 		// make the user unable to resize the window.
 		frame.setVisible(true);
+		
+	}
+
+	private void setupMap() {
+		map = Controller.getMap();
+		mapPanel = new JPanel();
+		mapPanel.add(map);
+		contentPane.remove(loadingPanel);
+		contentPane.add(mapPanel,"Center");
 		frame.addComponentListener(new ComponentAdapter(){
 			public void componentResized(ComponentEvent e) {
-				 Controller.scaleMap(mapPanel.getWidth(),mapPanel.getHeight());
+				 //Controller.scaleMap(mapPanel.getWidth(),mapPanel.getHeight());
 				 mapPanel.updateUI();
 			}
 		});
+		frame.pack();
+		frame.setSize(800, 600);
 	}
-
 
 	public void quit() {
 		// Exits the application.
@@ -88,18 +96,11 @@ public class GUI extends JComponent {
     private void showAbout() {
 	JOptionPane.showMessageDialog(frame, 
 				      "Map Of Denmark - " + VERSION + 
-				      "\nMade by Claus, Bjørn, Phillip, Morten & Anders.",
+				      "\nMade by Claus, Bj√∏rn, Phillip, Morten & Anders.",
 				      "About Map Of Denmark", 
 				      JOptionPane.INFORMATION_MESSAGE);
     }
     
-    private void makeFrame() {
-    	// create the frame set the layout and border.
-    	frame = new JFrame("Map Of Denmark");
-    	contentPane = (JPanel) frame.getContentPane();
-    	contentPane.setBorder(new EmptyBorder(6, 6, 6, 6));
-    	contentPane.setLayout(new BorderLayout(10, 10));
-    }
     
     private void makeMenuBar() {
     	// Create key stroke shortcuts for the menu.
@@ -138,11 +139,6 @@ public class GUI extends JComponent {
     	menu.add(item);
     }
     
-	private void makeMap(JComponent map) {
-		mapPanel = new JPanel();
-		mapPanel.add(map);
-		contentPane.add(mapPanel,"Center");
-	}
 
 	private void makeRightPanel() {
 		// initialize a new JPanel.
@@ -151,13 +147,106 @@ public class GUI extends JComponent {
 		optionPanel.setLayout(new BoxLayout(optionPanel,BoxLayout.Y_AXIS));
 
 		// add the checkbox, and the other GUI to the right panel.
+		optionPanel.add(createRouteplanningBox());
 		optionPanel.add(createCheckbox());
 		optionPanel.add(createZoomOutButton());
-		optionPanel.add(Box.createRigidArea(new Dimension(50,350)));
 		// add the optionPanel to the contentPanes borderlayout.
 		contentPane.add(optionPanel,"East");
 	}
+	
+	private JPanel createRouteplanningBox() {
+//		JPanel routePlanningBox = new JPanel(new BorderLayout());
 
+		JPanel routePlanning = new JPanel();
+		routePlanning.setLayout(new BoxLayout(routePlanning,BoxLayout.Y_AXIS));
+		routePlanning.setBorder(new TitledBorder(new EtchedBorder(), "Route planning"));
+		
+		// from row
+		JLabel label = new JLabel("From");
+		JTextField text = new JTextField(10);
+		text.setBackground(Color.lightGray);
+		JPanel fromPanel = new JPanel(new FlowLayout(2));
+		fromPanel.add(label);
+		fromPanel.add(text);
+		
+		// to row
+		label = new JLabel("To");
+		text = new JTextField(10);
+		text.setBackground(Color.lightGray);
+		JPanel toPanel = new JPanel(new FlowLayout(2));
+		toPanel.add(label);
+		toPanel.add(text);
+		
+		// go button
+		JButton go = new JButton("Go");
+		go.setPreferredSize(new Dimension(60,25));
+		go.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// get the selected transportation type and DO SOMETHING
+//				getSelectedTransportation()
+			}
+		} );
+		JPanel goPanel = new JPanel(new FlowLayout(1));
+		goPanel.add(go);
+		
+		routePlanning.add(fromPanel);
+		routePlanning.add(toPanel);
+		routePlanning.add(createTogglePanel());
+		routePlanning.add(goPanel);
+		
+		return routePlanning;		
+	}
+
+	// toggleButtons in a ButtonGroup
+	private JPanel createTogglePanel() {
+		JPanel togglePanel = new JPanel(new FlowLayout(1));
+		group = new ButtonGroup();
+		ImageIcon icon = getScaledIcon(new ImageIcon("./src/icons/car.png"));
+		togglePanel.add(createJToggleButton(icon,true, 0));
+		
+		icon = getScaledIcon(new ImageIcon("./src/icons/bike.png"));
+		togglePanel.add(createJToggleButton(icon,false, 1));
+		
+		icon = getScaledIcon(new ImageIcon("./src/icons/walk.png"));
+		togglePanel.add(createJToggleButton(icon,false, 2));
+		return togglePanel;
+	}
+	
+	private ImageIcon getScaledIcon(ImageIcon icon) {
+		Image img = icon.getImage();  
+		Image newimg = img.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH);  
+		return new ImageIcon(newimg);
+	}
+	
+	private JToggleButton createJToggleButton(ImageIcon ico, boolean selected, int number) {
+		JToggleButton button = new JToggleButton();
+		final int _number = number;
+		if(selected == true) 
+			button.setSelected(true);
+		button.setIcon(ico);
+		button.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					setSelectedTransportation(_number);
+					System.out.println("You selected: " + 
+							getSelectedTransportation());
+				}
+			}
+		});
+		group.add(button);
+		return button;
+	}
+	
+	// return 0 if car, 1 if bike, 2 if walk.
+	private int getSelectedTransportation() {
+		return selectedTransport;
+	}
+	
+	// return 0 if car, 1 if bike, 2 if walk.
+		private void setSelectedTransportation(int number) {
+			selectedTransport = number;
+		}
+	
 	private JPanel createZoomOutButton() {
 		JPanel zoomPanel = new JPanel(new FlowLayout(1));
 		JButton zoomOut = new JButton("Zoom out");
@@ -185,28 +274,38 @@ public class GUI extends JComponent {
 	}
 
 	private JPanel createRoadtypeBox(String string, boolean selected) {
+		final String _string = string;
 		JPanel fl = new JPanel(new FlowLayout(0));
 		JCheckBox box = new JCheckBox(string);
 		box.setSelected(selected);
 		box.addItemListener(new ItemListener() {
-			@SuppressWarnings("deprecation")
 			public void itemStateChanged(ItemEvent e) {
-				if(((AbstractButton) e.getItem()).getLabel() == "Highways")number = 1;
-				else if(((AbstractButton) e.getItem()).getLabel() == "Expressways")number = 2;
-				else if(((AbstractButton) e.getItem()).getLabel() == "Primary roads")number = 3;
-				else if(((AbstractButton) e.getItem()).getLabel() == "Secondary roads")number = 4;
-				else if(((AbstractButton) e.getItem()).getLabel() == "Normal roads")number = 5;
-				else if(((AbstractButton) e.getItem()).getLabel() == "Trails & streets")number = 6;
-				else if(((AbstractButton) e.getItem()).getLabel() == "Paths")number = 7;
-				Controller.updateMap(number, e.getStateChange());
-				
-			}
-		});
+				if(_string.equals("Highways")) number = 1;
+				if(_string.equals("Expressways")) number = 2;
+				if(_string.equals("Primary roads")) number = 3;
+				if(_string.equals("Secondary roads")) number = 4;
+				if(_string.equals("Normal roads")) number = 5;
+				if(_string.equals("Trails & streets")) number = 6;
+				if(_string.equals("Trails & streets")) number = 7;
+				if(map != null) {
+					if (e.getStateChange() == 1)
+						Controller.updateMap(number, true);
+					else
+						Controller.updateMap(number, false);
+				}
+		}});
 		fl.add(box);
 		number++;
 		return fl;
 	}
 	
+	public void paint(Graphics g) {
+		if(isMouseDown) {
+		g.setColor(new Color(255,255,255));
+		g.drawRect(xClicked, yClicked, xMove-xClicked, yMove-yClicked);
+		}
+	}
+
 	public Dimension getPreferredSize() {
 		return (new Dimension(map.getPreferredSize()));	
 	}

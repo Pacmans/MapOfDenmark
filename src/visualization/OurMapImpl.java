@@ -13,8 +13,9 @@ import controller.Controller;
 import dataStructure.Connection;
 
 /**
- * 
+ * @author Phillip
  * @author Pacmans
+ * @version 10. April 2012
  * 
  */
 public class OurMapImpl extends JComponent {
@@ -26,10 +27,10 @@ public class OurMapImpl extends JComponent {
 
 	public OurMapImpl() {
 		showPrio = new boolean[] { true, true, true, false, false, false, false };
-		xMin = Controller.getxMin();
-		yMin = Controller.getyMin();
-		xMax = Controller.getxMax();
-		yMax = Controller.getyMax();
+		xMin = (int) Controller.getxMin();
+		yMin = (int) Controller.getyMin();
+		xMax = (int) Controller.getxMax();
+		yMax = (int) Controller.getyMax();
 		repaint();
 		addListener();
 
@@ -64,11 +65,19 @@ public class OurMapImpl extends JComponent {
 	public void addListener() {
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+<<<<<<< HEAD
 				xClicked = e.getX()*100*100/(scaleX*zoomX);
 				yClicked = -e.getY()*100*100/(scaleY*zoomY);
 				xClicked = xClicked + xMin;
 				yClicked = yClicked + yMax;
 			}
+=======
+					xClicked = e.getX()*100*100/(scaleX*zoomX);
+					yClicked = -e.getY()*100*100/(scaleY*zoomY);
+					xClicked = xClicked + xMin;
+					yClicked = yClicked + yMax;
+				}
+>>>>>>> 4bf4c0742a6a321cde4873bc4d8593bb9da659f1
 
 			public void mouseReleased(MouseEvent e) {
 
@@ -98,10 +107,10 @@ public class OurMapImpl extends JComponent {
 	}
 	
 	public void showAll(){
-		xMin = Controller.getxMin();
-		yMin = Controller.getyMin();
-		xMax = Controller.getxMax();
-		yMax = Controller.getyMax();
+		xMin = (int) Controller.getxMin();
+		yMin = (int) Controller.getyMin();
+		xMax = (int) Controller.getxMax();
+		yMax = (int) Controller.getyMax();
 		zoomX = 100;
 		zoomY = 100;
 		scaleX = 100;
@@ -131,7 +140,7 @@ public class OurMapImpl extends JComponent {
 		}
 	}
 	public void scale(int i, int j){
-
+		System.out.println(xMax+" "+xMin);
 		scaleX = (i*100)/(xMax-xMin);
 		scaleY = (j*100)/(yMax-yMin);
 		repaint();
