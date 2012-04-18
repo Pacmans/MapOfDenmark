@@ -1,6 +1,6 @@
 package exceptions;
 
-import java.sql.SQLException;
+import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
@@ -11,28 +11,30 @@ public class ExceptionController {
 	 * Informs the user of an error while connecting to the database
 	 * 
 	 * @param ex
-	 *            the SQLException to show
+	 *            the IOException to show
 	 */
-	public static void printSQLException(SQLException ex) {
-		for (Throwable e : ex) {
-			if (e instanceof SQLException) {
+	public static void handleIOException(IOException ex) {
+			if (ex instanceof IOException) {
 				// sets the title of the error window
-				String title = "Database Error";
+				String title = "Input/Output error";
 				// sets the message of the error window
-				String message = "SQLState: "
-						+ ((SQLException) e).getSQLState();
-				message += "\nError Code: " + ((SQLException) e).getErrorCode();
-				message += "\nMessage: " + e.getMessage();
+				String message = "";
+				message += "\nMessage: " + ex.getMessage();
 				Throwable t = ex.getCause();
 				// adds the cause of the error
 				// to the message if it exists
 				while (t != null) {
 					message += "\n" + t.getCause();
 				}
-				JOptionPane.showMessageDialog(null, message, title,
-				JOptionPane.ERROR_MESSAGE);
+				printMessage(message,title);
+				
 			}
-		}
+	}
+	
+	
+	public static void printMessage(String message, String title) {
+		JOptionPane.showMessageDialog(null, message, title,
+		JOptionPane.ERROR_MESSAGE);
 	}
 
 	
