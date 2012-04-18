@@ -65,19 +65,11 @@ public class OurMapImpl extends JComponent {
 	public void addListener() {
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-<<<<<<< HEAD
-				xClicked = e.getX()*100*100/(scaleX*zoomX);
-				yClicked = -e.getY()*100*100/(scaleY*zoomY);
-				xClicked = xClicked + xMin;
-				yClicked = yClicked + yMax;
-			}
-=======
-					xClicked = e.getX()*100*100/(scaleX*zoomX);
+			xClicked = e.getX()*100*100/(scaleX*zoomX);
 					yClicked = -e.getY()*100*100/(scaleY*zoomY);
 					xClicked = xClicked + xMin;
 					yClicked = yClicked + yMax;
 				}
->>>>>>> 4bf4c0742a6a321cde4873bc4d8593bb9da659f1
 
 			public void mouseReleased(MouseEvent e) {
 

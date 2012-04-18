@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 import javax.swing.JComponent;
 
-import visualization.MapImpl;
+import visualization.MapComponent;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Interval;
@@ -25,7 +25,7 @@ import dataStructure.Interval2D;
 public final class Controller {
   private static Controller instance; // singleton
   private static GUI gui; // singleton
-  private static MapImpl map; // singleton
+  private static MapComponent map; // singleton
   private static FileLoader fileLoader;
   private Connection[] connections;
   private ConnectionQuadTree qt;
@@ -81,7 +81,7 @@ public final class Controller {
    */
   public static JComponent getMap() {
     if (map == null)
-      map = new MapImpl();
+      map = new MapComponent();
     return map;
   }
 
