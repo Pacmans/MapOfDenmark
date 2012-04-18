@@ -1,15 +1,15 @@
 package controller;
 
+import exceptions.ExceptionController;
 import files.FileLoader;
 import files.FileLoaderConnectionOnly;
 import gui.GUI;
 
-import java.io.IOException;
 import java.util.HashSet;
 
 import javax.swing.JComponent;
 
-import visualization.MapImpl;
+import visualization.MapComponent;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Interval;
@@ -25,11 +25,11 @@ import dataStructure.Interval2D;
 public final class Controller {
   private static Controller instance; // singleton
   private static GUI gui; // singleton
-  private static MapImpl map; // singleton
+  private static MapComponent map; // singleton
   private static FileLoader fileLoader;
   private Connection[] connections;
   private ConnectionQuadTree qt;
-	private static double xMin, yMin, xMax, yMax;
+  private static double xMin, yMin, xMax, yMax;
 
 /**
    * Constructor for this class loads connections and points from FileLoader
@@ -47,8 +47,8 @@ public final class Controller {
       xMax = fileLoader.getxMax().intValue();
       yMax = fileLoader.getyMax().intValue();
       qt = fileLoader.getConnectionQuadTree();
-    } catch (IOException e) {
-      System.out.println("Fileloader: " + e);
+    } catch (Exception e) {
+      showAlert(e);
     }
     fileLoader = null;
   }
@@ -81,7 +81,7 @@ public final class Controller {
    */
   public static JComponent getMap() {
     if (map == null)
-      map = new MapImpl();
+      map = new MapComponent();
     return map;
   }
 
@@ -96,9 +96,9 @@ public final class Controller {
    * @return
    */
   public Connection[] getConnections(double x1, double y1, double x2, double y2){
-	  System.out.println(x1+" "+y1+" "+x2+" "+y2);
-	  //get HashSet of connection IDs from QuadTree
-	  //this is fast?
+    System.out.println(x1+" "+y1+" "+x2+" "+y2);
+    //get HashSet of connection IDs from QuadTree
+    //this is fast?
     HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1, x2), new Interval(y1, y2)));
     Connection[] cs = new Connection[cons.size()];
     int size = 0;
@@ -117,6 +117,23 @@ public final class Controller {
   public Connection[] getConnections() {
     return connections;
   }
+  
+  /**
+   * Show alert on GUI 
+   * @param s Alert to be shown
+   */
+  public static void showAlert(Exception e){
+  ExceptionController.recieveException(e);
+  }
+  
+  
+  /**
+   * Set status label on GUI
+   * @param s Status to be shown
+   */
+  public static void setStatus(String s){
+//    GUI.setStatus(s);
+  }
 
   /**
    * Show or hide a type of road
@@ -130,29 +147,28 @@ public final class Controller {
     map.updateRoadTypes(n, m);
   }
 //  public static void scaleMap(int i, int j) {
-//	    map.setScale();
-//	}
+//      map.setScale();
+//  }
   
   public static void showAll(){
     map.resetZoom();
   }
 
   public static double getxMin() {
-		return xMin;
-	}
+    return xMin;
+  }
 
-	public static double getyMin() {
-		return yMin;
-	}
+  public static double getyMin() {
+    return yMin;
+  }
 
-	public static double getxMax() {
-		return xMax;
-	}
+  public static double getxMax() {
+    return xMax;
+  }
 
-	public static double getyMax() {
-		return yMax;
-	}
-	
+  public static double getyMax() {
+    return yMax;
+  }
   /**
    * Main method creates a new GUI
    * 
