@@ -12,7 +12,7 @@ import java.util.HashSet;
  *
  */
 public class Point implements Comparable<Point>{
-	private int ID, numberOfConnections = 0;
+	private int ID;
 	private BigDecimal xk, yk;
 	private HashSet<Integer> connections = new HashSet<Integer>();
 	
