@@ -1,5 +1,7 @@
 package dataStructure;
 
+import java.math.BigDecimal;
+
 /**
  * @(#)Connection.java
  *
@@ -8,11 +10,11 @@ package dataStructure;
  * @version 20. Marts. 2012
  */
 
-
 public class Connection implements Comparable<Connection>{
   private Point left, right;
   private RoadType type;
   private int id;
+  private double length = -1;
 
   public Connection(int id, Point p, Point q, RoadType type) {
     this.id = id;
@@ -52,10 +54,20 @@ public class Connection implements Comparable<Connection>{
     return right;
   }
   
-  //TODO Calculate this
   public double getLength(){
-    return 0;
+    //if length has not been calculated
+    if(length < 0){
+      BigDecimal dx = right.getX().subtract(left.getX());
+      BigDecimal dy = new BigDecimal(0);
+      if (left.getY().compareTo(right.getY()) == -1)
+        dy = right.getY().subtract(left.getY());
+      else
+        dy = left.getY().subtract(right.getY());
+      length = Math.sqrt(dx.pow(2).add(dy.pow(2)).doubleValue()); 
+    }
+    return length;
   }
+  
   //TODO Make this realistic
   public double getWeight(){
     return getLength();
