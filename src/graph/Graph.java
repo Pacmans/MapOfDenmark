@@ -1,5 +1,8 @@
 package graph;
 
+import java.util.HashSet;
+import java.util.Iterator;
+
 import controller.Controller;
 import dataStructure.Connection;
 import dataStructure.Point;
@@ -14,13 +17,14 @@ import dataStructure.Point;
  */
 public class Graph {
   private EdgeWeightedDigraph g;
+  private Connection[] connections;
   
   public Graph(){
     //Get points 
     Point[] points = Controller.getInstance().getPoints();
     
     //Get roads
-    Connection[] connections = Controller.getInstance().getConnections();
+    connections = Controller.getInstance().getConnections();
 
     //Create graph
     g = new EdgeWeightedDigraph(points.length, connections.length); //vertices, edges 
@@ -33,8 +37,27 @@ public class Graph {
   }
   
   //Return length or calc on handle?
-  public Connection[] shortestPath(Point p, Point q){
+  public Connection[] shortestPath(Point from, Point to){
+    //See DijkstraSP class
+    DijkstraSP dijk = new DijkstraSP(g, from.getID());
+    //If there is no path between points
+    if(!dijk.hasPathTo(to.getID())) return null;
     
-    return null;
-  }
+    HashSet<Integer> cs = new HashSet<Integer>();
+    Iterator<DirectedEdge> it = dijk.pathTo(to.getID()).iterator();
+    
+    while(it.hasNext()){
+      DirectedEdge edge = it.next();
+      cs.add(edge.from());
+      cs.add(edge.to());
+    }
+    
+    //Convert int to actual connections and return them
+    Connection[] path = new Connection[cs.size()];
+    int index = 0;
+    for(Integer i : cs){
+      path[index++] = connections[i];
+    }
+    return path;
+  }  
 }
