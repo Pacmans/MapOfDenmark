@@ -1,8 +1,7 @@
 package controller;
 
 import exceptions.ExceptionController;
-import files.FileLoader;
-import files.FileLoaderConnectionOnly;
+import files.FileLoaderCP;
 import gui.GUI;
 
 import java.util.HashSet;
@@ -14,6 +13,7 @@ import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Interval;
 import dataStructure.Interval2D;
+import dataStructure.Point;
 
 /**
  * 
@@ -26,9 +26,10 @@ public final class Controller {
   private static Controller instance; // singleton
   private static GUI gui; // singleton
   private static MapComponent map; // singleton
-  private static FileLoader fileLoader;
+  private static FileLoaderCP fileLoader;
   private Connection[] connections;
   private ConnectionQuadTree qt;
+  private Point[] points;
   private static double xMin, yMin, xMax, yMax;
 
 /**
@@ -40,13 +41,14 @@ public final class Controller {
     if (instance == null)
       instance = this;
     try {
-      fileLoader = new FileLoaderConnectionOnly();
+      fileLoader = new FileLoaderCP();
       connections = fileLoader.getConnections();
       xMin = fileLoader.getxMin().intValue();
       yMin = fileLoader.getyMin().intValue();
       xMax = fileLoader.getxMax().intValue();
       yMax = fileLoader.getyMax().intValue();
       qt = fileLoader.getConnectionQuadTree();
+      points = fileLoader.getPoints();
     } catch (Exception e) {
       showAlert(e);
     }
@@ -116,6 +118,15 @@ public final class Controller {
    */
   public Connection[] getConnections() {
     return connections;
+  }
+  
+  /**
+   * Get array of all points
+   * @return Array of all points
+   * @see Point
+   */
+  public Point[] getPoints(){
+    return points;
   }
   
   /**
