@@ -171,10 +171,9 @@ public class FileLoaderCP {
         }
 
         connections[index] = new Connection(index,
-            points[Integer.parseInt(split[0]) - 1].getX(),
-            points[Integer.parseInt(split[0]) - 1].getY(),
-            points[Integer.parseInt(split[1]) - 1].getX(),
-            points[Integer.parseInt(split[1]) - 1].getY(), r);
+            points[Integer.parseInt(split[0]) - 1],
+            points[Integer.parseInt(split[1]) - 1],
+            r);
 
         cqt.insert(points[Integer.parseInt(split[0]) - 1].getX(),
             points[Integer.parseInt(split[0]) - 1].getY(), index);

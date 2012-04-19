@@ -24,7 +24,7 @@ import dataStructure.RoadType;
  * @version 10. April 2012
  */
 
-public class FileLoaderConnectionOnly implements FileLoader {
+public class FileLoaderConnectionOnly {
   private BigDecimal xMin = new BigDecimal(700000);
   private BigDecimal xMax = new BigDecimal(0);
   private BigDecimal yMin = new BigDecimal(700000);

@@ -45,15 +45,8 @@ public class Point implements Comparable<Point>{
 	  else return 0;
 	}
 	
+	//TODO Possibly unused
 	public HashSet<Integer> getConnections(){
 	  return connections;
 	}
-	
-//	private void resize(int newsize){
-//	  int[] tmp = new int[newsize];
-//	  for(int i = 0; i < numberOfConnections; i++){
-//	    tmp[i] = connections[i];
-//	  }
-//	  connections = tmp;
-//	}
 }

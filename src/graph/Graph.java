@@ -31,6 +31,7 @@ public class Graph {
     
     //add edges
     for(Connection c : connections){
+      //from, to, weight
       g.addEdge(new DirectedEdge(c.getLeft().getID(), c.getRight().getID(), c.getWeight()));
     }
   }
