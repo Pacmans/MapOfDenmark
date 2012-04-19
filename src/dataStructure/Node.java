@@ -5,13 +5,17 @@ import java.util.HashSet;
 
 /**
  * Wrapper class used for the 2D data structure. Each leaf is a Node.
+ * @see ConnectionQuadTree
+ * @author Claus L. Henriksen - clih@itu.dk
  */
 public class Node {
   Node NW, NE, SE, SW; // Four subtrees
   BigDecimal x, y;
   HashSet<Integer> connections = new HashSet<Integer>();
+  int id;
 
-  Node(BigDecimal x, BigDecimal y, int connection) {
+  Node(int id, BigDecimal x, BigDecimal y, int connection) {
+    this.id = id;
     this.x = x;
     this.y = y;
     connections.add(connection);

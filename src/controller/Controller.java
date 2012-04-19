@@ -169,6 +169,10 @@ public final class Controller {
   public static double getyMax() {
     return yMax;
   }
+  
+  public ConnectionQuadTree getQT(){
+    return qt;
+  }
   /**
    * Main method creates a new GUI
    * 

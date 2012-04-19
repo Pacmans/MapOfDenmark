@@ -8,6 +8,7 @@ public class ConnectionQuadTree implements Iterable<Node>{
   private Node root;
   private HashSet<Integer> array;
   private double xmin, ymin, xmax, ymax;
+  private int node = 0;
   
   /**
    * 
@@ -20,7 +21,7 @@ public class ConnectionQuadTree implements Iterable<Node>{
   
   public void insert(BigDecimal x, BigDecimal y, int connection){
     if(root == null){
-      root = new Node(x, y, connection);
+      root = new Node(node++, x, y, connection);
       return;
     }
     //Check if exists
@@ -52,7 +53,7 @@ public class ConnectionQuadTree implements Iterable<Node>{
    */
   private Node insert(Node h, BigDecimal x, BigDecimal y, int connection){
     if(h == null) {
-    	return new Node(x, y, connection);} //First point inserted becomes root
+    	return new Node(node++, x, y, connection);} //First point inserted becomes root
     else if (x.compareTo(h.x)<1 && (y.compareTo(h.y)<1)) h.SW = insert(h.SW, x, y, connection);
     else if (x.compareTo(h.x)<1 && (y.compareTo(h.y)>0)) h.NW = insert(h.NW, x, y, connection);
     else if (x.compareTo(h.x)>0 && (y.compareTo(h.y)<1)) h.SE = insert(h.SE, x, y, connection);
