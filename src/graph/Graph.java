@@ -16,10 +16,6 @@ public class Graph {
   private EdgeWeightedDigraph g;
   
   public Graph(){
-    buildGraph();
-  }
-  
-  public void buildGraph(){
     //Get points 
     Point[] points = Controller.getInstance().getPoints();
     
@@ -34,5 +30,11 @@ public class Graph {
       //from, to, weight
       g.addEdge(new DirectedEdge(c.getLeft().getID(), c.getRight().getID(), c.getWeight()));
     }
+  }
+  
+  //Return length or calc on handle?
+  public Connection[] shortestPath(Point p, Point q){
+    
+    return null;
   }
 }
