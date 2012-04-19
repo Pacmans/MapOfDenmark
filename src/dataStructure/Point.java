@@ -45,7 +45,7 @@ public class Point implements Comparable<Point>{
 	  else return 0;
 	}
 	
-	public Collection<? extends Integer> getConnections(){
+	public HashSet<Integer> getConnections(){
 	  return connections;
 	}
 	

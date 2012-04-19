@@ -1,7 +1,5 @@
 package dataStructure;
 
-import java.math.BigDecimal;
-
 /**
  * @(#)Connection.java
  *
@@ -12,17 +10,20 @@ import java.math.BigDecimal;
 
 
 public class Connection implements Comparable<Connection>{
-  private BigDecimal x1, x2, y1, y2;
+  private Point left, right;
   private RoadType type;
   private int id;
 
-  public Connection(int id, BigDecimal x1, BigDecimal y1, BigDecimal x2, BigDecimal y2, RoadType type) {
+  public Connection(int id, Point p, Point q, RoadType type) {
     this.id = id;
-    this.x1 = x1;
-    this.x2 = x2;
-    this.y1 = y1;
-    this.y2 = y2;
     this.type = type;
+    if(p.getX().compareTo(q.getX()) > 1){
+      right = p;
+      left = q;
+    }else{
+      right = q;
+      left = p;
+    }
   }
     
   public int getID(){
@@ -30,19 +31,25 @@ public class Connection implements Comparable<Connection>{
   }
 
   public double getX1(){
-    return x1.doubleValue();
+    return left.getX().doubleValue();
   }
   public double getX2(){
-    return x2.doubleValue();
+    return right.getX().doubleValue();
   }
   public double getY1(){
-    return y1.doubleValue();
+    return right.getY().doubleValue();
   }
   public double getY2(){
-    return y2.doubleValue();
+    return left.getY().doubleValue();
   }
   public RoadType getType(){
     return type;
+  }
+  public Point getLeft(){
+    return left;
+  }
+  public Point getRight(){
+    return right;
   }
   
   //TODO Calculate this
@@ -51,7 +58,8 @@ public class Connection implements Comparable<Connection>{
   }
   //TODO Make this realistic
   public double getWeight(){
-    return getLength()*type.priority();
+    return getLength();
+//    return getLength()*type.priority();
   }
   
   public int compareTo(Connection con){
