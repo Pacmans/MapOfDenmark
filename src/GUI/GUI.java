@@ -20,6 +20,7 @@ public class GUI {
     private static final String VERSION = "Version 1.0";
         // The main frame of our program.
     private JFrame frame;
+    private Controller controller = Controller.getInstance();
     private JPanel contentPane, mapPanel, loadingPanel;
   // The map from the controller
   private JComponent map;
@@ -54,7 +55,7 @@ public class GUI {
 	  
 
   private void setupMap() {
-    map = Controller.getMap();
+    map = controller.getMap();
     mapPanel = new JPanel(new GridLayout(1,1));
     mapPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.darkGray));
     mapPanel.add(map);
@@ -231,7 +232,7 @@ public class GUI {
     JButton zoomOut = new JButton("Zoom out");
     zoomOut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) { 
-              Controller.showAll();
+              controller.showAll();
              } } );
     zoomPanel.add(zoomOut);
     return zoomPanel;
@@ -267,9 +268,9 @@ public class GUI {
         if(_string.equals("Trails & streets")) number = 6;
         if(_string.equals("Paths")) number = 7;
         if (e.getStateChange() == 1)
-          Controller.updateMap(number, true);
+          controller.updateMap(number, true);
         else
-          Controller.updateMap(number, false);
+          controller.updateMap(number, false);
       }
     });
     fl.add(box);
