@@ -22,7 +22,7 @@ import dataStructure.Interval2D;
  * @version 10. April 2012
  * 
  */
-public final class Controller {
+public final class Controller extends Thread {
   private static Controller instance; // singleton
   private static GUI gui; // singleton
   private static MapComponent map; // singleton
@@ -52,7 +52,7 @@ public final class Controller {
     }
     fileLoader = null;
   }
-
+  
   /**
    * 
    * @return Returns an instance of the singleton Controller (this class)
@@ -144,13 +144,16 @@ public final class Controller {
    *          To show or not to show
    */
   public static void updateMap(int n, boolean m) {
-    map.updateRoadTypes(n, m);
+	  UpdateMapThread u = new UpdateMapThread(n,m, map);
+	  Thread uPMT = new Thread(u);
+	  uPMT.start();
   }
 //  public static void scaleMap(int i, int j) {
 //      map.setScale();
 //  }
   
-  public static void showAll(){
+
+public static void showAll(){
     map.resetZoom();
   }
 

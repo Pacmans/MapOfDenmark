@@ -14,7 +14,7 @@ import controller.Controller;
  * @version 10. April 2012
  *
  */
-public class GUI{
+public class GUI {
 
   // This field contains the current version of the program.
     private static final String VERSION = "Version 1.0";
@@ -51,6 +51,7 @@ public class GUI{
     frame.setVisible(true);
 
   }
+	  
 
   private void setupMap() {
     map = Controller.getMap();
