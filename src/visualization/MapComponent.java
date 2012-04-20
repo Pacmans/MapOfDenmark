@@ -10,41 +10,47 @@ import dataStructure.Connection;
 @SuppressWarnings("serial")
 public class MapComponent extends JComponent {
 
-	private final double zoomScale = 0.2, minDx, maxDx;
+	private final double totalxMin, totalxMax, totalyMin, totalyMax;
+	private final double zoomScale = 0.2, minDx, maxDx, maxDy;
 	private double xMin, yMin, xMax, yMax;
 	private double dx, dy;
 	private double xScale, yScale;
-	private int xClick, yClick; //for the mouselistener
-	//private int height = 400, width = 600; //for the scaling
+	private int xClick, yClick; // for the mouselistener
+//	private int height = 400, width = 600; //for the scaling
 	private boolean[] roadtypes;
 	private Connection[] connections;
+	private Controller control = Controller.getInstance();
 
 	public MapComponent() {
 		roadtypes = new boolean[] { true, true, true, false, false, false,
 				false };
+		totalxMin = (double) (Controller.getxMin()-40); 
+		totalxMax = (double) (Controller.getxMax()+40); 
+		totalyMin = (double) (Controller.getyMin()-20);
+		totalyMax = (double) (Controller.getyMax()+20);
 		resetCoordinates();
-		CalcCoordinates();
-		//decides how much you can zoom in/out
+		calcCoordinates();
+		// decides how much you can zoom in/out
 		maxDx = dx;
-		minDx = dx*0.005;
-		
-		connections = Controller.getInstance().getConnections();
+		minDx = dx * 0.005;
+		maxDy = dy;
+
+		connections = control.getConnections();
 		addListener();
-		setPreferredSize(new Dimension(600,400));
+		setPreferredSize(new Dimension(600, 400));
 	}
 
 	/**
 	 * gets all the needed coordinates
 	 */
 	private void resetCoordinates() {
-		xMin = (double) Controller.getxMin();
-		yMin = (double) Controller.getyMin();
-		xMax = (double) Controller.getxMax();
-		yMax = (double) Controller.getyMax(); 
-		
+		xMin = totalxMin;
+		yMin = totalyMin;
+		xMax = totalxMax;
+		yMax = totalyMax;
 	}
 
-	private void CalcCoordinates() {
+	private void calcCoordinates() {
 		dx = (xMax - xMin) / 2;
 		dy = (yMax - yMin) / 2;
 	}
@@ -64,36 +70,41 @@ public class MapComponent extends JComponent {
 			xMax -= xDifference;
 			yMin += yDifference;
 			yMax -= yDifference;
-		} if (n == -1 && dx < maxDx) { // zooms out
+		}
+		if (n == -1 && dx < maxDx) { // zooms out
 			xMin -= xDifference;
 			xMax += xDifference;
 			yMin -= yDifference;
 			yMax += yDifference;
 		}
-		CalcCoordinates();
 		updateMap();
 	}
-	
+
 	/**
 	 * paints the whole component
 	 */
 	public void paint(Graphics g) {
-		CalcCoordinates();
+		calcCoordinates();
 		setScale();
-		
-		//paints the white background
+
+		// paints the white background
 		g.setColor(Color.white);
-		g.fillRect(2, 2, getWidth()-4, getHeight()-4);
+		g.fillRect(2, 2, getWidth() - 4, getHeight() - 4);
+		
+//		if (dx == maxDx)
+//			connections = control.getConnections();
+//		else
+//			connections = control.getConnections(xMin, yMin, xMax, yMax);
 		
 		for (Connection c : connections) {
 			if (roadtypes[c.getType().priority() - 1]) {
-				//get the coordinates for the line
-				int x1 = (int) ((c.getX1()-xMin)/xScale);
-				int y1 = (int) ((yMax-c.getY1())/yScale);
-				int x2 = (int) ((c.getX2()-xMin)/xScale);
-				int y2 = (int) ((yMax-c.getY2())/yScale);
-				
-				//draws the line
+				// get the coordinates for the line
+				int x1 = (int) ((c.getX1() - xMin) / xScale);
+				int y1 = (int) ((yMax - c.getY1()) / yScale);
+				int x2 = (int) ((c.getX2() - xMin) / xScale);
+				int y2 = (int) ((yMax - c.getY2()) / yScale);
+
+				// draws the line
 				g.setColor(c.getType().color());
 				g.drawLine(x1, y1, x2, y2);
 			}
@@ -103,93 +114,127 @@ public class MapComponent extends JComponent {
 	/**
 	 * set zoom to the original zoom-perspective
 	 */
-	public void resetZoom()
-	{
+	public void resetZoom() {
 		resetCoordinates();
 		updateMap();
 	}
-	
+
 	/**
 	 * adds the mouselisteners to the component
 	 */
 	private void addListener() {
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				if (e.getButton() == MouseEvent.BUTTON1){ //leftclicking
-					//remember where you start draggin to "panorere" with the map
+				if (e.getButton() == MouseEvent.BUTTON1) { // leftclicking
+					// remember where you start draggin to "panorere" with the
+					// map
 					xClick = e.getX();
 					yClick = e.getY();
 				}
 			}
 		});
-		
-		//for "panorering" with the map
+
+		// for "panorering" with the map
 		addMouseMotionListener(new MouseMotionAdapter() {
 			public void mouseDragged(MouseEvent e) {
-				/* -= is because the map has to move the opposite way 
-				 * of the way your dragging the a mouse
-				 */ 
-				xMin -= (e.getX()-xClick)*xScale;
-				xMax -= (e.getX()-xClick)*xScale;
-				yMin -= (yClick-e.getY())*yScale;
-				yMax -= (yClick-e.getY())*yScale;
+				/*
+				 * -= is because the map has to move the opposite way of the way
+				 * your dragging the a mouse
+				 */
+				xMin -= (e.getX() - xClick) * xScale;
+				xMax -= (e.getX() - xClick) * xScale;
+				yMin -= (yClick - e.getY()) * yScale;
+				yMax -= (yClick - e.getY()) * yScale;
+				
+				//remember you have moved the map
 				xClick = e.getX();
 				yClick = e.getY();
 				updateMap();
 			}
 		});
-		
-		//Listener to mousewheel for zooming
+
+		// Listener to mousewheel for zooming
 		addMouseWheelListener(new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {
 				int wheelDirection = e.getWheelRotation();
+
+				if (wheelDirection < 0) // scrolls up
+					zoom(1);// zoom in
+				else
+					// scrolls down
+					zoom(-1); // zoom out
 				
-				if (wheelDirection < 0) //scrolls up
-					zoom(1);//zoom in
-				else  //scrolls down
-					zoom(-1); //zoom out
-						
 				updateMap();
-				}
-			});
-				
+			}
+		});
+
 //		//Listener to keep the scaling when resizing
 //		addComponentListener(new ComponentAdapter(){
 //			public void componentResized(ComponentEvent e) {
-//				//gets the currentWidth and currentHeight after resize
-//		        int currentWidth = getWidth();
-//		        int currentHeight = getHeight();
-//		        
-//		        //width and height is before resize
-//		        if (currentWidth-width < (currentHeight-height)*1.5){
-//		        	height = (int) (currentWidth*0.66);
-//		        	width = currentWidth;
-//		        	setSize(new Dimension(width, height));
-//		        }
-//		        else {
-//		        	width = (int) (currentHeight*1.5);
-//		        	height = currentHeight;
-//		        	setSize(new Dimension(width, height));
-//		        }
-//		    }
+//				 //gets the currentWidth and currentHeight after resize
+//				 int currentWidth = getWidth();
+//				 int currentHeight = getHeight();
+//		
+//				 //width and height is before resize
+//				 if (currentWidth-width < (currentHeight-height)*1.5){
+//					 height = (int) (currentWidth*0.66);
+//					 width = currentWidth;
+//					 setSize(new Dimension(width, height));
+//				 }
+//				 else {
+//					 width = (int) (currentHeight*1.5);
+//					 height = currentHeight;
+//					 setSize(new Dimension(width, height));
+//				 }
+//		 	}
 //		});
+	}
+
+	/**
+	 * always set's the zoom within the boundaries of the map
+	 */
+	public void setWithinBoundaries()
+	{
+		if (dx > maxDx){
+			dx = maxDx;
+			dy = maxDy;
+		}
+		
+		//makes sure you're within the map
+		if (xMin < totalxMin) {
+			xMin = totalxMin;
+			xMax = xMin+(2*dx);
+		}
+		if (xMax > totalxMax) {
+			xMax = totalxMax;
+			xMin = xMax-(2*dx);
+		}
+		if (yMin < totalyMin) {
+			yMin = totalyMin;
+			yMax = yMin+(2*dy);
+		}
+		if (yMax > totalyMax) {
+			yMax = totalyMax;
+			yMin = yMax-(2*dy);
+		}
 	}
 	
 	/**
 	 * updates the map
 	 */
-	private void updateMap()
-	{
-		setVisible(false);
+	private void updateMap() {
+		calcCoordinates();
+		setWithinBoundaries();
 		repaint();
-		setVisible(true);
 	}
-	
+
 	/**
 	 * Sets the scale for the component
 	 */
 	private void setScale() {
-		xScale = (xMax-xMin)/getWidth();//getWidth is inherited from JComponent
-		yScale = (yMax-yMin)/getHeight(); //getHeight is inherited from JComponent
+		xScale = (xMax - xMin) / getWidth();// getWidth is inherited from
+											// JComponent
+		yScale = (yMax - yMin) / getHeight(); // getHeight is inherited from
+												// JComponent
 	}
 }

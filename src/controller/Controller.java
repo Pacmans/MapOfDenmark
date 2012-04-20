@@ -1,10 +1,10 @@
 package controller;
 
+import exceptions.ExceptionController;
 import files.FileLoader;
 import files.FileLoaderConnectionOnly;
 import gui.GUI;
 
-import java.io.IOException;
 import java.util.HashSet;
 
 import javax.swing.JComponent;
@@ -47,8 +47,8 @@ public final class Controller {
       xMax = fileLoader.getxMax().intValue();
       yMax = fileLoader.getyMax().intValue();
       qt = fileLoader.getConnectionQuadTree();
-    } catch (IOException e) {
-      System.out.println("Fileloader: " + e);
+    } catch (Exception e) {
+    	showAlert(e);
     }
     fileLoader = null;
   }
@@ -122,16 +122,17 @@ public final class Controller {
    * Show alert on GUI 
    * @param s Alert to be shown
    */
-  public void showAlert(String s){
-    
+  public static void showAlert(Exception e){
+	ExceptionController.recieveException(e);
   }
+  
   
   /**
    * Set status label on GUI
    * @param s Status to be shown
    */
-  public void setStatus(String s){
-    
+  public static void setStatus(String s){
+//    GUI.setStatus(s);
   }
 
   /**

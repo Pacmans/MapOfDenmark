@@ -27,6 +27,7 @@ public class GUI{
   private ButtonGroup group;
   // selected JToggleButton - 0 if car, 1 if bike, 2 if walk.
   private int selectedTransport = 0, number;
+  private JLabel statusbar = new JLabel(" ");
   
     public GUI() {
     makeFrame();
@@ -58,6 +59,7 @@ public class GUI{
     mapPanel.add(map);
     contentPane.remove(loadingPanel);
     contentPane.add(mapPanel,"Center");
+    contentPane.add(statusbar,"South");
     frame.addComponentListener(new ComponentAdapter(){
       public void componentResized(ComponentEvent e) {
 //         Controller.scaleMap(mapPanel.getWidth(),mapPanel.getHeight());
@@ -68,22 +70,7 @@ public class GUI{
     frame.setSize(800, 600);
   }
 
-  public void quit() {
-    // Exits the application.
-    System.exit(0);
-  }
-
-  /**
-     * Creates a message dialog which shows 
-     * the current version of the application.
-     */
-    private void showAbout() {
-  JOptionPane.showMessageDialog(frame, 
-              "Map Of Denmark - " + VERSION + 
-              "\nMade by Claus, Bjørn, Phillip, Morten & Anders.",
-              "About Map Of Denmark", 
-              JOptionPane.INFORMATION_MESSAGE);
-    }
+  
     
     private void makeFrame() {
       // create the frame set the layout and border.
@@ -287,4 +274,26 @@ public class GUI{
     fl.add(box);
     return fl;
   }
+  
+  public void setStatus(String text) {
+	  statusbar.setText(text);
+  }
+  
+  public void quit() {
+	    // Exits the application.
+	    System.exit(0);
+	  }
+
+	  /**
+	     * Creates a message dialog which shows 
+	     * the current version of the application.
+	     */
+	    private void showAbout() {
+	  JOptionPane.showMessageDialog(frame, 
+	              "Map Of Denmark - " + VERSION + 
+	              "\nMade by Claus, Bjørn, Phillip, Morten & Anders.",
+	              "About Map Of Denmark", 
+	              JOptionPane.INFORMATION_MESSAGE);
+	    }
+  
 }
