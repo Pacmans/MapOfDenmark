@@ -23,7 +23,6 @@ public final class Controller {
 	private static Controller instance; // singleton
 	private static GUI gui;
 	private MapComponent map;
-	private FileLoader fileLoader;
 	private Connection[] connections;
 	private ConnectionQuadTree qt;
 	private double xMin, yMin, xMax, yMax;
@@ -36,7 +35,7 @@ public final class Controller {
 	public Controller() {
 	  instance = this;
 		try {
-			fileLoader = new FileLoaderConnectionOnly();
+			FileLoader fileLoader = new FileLoaderConnectionOnly();
 			connections = fileLoader.getConnections();
 			xMin = fileLoader.getxMin().intValue();
 			yMin = fileLoader.getyMin().intValue();
@@ -45,20 +44,6 @@ public final class Controller {
 			qt = fileLoader.getConnectionQuadTree();
 		} catch (Exception e) {
 			ExceptionController.recieveException(e);
-		}
-		fileLoader = null;
-	}
-
-	/**
-	 * creates one singleton controller and initialize gui and map. Once one
-	 * Controller instance is made you can't get another Controller. Other
-	 * classes should always get map and gui from the controller
-	 */
-	private void createInstances() {
-		if (instance == null) {
-			instance = this;
-			gui = new GUI();
-			map = new MapComponent();
 		}
 	}
 
