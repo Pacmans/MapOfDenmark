@@ -21,7 +21,7 @@ import dataStructure.Interval2D;
  */
 public final class Controller {
 	private static Controller instance; // singleton
-	private GUI gui;
+	private static GUI gui;
 	private MapComponent map;
 	private FileLoader fileLoader;
 	private Connection[] connections;
@@ -47,7 +47,6 @@ public final class Controller {
 			ExceptionController.recieveException(e);
 		}
 		fileLoader = null;
-		gui = new GUI();
 	}
 
 	/**
@@ -78,7 +77,8 @@ public final class Controller {
 	 * @return Returns instance of the singleton class GUI
 	 * @see GUI
 	 */
-	public GUI getGUI() {
+	public static GUI getGUI() {
+	  if(gui == null) gui = new GUI();
 		return gui;
 	}
 
@@ -175,6 +175,6 @@ public final class Controller {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Controller();
+		Controller.getGUI();
 	}
 }
