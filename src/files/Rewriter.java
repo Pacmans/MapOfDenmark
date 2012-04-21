@@ -43,7 +43,7 @@ public class Rewriter {
     System.out.println("Rewirter: Inputs and outputs ready");
     
     //Read and write
-    System.out.println("Writting files...");
+    System.out.println("Rewirter: Writting files...");
     String line = null;
     int index = -1;
     while((line = input.readLine()) != null){
@@ -87,5 +87,12 @@ public class Rewriter {
     r7.close();
     System.out.println("Rewriter: Files written");
   }
-
+  
+  public static void main(String[] args){
+    try{
+      new Rewriter();
+    }catch (Exception e){
+      System.out.println(e);
+    }
+  }
 }
