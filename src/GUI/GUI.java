@@ -55,6 +55,7 @@ public class GUI {
 
   private void setupMap() {
     map = Controller.getMap();
+	map = Controller.getMap();
     mapPanel = new JPanel(new GridLayout(1,1));
     mapPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.darkGray));
     mapPanel.add(map);
@@ -70,6 +71,7 @@ public class GUI {
     frame.pack();
     frame.setSize(800, 600);
   }
+
 
   
     

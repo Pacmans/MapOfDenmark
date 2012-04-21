@@ -36,22 +36,23 @@ public final class Controller extends Thread {
    * 
    * @see FileLoader
    */
-  public Controller() {
+  public Controller() {  
     if (instance == null)
       instance = this;
     try {
-      fileLoader = new FileLoaderConnectionOnly();
-      connections = fileLoader.getConnections();
-      xMin = fileLoader.getxMin().intValue();
-      yMin = fileLoader.getyMin().intValue();
-      xMax = fileLoader.getxMax().intValue();
-      yMax = fileLoader.getyMax().intValue();
-      qt = fileLoader.getConnectionQuadTree();
-    } catch (Exception e) {
-    	showAlert(e);
-    }
-    fileLoader = null;
+    	fileLoader = new FileLoaderConnectionOnly();
+    	connections = fileLoader.getConnections();
+    	xMin = fileLoader.getxMin().intValue();
+    	yMin = fileLoader.getyMin().intValue();
+    	xMax = fileLoader.getxMax().intValue();
+    	yMax = fileLoader.getyMax().intValue();
+    	qt = fileLoader.getConnectionQuadTree();
+    	} catch (Exception e) {
+    		showAlert(e);
+    	}
+    	fileLoader = null;
   }
+
   
   /**
    * 
@@ -68,7 +69,7 @@ public final class Controller extends Thread {
    * @return Returns instance of the singleton class GUI
    * @see GUI-class
    */
-  public static GUI getGUI() {
+  synchronized public static GUI getGUI() {
     if (gui == null)
       gui = new GUI();
     return gui;
@@ -179,6 +180,7 @@ public static void showAll(){
    * @param args
    */
   public static void main(String[] args) {
-    new GUI();
+	  new GUI();
   }
+	
 }
