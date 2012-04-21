@@ -34,7 +34,7 @@ public final class Controller {
 	 * @see FileLoader
 	 */
 	public Controller() {
-		createInstances();
+	  instance = this;
 		try {
 			fileLoader = new FileLoaderConnectionOnly();
 			connections = fileLoader.getConnections();
@@ -47,6 +47,7 @@ public final class Controller {
 			ExceptionController.recieveException(e);
 		}
 		fileLoader = null;
+		gui = new GUI();
 	}
 
 	/**
@@ -68,7 +69,7 @@ public final class Controller {
 	 */
 	public static Controller getInstance() {
 		if (instance == null) // should not happen
-			new Controller(); //Contructor in Controller updates instance
+			new Controller(); //Constructor in Controller updates instance
 		return instance;
 	}
 
@@ -87,6 +88,7 @@ public final class Controller {
 	 * @see MapComponent
 	 */
 	public MapComponent getMap() {
+	  if(map == null) map = new MapComponent();
 		return map;
 	}
 
