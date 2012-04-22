@@ -59,7 +59,7 @@ public class FileLoaderConnectionOnly implements FileLoader {
 
 					//creates and saves the Connection
 					connections[index] = new Connection(index, p1.getX(), 
-							p1.getY(), p2.getX(), p2.getY(), r);
+							p1.getY(), p2.getX(), p2.getY(), r, split[6]);
 
 					//adds p1 and p2 to the quadtree
 					cqt.insert(p1.getX(), p1.getY(), index);
