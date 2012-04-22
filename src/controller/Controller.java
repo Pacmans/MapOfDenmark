@@ -3,7 +3,7 @@ package controller;
 import exceptions.ExceptionController;
 import files.FileLoader;
 import files.FileLoaderConnectionOnly;
-import gui.GUI;
+import GUI.GUI;
 
 import java.util.HashSet;
 
