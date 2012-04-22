@@ -1,16 +1,11 @@
 package files;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
@@ -25,196 +20,175 @@ import dataStructure.RoadType;
  */
 
 public class FileLoaderConnectionOnly implements FileLoader {
-  private BigDecimal xMin = new BigDecimal(700000);
-  private BigDecimal xMax = new BigDecimal(0);
-  private BigDecimal yMin = new BigDecimal(700000);
-  private BigDecimal yMax = new BigDecimal(0);
-  private BigDecimal Scale = new BigDecimal(750);
-  private int index;
-  private ConnectionQuadTree cqt;
+	private BigDecimal xMin;
+	private BigDecimal xMax;
+	private BigDecimal yMin;
+	private BigDecimal yMax;
+	private BigDecimal Scale = new BigDecimal(750); //hvad er dette?
+	private ConnectionQuadTree cqt;
+	private Connection[] connections = new Connection[812301];
+	private Point[] points = new Point[675902];
+	
+	public FileLoaderConnectionOnly() throws IOException {
+		loadPoints();
+		loadConnections();
+	}
+	
+	private void loadConnections() throws IOException
+	{
+		//loads the file "kdv_unload"
+		// File connectionFile = new File("./src/files/kdv_unload.txt");
+		InputStream connectionFile = getClass().getResourceAsStream("kdv_unload.txt");
+		BufferedReader connectionInput = new BufferedReader(new InputStreamReader(connectionFile));
+		
+		String line;
+		int index = -1;
+		Point p1, p2;
+		cqt = new ConnectionQuadTree();
+		
+		if (connectionInput.ready()) { //if loaded
+			while ((line = connectionInput.readLine()) != null) {
+				if (index >= 0){ //ignores the first line
+					String[] split = line.split(",");
+					//gets the correct RoadType
+					RoadType r = getRoadType(Integer.parseInt(split[5]));
+					
+					//gets the points associated with the connection
+					p1 = points[Integer.parseInt(split[0]) - 1];
+					p2 = points[Integer.parseInt(split[1]) - 1];
 
-  Connection[] connections = new Connection[812301];
-  Point[] cords = new Point[675902];
+					//creates and saves the Connection
+					connections[index] = new Connection(index, p1.getX(), 
+							p1.getY(), p2.getX(), p2.getY(), r);
 
-  public FileLoaderConnectionOnly() throws IOException {
-    File a = new File("./src/files/kdv_node_unload.txt");
-    File b = new File("./src/files/kdv_unload.txt");
-    BufferedReader inputA = new BufferedReader(new FileReader(a));
-    BufferedReader inputB = new BufferedReader(new FileReader(b));
-    
-    String line = null; 
-    index = -1;
-    while ((line = inputA.readLine()) != null) {
-      if (index == -1)
-        index = 0;
-      else {
-        String[] split = line.split(",");
-        Point p = new Point(index + 1, new BigDecimal(split[3]).divide(Scale,
-            2, RoundingMode.HALF_UP), new BigDecimal(split[4]).divide(
-            Scale, 2, RoundingMode.HALF_UP));
-        cords[index] = p;
-        // set max and min
-        if (cords[index].getX().compareTo(xMin) == -1)
-          xMin = cords[index].getX();
-        if (cords[index].getX().compareTo(xMax) == 1)
-          xMax = cords[index].getX();
-        if (cords[index].getY().compareTo(yMin) == -1)
-          yMin = cords[index].getY();
-        if (cords[index].getY().compareTo(yMax) == 1)
-          yMax = cords[index].getY();
+					//adds p1 and p2 to the quadtree
+					cqt.insert(p1.getX(), p1.getY(), index);
+					cqt.insert(p2.getX(), p2.getY(), index);
+				}
+				index++;
+			}
+		}
+	}
+	
+	/**
+	 * get the correct enum RoadType from an int
+	 * @param int type
+	 * @return RoadType
+	 */
+	private RoadType getRoadType(int type)
+	{
+		switch (type) {
+		case 1: return RoadType.HIGHWAY;
+		case 2: return RoadType.EXPRESSWAY;
+		case 3: return RoadType.PRIMARYWAY;
+		case 4: return RoadType.SECONDARYWAY;
+		case 5: return RoadType.ROAD3M;
+		case 6: return RoadType.OTHERROAD;
+		case 8: return RoadType.PATH;
+		case 10: return RoadType.LANE;
+		case 11: return RoadType.PEDESTRIAN;
+		case 21: return RoadType.PROJHIGHWAY;
+		case 22: return RoadType.PROJEXPRESSWAY;
+		case 23: return RoadType.PROJPRIMARYWAY;
+		case 24: return RoadType.PROJSECONDARYWAY;
+		case 25: return RoadType.PROJROAD6M;
+		case 26: return RoadType.PROJROAD3M;
+		case 28: return RoadType.PROJPATH;
+		case 31: return RoadType.HIGHWAYINTERSECTION;
+		case 32: return RoadType.EXPRESSWAYEXIT;
+		case 33: return RoadType.PRIMARYWAYINTERSECTION;
+		case 34: return RoadType.SECONDARYWAYINTERSECTION;
+		case 35: return RoadType.OTHERROADINTERSECTION;
+		case 41: return RoadType.HIGHWAYTUNNEL;
+		case 42: return RoadType.EXPRESSWAYTUNNEL;
+		case 43: return RoadType.PRIMARYWAYTUNNEL;
+		case 44: return RoadType.SECONDARYWAYTUNNEL;
+		case 45: return RoadType.OTHERROADTUNNEL;
+		case 46: return RoadType.SMALLROADTUNNEL;
+		case 48: return RoadType.PATHTUNNEL;
+		case 80: return RoadType.FERRY;
+		case 99: return RoadType.UNKNOWN;
+		default: return RoadType.UNKNOWN;
+		}
+	}
+	
+	/**
+	 * creates Points from file "kdv_node_unload" and calculates min and max coordinates
+	 * @throws IOException
+	 */
+	private void loadPoints() throws IOException 
+	{
+		//loads the file "kdv_node_unload"
+		// File pointsFile = new File("./src/files/kdv_node_unload.txt");
+		InputStream pointFile = getClass().getResourceAsStream("kdv_node_unload.txt");
+		BufferedReader pointInput = new BufferedReader(new InputStreamReader(pointFile));
+		
+		String line = null;
+		BigDecimal x, y;
+		int index = -1;
+		if (pointInput.ready()) { //if file is loaded
+			while ((line = pointInput.readLine()) != null) {
+				if (index >= 0){ //does nothing at the first line
+					//creates the point
+					String[] info = line.split(",");
+					x = createBigDecimal(info[3]);
+					y = createBigDecimal(info[4]);
+					points[index] = new Point(index + 1, x, y);
+					
+					// sets max and min coordinates
+					if (xMin != null){
+						if (x.compareTo(xMin) == -1) xMin = x;
+						if (x.compareTo(xMax) == 1)  xMax = x;
+						if (y.compareTo(yMin) == -1) yMin = y;
+						if (y.compareTo(yMax) == 1)  yMax = y;
+					}
+					else { //first time
+						xMin = x;
+						xMax = x;
+						yMin = y;
+						yMax = y;
+					}
+				}
+				index++;
+			}
+		}
+	}
 
-        index++;
-      }
+	/**
+	 * creates a correct BigDecimal from a String number
+	 */
+	private BigDecimal createBigDecimal(String number)
+	{
+		BigDecimal decimal = new BigDecimal(number);
+		return decimal.divide(Scale, 2, RoundingMode.HALF_UP);
+	}
 
-    }
-    index = -1;
-    cqt = new ConnectionQuadTree();
-    
-    while ((line = inputB.readLine()) != null) {
-      if (index == -1)
-        index = 0;
-      else {
-        String[] split = line.split(",");
-        RoadType r;
-        switch (Integer.parseInt(split[5])) {
-        case 1:
-          r = RoadType.HIGHWAY;
-          break;
-        case 2:
-          r = RoadType.EXPRESSWAY;
-          break;
-        case 3:
-          r = RoadType.PRIMARYWAY;
-          break;
-        case 4:
-          r = RoadType.SECONDARYWAY;
-          break;
-        case 5:
-          r = RoadType.ROAD3M;
-          break;
-        case 6:
-          r = RoadType.OTHERROAD;
-          break;
-        case 8:
-          r = RoadType.PATH;
-          break;
-        case 10:
-          r = RoadType.LANE;
-          break;
-        case 11:
-          r = RoadType.PEDESTRIAN;
-          break;
-        case 21:
-          r = RoadType.PROJHIGHWAY;
-          break;
-        case 22:
-          r = RoadType.PROJEXPRESSWAY;
-          break;
-        case 23:
-          r = RoadType.PROJPRIMARYWAY;
-          break;
-        case 24:
-          r = RoadType.PROJSECONDARYWAY;
-          break;
-        case 25:
-          r = RoadType.PROJROAD6M;
-          break;
-        case 26:
-          r = RoadType.PROJROAD3M;
-          break;
-        case 28:
-          r = RoadType.PROJPATH;
-          break;
-        case 31:
-          r = RoadType.HIGHWAYINTERSECTION;
-          break;
-        case 32:
-          r = RoadType.EXPRESSWAYEXIT;
-          break;
-        case 33:
-          r = RoadType.PRIMARYWAYINTERSECTION;
-          break;
-        case 34:
-          r = RoadType.SECONDARYWAYINTERSECTION;
-          break;
-        case 35:
-          r = RoadType.OTHERROADINTERSECTION;
-          break;
-        case 41:
-          r = RoadType.HIGHWAYTUNNEL;
-          break;
-        case 42:
-          r = RoadType.EXPRESSWAYTUNNEL;
-          break;
-        case 43:
-          r = RoadType.PRIMARYWAYTUNNEL;
-          break;
-        case 44:
-          r = RoadType.SECONDARYWAYTUNNEL;
-          break;
-        case 45:
-          r = RoadType.OTHERROADTUNNEL;
-          break;
-        case 46:
-          r = RoadType.SMALLROADTUNNEL;
-          break;
-        case 48:
-          r = RoadType.PATHTUNNEL;
-          break;
-        case 80:
-          r = RoadType.FERRY;
-          break;
-        case 99:
-          r = RoadType.UNKNOWN;
-          break;
-        default:
-          r = RoadType.HIGHWAY;
-          break;
-        }
+	@Override
+	public BigDecimal getxMax() {
+		return xMax;
+	}
 
-        connections[index] = new Connection(index,
-            cords[Integer.parseInt(split[0]) - 1].getX(),
-            cords[Integer.parseInt(split[0]) - 1].getY(),
-            cords[Integer.parseInt(split[1]) - 1].getX(),
-            cords[Integer.parseInt(split[1]) - 1].getY(),
-            r);
-        
-        cqt.insert(cords[Integer.parseInt(split[0]) - 1].getX(), cords[Integer.parseInt(split[0]) - 1].getY(), index);
-        cqt.insert(cords[Integer.parseInt(split[1]) - 1].getX(), cords[Integer.parseInt(split[1]) - 1].getY(), index);
-        
-        index++;
-      }
+	@Override
+	public BigDecimal getyMax() {
+		return yMax;
+	}
 
-    }
-    System.out.println("QuadTree created");
-  }
+	@Override
+	public Connection[] getConnections() {
+		return connections;
+	}
 
-  @Override
-  public BigDecimal getxMax() {
-    return xMax;
-  }
+	@Override
+	public BigDecimal getxMin() {
+		return xMin;
+	}
 
-  @Override
-  public BigDecimal getyMax() {
-    return yMax;
-  }
+	@Override
+	public BigDecimal getyMin() {
+		return yMin;
+	}
 
-  @Override
-  public Connection[] getConnections() {
-    return connections;
-  }
-
-  @Override
-  public BigDecimal getxMin() {
-    return xMin;
-  }
-
-  @Override
-  public BigDecimal getyMin() {
-    return yMin;
-  }
-  
-  public ConnectionQuadTree getConnectionQuadTree(){
-    return cqt;
-  }
+	public ConnectionQuadTree getConnectionQuadTree() {
+		return cqt;
+	}
 }

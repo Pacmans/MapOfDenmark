@@ -10,6 +10,7 @@ import dataStructure.Connection;
 @SuppressWarnings("serial")
 public class MapComponent extends JComponent {
 
+	private Controller controller = Controller.getInstance();
 	private final double totalxMin, totalxMax, totalyMin, totalyMax;
 	private final double zoomScale = 0.2, minDx, maxDx, maxDy;
 	private double xMin, yMin, xMax, yMax;
@@ -24,10 +25,10 @@ public class MapComponent extends JComponent {
 	public MapComponent() {
 		roadtypes = new boolean[] { true, true, true, false, false, false,
 				false };
-		totalxMin = (double) (Controller.getxMin()-40); 
-		totalxMax = (double) (Controller.getxMax()+40); 
-		totalyMin = (double) (Controller.getyMin()-20);
-		totalyMax = (double) (Controller.getyMax()+20);
+		totalxMin = (double) (controller.getxMin()-40); 
+		totalxMax = (double) (controller.getxMax()+40); 
+		totalyMin = (double) (controller.getyMin()-20);
+		totalyMax = (double) (controller.getyMax()+20);
 		resetCoordinates();
 		calcCoordinates();
 		// decides how much you can zoom in/out
