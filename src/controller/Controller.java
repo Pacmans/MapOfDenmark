@@ -5,7 +5,10 @@ import files.FileLoader;
 import files.FileLoaderConnectionOnly;
 import GUI.GUI;
 
+import java.awt.Component;
 import java.util.HashSet;
+import java.util.LinkedList;
+
 import visualization.MapComponent;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
@@ -48,11 +51,7 @@ public final class Controller {
 		} catch (Exception e) {
 			ExceptionController.recieveException(e);
 		}
-		for(int i = 0; i < connections.length; i++){
-			tries.put(connections[i].getName(), connections[i].getID());
-		}
-		tries.get(connections[500].getName());
-	}
+		
 
 	/**
 	 * 

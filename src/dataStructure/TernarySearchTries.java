@@ -1,5 +1,7 @@
 package dataStructure;
 
+import java.util.LinkedList;
+
 public class TernarySearchTries<Value> {
 
 	private Node root;
@@ -41,5 +43,20 @@ public class TernarySearchTries<Value> {
 		else x.val = val;
 		return x;
 	
+	}
+	
+	public Iterable<String> keysWithPrefix(String pre){
+		
+		LinkedList<String> q = new LinkedList<String>();
+		collect(get(root, pre, 0), pre, q);
+		return q;
+	}
+	
+	private void collect(Node x, String pre, LinkedList<String> q){
+		if( x == null) return;
+		if( x.val != null) q.add(pre);
+			collect(x.left, pre+x.c, q);
+			collect(x.right, pre+x.c, q);
+			collect(x.mid, pre+x.c, q);
 	}
 }
