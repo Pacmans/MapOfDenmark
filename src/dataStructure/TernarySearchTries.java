@@ -3,7 +3,7 @@ package dataStructure;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-public class TernarySearchTries<Value> {
+public class TernarySearchTries<Integer> {
 
 	private Node root;
 	
@@ -11,9 +11,9 @@ public class TernarySearchTries<Value> {
 	{
 		char c;
 		Node left, mid, right;
-		HashSet<Value> val = new HashSet<Value>();
+		HashSet<Integer> val = new HashSet<Integer>();
 	}
-	public HashSet<Value> get(String key)
+	public HashSet<Integer> get(String key)
 	{
 		Node x = get(root, key, 0);
 		if (x == null) return null;
@@ -31,10 +31,10 @@ public class TernarySearchTries<Value> {
 		else return x;
 	}
 	
-	public void put(String key, Value val)
+	public void put(String key, Integer val)
 	{ root = put(root, key, val, 0);	}
 	
-	public Node put(Node x, String key, Value val, int d)
+	public Node put(Node x, String key, Integer val, int d)
 	{
 		char c = key.charAt(d);
 		if( x == null) { x = new Node(); x.c = c;}
