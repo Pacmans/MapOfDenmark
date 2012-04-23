@@ -44,12 +44,7 @@ public final class Controller {
     instance = this;
     gui = new GUI();
     try {
-      FileLoaderConnectionOnly fileLoader = new FileLoaderConnectionOnly();
-//      secondaryQT = fileLoader.getSecondaryQT();
-//      normalQT = fileLoader.getNormalQT();
-//      trailsStreetsQT = fileLoader.getTrailsStreetsQT();
-//      pathsQT = fileLoader.getPaths();
-//      tst = fileLoader.getTST();
+      new FileLoaderConnectionOnly();
     } catch (Exception e) {
       ExceptionController.recieveException(e);
     }
