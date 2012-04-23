@@ -39,10 +39,10 @@ public final class Controller {
         try {
             FileLoaderConnectionOnly fileLoader = new FileLoaderConnectionOnly();
             connections = fileLoader.getConnections();
-            xMin = fileLoader.getxMin().intValue();
-            yMin = fileLoader.getyMin().intValue();
-            xMax = fileLoader.getxMax().intValue();
-            yMax = fileLoader.getyMax().intValue();
+            xMin = fileLoader.getxMin();
+            yMin = fileLoader.getyMin();
+            xMax = fileLoader.getxMax();
+            yMax = fileLoader.getyMax();
             qt = fileLoader.getConnectionQuadTree();
             tst = fileLoader.getTst();
         } catch (Exception e) {
