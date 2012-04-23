@@ -314,5 +314,4 @@ public class GUI {
         + "\nMade by Claus, Bjørn, Phillip, Morten & Anders.",
         "About Map Of Denmark", JOptionPane.INFORMATION_MESSAGE);
   }
-
 }

@@ -19,7 +19,7 @@ import dataStructure.RoadType;
  * @version 10. April 2012
  */
 
-public class FileLoaderConnectionOnly implements FileLoader {
+public class FileLoaderConnectionOnly{
 	private BigDecimal xMin;
 	private BigDecimal xMax;
 	private BigDecimal yMin;
@@ -59,7 +59,7 @@ public class FileLoaderConnectionOnly implements FileLoader {
 
 					//creates and saves the Connection
 					connections[index] = new Connection(index, p1.getX(), 
-							p1.getY(), p2.getX(), p2.getY(), r);
+							p1.getY(), p2.getX(), p2.getY(), r, split[6]);
 
 					//adds p1 and p2 to the quadtree
 					cqt.insert(p1.getX(), p1.getY(), index);
@@ -163,27 +163,27 @@ public class FileLoaderConnectionOnly implements FileLoader {
 		return decimal.divide(Scale, 2, RoundingMode.HALF_UP);
 	}
 
-	@Override
+
 	public BigDecimal getxMax() {
 		return xMax;
 	}
 
-	@Override
+
 	public BigDecimal getyMax() {
 		return yMax;
 	}
 
-	@Override
+
 	public Connection[] getConnections() {
 		return connections;
 	}
 
-	@Override
+
 	public BigDecimal getxMin() {
 		return xMin;
 	}
 
-	@Override
+
 	public BigDecimal getyMin() {
 		return yMin;
 	}

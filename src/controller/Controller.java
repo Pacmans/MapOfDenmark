@@ -1,11 +1,11 @@
 package controller;
 
 import exceptions.ExceptionController;
-import files.FileLoader;
 import files.FileLoaderConnectionOnly;
 import gui.GUI;
 
 import java.util.HashSet;
+
 import visualization.MapComponent;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
@@ -35,7 +35,7 @@ public final class Controller {
     public Controller() {
         instance = this;
         try {
-            FileLoader fileLoader = new FileLoaderConnectionOnly();
+            FileLoaderConnectionOnly fileLoader = new FileLoaderConnectionOnly();
             connections = fileLoader.getConnections();
             xMin = fileLoader.getxMin().intValue();
             yMin = fileLoader.getyMin().intValue();
