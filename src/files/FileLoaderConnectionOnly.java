@@ -10,6 +10,7 @@ import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
 import dataStructure.RoadType;
+import dataStructure.TernarySearchTries;
 
 /**
  * 
@@ -26,6 +27,7 @@ public class FileLoaderConnectionOnly{
 	private BigDecimal yMax;
 	private BigDecimal Scale = new BigDecimal(750); //hvad er dette?
 	private ConnectionQuadTree cqt;
+	private TernarySearchTries<Integer> tst;
 	private Connection[] connections = new Connection[812301];
 	private Point[] points = new Point[675902];
 	
@@ -45,6 +47,7 @@ public class FileLoaderConnectionOnly{
 		int index = -1;
 		Point p1, p2;
 		cqt = new ConnectionQuadTree();
+		tst = new TernarySearchTries<Integer>();
 		
 		if (connectionInput.ready()) { //if loaded
 			while ((line = connectionInput.readLine()) != null) {
@@ -64,6 +67,7 @@ public class FileLoaderConnectionOnly{
 					//adds p1 and p2 to the quadtree
 					cqt.insert(p1.getX(), p1.getY(), index);
 					cqt.insert(p2.getX(), p2.getY(), index);
+					tst.put(split[6], index);
 				}
 				index++;
 			}
@@ -190,5 +194,9 @@ public class FileLoaderConnectionOnly{
 
 	public ConnectionQuadTree getConnectionQuadTree() {
 		return cqt;
+	}
+
+	public TernarySearchTries<Integer> getTst() {
+		return tst;
 	}
 }

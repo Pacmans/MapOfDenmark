@@ -11,6 +11,7 @@ import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Interval;
 import dataStructure.Interval2D;
+import dataStructure.TernarySearchTries;
 
 /**
  *
@@ -23,6 +24,7 @@ public final class Controller {
     private static Controller instance; // singleton
     private static GUI gui;
     private MapComponent map;
+    private TernarySearchTries<Integer> tst;
     private Connection[] connections;
     private ConnectionQuadTree qt;
     private double xMin, yMin, xMax, yMax;
@@ -42,6 +44,7 @@ public final class Controller {
             xMax = fileLoader.getxMax().intValue();
             yMax = fileLoader.getyMax().intValue();
             qt = fileLoader.getConnectionQuadTree();
+            tst = fileLoader.getTst();
         } catch (Exception e) {
             ExceptionController.recieveException(e);
         }
@@ -103,6 +106,10 @@ public final class Controller {
             cs[size++] = connections[i];
         }
         return cs;
+    }
+    
+    public TernarySearchTries<Integer> getTst() {
+		return tst;
     }
 
     /**
