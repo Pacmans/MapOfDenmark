@@ -1,9 +1,43 @@
 package gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.KeyStroke;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import controller.Controller;
 
@@ -21,7 +55,7 @@ public class GUI {
   // The main frame of our program.
   private JFrame frame;
   private Controller controller;
-  private JPanel contentPane, mapPanel, loadingPanel;
+  private JPanel contentPane, mapPanel, loadingPanel, optionPanel;
   // The map from the controller
   private JComponent map;
   // A ButtonGroup with car, bike, and walk.
@@ -47,14 +81,14 @@ public class GUI {
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     frame.setLocation(d.width / 2 - frame.getWidth() / 2,
         d.height / 2 - frame.getHeight() / 2);
-    frame.setEnabled(false);
+    contentPane.setEnabled(false);
     frame.setBackground(Color.darkGray);
     frame.setState(Frame.NORMAL);
     frame.setVisible(true);
 
   }
 
-  private void setupMap() {
+  public void setupMap() {
     map = controller.getMap();
     mapPanel = new JPanel(new GridLayout(1, 1));
     mapPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2,
@@ -70,7 +104,7 @@ public class GUI {
       }
     });
     frame.pack();
-    frame.setEnabled(true);
+    contentPane.setEnabled(true);
     frame.setBackground(Color.lightGray);
     frame.setSize(800, 600);
   }
@@ -134,7 +168,7 @@ public class GUI {
 
   private void makeRightPanel() {
     // initialize a new JPanel.
-    JPanel optionPanel = new JPanel();
+    optionPanel = new JPanel();
     // create a vertical BoxLayout on the optionPanel.
     optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
 
@@ -157,6 +191,7 @@ public class GUI {
     JLabel label = new JLabel("From");
     label = setLabelFont(label);
     JTextField text = new JTextField(10);
+    text = addLiveSearch(text);
     text.setBackground(Color.lightGray);
     JPanel fromPanel = new JPanel(new FlowLayout(2));
     fromPanel.add(label);
@@ -166,6 +201,7 @@ public class GUI {
     label = new JLabel("To");
     label = setLabelFont(label);
     text = new JTextField(10);
+    text = addLiveSearch(text);
     text.setBackground(Color.lightGray);
     JPanel toPanel = new JPanel(new FlowLayout(2));
     toPanel.add(label);
@@ -190,6 +226,17 @@ public class GUI {
     routePlanning.add(goPanel);
 
     return routePlanning;
+  }
+  
+  private JTextField addLiveSearch(JTextField text) {
+	  text.addKeyListener(new KeyAdapter() {
+		  public void keyReleased(KeyEvent e) {
+			  JTextField textField = (JTextField) e.getSource();
+			  String string = textField.getText();
+			  setStatus(string);
+		  }
+	  });
+	  return text;
   }
 
   private <T extends JComponent> T setLabelFont(T label) {
