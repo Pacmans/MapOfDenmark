@@ -21,10 +21,10 @@ import dataStructure.TernarySearchTries;
 public class FileLoaderThread implements Runnable {
 
   private String txtname;
-  private Point[] points;
-  private Connection[] connections;
+  volatile private Point[] points;
+  volatile private Connection[] connections;
   private ConnectionQuadTree qtr;
-  private TernarySearchTries<Integer> tst;
+  volatile private TernarySearchTries<Integer> tst;
 
   public FileLoaderThread(String txtname, Point[] points,
       Connection[] connections, ConnectionQuadTree qtr,

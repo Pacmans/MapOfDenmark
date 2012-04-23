@@ -146,7 +146,7 @@ public final class Controller {
    * @return Array of all connections
    * @see Connection
    */
-  public Connection[] getConnections() {
+  public synchronized Connection[] getConnections() {
     return connections;
   }
 
@@ -349,13 +349,13 @@ public final class Controller {
     new Controller();
   }
 
-  public void initialize(Connection[] connections,
-      ConnectionQuadTree highwaysQT, ConnectionQuadTree expresswaysQT,
-      ConnectionQuadTree primaryQT) {
-    this.connections = connections;
-    this.highwaysQT = highwaysQT;
-    this.expresswaysQT = expresswaysQT;
-    this.primaryQT = primaryQT;
-    gui.setupMap();
-  }
+//  public void initialize(Connection[] connections,
+//      ConnectionQuadTree highwaysQT, ConnectionQuadTree expresswaysQT,
+//      ConnectionQuadTree primaryQT) {
+//    this.connections = connections;
+//    this.highwaysQT = highwaysQT;
+//    this.expresswaysQT = expresswaysQT;
+//    this.primaryQT = primaryQT;
+//    gui.setupMap();
+//  }
 }
