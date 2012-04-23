@@ -34,7 +34,7 @@ public class FileLoaderConnectionOnly{
 	private ConnectionQuadTree normalQT = new ConnectionQuadTree();
 	private ConnectionQuadTree trailsStreetsQT = new ConnectionQuadTree();
 	private ConnectionQuadTree pathsQT = new ConnectionQuadTree();
-	volatile private Connection[] connections = new Connection[812301];
+	volatile private Connection[] connections = new Connection[812302];
 	volatile private TernarySearchTries<Integer> tst = new TernarySearchTries<Integer>();
 	private Point[] points = new Point[675902];
 	
