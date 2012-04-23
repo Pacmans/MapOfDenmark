@@ -47,7 +47,8 @@ public class GUI {
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     frame.setLocation(d.width / 2 - frame.getWidth() / 2,
         d.height / 2 - frame.getHeight() / 2);
-    // make the user unable to resize the window.
+    frame.setEnabled(false);
+    frame.setBackground(Color.darkGray);
     frame.setVisible(true);
 
   }
@@ -68,6 +69,8 @@ public class GUI {
       }
     });
     frame.pack();
+    frame.setEnabled(true);
+    frame.setBackground(Color.lightGray);
     frame.setSize(800, 600);
   }
 
@@ -79,7 +82,9 @@ public class GUI {
     contentPane.setLayout(new BorderLayout(5, 5));
     loadingPanel = new JPanel(new FlowLayout(1));
     loadingPanel.setBorder(new EmptyBorder(150, 6, 6, 6));
-    loadingPanel.add(new JLabel("Loading map..."));
+    JLabel loadingLabel = new JLabel("Loading map...");
+    loadingLabel.setForeground(Color.white);
+    loadingPanel.add(loadingLabel);
     contentPane.add(loadingPanel, "Center");
   }
 
