@@ -74,10 +74,9 @@ public class FileLoaderConnectionOnly {
       primary.join();
     } catch (InterruptedException e) {
     }
-
-    // controller.initialize(connections, highwaysQT, expresswaysQT, primaryQT,
-    // xMin, yMin, xMax, yMax);
+    
     System.out.println("3 first qaudtrees done");
+    controller.getGUI().setupMap();
 
     Thread secondary = new Thread(new FileLoaderThread("secondary", points,
         connections, secondaryQT, tst));
@@ -92,18 +91,6 @@ public class FileLoaderConnectionOnly {
     normal.start();
     trailsStreets.start();
     paths.start();
-    // try {
-    // secondary.join();
-    // normal.join();
-    trailsStreets.start();
-    paths.start();
-    // }
-    // catch (Exception e) {
-    // System.out.println("all quadtrees done");
-
-    // Controller.getInstance().getGUI().EnableFrame();
-    // }
-
   }
 
   /**

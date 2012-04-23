@@ -33,7 +33,7 @@ public final class Controller {
   volatile private ConnectionQuadTree normalQT; // 5
   volatile private ConnectionQuadTree trailsStreetsQT; // 6
   volatile private ConnectionQuadTree pathsQT; // 7
-  volatile private double xMin, yMin, xMax, yMax;
+  private double xMin, yMin, xMax, yMax;
 
   /**
    * Constructor for this class loads connections and points from FileLoader
@@ -141,6 +141,7 @@ public final class Controller {
   }
 
   public TernarySearchTries<Integer> getTst() {
+    if(tst == null) tst = new TernarySearchTries<Integer>();
     return tst;
   }
 
@@ -305,7 +306,6 @@ public final class Controller {
    * @param tst the tst to set
    */
   public synchronized void setTst(TernarySearchTries<Integer> tst) {
-    if(tst == null) tst = new TernarySearchTries<Integer>();
     this.tst = tst;
   }
 
