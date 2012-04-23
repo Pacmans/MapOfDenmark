@@ -21,6 +21,7 @@ import dataStructure.TernarySearchTries;
  */	
 public class FileLoaderConnectionOnly{
 
+	private Controller controller = Controller.getInstance();
 	private double xMin = 750000;
 	private double xMax;
 	private double yMin = 750000;
@@ -58,7 +59,7 @@ public class FileLoaderConnectionOnly{
 		} catch (InterruptedException e) {
 		}
 		
-		Controller.getInstance().getGUI().setupMap();
+		controller.initialize(connections, highwaysQT, expresswaysQT, primaryQT, xMin, yMin, xMax, yMax);
 		System.out.println("3 first qaudtrees done");
 		
 		Thread secondary = new Thread(new FileLoaderThread("secondary", points, connections, secondaryQT, tst));

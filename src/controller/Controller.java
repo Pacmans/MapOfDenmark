@@ -45,14 +45,6 @@ public final class Controller {
     gui = new GUI();
     try {
       FileLoaderConnectionOnly fileLoader = new FileLoaderConnectionOnly();
-      connections = fileLoader.getConnections();
-      xMin = fileLoader.getxMin();
-      yMin = fileLoader.getyMin();
-      xMax = fileLoader.getxMax();
-      yMax = fileLoader.getyMax();
-      highwaysQT = fileLoader.getHighwaysQT();
-      expresswaysQT = fileLoader.getExpresswaysQT();
-      primaryQT = fileLoader.getPrimaryQT();
       secondaryQT = fileLoader.getSecondaryQT();
       normalQT = fileLoader.getNormalQT();
       trailsStreetsQT = fileLoader.getTrailsStreetsQT();
@@ -109,7 +101,7 @@ public final class Controller {
    * @return
    */
   public Connection[] getConnections(int type, double x1, double y1, double x2, double y2) {
-    ConnectionQuadTree qt;
+    ConnectionQuadTree qt = new ConnectionQuadTree();
     switch(type){
     case 1:
       qt = highwaysQT;
@@ -212,4 +204,19 @@ public final class Controller {
   public static void main(String[] args) {
     new Controller();
   }
+
+public void initialize(Connection[] connections, ConnectionQuadTree highwaysQT,
+		ConnectionQuadTree expresswaysQT,ConnectionQuadTree primaryQT,
+		double xMin,double yMin,double xMax,double yMax) {
+
+	this.connections = connections;
+	this.highwaysQT = highwaysQT;
+	this.expresswaysQT = expresswaysQT;
+	this.primaryQT = primaryQT;
+	this.xMin = xMin;
+	this.yMin = yMin;
+	this.xMax = xMax;
+	this.yMax = yMax;
+	gui.setupMap();
+}
 }

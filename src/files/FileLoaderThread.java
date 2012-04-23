@@ -68,7 +68,7 @@ public class FileLoaderThread implements Runnable {
 					p2 = points[Integer.parseInt(split[2]) - 1];
 
 					//creates and saves the Connection
-					connections[index] = new Connection(index, p1.getX(), 
+					connections[Integer.parseInt(split[0])] = new Connection(index, p1.getX(), 
 							p1.getY(), p2.getX(), p2.getY(), r, split[7]);
 
 					//adds p1 and p2 to the quadtree
