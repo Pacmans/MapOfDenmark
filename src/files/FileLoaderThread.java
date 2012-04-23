@@ -10,6 +10,12 @@ import dataStructure.Point;
 import dataStructure.RoadType;
 import dataStructure.TernarySearchTries;
 
+/**
+ * Threads initiated by FileLoaderConnectionOnly to load the data simultaneously.
+ * @author Morten Drescher Salling, Phillip Hugmann Olesen
+ * @author Pacmans
+ *
+ */
 public class FileLoaderThread implements Runnable {
 
 	private String txtname;
@@ -36,6 +42,10 @@ public class FileLoaderThread implements Runnable {
 		}
 	}
 	
+	/**
+	 * Makes the QuadTree for its roadtype and adds the connections to the Connection[].
+	 * @throws IOException.
+	 */
 	private void makeQT () throws IOException {
 		InputStream b = getClass().getResourceAsStream(txtname+".txt");
 	    BufferedReader connectionInput = new BufferedReader(new InputStreamReader(b));
@@ -71,6 +81,11 @@ public class FileLoaderThread implements Runnable {
 
 	}
 	
+	/**
+	 * Enums to determind what roadtypes the road should be labeled with.
+	 * @param type
+	 * @return
+	 */
 	private RoadType getRoadType(int type)
 	{
 		switch (type) {

@@ -2,7 +2,6 @@ package files;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,13 +24,13 @@ public class Rewriter {
     //Ready input and outputs
     InputStream b = getClass().getResourceAsStream("kdv_unload.txt");
     BufferedReader input = new BufferedReader(new InputStreamReader(b));
-    File road_1 = new File("./src/Files/road_1.txt");
-    File road_2 = new File("./src/Files/road_2.txt");
-    File road_3 = new File("./src/Files/road_3.txt");
-    File road_4 = new File("./src/Files/road_4.txt");
-    File road_5 = new File("./src/Files/road_5.txt");
-    File road_6 = new File("./src/Files/road_6.txt");
-    File road_7 = new File("./src/Files/road_7.txt");
+    File road_1 = new File("./src/Files/highways.txt");
+    File road_2 = new File("./src/Files/expressways.txt");
+    File road_3 = new File("./src/Files/primary.txt");
+    File road_4 = new File("./src/Files/secondary.txt");
+    File road_5 = new File("./src/Files/normal.txt");
+    File road_6 = new File("./src/Files/trailsStreets.txt");
+    File road_7 = new File("./src/Files/paths.txt");
 
     PrintWriter r1 = new PrintWriter(road_1);
     PrintWriter r2 = new PrintWriter(road_2);
@@ -45,12 +44,13 @@ public class Rewriter {
     //Read and write
     System.out.println("Rewirter: Writting files...");
     String line = null;
-    int index = -1;
+    int id = -1;
     while((line = input.readLine()) != null){
-      if(index == -1) index = 0; //We don't want to read the first line
+      if(id == -1) id = 0; //We don't want to read the first line
       else{
+        line = id+","+line;
         String split[] = line.split(",");
-        switch(Integer.parseInt(split[5])){
+        switch(Integer.parseInt(split[6])){
         case 1: case 21: case 41:
           r1.println(line);
           break;
@@ -77,6 +77,7 @@ public class Rewriter {
           break;
         }
       }
+      id++;
     }
     r1.close();
     r2.close();

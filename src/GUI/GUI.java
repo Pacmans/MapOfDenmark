@@ -49,7 +49,7 @@ public class GUI {
         d.height / 2 - frame.getHeight() / 2);
     frame.setEnabled(false);
     frame.setBackground(Color.darkGray);
-    frame.setState (Frame.NORMAL);
+    frame.setState(Frame.NORMAL);
     frame.setVisible(true);
 
   }
@@ -85,6 +85,7 @@ public class GUI {
     loadingPanel.setBorder(new EmptyBorder(150, 6, 6, 6));
     JLabel loadingLabel = new JLabel("Loading map...");
     loadingLabel.setForeground(Color.white);
+    loadingLabel.setFont(new Font("Verdana", Font.BOLD, 40));
     loadingPanel.add(loadingLabel);
     contentPane.add(loadingPanel, "Center");
   }
@@ -147,12 +148,14 @@ public class GUI {
 
   private JPanel createRouteplanningBox() {
     JPanel routePlanning = new JPanel();
+    TitledBorder border = new TitledBorder(new EtchedBorder(), "Route planning");
+    border = setHeadlineFont(border);
+    routePlanning.setBorder(border);
     routePlanning.setLayout(new BoxLayout(routePlanning, BoxLayout.Y_AXIS));
-    routePlanning.setBorder(new TitledBorder(new EtchedBorder(),
-        "Route planning"));
 
     // from row
     JLabel label = new JLabel("From");
+    label = setLabelFont(label);
     JTextField text = new JTextField(10);
     text.setBackground(Color.lightGray);
     JPanel fromPanel = new JPanel(new FlowLayout(2));
@@ -161,6 +164,7 @@ public class GUI {
 
     // to row
     label = new JLabel("To");
+    label = setLabelFont(label);
     text = new JTextField(10);
     text.setBackground(Color.lightGray);
     JPanel toPanel = new JPanel(new FlowLayout(2));
@@ -169,7 +173,8 @@ public class GUI {
 
     // go button
     JButton go = new JButton("Go");
-    go.setPreferredSize(new Dimension(60, 25));
+    go = setButtonText(go);
+    go.setPreferredSize(new Dimension(55, 33));
     go.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         // get the selected transportation type and DO SOMETHING
@@ -187,6 +192,21 @@ public class GUI {
     return routePlanning;
   }
 
+  private <T extends JComponent> T setLabelFont(T label) {
+	  label.setFont(new Font("Verdana", Font.PLAIN, 14));
+	  return label;
+  }
+  
+  private TitledBorder setHeadlineFont(TitledBorder label) {
+	  label.setTitleFont(new Font("Verdana", Font.BOLD, 15));	
+	  return label;
+  }
+  
+  private <T extends JComponent> T setButtonText(T label) {
+	  label.setFont(new Font("Verdana", Font.PLAIN, 14));	
+	  return label;
+  }
+  
   // toggleButtons in a ButtonGroup
   private JPanel createTogglePanel() {
     JPanel togglePanel = new JPanel(new FlowLayout(1));
@@ -240,6 +260,8 @@ public class GUI {
   private JPanel createZoomOutButton() {
     JPanel zoomPanel = new JPanel(new FlowLayout(1));
     JButton zoomOut = new JButton("Zoom out");
+    zoomOut.setPreferredSize(new Dimension(90, 35));
+    zoomOut = setButtonText(zoomOut);
     zoomOut.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         controller.showAll();
@@ -252,11 +274,12 @@ public class GUI {
   private JPanel createCheckbox() {
     // initialize checkboxPanel
     JPanel checkboxPanel = new JPanel(new GridLayout(7, 1));
-    checkboxPanel.setBorder(new TitledBorder(new EtchedBorder(), "Road types"));
+    TitledBorder border = new TitledBorder(new EtchedBorder(), "Road types");
+    border = setHeadlineFont(border);
+    checkboxPanel.setBorder(border);
     // fill the checkboxPanel
     checkboxPanel.add(createRoadtypeBox("Highways", true)); // Priority 1 roads
     checkboxPanel.add(createRoadtypeBox("Expressways", true)); // Priority 2
-                                                               // roads
     checkboxPanel.add(createRoadtypeBox("Primary roads", true)); // and so on..
     checkboxPanel.add(createRoadtypeBox("Secondary roads", false));
     checkboxPanel.add(createRoadtypeBox("Normal roads", false));
@@ -269,6 +292,7 @@ public class GUI {
     final String _string = string;
     JPanel fl = new JPanel(new FlowLayout(0));
     JCheckBox box = new JCheckBox(string);
+    box = setLabelFont(box);
     box.setSelected(selected);
     box.addItemListener(new ItemListener() {
       public void itemStateChanged(ItemEvent e) {
@@ -314,5 +338,4 @@ public class GUI {
         + "\nMade by Claus, Bjørn, Phillip, Morten & Anders.",
         "About Map Of Denmark", JOptionPane.INFORMATION_MESSAGE);
   }
-
 }

@@ -13,7 +13,8 @@ import controller.Controller;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
-import datatructure.TernarySearchTries;
+import dataStructure.RoadType;
+import dataStructure.TernarySearchTries;
 
 /**
  * 
@@ -21,17 +22,15 @@ import datatructure.TernarySearchTries;
  * @author Phillip
  * @author Pacmans
  * @version 10. April 2012
- */
+ */	
+public class FileLoaderConnectionOnly{
 
-public class FileLoaderConnectionOnly implements FileLoader {
-	private Controller controller = Controller.getInstance();
 	private GUI gui = Controller.getGUI();
 	private BigDecimal xMin;
 	private BigDecimal xMax;
 	private BigDecimal yMin;
 	private BigDecimal yMax;
 	private BigDecimal Scale = new BigDecimal(750); //hvad er dette?
-	private ConnectionQuadTree cqt;
 	private ConnectionQuadTree highwaysQT;
 	private ConnectionQuadTree expresswaysQT;
 	private ConnectionQuadTree primaryQT;
@@ -80,7 +79,7 @@ public class FileLoaderConnectionOnly implements FileLoader {
 			normal.join();
 			trailsStreets.start();
 			paths.start();
-		}
+				}
 		catch (Exception e) {
 			
 		}
@@ -138,32 +137,60 @@ public class FileLoaderConnectionOnly implements FileLoader {
 		return decimal.divide(Scale, 2, RoundingMode.HALF_UP);
 	}
 
-	@Override
+
 	public BigDecimal getxMax() {
 		return xMax;
 	}
 
-	@Override
+
 	public BigDecimal getyMax() {
 		return yMax;
 	}
 
-	@Override
+
 	public Connection[] getConnections() {
 		return connections;
 	}
 
-	@Override
+
 	public BigDecimal getxMin() {
 		return xMin;
 	}
 
-	@Override
+
 	public BigDecimal getyMin() {
 		return yMin;
 	}
 
-	public ConnectionQuadTree getConnectionQuadTree() {
-		return cqt;
+	public ConnectionQuadTree getHighwaysQT() {
+		return highwaysQT;
+	}
+	
+	public ConnectionQuadTree getExpresswaysQT() {
+		return expresswaysQT;
+	}
+	
+	public ConnectionQuadTree getPrimaryQT() {
+		return primaryQT;
+	}
+	
+	public ConnectionQuadTree getSecondaryQT() {
+		return secondaryQT;
+	}
+	
+	public ConnectionQuadTree getNormalQT() {
+		return normalQT;
+	}
+	
+	public ConnectionQuadTree getTrailsStreetsQT() {
+		return trailsStreetsQT;
+	}
+	
+	public ConnectionQuadTree getPaths() {
+		return pathsQT;
+	}
+
+	public TernarySearchTries<Integer> getTst() {
+		return tst;
 	}
 }
