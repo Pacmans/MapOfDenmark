@@ -1,6 +1,5 @@
 package files;
 
-import gui.GUI;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,14 +14,13 @@ import dataStructure.TernarySearchTries;
 /**
  * 
  * @author Claus L. Henriksen clih@itu.dk
- * @author Phillip
+ * @author Phillip Hugmann Olesen
+ * @author Morten Drescher Salling
  * @author Pacmans
  * @version 10. April 2012
-<<<<<<< HEAD
  */	
 public class FileLoaderConnectionOnly{
 
-	private GUI gui = Controller.getGUI();
 	private double xMin = 750000;
 	private double xMax;
 	private double yMin = 750000;
@@ -60,7 +58,7 @@ public class FileLoaderConnectionOnly{
 		} catch (InterruptedException e) {
 		}
 		
-		gui.setupMap();
+		Controller.getInstance().getGUI().setupMap();
 		
 		Thread secondary = new Thread(new FileLoaderThread("secondary", points, connections, secondaryQT, tst));
 		Thread normal = new Thread(new FileLoaderThread("normal", points, connections, normalQT, tst));
@@ -78,7 +76,8 @@ public class FileLoaderConnectionOnly{
 			paths.start();
 				}
 		catch (Exception e) {
-			
+		
+		Controller.getInstance().getGUI().EnableFrame();	
 		}
 		
 	}

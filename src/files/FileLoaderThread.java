@@ -83,8 +83,8 @@ public class FileLoaderThread implements Runnable {
 	
 	/**
 	 * Enums to determind what roadtypes the road should be labeled with.
-	 * @param type
-	 * @return
+	 * @param type what roadtype the road is in the text file.
+	 * @return the enum representing the roadtype.
 	 */
 	private RoadType getRoadType(int type)
 	{
