@@ -26,15 +26,15 @@ public class FileLoaderConnectionOnly{
 	private double yMin = 750000;
 	private double yMax;
 	private double Scale = 750;
-	private ConnectionQuadTree highwaysQT;
-	private ConnectionQuadTree expresswaysQT;
-	private ConnectionQuadTree primaryQT;
-	private ConnectionQuadTree secondaryQT;
-	private ConnectionQuadTree normalQT;
-	private ConnectionQuadTree trailsStreetsQT;
-	private ConnectionQuadTree pathsQT;
+	private ConnectionQuadTree highwaysQT = new ConnectionQuadTree();
+	private ConnectionQuadTree expresswaysQT = new ConnectionQuadTree();
+	private ConnectionQuadTree primaryQT = new ConnectionQuadTree();
+	private ConnectionQuadTree secondaryQT = new ConnectionQuadTree();
+	private ConnectionQuadTree normalQT = new ConnectionQuadTree();
+	private ConnectionQuadTree trailsStreetsQT = new ConnectionQuadTree();
+	private ConnectionQuadTree pathsQT = new ConnectionQuadTree();
 	volatile private Connection[] connections = new Connection[812301];
-	volatile private TernarySearchTries<Integer> tst;
+	volatile private TernarySearchTries<Integer> tst = new TernarySearchTries<Integer>();
 	private Point[] points = new Point[675902];
 	
 	public FileLoaderConnectionOnly() throws IOException {
@@ -59,6 +59,7 @@ public class FileLoaderConnectionOnly{
 		}
 		
 		Controller.getInstance().getGUI().setupMap();
+		System.out.println("3 first qaudtrees done");
 		
 		Thread secondary = new Thread(new FileLoaderThread("secondary", points, connections, secondaryQT, tst));
 		Thread normal = new Thread(new FileLoaderThread("normal", points, connections, normalQT, tst));
@@ -76,8 +77,9 @@ public class FileLoaderConnectionOnly{
 			paths.start();
 				}
 		catch (Exception e) {
+			System.out.println("all quadtrees done");
 		
-		Controller.getInstance().getGUI().EnableFrame();	
+//		Controller.getInstance().getGUI().EnableFrame();	
 		}
 		
 	}

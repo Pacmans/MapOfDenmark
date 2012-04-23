@@ -34,10 +34,12 @@ public class FileLoaderThread implements Runnable {
 	
 	@Override
 	public void run() {
+		System.out.println("start thread");
 		try {
 		makeQT();
 			}
 		catch (Exception e) {
+			System.out.println(e);
 			
 		}
 	}
@@ -50,32 +52,32 @@ public class FileLoaderThread implements Runnable {
 		InputStream b = getClass().getResourceAsStream(txtname+".txt");
 	    BufferedReader connectionInput = new BufferedReader(new InputStreamReader(b));
 	    String line;
-		int index = -1;
+		int index = 0;
 		Point p1, p2;
-		qtr = new ConnectionQuadTree();
+//		qtr = new ConnectionQuadTree();
+		System.out.println("qaudtree in making");
 		
 		if (connectionInput.ready()) { //if loaded
 			while ((line = connectionInput.readLine()) != null) {
-				if (index >= 0){ //ignores the first line
 					String[] split = line.split(",");
 					//gets the correct RoadType
 					RoadType r = getRoadType(Integer.parseInt(split[5]));
 					
 					//gets the points associated with the connection
-					p1 = points[Integer.parseInt(split[0]) - 1];
-					p2 = points[Integer.parseInt(split[1]) - 1];
+					p1 = points[Integer.parseInt(split[1]) - 1];
+					p2 = points[Integer.parseInt(split[2]) - 1];
 
 					//creates and saves the Connection
 					connections[index] = new Connection(index, p1.getX(), 
-							p1.getY(), p2.getX(), p2.getY(), r, split[6]);
+							p1.getY(), p2.getX(), p2.getY(), r, split[7]);
 
 					//adds p1 and p2 to the quadtree
 					qtr.insert(p1.getX(), p1.getY(), index);
 					qtr.insert(p2.getX(), p2.getY(), index);
-					tst.put(split[6], index);
-				}
+					tst.put(split[7], index);
 				index++;
 			}
+			System.out.println("quadtree done!");
 		}
 
 

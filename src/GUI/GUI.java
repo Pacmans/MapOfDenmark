@@ -70,7 +70,6 @@ public class GUI {
     makeRightPanel();
     setupFrame();
     controller = Controller.getInstance();
-    setupMap();
   }
 
   private void setupFrame() {
