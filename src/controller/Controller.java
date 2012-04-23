@@ -46,10 +46,10 @@ public final class Controller {
         try {
             FileLoaderConnectionOnly fileLoader = new FileLoaderConnectionOnly();
             connections = fileLoader.getConnections();
-            xMin = fileLoader.getxMin().intValue();
-            yMin = fileLoader.getyMin().intValue();
-            xMax = fileLoader.getxMax().intValue();
-            yMax = fileLoader.getyMax().intValue();
+            xMin = fileLoader.getxMin();
+            yMin = fileLoader.getyMin();
+            xMax = fileLoader.getxMax();
+            yMax = fileLoader.getyMax();
             highwaysQT = fileLoader.getHighwaysQT();
             expresswaysQT = fileLoader.getExpresswaysQT();
             primaryQT = fileLoader.getPrimaryQT();
@@ -57,7 +57,7 @@ public final class Controller {
             normalQT = fileLoader.getNormalQT();
             trailsStreetsQT = fileLoader.getTrailsStreetsQT();
             pathsQT = fileLoader.getPaths();
-            tst = fileLoader.getTst();
+            tst = fileLoader.getTST();
         } catch (Exception e) {
             ExceptionController.recieveException(e);
         }
