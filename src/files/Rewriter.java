@@ -45,12 +45,13 @@ public class Rewriter {
     //Read and write
     System.out.println("Rewirter: Writting files...");
     String line = null;
-    int index = -1;
+    int id = -1;
     while((line = input.readLine()) != null){
-      if(index == -1) index = 0; //We don't want to read the first line
+      if(id == -1) id = 0; //We don't want to read the first line
       else{
+        line = id+","+line;
         String split[] = line.split(",");
-        switch(Integer.parseInt(split[5])){
+        switch(Integer.parseInt(split[6])){
         case 1: case 21: case 41:
           r1.println(line);
           break;
@@ -77,6 +78,7 @@ public class Rewriter {
           break;
         }
       }
+      id++;
     }
     r1.close();
     r2.close();

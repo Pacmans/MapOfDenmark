@@ -33,7 +33,8 @@ public class MapComponent extends JComponent {
 		calcCoordinates();
 		// decides how much you can zoom in/out
 		maxDx = dx;
-		minDx = dx * 0.005;
+		minDx = dx*0.005;
+
 		maxDy = dy;
 
 		connections = control.getConnections();

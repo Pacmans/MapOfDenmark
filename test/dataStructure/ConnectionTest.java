@@ -68,7 +68,7 @@ public class ConnectionTest {
     @Test
     public void testGetX2() {
         System.out.println("getX2");
-        double expResult = 4;
+        double expResult = 5;
         double result = instance.getX2();
         assertEquals(expResult, result, 0.0);
     }
@@ -79,7 +79,7 @@ public class ConnectionTest {
     @Test
     public void testGetY1() {
         System.out.println("getY1");
-        double expResult = 5;
+        double expResult = 4;
         double result = instance.getY1();
         assertEquals(expResult, result, 0.0);
     }
