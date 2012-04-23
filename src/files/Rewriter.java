@@ -94,6 +94,7 @@ public class Rewriter {
       new Rewriter();
     }catch (Exception e){
       System.out.println(e);
+      System.exit(0);
     }
   }
 }
