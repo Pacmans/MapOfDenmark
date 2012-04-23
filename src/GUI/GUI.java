@@ -70,7 +70,6 @@ public class GUI {
     makeRightPanel();
     setupFrame();
     controller = Controller.getInstance();
-    setupMap();
   }
 
   private void setupFrame() {
@@ -92,9 +91,9 @@ public class GUI {
     map = controller.getMap();
     mapPanel = new JPanel(new GridLayout(1, 1));
     mapPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2,
-        Color.darkGray));
+    		Color.darkGray));
     mapPanel.add(map);
-    contentPane.remove(loadingPanel);
+		contentPane.remove(loadingPanel);
     contentPane.add(mapPanel, "Center");
     contentPane.add(statusbar, "South");
     frame.addComponentListener(new ComponentAdapter() {
@@ -104,9 +103,12 @@ public class GUI {
       }
     });
     frame.pack();
-    contentPane.setEnabled(true);
-    frame.setBackground(Color.lightGray);
     frame.setSize(800, 600);
+  }
+  
+  public void enableFrame() {
+	  contentPane.setEnabled(true);
+	  frame.setBackground(Color.lightGray);
   }
 
   private void makeFrame() {
