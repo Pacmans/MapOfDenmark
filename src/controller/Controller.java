@@ -67,9 +67,9 @@ public final class Controller {
 	 */
 	public MapComponent getMap() {
 	  if(map == null) map = new MapComponent();
-		return map;
+	  	return map;
 	}
-
+ 
 	/**
 	 * Get all connections within rectangle
 	 * 
