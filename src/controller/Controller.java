@@ -33,7 +33,6 @@ public final class Controller {
      * @see FileLoader
      */
     public Controller() {
-        if (instance != null) return;
         instance = this;
         try {
             FileLoader fileLoader = new FileLoaderConnectionOnly();
