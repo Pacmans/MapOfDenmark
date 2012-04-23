@@ -53,7 +53,7 @@ public class ConnectionQuadTree{
     if(n != null) n.addConnection(connection);
     //else insert
     else{
-    	root = insert(root, x, y, connection);
+      root = insert(root, x, y, connection);
     }
   }
   
@@ -77,7 +77,7 @@ public class ConnectionQuadTree{
    */
   private Node insert(Node h, BigDecimal x, BigDecimal y, int connection){
     if(h == null) {
-    	return new Node(x, y, connection);} //First point inserted becomes root
+      return new Node(x, y, connection);} //First point inserted becomes root
     else if (x.compareTo(h.x)<1 && (y.compareTo(h.y)<1)) h.SW = insert(h.SW, x, y, connection);
     else if (x.compareTo(h.x)<1 && (y.compareTo(h.y)>0)) h.NW = insert(h.NW, x, y, connection);
     else if (x.compareTo(h.x)>0 && (y.compareTo(h.y)<1)) h.SE = insert(h.SE, x, y, connection);
@@ -105,11 +105,11 @@ public class ConnectionQuadTree{
    */
   private void getRect(Node h, Interval2D rect){
     if (h == null) {
-    	return;
+      return;
     }
     
     if (rect.contains(h.x.doubleValue(), h.y.doubleValue())){
-    	array.addAll(h.getConnections());
+      array.addAll(h.getConnections());
     }
     
     if(xmin <= h.x.doubleValue() && ymin <= h.y.doubleValue()) getRect(h.SW, rect);

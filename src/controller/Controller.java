@@ -1,10 +1,13 @@
 package controller;
 
-import files.FileLoaderConnectionOnly;
-import gui.GUI;
 
+import files.FileLoaderConnectionOnly;
+import GUI.GUI;
+
+import java.awt.Component;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 import javax.swing.JComponent;
 
@@ -13,6 +16,7 @@ import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Interval;
 import dataStructure.Interval2D;
+import dataStructure.TernarySearchTries;
 
 /**
  * 

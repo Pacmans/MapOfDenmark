@@ -16,8 +16,11 @@ public class Connection implements Comparable<Connection>{
   private RoadType type;
   private String name;
   private int id;
+  private String Name;
+
 
   public Connection(int id, BigDecimal x1, BigDecimal y1, BigDecimal x2, BigDecimal y2, RoadType type, String name) {
+
     this.id = id;
     this.x1 = x1;
     this.x2 = x2;
@@ -25,10 +28,14 @@ public class Connection implements Comparable<Connection>{
     this.y2 = y2;
     this.name = name;
     this.type = type;
+    this.Name = Name;
   }
     
   public int getID(){
     return id;
+  }
+  public String getName(){
+	  return Name;
   }
 
   public Double getX1(){
@@ -45,9 +52,6 @@ public class Connection implements Comparable<Connection>{
   }
   public RoadType getType(){
     return type;
-  }
-  public String getName(){
-	    return name;
   }
   
   public int compareTo(Connection con){
