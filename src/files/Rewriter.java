@@ -24,13 +24,13 @@ public class Rewriter {
     //Ready input and outputs
     InputStream b = getClass().getResourceAsStream("kdv_unload.txt");
     BufferedReader input = new BufferedReader(new InputStreamReader(b));
-    File road_1 = new File("./src/Files/road_1.txt");
-    File road_2 = new File("./src/Files/road_2.txt");
-    File road_3 = new File("./src/Files/road_3.txt");
-    File road_4 = new File("./src/Files/road_4.txt");
-    File road_5 = new File("./src/Files/road_5.txt");
-    File road_6 = new File("./src/Files/road_6.txt");
-    File road_7 = new File("./src/Files/road_7.txt");
+    File road_1 = new File("./src/Files/highways.txt");
+    File road_2 = new File("./src/Files/expressways.txt");
+    File road_3 = new File("./src/Files/primary.txt");
+    File road_4 = new File("./src/Files/secondary.txt");
+    File road_5 = new File("./src/Files/normal.txt");
+    File road_6 = new File("./src/Files/trailsStreets.txt");
+    File road_7 = new File("./src/Files/paths.txt");
 
     PrintWriter r1 = new PrintWriter(road_1);
     PrintWriter r2 = new PrintWriter(road_2);

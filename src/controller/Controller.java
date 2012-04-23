@@ -1,10 +1,11 @@
 package controller;
 
+
+import java.util.HashSet;
+
 import exceptions.ExceptionController;
 import files.FileLoaderConnectionOnly;
 import gui.GUI;
-
-import java.util.HashSet;
 
 import visualization.MapComponent;
 import dataStructure.Connection;
@@ -26,7 +27,13 @@ public final class Controller {
     private MapComponent map;
     private TernarySearchTries<Integer> tst;
     private Connection[] connections;
-    private ConnectionQuadTree qt;
+    private ConnectionQuadTree highwaysQT;
+	private ConnectionQuadTree expresswaysQT;
+	private ConnectionQuadTree primaryQT;
+	private ConnectionQuadTree secondaryQT;
+	private ConnectionQuadTree normalQT;
+	private ConnectionQuadTree trailsStreetsQT;
+	private ConnectionQuadTree pathsQT;
     private double xMin, yMin, xMax, yMax;
 
     /**
@@ -43,8 +50,14 @@ public final class Controller {
             yMin = fileLoader.getyMin();
             xMax = fileLoader.getxMax();
             yMax = fileLoader.getyMax();
-            qt = fileLoader.getConnectionQuadTree();
-            tst = fileLoader.getTst();
+            highwaysQT = fileLoader.getHighwaysQT();
+            expresswaysQT = fileLoader.getExpresswaysQT();
+            primaryQT = fileLoader.getPrimaryQT();
+            secondaryQT = fileLoader.getSecondaryQT();
+            normalQT = fileLoader.getNormalQT();
+            trailsStreetsQT = fileLoader.getTrailsStreetsQT();
+            pathsQT = fileLoader.getPaths();
+            tst = fileLoader.getTST();
         } catch (Exception e) {
             ExceptionController.recieveException(e);
         }
