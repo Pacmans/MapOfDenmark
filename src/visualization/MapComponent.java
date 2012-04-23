@@ -93,10 +93,13 @@ public class MapComponent extends JComponent {
 		g.setColor(Color.white);
 		g.fillRect(2, 2, getWidth() - 4, getHeight() - 4);
 		
-//		if (dx == maxDx)
-//			connections = control.getConnections();
-//		else
-//			connections = control.getConnections(xMin, yMin, xMax, yMax);
+		if (dx == maxDx)
+			connections = control.getConnections();
+		else{
+		  connections = control.getConnections(xMin, yMin, xMax, yMax);
+		  System.out.println("Loading from QuadTree");
+		}
+			
 		
 		for (Connection c : connections) {
 			if (roadtypes[c.getType().priority() - 1]) {

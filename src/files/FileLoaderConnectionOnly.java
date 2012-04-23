@@ -18,9 +18,9 @@ import dataStructure.RoadType;
  */
 
 public class FileLoaderConnectionOnly {
-  private double xMin;
+  private double xMin = 750000;
   private double xMax;
-  private double yMin;
+  private double yMin = 750000;
   private double yMax;
   private double Scale = 750;
   private ConnectionQuadTree cqt;
@@ -164,8 +164,8 @@ public class FileLoaderConnectionOnly {
         if (index >= 0) { // does nothing at the first line
           // creates the point
           String[] info = line.split(",");
-          x = Double.parseDouble(info[3]);
-          y = Double.parseDouble(info[4]);
+          x = (Double.parseDouble(info[3])/Scale);
+          y = (Double.parseDouble(info[4])/Scale);
           points[index] = new Point(index + 1, x, y);
 
           // sets max and min coordinates
@@ -178,8 +178,8 @@ public class FileLoaderConnectionOnly {
           if (y > yMax)
             yMax = y;
         }
+        index++;
       }
-      index++;
     }
   }
 
@@ -205,5 +205,19 @@ public class FileLoaderConnectionOnly {
 
   public ConnectionQuadTree getConnectionQuadTree() {
     return cqt;
+  }
+  
+  public static void main(String[] args){
+    try {
+      FileLoaderConnectionOnly f = new FileLoaderConnectionOnly();
+      System.out.println(f.getxMax());
+      System.out.println(f.getxMin());
+      System.out.println(f.getyMax());
+      System.out.println(f.getyMin());
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
   }
 }
