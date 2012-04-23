@@ -22,7 +22,7 @@ import dataStructure.TernarySearchTries;
  */	
 public class FileLoaderConnectionOnly{
 
-	private GUI gui = Controller.getGUI();
+	private GUI gui = Controller.getInstance().getGUI();
 	private double xMin = 750000;
 	private double xMax;
 	private double yMin = 750000;
