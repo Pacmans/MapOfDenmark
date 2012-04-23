@@ -49,6 +49,7 @@ public class GUI {
         d.height / 2 - frame.getHeight() / 2);
     frame.setEnabled(false);
     frame.setBackground(Color.darkGray);
+    frame.setState (Frame.NORMAL);
     frame.setVisible(true);
 
   }
