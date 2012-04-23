@@ -51,7 +51,7 @@ public class Rewriter {
       else{
         line = id+","+line;
         String split[] = line.split(",");
-        switch(Integer.parseInt(split[5])){
+        switch(Integer.parseInt(split[6])){
         case 1: case 21: case 41:
           r1.println(line);
           break;
