@@ -1,6 +1,5 @@
 package controller;
 
-import files.FileLoader;
 import files.FileLoaderConnectionOnly;
 import gui.GUI;
 
@@ -26,7 +25,7 @@ public final class Controller {
   private static Controller instance; // singleton
   private static GUI gui; // singleton
   private static MapComponent map; // singleton
-  private static FileLoader fileLoader;
+  private static FileLoaderConnectionOnly fileLoader;
   private Connection[] connections;
   private ConnectionQuadTree qt;
   private static double xMin, yMin, xMax, yMax;

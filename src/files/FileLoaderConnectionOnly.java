@@ -1,16 +1,11 @@
 package files;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
@@ -24,7 +19,7 @@ import dataStructure.RoadType;
  * @version 10. April 2012
  */
 
-public class FileLoaderConnectionOnly implements FileLoader {
+public class FileLoaderConnectionOnly{
   private BigDecimal xMin = new BigDecimal(700000);
   private BigDecimal xMax = new BigDecimal(0);
   private BigDecimal yMin = new BigDecimal(700000);
@@ -37,10 +32,10 @@ public class FileLoaderConnectionOnly implements FileLoader {
   Point[] cords = new Point[675902];
 
   public FileLoaderConnectionOnly() throws IOException {
-    File a = new File("./src/files/kdv_node_unload.txt");
-    File b = new File("./src/files/kdv_unload.txt");
-    BufferedReader inputA = new BufferedReader(new FileReader(a));
-    BufferedReader inputB = new BufferedReader(new FileReader(b));
+    InputStream a = getClass().getResourceAsStream("./src/files/kdv_node_unload.txt");
+    InputStream b = getClass().getResourceAsStream("./src/files/kdv_unload.txt");
+    BufferedReader inputA = new BufferedReader(new InputStreamReader(a));
+    BufferedReader inputB = new BufferedReader(new InputStreamReader(b));
     
     String line = null; 
     index = -1;
@@ -177,7 +172,7 @@ public class FileLoaderConnectionOnly implements FileLoader {
             cords[Integer.parseInt(split[0]) - 1].getY(),
             cords[Integer.parseInt(split[1]) - 1].getX(),
             cords[Integer.parseInt(split[1]) - 1].getY(),
-            r);
+            r, split[6]);
         
         cqt.insert(cords[Integer.parseInt(split[0]) - 1].getX(), cords[Integer.parseInt(split[0]) - 1].getY(), index);
         cqt.insert(cords[Integer.parseInt(split[1]) - 1].getX(), cords[Integer.parseInt(split[1]) - 1].getY(), index);
@@ -188,28 +183,18 @@ public class FileLoaderConnectionOnly implements FileLoader {
     }
     System.out.println("QuadTree created");
   }
-
-  @Override
   public BigDecimal getxMax() {
     return xMax;
   }
-
-  @Override
   public BigDecimal getyMax() {
     return yMax;
   }
-
-  @Override
   public Connection[] getConnections() {
     return connections;
   }
-
-  @Override
   public BigDecimal getxMin() {
     return xMin;
   }
-
-  @Override
   public BigDecimal getyMin() {
     return yMin;
   }

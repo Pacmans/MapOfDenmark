@@ -14,14 +14,16 @@ import java.math.BigDecimal;
 public class Connection implements Comparable<Connection>{
   private BigDecimal x1, x2, y1, y2;
   private RoadType type;
+  private String name;
   private int id;
 
-  public Connection(int id, BigDecimal x1, BigDecimal y1, BigDecimal x2, BigDecimal y2, RoadType type) {
+  public Connection(int id, BigDecimal x1, BigDecimal y1, BigDecimal x2, BigDecimal y2, RoadType type, String name) {
     this.id = id;
     this.x1 = x1;
     this.x2 = x2;
     this.y1 = y1;
     this.y2 = y2;
+    this.name = name;
     this.type = type;
   }
     
@@ -43,6 +45,9 @@ public class Connection implements Comparable<Connection>{
   }
   public RoadType getType(){
     return type;
+  }
+  public String getName(){
+	    return name;
   }
   
   public int compareTo(Connection con){
