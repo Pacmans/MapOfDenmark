@@ -51,7 +51,7 @@ public final class Controller {
 		} catch (Exception e) {
 			ExceptionController.recieveException(e);
 		}
-		
+	}
 
 	/**
 	 * 
