@@ -31,14 +31,14 @@ public class FileLoaderConnectionOnly {
   volatile private ConnectionQuadTree primaryQT;
   volatile private ConnectionQuadTree secondaryQT;
   volatile private ConnectionQuadTree normalQT;
-  volatile private ConnectionQuadTree trailsStreetsQT;
+  volatile private ConnectionQuadTree smallQT;
   volatile private ConnectionQuadTree pathsQT;
   volatile private Connection[] connections;
   volatile private TernarySearchTries<Integer> tst;
   volatile private Point[] points = new Point[675902];
 
   public FileLoaderConnectionOnly() throws IOException {
-    controller.setStatus("Loading data");
+    controller.setStatus("Loading data...");
     initialise();
     loadPoints();
     loadConnections();
@@ -50,7 +50,7 @@ public class FileLoaderConnectionOnly {
     primaryQT = controller.getPrimaryQT();
     secondaryQT = controller.getSecondaryQT();
     normalQT = controller.getNormalQT();
-    trailsStreetsQT = controller.getTrailsStreetsQT();
+    smallQT = controller.getSmallQT();
     pathsQT = controller.getPathsQT();
     controller.setConnections(new Connection[812302]);
     connections = controller.getConnections();
@@ -64,55 +64,55 @@ public class FileLoaderConnectionOnly {
         connections, expresswaysQT, tst));
     Thread primary = new Thread(new FileLoaderThread("primary", points,
         connections, primaryQT, tst));
+    Thread secondary = new Thread(new FileLoaderThread("secondary", points,
+        connections, secondaryQT, tst));
 
     highways.start();
     expressways.start();
     primary.start();
+    secondary.start();
     try {
       highways.join();
       expressways.join();
       primary.join();
+      secondary.join();
     } catch (InterruptedException e) {
     	Controller.catchException(e);
     }
     
+    System.out.println("4 first qaudtrees done");
     controller.getGUI().setupMap();
-
-    Thread secondary = new Thread(new FileLoaderThread("secondary", points,
-        connections, secondaryQT, tst));
+    
     Thread normal = new Thread(new FileLoaderThread("normal", points,
         connections, normalQT, tst));
-    Thread trailsStreets = new Thread(new FileLoaderThread("trailsStreets",
-        points, connections, trailsStreetsQT, tst));
+    Thread small = new Thread(new FileLoaderThread("small",
+        points, connections, smallQT, tst));
     Thread paths = new Thread(new FileLoaderThread("paths", points,
         connections, pathsQT, tst));
 
-    secondary.start();
+
     paths.start();
     try{
-      secondary.join();
       paths.join();
     }catch(Exception e){
       Controller.catchException(e);
     }
     
+    
     normal.start();
-    
-    try {
-    	normal.join();
-    }
-    catch (Exception e) {
-    	
+    try{
+      normal.join();
+    }catch(Exception e){
+      Controller.catchException(e);
     }
     
-    trailsStreets.start();
-    try {
-    	trailsStreets.join();
+    small.start();
+    try{
+      small.join();
+    }catch(Exception e){
+      Controller.catchException(e);
     }
-    catch(Exception e) {
-    	Controller.catchException(e);
-    }
-    Controller.setStatus("Data loaded");
+    controller.setStatus("Data loaded");
   }
 
   /**
@@ -207,7 +207,7 @@ public class FileLoaderConnectionOnly {
   }
 
   public ConnectionQuadTree getTrailsStreetsQT() {
-    return trailsStreetsQT;
+    return smallQT;
   }
 
   public ConnectionQuadTree getPaths() {

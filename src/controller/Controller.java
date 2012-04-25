@@ -31,7 +31,7 @@ public final class Controller {
   volatile private ConnectionQuadTree primaryQT; // 3
   volatile private ConnectionQuadTree secondaryQT; // 4
   volatile private ConnectionQuadTree normalQT; // 5
-  volatile private ConnectionQuadTree trailsStreetsQT; // 6
+  volatile private ConnectionQuadTree smallQT; // 6
   volatile private ConnectionQuadTree pathsQT; // 7
   private double xMin, yMin, xMax, yMax;
 
@@ -116,7 +116,7 @@ public final class Controller {
       qt = normalQT;
       break;
     case 6:
-      qt = trailsStreetsQT;
+      qt = smallQT;
       break;
     case 7:
       qt = pathsQT;
@@ -159,8 +159,8 @@ public final class Controller {
    * @param s
    *          Status to be shown
    */
-  public static void setStatus(String s) {
-    // GUI.setStatus(s);
+  public void setStatus(String s) {
+    gui.setStatus(s);
   }
   
   /**
@@ -280,18 +280,18 @@ public final class Controller {
   }
 
   /**
-   * @return the trailsStreetsQT
+   * @return the smallQT
    */
-  public synchronized ConnectionQuadTree getTrailsStreetsQT() {
-    if(trailsStreetsQT == null) trailsStreetsQT = new ConnectionQuadTree();
-    return trailsStreetsQT;
+  public synchronized ConnectionQuadTree getSmallQT() {
+    if(smallQT == null) smallQT = new ConnectionQuadTree();
+    return smallQT;
   }
 
   /**
-   * @param trailsStreetsQT the trailsStreetsQT to set
+   * @param smallQT the smallQT to set
    */
-  public synchronized void setTrailsStreetsQT(ConnectionQuadTree trailsStreetsQT) {
-    this.trailsStreetsQT = trailsStreetsQT;
+  public synchronized void setSmallQT(ConnectionQuadTree smallQT) {
+    this.smallQT = smallQT;
   }
 
   /**

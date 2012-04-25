@@ -19,11 +19,11 @@ public class MapComponent extends JComponent {
 	private int xClick, yClick; // for the mouselistener
 //	private int height = 400, width = 600; //for the scaling
 	private boolean[] roadtypes;
-	private volatile Connection[] connections;
+	volatile private Connection[] connections;
 	private Controller controller = Controller.getInstance();
 
 	public MapComponent() {
-		roadtypes = new boolean[] { true, true, true, false, false, false,
+		roadtypes = new boolean[] { true, true, true, true, false, false,
 				false };
 		totalxMin = (double) (controller.getxMin()-40); 
 		totalxMax = (double) (controller.getxMax()+40); 
