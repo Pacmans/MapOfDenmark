@@ -91,8 +91,6 @@ public class FileLoaderConnectionOnly {
     Thread paths = new Thread(new FileLoaderThread("paths", points,
         connections, pathsQT, tst));
 
-    
-    normal.start();
     paths.start();
     try{
       normal.join();
@@ -100,6 +98,14 @@ public class FileLoaderConnectionOnly {
     }catch(Exception e){
     	Controller.catchException(e);
     }
+    
+    normal.start();
+    try{
+      normal.join();
+    }catch(Exception e){
+      Controller.catchException(e);
+    }
+    
     small.start();
     try{
       small.join();

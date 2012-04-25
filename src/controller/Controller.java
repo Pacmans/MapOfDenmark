@@ -156,8 +156,8 @@ public final class Controller {
    * @param s
    *          Status to be shown
    */
-  public static void setStatus(String s) {
-    // GUI.setStatus(s);
+  public void setStatus(String s) {
+    gui.setStatus(s);
   }
   
   /**
