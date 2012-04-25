@@ -59,13 +59,13 @@ public class FileLoaderConnectionOnly {
 
   private void loadConnections() throws IOException {
     Thread highways = new Thread(new FileLoaderThread("highways", points,
-        connections, highwaysQT, tst));
+        connections, highwaysQT, tst),"highways");
     Thread expressways = new Thread(new FileLoaderThread("expressways", points,
-        connections, expresswaysQT, tst));
+        connections, expresswaysQT, tst),"expressways");
     Thread primary = new Thread(new FileLoaderThread("primary", points,
-        connections, primaryQT, tst));
+        connections, primaryQT, tst),"primary");
     Thread secondary = new Thread(new FileLoaderThread("secondary", points,
-        connections, secondaryQT, tst));
+        connections, secondaryQT, tst),"secondary");
 
     highways.start();
     expressways.start();
@@ -84,11 +84,11 @@ public class FileLoaderConnectionOnly {
     controller.getGUI().setupMap();
     
     Thread normal = new Thread(new FileLoaderThread("normal", points,
-        connections, normalQT, tst));
+        connections, normalQT, tst),"normal");
     Thread small = new Thread(new FileLoaderThread("small",
-        points, connections, smallQT, tst));
+        points, connections, smallQT, tst),"small");
     Thread paths = new Thread(new FileLoaderThread("paths", points,
-        connections, pathsQT, tst));
+        connections, pathsQT, tst),"paths");
 
 
     paths.start();
