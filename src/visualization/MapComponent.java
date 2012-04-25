@@ -10,7 +10,7 @@ import dataStructure.Connection;
 @SuppressWarnings("serial")
 public class MapComponent extends JComponent {
 
-	private Controller controller = Controller.getInstance();
+//	private float zoomNiveau;
 	private final double totalxMin, totalxMax, totalyMin, totalyMax;
 	private final double zoomScale = 0.2, minDx, maxDx, maxDy;
 	private double xMin, yMin, xMax, yMax;
@@ -20,7 +20,7 @@ public class MapComponent extends JComponent {
 //	private int height = 400, width = 600; //for the scaling
 	private boolean[] roadtypes;
 	private Connection[] connections;
-	private Controller control = Controller.getInstance();
+	private Controller controller = Controller.getInstance();
 
 	public MapComponent() {
 		roadtypes = new boolean[] { true, true, true, false, false, false,
@@ -33,11 +33,10 @@ public class MapComponent extends JComponent {
 		calcCoordinates();
 		// decides how much you can zoom in/out
 		maxDx = dx;
-		minDx = dx*0.005;
-
+		minDx = dx * 0.005;
 		maxDy = dy;
 
-		connections = control.getConnections();
+		connections = controller.getConnections();
 		addListener();
 		setPreferredSize(new Dimension(600, 400));
 	}
@@ -88,21 +87,55 @@ public class MapComponent extends JComponent {
 	public void paint(Graphics g) {
 		calcCoordinates();
 		setScale();
+		
+		Graphics2D g2 = (Graphics2D) g;
 
 		// paints the white background
 		g.setColor(Color.white);
 		g.fillRect(2, 2, getWidth() - 4, getHeight() - 4);
 		
-		if (dx == maxDx)
-			connections = control.getConnections();
-		else{
-		  connections = control.getConnections(xMin, yMin, xMax, yMax);
-		  System.out.println("Loading from QuadTree");
+		//paints the roads
+		for (int i=roadtypes.length-1; i>=0; i--){
+			if (roadtypes[i]) paintRoadsOfType(i, g2);
 		}
-			
+	}
+
+	private void paintRoadsOfType(int type, Graphics2D g2)
+	{
+		connections = controller.getConnections(type+1, xMin, yMin, xMax, yMax);
+		float f = 0;
+		BasicStroke stroke;
 		
 		for (Connection c : connections) {
-			if (roadtypes[c.getType().priority() - 1]) {
+			switch (type){
+				case 0:
+					f = (float) (2 + 3*(1.3-xScale));
+					break;
+				case 1:
+					f = (float) (0 + 3*(1.3-xScale));
+					break;
+				case 2:
+					f = (float) (-2 + 3*(1.3-xScale));
+					break;
+				case 3:
+					f = (float) (-4 + 3*(1.3-xScale));
+					break;
+				case 4:
+					f = (float) (-6 + 3*(1.3-xScale));
+					break;
+				case 5:
+					f = (float) (-8 + 3*(1.3-xScale));
+					break;
+				case 6:
+					f = (float) (-10 + 3*(1.3-xScale));
+					break;
+			}
+			
+				if (f<1)
+					stroke = new BasicStroke(1);
+				else 
+					stroke = new BasicStroke(f);
+				
 				// get the coordinates for the line
 				int x1 = (int) ((c.getX1() - xMin) / xScale);
 				int y1 = (int) ((yMax - c.getY1()) / yScale);
@@ -110,12 +143,12 @@ public class MapComponent extends JComponent {
 				int y2 = (int) ((yMax - c.getY2()) / yScale);
 
 				// draws the line
-				g.setColor(c.getType().color());
-				g.drawLine(x1, y1, x2, y2);
-			}
+				g2.setColor(c.getType().color());
+				g2.setStroke(stroke);
+				g2.drawLine(x1, y1, x2, y2);
 		}
 	}
-
+	
 	/**
 	 * set zoom to the original zoom-perspective
 	 */
@@ -230,6 +263,8 @@ public class MapComponent extends JComponent {
 	private void updateMap() {
 		calcCoordinates();
 		setWithinBoundaries();
+//		System.out.println(""+xScale);
+//		System.out.println("Udregn: " +10*(1.5-xScale));
 		repaint();
 	}
 

@@ -92,7 +92,6 @@ public class ConnectionQuadTree{
     ymax = rect.getIntervalY().getHigh();
     array = new HashSet<Integer>();
     getRect(root, rect);
-    System.out.println(array.size());
     return array;
   }
   
