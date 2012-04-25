@@ -74,6 +74,7 @@ public class FileLoaderConnectionOnly {
       expressways.join();
       primary.join();
     } catch (InterruptedException e) {
+    	Controller.catchException(e);
     }
     
     System.out.println("3 first qaudtrees done");
@@ -98,9 +99,9 @@ public class FileLoaderConnectionOnly {
       trailsStreets.join();
       paths.join();
     }catch(Exception e){
-//      controller
+    	Controller.catchException(e);
     }
-    controller.setStatus("Data loaded");
+    Controller.setStatus("Data loaded");
   }
 
   /**
