@@ -1,9 +1,44 @@
 package gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.KeyStroke;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+
 import controller.Controller;
 
 /**
@@ -16,10 +51,11 @@ import controller.Controller;
 public class GUI {
 
   // This field contains the current version of the program.
-    private static final String VERSION = "Version 1.0";
-        // The main frame of our program.
-    private JFrame frame;
-    private JPanel contentPane, mapPanel, loadingPanel;
+  private static final String VERSION = "Version 1.0";
+  // The main frame of our program.
+  private JFrame frame;
+  private Controller controller;
+  private JPanel contentPane, mapPanel, loadingPanel, optionPanel;
   // The map from the controller
   private JComponent map;
   // A ButtonGroup with car, bike, and walk.
@@ -33,8 +69,7 @@ public class GUI {
     makeMenuBar();
     makeRightPanel();
     setupFrame();
-    Controller.getInstance();
-    setupMap();
+    controller = Controller.getInstance();
   }
 
   private void setupFrame() {
@@ -45,13 +80,15 @@ public class GUI {
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     frame.setLocation(d.width / 2 - frame.getWidth() / 2,
         d.height / 2 - frame.getHeight() / 2);
-    // make the user unable to resize the window.
+    contentPane.setEnabled(false);
+    frame.setBackground(Color.darkGray);
+    frame.setState(Frame.NORMAL);
     frame.setVisible(true);
 
   }
 
-  private void setupMap() {
-    map = Controller.getMap();
+  public void setupMap() {
+    map = controller.getMap();
     mapPanel = new JPanel(new GridLayout(1, 1));
     mapPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2,
         Color.darkGray));
@@ -66,6 +103,8 @@ public class GUI {
       }
     });
     frame.pack();
+    contentPane.setEnabled(true);
+    frame.setBackground(Color.lightGray);
     frame.setSize(800, 600);
   }
 
@@ -77,7 +116,10 @@ public class GUI {
     contentPane.setLayout(new BorderLayout(5, 5));
     loadingPanel = new JPanel(new FlowLayout(1));
     loadingPanel.setBorder(new EmptyBorder(150, 6, 6, 6));
-    loadingPanel.add(new JLabel("Loading map..."));
+    JLabel loadingLabel = new JLabel("Loading map...");
+    loadingLabel.setForeground(Color.white);
+    loadingLabel.setFont(new Font("Verdana", Font.BOLD, 40));
+    loadingPanel.add(loadingLabel);
     contentPane.add(loadingPanel, "Center");
   }
 
@@ -125,7 +167,7 @@ public class GUI {
 
   private void makeRightPanel() {
     // initialize a new JPanel.
-    JPanel optionPanel = new JPanel();
+    optionPanel = new JPanel();
     // create a vertical BoxLayout on the optionPanel.
     optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
 
@@ -139,13 +181,16 @@ public class GUI {
 
   private JPanel createRouteplanningBox() {
     JPanel routePlanning = new JPanel();
+    TitledBorder border = new TitledBorder(new EtchedBorder(), "Route planning");
+    border = setHeadlineFont(border);
+    routePlanning.setBorder(border);
     routePlanning.setLayout(new BoxLayout(routePlanning, BoxLayout.Y_AXIS));
-    routePlanning.setBorder(new TitledBorder(new EtchedBorder(),
-        "Route planning"));
 
     // from row
     JLabel label = new JLabel("From");
+    label = setLabelFont(label);
     JTextField text = new JTextField(10);
+    text = addLiveSearch(text);
     text.setBackground(Color.lightGray);
     JPanel fromPanel = new JPanel(new FlowLayout(2));
     fromPanel.add(label);
@@ -153,7 +198,9 @@ public class GUI {
 
     // to row
     label = new JLabel("To");
+    label = setLabelFont(label);
     text = new JTextField(10);
+    text = addLiveSearch(text);
     text.setBackground(Color.lightGray);
     JPanel toPanel = new JPanel(new FlowLayout(2));
     toPanel.add(label);
@@ -161,7 +208,8 @@ public class GUI {
 
     // go button
     JButton go = new JButton("Go");
-    go.setPreferredSize(new Dimension(60, 25));
+    go = setButtonText(go);
+    go.setPreferredSize(new Dimension(55, 33));
     go.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         // get the selected transportation type and DO SOMETHING
@@ -178,7 +226,33 @@ public class GUI {
 
     return routePlanning;
   }
+  
+  private JTextField addLiveSearch(JTextField text) {
+	  text.addKeyListener(new KeyAdapter() {
+		  public void keyReleased(KeyEvent e) {
+			  JTextField textField = (JTextField) e.getSource();
+			  String string = textField.getText();
+			  setStatus(string);
+		  }
+	  });
+	  return text;
+  }
 
+  private <T extends JComponent> T setLabelFont(T label) {
+	  label.setFont(new Font("Verdana", Font.PLAIN, 14));
+	  return label;
+  }
+  
+  private TitledBorder setHeadlineFont(TitledBorder label) {
+	  label.setTitleFont(new Font("Verdana", Font.BOLD, 15));	
+	  return label;
+  }
+  
+  private <T extends JComponent> T setButtonText(T label) {
+	  label.setFont(new Font("Verdana", Font.PLAIN, 14));	
+	  return label;
+  }
+  
   // toggleButtons in a ButtonGroup
   private JPanel createTogglePanel() {
     JPanel togglePanel = new JPanel(new FlowLayout(1));
@@ -232,12 +306,13 @@ public class GUI {
   private JPanel createZoomOutButton() {
     JPanel zoomPanel = new JPanel(new FlowLayout(1));
     JButton zoomOut = new JButton("Zoom out");
+    zoomOut.setPreferredSize(new Dimension(90, 35));
+    zoomOut = setButtonText(zoomOut);
     zoomOut.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        Controller.showAll();
+        controller.showAll();
       }
     });
-
     zoomPanel.add(zoomOut);
     return zoomPanel;
   }
@@ -245,11 +320,12 @@ public class GUI {
   private JPanel createCheckbox() {
     // initialize checkboxPanel
     JPanel checkboxPanel = new JPanel(new GridLayout(7, 1));
-    checkboxPanel.setBorder(new TitledBorder(new EtchedBorder(), "Road types"));
+    TitledBorder border = new TitledBorder(new EtchedBorder(), "Road types");
+    border = setHeadlineFont(border);
+    checkboxPanel.setBorder(border);
     // fill the checkboxPanel
     checkboxPanel.add(createRoadtypeBox("Highways", true)); // Priority 1 roads
     checkboxPanel.add(createRoadtypeBox("Expressways", true)); // Priority 2
-                                                               // roads
     checkboxPanel.add(createRoadtypeBox("Primary roads", true)); // and so on..
     checkboxPanel.add(createRoadtypeBox("Secondary roads", false));
     checkboxPanel.add(createRoadtypeBox("Normal roads", false));
@@ -262,6 +338,7 @@ public class GUI {
     final String _string = string;
     JPanel fl = new JPanel(new FlowLayout(0));
     JCheckBox box = new JCheckBox(string);
+    box = setLabelFont(box);
     box.setSelected(selected);
     box.addItemListener(new ItemListener() {
       public void itemStateChanged(ItemEvent e) {
@@ -280,9 +357,9 @@ public class GUI {
         if (_string.equals("Paths"))
           number = 7;
         if (e.getStateChange() == 1)
-          Controller.updateMap(number, true);
+          controller.updateMap(number, true);
         else
-          Controller.updateMap(number, false);
+          controller.updateMap(number, false);
       }
     });
     fl.add(box);
@@ -307,5 +384,4 @@ public class GUI {
         + "\nMade by Claus, Bjørn, Phillip, Morten & Anders.",
         "About Map Of Denmark", JOptionPane.INFORMATION_MESSAGE);
   }
-
 }

@@ -21,3 +21,10 @@ src/files/road_4.txt
 src/files/road_5.txt
 src/files/road_6.txt
 src/files/road_7.txt
+src/files/expressways.txt
+src/files/highways.txt
+src/files/normal.txt
+src/files/paths.txt
+src/files/primary.txt
+src/files/secondary.txt
+src/files/trailsStreets.txt

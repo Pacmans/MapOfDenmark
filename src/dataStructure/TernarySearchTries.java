@@ -8,10 +8,11 @@ import controller.Controller;
 public class TernarySearchTries<Value> {
 
 	private Node root;
-	
+	private int size = 0;
 	private class Node
 	{
 		char c;
+
 		Node left, mid, right;
 		HashSet<Value> val = new HashSet<Value>();
 	}
@@ -32,13 +33,18 @@ public class TernarySearchTries<Value> {
 		else if (d < key.length()-1) return get(x.mid, key, d+1);
 		else return x;
 	}
+	public void getSize(){
+		System.out.println(size);
+	}
 	
 	public void put(String key, Value val)
-	{ root = put(root, key, val, 0);	}
+	{ root = put(root, key, val, 0);
+	size++;}
 	
 	public Node put(Node x, String key, Value val, int d)
 	{
 		char c = key.charAt(d);
+		if (key == "" || key == "''") return null;
 		if( x == null) { x = new Node(); x.c = c;}
 		if (c < x.c) x.left = put(x.left, key, val, d);
 		else if (c > x.c) x.right = put(x.right, key, val , d);

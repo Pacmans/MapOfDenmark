@@ -1,6 +1,5 @@
 package dataStructure;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -13,20 +12,20 @@ import java.util.HashSet;
  */
 public class Point implements Comparable<Point>{
 	private int ID, numberOfConnections = 0;
-	private BigDecimal xk, yk;
+	private double xk, yk;
 	private HashSet<Integer> connections = new HashSet<Integer>();
 	
-	public Point(int id, BigDecimal xk, BigDecimal yk){
+	public Point(int id, double xk, double yk){
 		this.ID = id;
 		this.xk = xk;
 		this.yk = yk;
 	}
 	
-	public BigDecimal getX(){
+	public double getX(){
 		return xk;
 	}
 	
-	public BigDecimal getY(){
+	public double getY(){
 		return yk;
 	}
 	

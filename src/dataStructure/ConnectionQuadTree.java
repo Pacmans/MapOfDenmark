@@ -1,6 +1,5 @@
 package dataStructure;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 
 public class ConnectionQuadTree{
@@ -24,10 +23,10 @@ public class ConnectionQuadTree{
    */
   private class Node{
     Node NW, NE, SE, SW; //Four subtrees
-    BigDecimal x, y;
+    double x, y;
     HashSet<Integer> connections = new HashSet<Integer>();
     
-    Node(BigDecimal x, BigDecimal y, int connection){
+    Node(double x, double y, int connection){
       this.x = x;
       this.y = y;
       connections.add(connection);
@@ -42,7 +41,7 @@ public class ConnectionQuadTree{
     }
   }
   
-  public void insert(BigDecimal x, BigDecimal y, int connection){
+  public void insert(double x, double y, int connection){
     if(root == null){
       root = new Node(x, y, connection);
       nodes++;
@@ -57,13 +56,13 @@ public class ConnectionQuadTree{
     }
   }
   
-  private Node contains(Node n, BigDecimal x, BigDecimal y){
+  private Node contains(Node n, double x, double y){
     if(n == null) return null;
-    else if(n.x == x && n.y == y) return n;
-    else if(x.compareTo(n.x)<1 && y.compareTo(n.y)<1) contains(n.SW, x, y);
-    else if(x.compareTo(n.x)<1 && y.compareTo(n.y)>0) contains(n.NW, x, y);
-    else if(x.compareTo(n.x)>0 && y.compareTo(n.y)<1) contains(n.SE, x, y);
-    else if(x.compareTo(n.x)>0 && y.compareTo(n.y)>0) contains(n.NE, x, y);
+    else if (n.x == x && n.y == y) return n;
+    else if (x <= n.x && y <= n.y) contains(n.SW, x, y);
+    else if (x <= n.x && y >  n.y) contains(n.NW, x, y);
+    else if (x >  n.x && y <= n.y) contains(n.SE, x, y);
+    else if (x >  n.x && y >  n.y) contains(n.NE, x, y);
     return null;
   }
   
@@ -75,13 +74,13 @@ public class ConnectionQuadTree{
    * @param point The point to be placed
    * @return The inserted node
    */
-  private Node insert(Node h, BigDecimal x, BigDecimal y, int connection){
+  private Node insert(Node h, double x, double y, int connection){
     if(h == null) {
       return new Node(x, y, connection);} //First point inserted becomes root
-    else if (x.compareTo(h.x)<1 && (y.compareTo(h.y)<1)) h.SW = insert(h.SW, x, y, connection);
-    else if (x.compareTo(h.x)<1 && (y.compareTo(h.y)>0)) h.NW = insert(h.NW, x, y, connection);
-    else if (x.compareTo(h.x)>0 && (y.compareTo(h.y)<1)) h.SE = insert(h.SE, x, y, connection);
-    else if (x.compareTo(h.x)>0 && (y.compareTo(h.y)>0)) h.NE = insert(h.NE, x, y, connection);
+    else if (x <= h.x && y <= h.y) h.SW = insert(h.SW, x, y, connection);
+    else if (x <= h.x && y >  h.y) h.NW = insert(h.NW, x, y, connection);
+    else if (x >  h.x && y <= h.y) h.SE = insert(h.SE, x, y, connection);
+    else if (x >  h.x && y >  h.y) h.NE = insert(h.NE, x, y, connection);
     else nodes++;
     return h;
   }
@@ -93,7 +92,6 @@ public class ConnectionQuadTree{
     ymax = rect.getIntervalY().getHigh();
     array = new HashSet<Integer>();
     getRect(root, rect);
-    System.out.println(array.size());
     return array;
   }
   
@@ -108,13 +106,13 @@ public class ConnectionQuadTree{
       return;
     }
     
-    if (rect.contains(h.x.doubleValue(), h.y.doubleValue())){
+    if (rect.contains(h.x, h.y)){
       array.addAll(h.getConnections());
     }
     
-    if(xmin <= h.x.doubleValue() && ymin <= h.y.doubleValue()) getRect(h.SW, rect);
-    if(xmin <= h.x.doubleValue() && ymax >  h.y.doubleValue()) getRect(h.NW, rect);
-    if(xmax >  h.x.doubleValue() && ymin <= h.y.doubleValue()) getRect(h.SE, rect);
-    if(xmax >  h.x.doubleValue() && ymax >  h.y.doubleValue()) getRect(h.NE, rect);
+    if(xmin <= h.x && ymin <= h.y) getRect(h.SW, rect);
+    if(xmin <= h.x && ymax >  h.y) getRect(h.NW, rect);
+    if(xmax >  h.x && ymin <= h.y) getRect(h.SE, rect);
+    if(xmax >  h.x && ymax >  h.y) getRect(h.NE, rect);
   }
 }
