@@ -58,6 +58,7 @@ public class FileLoaderConnectionOnly{
 			expressways.join();
 			primary.join();
 		} catch (InterruptedException e) {
+			
 		}
 		
 		gui.setupMap();

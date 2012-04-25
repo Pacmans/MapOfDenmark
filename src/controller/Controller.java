@@ -28,12 +28,12 @@ public final class Controller {
     private TernarySearchTries<Integer> tst;
     private Connection[] connections;
     private ConnectionQuadTree highwaysQT;
-	private ConnectionQuadTree expresswaysQT;
-	private ConnectionQuadTree primaryQT;
-	private ConnectionQuadTree secondaryQT;
-	private ConnectionQuadTree normalQT;
-	private ConnectionQuadTree trailsStreetsQT;
-	private ConnectionQuadTree pathsQT;
+		private ConnectionQuadTree expresswaysQT;
+		private ConnectionQuadTree primaryQT;
+		private ConnectionQuadTree secondaryQT;
+		private ConnectionQuadTree normalQT;
+		private ConnectionQuadTree trailsStreetsQT;
+		private ConnectionQuadTree pathsQT;
     private double xMin, yMin, xMax, yMax;
 
     /**
@@ -142,6 +142,10 @@ public final class Controller {
      */
     public static void setStatus(String s) {
         // GUI.setStatus(s);
+    }
+    
+    public static void catchException(Exception e) {
+    	ExceptionController.recieveException(e);
     }
 
     /**

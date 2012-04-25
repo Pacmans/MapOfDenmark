@@ -1,5 +1,7 @@
 package gui;
 
+import gui.JSuggestField.JSuggestField;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,6 +19,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -192,18 +198,23 @@ public class GUI {
     // from row
     JLabel label = new JLabel("From");
     label = setLabelFont(label);
-    JTextField text = new JTextField(10);
-    text = addLiveSearch(text);
-    text.setBackground(Color.lightGray);
+    
+    Vector<String> data = new Vector<String>();
+    String[] array = new String[] { "hej", "morten", "bjørn", "torben", "map", "hejsa", "kurt" };
+    Collection<? extends String> strings = new ArrayList<String>(Arrays.asList(array));
+    data.addAll(strings);
+//    text = addLiveSearch(text);
+//    text.setBackground(Color.lightGray);
     JPanel fromPanel = new JPanel(new FlowLayout(2));
     fromPanel.add(label);
+    JSuggestField text = new JSuggestField(frame, data);
     fromPanel.add(text);
 
     // to row
     label = new JLabel("To");
     label = setLabelFont(label);
-    text = new JTextField(10);
-    text = addLiveSearch(text);
+//    text = new JTextField(10);
+//    text = addLiveSearch(text);
     text.setBackground(Color.lightGray);
     JPanel toPanel = new JPanel(new FlowLayout(2));
     toPanel.add(label);
