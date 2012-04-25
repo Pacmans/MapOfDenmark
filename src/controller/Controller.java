@@ -95,7 +95,7 @@ public final class Controller {
    *          ArrayList of connections within rectangle
    * @return
    */
-  public Connection[] getConnections(int type, double x1, double y1, double x2,
+  public synchronized Connection[] getConnections(int type, double x1, double y1, double x2,
       double y2) {
     ConnectionQuadTree qt = new ConnectionQuadTree();
     switch (type) {
