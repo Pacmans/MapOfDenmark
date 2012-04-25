@@ -24,15 +24,15 @@ public final class Controller {
   private static Controller instance; // singleton
   private GUI gui;
   private MapComponent map;
-  private TernarySearchTries<Integer> tst;
-  volatile private Connection[] connections = new Connection[812302];
-  volatile private ConnectionQuadTree highwaysQT;      //1
-  volatile private ConnectionQuadTree expresswaysQT;   //2
-  volatile private ConnectionQuadTree primaryQT;       //3
-  volatile private ConnectionQuadTree secondaryQT;     //4
-  volatile private ConnectionQuadTree normalQT;        //5
-  volatile private ConnectionQuadTree trailsStreetsQT; //6
-  volatile private ConnectionQuadTree pathsQT;         //7
+  volatile private TernarySearchTries<Integer> tst;
+  volatile private Connection[] connections;
+  volatile private ConnectionQuadTree highwaysQT; // 1
+  volatile private ConnectionQuadTree expresswaysQT; // 2
+  volatile private ConnectionQuadTree primaryQT; // 3
+  volatile private ConnectionQuadTree secondaryQT; // 4
+  volatile private ConnectionQuadTree normalQT; // 5
+  volatile private ConnectionQuadTree trailsStreetsQT; // 6
+  volatile private ConnectionQuadTree pathsQT; // 7
   private double xMin, yMin, xMax, yMax;
 
   /**
@@ -44,12 +44,7 @@ public final class Controller {
     instance = this;
     gui = new GUI();
     try {
-      FileLoaderConnectionOnly fileLoader = new FileLoaderConnectionOnly();
-      secondaryQT = fileLoader.getSecondaryQT();
-      normalQT = fileLoader.getNormalQT();
-      trailsStreetsQT = fileLoader.getTrailsStreetsQT();
-      pathsQT = fileLoader.getPaths();
-      tst = fileLoader.getTST();
+      new FileLoaderConnectionOnly();
     } catch (Exception e) {
       ExceptionController.recieveException(e);
     }
@@ -100,9 +95,11 @@ public final class Controller {
    *          ArrayList of connections within rectangle
    * @return
    */
-  synchronized public Connection[] getConnections(int type, double x1, double y1, double x2, double y2) {
+
+  public Connection[] getConnections(int type, double x1, double y1, double x2,
+      double y2) {
     ConnectionQuadTree qt = new ConnectionQuadTree();
-    switch(type){
+    switch (type) {
     case 1:
       qt = highwaysQT;
       break;
@@ -136,11 +133,12 @@ public final class Controller {
     for (Integer i : cons) { // this is slow
       cs[size++] = connections[i];
     }
-    System.out.println(cs);
     return cs;
   }
 
-  synchronized public TernarySearchTries<Integer> getTst() {
+
+  public TernarySearchTries<Integer> getTst() {
+    if(tst == null) tst = new TernarySearchTries<Integer>();
     return tst;
   }
 
@@ -150,6 +148,7 @@ public final class Controller {
    * @return Array of all connections
    * @see Connection
    */
+
    synchronized public Connection[] getConnections() {
     return connections;
   }
@@ -197,6 +196,153 @@ public final class Controller {
   }
 
   /**
+   * @return the highwaysQT
+   */
+  public synchronized ConnectionQuadTree getHighwaysQT() {
+    if(highwaysQT == null) highwaysQT = new ConnectionQuadTree();
+    return highwaysQT;
+  }
+
+  /**
+   * @param highwaysQT the highwaysQT to set
+   */
+  public synchronized void setHighwaysQT(ConnectionQuadTree highwaysQT) {
+    this.highwaysQT = highwaysQT;
+  }
+
+  /**
+   * @return the expresswaysQT
+   */
+  public synchronized ConnectionQuadTree getExpresswaysQT() {
+    if(expresswaysQT == null) expresswaysQT = new ConnectionQuadTree();
+    return expresswaysQT;
+  }
+
+  /**
+   * @param expresswaysQT the expresswaysQT to set
+   */
+  public synchronized void setExpresswaysQT(ConnectionQuadTree expresswaysQT) {
+    this.expresswaysQT = expresswaysQT;
+  }
+
+  /**
+   * @return the primaryQT
+   */
+  public synchronized ConnectionQuadTree getPrimaryQT() {
+    if(primaryQT == null) primaryQT = new ConnectionQuadTree();
+    return primaryQT;
+  }
+
+  /**
+   * @param primaryQT the primaryQT to set
+   */
+  public synchronized void setPrimaryQT(ConnectionQuadTree primaryQT) {
+    this.primaryQT = primaryQT;
+  }
+
+  /**
+   * @return the secondaryQT
+   */
+  public synchronized ConnectionQuadTree getSecondaryQT() {
+    if(secondaryQT == null) secondaryQT = new ConnectionQuadTree();
+    return secondaryQT;
+  }
+
+  /**
+   * @param secondaryQT the secondaryQT to set
+   */
+  public synchronized void setSecondaryQT(ConnectionQuadTree secondaryQT) {
+    this.secondaryQT = secondaryQT;
+  }
+
+  /**
+   * @return the normalQT
+   */
+  public synchronized ConnectionQuadTree getNormalQT() {
+    if(normalQT == null) normalQT = new ConnectionQuadTree();
+    return normalQT;
+  }
+
+  /**
+   * @param normalQT the normalQT to set
+   */
+  public synchronized void setNormalQT(ConnectionQuadTree normalQT) {
+    this.normalQT = normalQT;
+  }
+
+  /**
+   * @return the trailsStreetsQT
+   */
+  public synchronized ConnectionQuadTree getTrailsStreetsQT() {
+    if(trailsStreetsQT == null) trailsStreetsQT = new ConnectionQuadTree();
+    return trailsStreetsQT;
+  }
+
+  /**
+   * @param trailsStreetsQT the trailsStreetsQT to set
+   */
+  public synchronized void setTrailsStreetsQT(ConnectionQuadTree trailsStreetsQT) {
+    this.trailsStreetsQT = trailsStreetsQT;
+  }
+
+  /**
+   * @return the pathsQT
+   */
+  public synchronized ConnectionQuadTree getPathsQT() {
+    if(pathsQT == null) pathsQT = new ConnectionQuadTree();
+    return pathsQT;
+  }
+
+  /**
+   * @param pathsQT the pathsQT to set
+   */
+  public synchronized void setPathsQT(ConnectionQuadTree pathsQT) {
+    this.pathsQT = pathsQT;
+  }
+
+  /**
+   * @param tst the tst to set
+   */
+  public synchronized void setTst(TernarySearchTries<Integer> tst) {
+    this.tst = tst;
+  }
+
+  /**
+   * @param connections the connections to set
+   */
+  public synchronized void setConnections(Connection[] connections) {
+    this.connections = connections;
+  }
+
+  /**
+   * @param xMin the xMin to set
+   */
+  public synchronized void setxMin(double xMin) {
+    this.xMin = xMin;
+  }
+
+  /**
+   * @param yMin the yMin to set
+   */
+  public synchronized void setyMin(double yMin) {
+    this.yMin = yMin;
+  }
+
+  /**
+   * @param xMax the xMax to set
+   */
+  public synchronized void setxMax(double xMax) {
+    this.xMax = xMax;
+  }
+
+  /**
+   * @param yMax the yMax to set
+   */
+  public synchronized void setyMax(double yMax) {
+    this.yMax = yMax;
+  }
+
+  /**
    * Main method creates a new GUI
    * 
    * @see GUI-class
@@ -206,18 +352,13 @@ public final class Controller {
     new Controller();
   }
 
-  synchronized public void initialize(Connection[] connections, ConnectionQuadTree highwaysQT,
-		ConnectionQuadTree expresswaysQT,ConnectionQuadTree primaryQT,
-		double xMin,double yMin,double xMax,double yMax) {
-
-	this.connections = connections;
-	this.highwaysQT = highwaysQT;
-	this.expresswaysQT = expresswaysQT;
-	this.primaryQT = primaryQT;
-	this.xMin = xMin;
-	this.yMin = yMin;
-	this.xMax = xMax;
-	this.yMax = yMax;
-	gui.setupMap();
-}
+//  public void initialize(Connection[] connections,
+//      ConnectionQuadTree highwaysQT, ConnectionQuadTree expresswaysQT,
+//      ConnectionQuadTree primaryQT) {
+//    this.connections = connections;
+//    this.highwaysQT = highwaysQT;
+//    this.expresswaysQT = expresswaysQT;
+//    this.primaryQT = primaryQT;
+//    gui.setupMap();
+//  }
 }

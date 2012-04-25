@@ -95,7 +95,7 @@ public class MapComponent extends JComponent {
 		g.fillRect(2, 2, getWidth() - 4, getHeight() - 4);
 		
 		//paints the roads
-		for (int i=0; i<roadtypes.length; i++){
+		for (int i=roadtypes.length-1; i>=0; i--){
 			if (roadtypes[i]) paintRoadsOfType(i, g2);
 		}
 	}
@@ -263,8 +263,6 @@ public class MapComponent extends JComponent {
 	private void updateMap() {
 		calcCoordinates();
 		setWithinBoundaries();
-//		System.out.println(""+xScale);
-//		System.out.println("Udregn: " +10*(1.5-xScale));
 		repaint();
 	}
 

@@ -8,6 +8,7 @@ import controller.Controller;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
+import dataStructure.RoadType;
 import dataStructure.TernarySearchTries;
 
 /**
@@ -17,186 +18,190 @@ import dataStructure.TernarySearchTries;
  * @author Morten Drescher Salling
  * @author Pacmans
  * @version 10. April 2012
- */	
-public class FileLoaderConnectionOnly{
+ */
+public class FileLoaderConnectionOnly {
 
-	private Controller controller = Controller.getInstance();
-	private double xMin = 750000;
-	private double xMax;
-	private double yMin = 750000;
-	private double yMax;
-	private double Scale = 750;
-	volatile private ConnectionQuadTree highwaysQT = new ConnectionQuadTree();
-	volatile private ConnectionQuadTree expresswaysQT = new ConnectionQuadTree();
-	volatile private ConnectionQuadTree primaryQT = new ConnectionQuadTree();
-	volatile private ConnectionQuadTree secondaryQT = new ConnectionQuadTree();
-	volatile private ConnectionQuadTree normalQT = new ConnectionQuadTree();
-	volatile private ConnectionQuadTree trailsStreetsQT = new ConnectionQuadTree();
-	volatile private ConnectionQuadTree pathsQT = new ConnectionQuadTree();
-	volatile private Connection[] connections = new Connection[812302];
-	volatile private TernarySearchTries<Integer> tst = new TernarySearchTries<Integer>();
-	volatile private Point[] points = new Point[675902];
-	
-	public FileLoaderConnectionOnly() throws IOException {
-		loadPoints();
-		loadConnections();
-	}
-	
-	private void loadConnections() throws IOException
-	{
-		Thread highways = new Thread(new FileLoaderThread("highways",points, connections, highwaysQT, tst));
-		Thread expressways = new Thread(new FileLoaderThread("expressways", points, connections, expresswaysQT, tst));
-		Thread primary = new Thread(new FileLoaderThread("primary", points, connections, primaryQT, tst));
-		
-		highways.start();
-		expressways.start();
-		primary.start();
-		try {
-			highways.join();
-			expressways.join();
-			primary.join();
-		} catch (InterruptedException e) {
-		}
-		
-		controller.initialize(connections, highwaysQT, expresswaysQT, primaryQT, xMin, yMin, xMax, yMax);
-		System.out.println("3 first qaudtrees done");
-		
-		Thread secondary = new Thread(new FileLoaderThread("secondary", points, connections, secondaryQT, tst));
-		Thread normal = new Thread(new FileLoaderThread("normal", points, connections, normalQT, tst));
-		Thread trailsStreets = new Thread(new FileLoaderThread("trailsStreets", points, connections, trailsStreetsQT, tst));
-		Thread paths = new Thread(new FileLoaderThread("paths", points, connections, pathsQT, tst));
-		
-		secondary.start();
-		try {
-			secondary.join();
-		}
-		catch(Exception e) {
-			
-		}
-		
-		trailsStreets.start();
-		try {
-			trailsStreets.join();
-		}
-		catch(Exception e) {
-			
-		}
-		
-		paths.start();
-		try {
-			paths.join();
-		}
-		catch(Exception e) {
-			System.out.println(e);
-			
-		}
-		
-		normal.start();
+  private Controller controller = Controller.getInstance();
+  private double xMin = 750000;
+  private double xMax;
+  private double yMin = 750000;
+  private double yMax;
+  private double Scale = 750;
+  volatile private ConnectionQuadTree highwaysQT;
+  volatile private ConnectionQuadTree expresswaysQT;
+  volatile private ConnectionQuadTree primaryQT;
+  volatile private ConnectionQuadTree secondaryQT;
+  volatile private ConnectionQuadTree normalQT;
+  volatile private ConnectionQuadTree trailsStreetsQT;
+  volatile private ConnectionQuadTree pathsQT;
+  volatile private Connection[] connections;
+  volatile private TernarySearchTries<Integer> tst;
+  volatile private Point[] points = new Point[675902];
 
-		try {
-			normal.join();
-				}
-		catch (Exception e) {
-			System.out.println(e);
-		}
-		System.out.println("all quadtrees done");
-//		Controller.getInstance().getGUI().EnableFrame();
-	}
-	
-	/**
-	 * creates Points from file "kdv_node_unload" and calculates min and max coordinates
-	 * @throws IOException
-	 */
-	/**
-	   * creates Points from file "kdv_node_unload" and calculates min and max
-	   * coordinates
-	   * 
-	   * @throws IOException
-	   */
-	  private void loadPoints() throws IOException {
-	    // loads the file "kdv_node_unload"
-	    // File pointsFile = new File("./src/files/kdv_node_unload.txt");
-	    InputStream pointFile = getClass().getResourceAsStream(
-	        "kdv_node_unload.txt");
-	    BufferedReader pointInput = new BufferedReader(new InputStreamReader(
-	        pointFile));
+  public FileLoaderConnectionOnly() throws IOException {
+    controller.setStatus("Loading data");
+    initialise();
+    loadPoints();
+    loadConnections();
+  }
 
-	    String line = null;
-	    double x, y;
-	    int index = -1;
-	    if (pointInput.ready()) { // if file is loaded
-	      while ((line = pointInput.readLine()) != null) {
-	        if (index >= 0) { // does nothing at the first line
-	          // creates the point
-	          String[] info = line.split(",");
-	          x = (Double.parseDouble(info[3])/Scale);
-	          y = (Double.parseDouble(info[4])/Scale);
-	          points[index] = new Point(index + 1, x, y);
+  private void initialise() {
+    highwaysQT = controller.getHighwaysQT();
+    expresswaysQT = controller.getExpresswaysQT();
+    primaryQT = controller.getPrimaryQT();
+    secondaryQT = controller.getSecondaryQT();
+    normalQT = controller.getNormalQT();
+    trailsStreetsQT = controller.getTrailsStreetsQT();
+    pathsQT = controller.getPathsQT();
+    controller.setConnections(new Connection[812302]);
+    connections = controller.getConnections();
+    tst = controller.getTst();
+  }
 
-	          // sets max and min coordinates
-	          if (x < xMin)
-	            xMin = x;
-	          if (x > xMax)
-	            xMax = x;
-	          if (y < yMin)
-	            yMin = y;
-	          if (y > yMax)
-	            yMax = y;
-	        }
-	        index++;
-	      }
-	    }
-	  }
+  private void loadConnections() throws IOException {
+    Thread highways = new Thread(new FileLoaderThread("highways", points,
+        connections, highwaysQT, tst));
+    Thread expressways = new Thread(new FileLoaderThread("expressways", points,
+        connections, expresswaysQT, tst));
+    Thread primary = new Thread(new FileLoaderThread("primary", points,
+        connections, primaryQT, tst));
 
+    highways.start();
+    expressways.start();
+    primary.start();
+    try {
+      highways.join();
+      expressways.join();
+      primary.join();
+    } catch (InterruptedException e) {
+    }
+    
+    controller.getGUI().setupMap();
 
-	 public double getxMax() {
-		return xMax;
-	}
+    Thread secondary = new Thread(new FileLoaderThread("secondary", points,
+        connections, secondaryQT, tst));
+    Thread normal = new Thread(new FileLoaderThread("normal", points,
+        connections, normalQT, tst));
+    Thread trailsStreets = new Thread(new FileLoaderThread("trailsStreets",
+        points, connections, trailsStreetsQT, tst));
+    Thread paths = new Thread(new FileLoaderThread("paths", points,
+        connections, pathsQT, tst));
 
-	public double getyMax() {
-		return yMax;
-	}
+    secondary.start();
+    normal.start();
+    trailsStreets.start();
+    paths.start();
+    try{
+      secondary.join();
+      normal.join();
+      trailsStreets.join();
+      paths.join();
+    }catch(Exception e){
+//      controller
+    }
+    controller.setStatus("Data loaded");
+  }
 
-	public Connection[] getConnections() {
-		return connections;
-	}
+  /**
+   * creates Points from file "kdv_node_unload" and calculates min and max
+   * coordinates
+   * 
+   * @throws IOException
+   */
+  /**
+   * creates Points from file "kdv_node_unload" and calculates min and max
+   * coordinates
+   * 
+   * @throws IOException
+   */
+  private void loadPoints() throws IOException {
+    // loads the file "kdv_node_unload"
+    // File pointsFile = new File("./src/files/kdv_node_unload.txt");
+    InputStream pointFile = getClass().getResourceAsStream(
+        "kdv_node_unload.txt");
+    BufferedReader pointInput = new BufferedReader(new InputStreamReader(
+        pointFile));
 
-	public double getxMin() {
-		return xMin;
-	}
-		  
-	public double getyMin() {
-		return yMin;	
-	}
-	public ConnectionQuadTree getHighwaysQT() {
-		return highwaysQT;
-	}
-	
-	public ConnectionQuadTree getExpresswaysQT() {
-		return expresswaysQT;
-	}
-	
-	public ConnectionQuadTree getPrimaryQT() {
-		return primaryQT;
-	}
-	
-	public ConnectionQuadTree getSecondaryQT() {
-		return secondaryQT;
-	}
-	
-	public ConnectionQuadTree getNormalQT() {
-		return normalQT;
-	}
-	
-	public ConnectionQuadTree getTrailsStreetsQT() {
-		return trailsStreetsQT;
-	}
-	
-	public ConnectionQuadTree getPaths() {
-		return pathsQT;
-	}
-	
-	public TernarySearchTries<Integer> getTST() {
-		return tst;
-	}
+    String line = null;
+    double x, y;
+    int index = -1;
+    if (pointInput.ready()) { // if file is loaded
+      while ((line = pointInput.readLine()) != null) {
+        if (index >= 0) { // does nothing at the first line
+          // creates the point
+          String[] info = line.split(",");
+          x = (Double.parseDouble(info[3]) / Scale);
+          y = (Double.parseDouble(info[4]) / Scale);
+          points[index] = new Point(index + 1, x, y);
+
+          // sets max and min coordinates
+          if (x < xMin)
+            xMin = x;
+          if (x > xMax)
+            xMax = x;
+          if (y < yMin)
+            yMin = y;
+          if (y > yMax)
+            yMax = y;
+        }
+        index++;
+      }
+    }
+    controller.setxMax(xMax);
+    controller.setxMin(xMin);
+    controller.setyMax(yMax);
+    controller.setyMin(yMin);
+  }
+
+  public double getxMax() {
+    return xMax;
+  }
+
+  public double getyMax() {
+    return yMax;
+  }
+
+  public Connection[] getConnections() {
+    return connections;
+  }
+
+  public double getxMin() {
+    return xMin;
+  }
+
+  public double getyMin() {
+    return yMin;
+  }
+
+  public ConnectionQuadTree getHighwaysQT() {
+    return highwaysQT;
+  }
+
+  public ConnectionQuadTree getExpresswaysQT() {
+    return expresswaysQT;
+  }
+
+  public ConnectionQuadTree getPrimaryQT() {
+    return primaryQT;
+  }
+
+  public ConnectionQuadTree getSecondaryQT() {
+    return secondaryQT;
+  }
+
+  public ConnectionQuadTree getNormalQT() {
+    return normalQT;
+  }
+
+  public ConnectionQuadTree getTrailsStreetsQT() {
+    return trailsStreetsQT;
+  }
+
+  public ConnectionQuadTree getPaths() {
+    return pathsQT;
+  }
+
+  public TernarySearchTries<Integer> getTST() {
+    return tst;
+  }
 }
