@@ -263,8 +263,8 @@ public class MapComponent extends JComponent {
 	private void updateMap() {
 		calcCoordinates();
 		setWithinBoundaries();
-		System.out.println(""+xScale);
-		System.out.println("Udregn: " +10*(1.5-xScale));
+//		System.out.println(""+xScale);
+//		System.out.println("Udregn: " +10*(1.5-xScale));
 		repaint();
 	}
 

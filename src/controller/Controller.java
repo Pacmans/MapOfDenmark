@@ -25,14 +25,14 @@ public final class Controller {
   private GUI gui;
   private MapComponent map;
   private TernarySearchTries<Integer> tst;
-  private Connection[] connections;
-  private ConnectionQuadTree highwaysQT;      //1
-  private ConnectionQuadTree expresswaysQT;   //2
-  private ConnectionQuadTree primaryQT;       //3
-  private ConnectionQuadTree secondaryQT;     //4
-  private ConnectionQuadTree normalQT;        //5
-  private ConnectionQuadTree trailsStreetsQT; //6
-  private ConnectionQuadTree pathsQT;         //7
+  volatile private Connection[] connections = new Connection[812302];
+  volatile private ConnectionQuadTree highwaysQT;      //1
+  volatile private ConnectionQuadTree expresswaysQT;   //2
+  volatile private ConnectionQuadTree primaryQT;       //3
+  volatile private ConnectionQuadTree secondaryQT;     //4
+  volatile private ConnectionQuadTree normalQT;        //5
+  volatile private ConnectionQuadTree trailsStreetsQT; //6
+  volatile private ConnectionQuadTree pathsQT;         //7
   private double xMin, yMin, xMax, yMax;
 
   /**
@@ -100,7 +100,7 @@ public final class Controller {
    *          ArrayList of connections within rectangle
    * @return
    */
-  public Connection[] getConnections(int type, double x1, double y1, double x2, double y2) {
+  synchronized public Connection[] getConnections(int type, double x1, double y1, double x2, double y2) {
     ConnectionQuadTree qt = new ConnectionQuadTree();
     switch(type){
     case 1:
@@ -136,10 +136,11 @@ public final class Controller {
     for (Integer i : cons) { // this is slow
       cs[size++] = connections[i];
     }
+    System.out.println(cs);
     return cs;
   }
 
-  public TernarySearchTries<Integer> getTst() {
+  synchronized public TernarySearchTries<Integer> getTst() {
     return tst;
   }
 
@@ -149,7 +150,7 @@ public final class Controller {
    * @return Array of all connections
    * @see Connection
    */
-  public Connection[] getConnections() {
+   synchronized public Connection[] getConnections() {
     return connections;
   }
 
@@ -205,7 +206,7 @@ public final class Controller {
     new Controller();
   }
 
-public void initialize(Connection[] connections, ConnectionQuadTree highwaysQT,
+  synchronized public void initialize(Connection[] connections, ConnectionQuadTree highwaysQT,
 		ConnectionQuadTree expresswaysQT,ConnectionQuadTree primaryQT,
 		double xMin,double yMin,double xMax,double yMax) {
 

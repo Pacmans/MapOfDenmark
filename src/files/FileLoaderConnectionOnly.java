@@ -8,7 +8,6 @@ import controller.Controller;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
-import dataStructure.RoadType;
 import dataStructure.TernarySearchTries;
 
 /**
@@ -27,16 +26,16 @@ public class FileLoaderConnectionOnly{
 	private double yMin = 750000;
 	private double yMax;
 	private double Scale = 750;
-	private ConnectionQuadTree highwaysQT = new ConnectionQuadTree();
-	private ConnectionQuadTree expresswaysQT = new ConnectionQuadTree();
-	private ConnectionQuadTree primaryQT = new ConnectionQuadTree();
-	private ConnectionQuadTree secondaryQT = new ConnectionQuadTree();
-	private ConnectionQuadTree normalQT = new ConnectionQuadTree();
-	private ConnectionQuadTree trailsStreetsQT = new ConnectionQuadTree();
-	private ConnectionQuadTree pathsQT = new ConnectionQuadTree();
+	volatile private ConnectionQuadTree highwaysQT = new ConnectionQuadTree();
+	volatile private ConnectionQuadTree expresswaysQT = new ConnectionQuadTree();
+	volatile private ConnectionQuadTree primaryQT = new ConnectionQuadTree();
+	volatile private ConnectionQuadTree secondaryQT = new ConnectionQuadTree();
+	volatile private ConnectionQuadTree normalQT = new ConnectionQuadTree();
+	volatile private ConnectionQuadTree trailsStreetsQT = new ConnectionQuadTree();
+	volatile private ConnectionQuadTree pathsQT = new ConnectionQuadTree();
 	volatile private Connection[] connections = new Connection[812302];
 	volatile private TernarySearchTries<Integer> tst = new TernarySearchTries<Integer>();
-	private Point[] points = new Point[675902];
+	volatile private Point[] points = new Point[675902];
 	
 	public FileLoaderConnectionOnly() throws IOException {
 		loadPoints();
@@ -68,21 +67,40 @@ public class FileLoaderConnectionOnly{
 		Thread paths = new Thread(new FileLoaderThread("paths", points, connections, pathsQT, tst));
 		
 		secondary.start();
-		normal.start();
-		trailsStreets.start();
-		paths.start();
 		try {
 			secondary.join();
-			normal.join();
-			trailsStreets.start();
-			paths.start();
-				}
-		catch (Exception e) {
-			System.out.println("all quadtrees done");
-		
-//		Controller.getInstance().getGUI().EnableFrame();	
+		}
+		catch(Exception e) {
+			
 		}
 		
+		trailsStreets.start();
+		try {
+			trailsStreets.join();
+		}
+		catch(Exception e) {
+			
+		}
+		
+		paths.start();
+		try {
+			paths.join();
+		}
+		catch(Exception e) {
+			System.out.println(e);
+			
+		}
+		
+		normal.start();
+
+		try {
+			normal.join();
+				}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		System.out.println("all quadtrees done");
+//		Controller.getInstance().getGUI().EnableFrame();
 	}
 	
 	/**

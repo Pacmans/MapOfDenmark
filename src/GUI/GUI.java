@@ -87,7 +87,7 @@ public class GUI {
 
   }
 
-  public void setupMap() {
+   public void setupMap() {
     map = controller.getMap();
     mapPanel = new JPanel(new GridLayout(1, 1));
     mapPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2,

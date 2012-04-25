@@ -19,10 +19,10 @@ import dataStructure.TernarySearchTries;
 public class FileLoaderThread implements Runnable {
 
 	private String txtname;
-	private Point[] points;
-	private Connection[] connections;
-	private ConnectionQuadTree qtr;
-	private TernarySearchTries<Integer> tst;
+	volatile private Point[] points;
+	volatile private Connection[] connections;
+	volatile private ConnectionQuadTree qtr;
+	volatile private TernarySearchTries<Integer> tst;
 	
 	public FileLoaderThread (String txtname, Point[] points, Connection[] connections, ConnectionQuadTree qtr, TernarySearchTries<Integer> tst) {
 		this.txtname = txtname;
@@ -78,7 +78,7 @@ public class FileLoaderThread implements Runnable {
 					qtr.insert(p2.getX(), p2.getY(), id);
 					tst.put(split[7], id);
 			}
-			System.out.println("quadtree done!");
+			System.out.println("quadtree "+txtname+" is done");
 		}
 
 
