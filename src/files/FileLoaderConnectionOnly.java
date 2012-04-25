@@ -39,6 +39,7 @@ public class FileLoaderConnectionOnly {
   volatile private Point[] points = new Point[675902];
 
   public FileLoaderConnectionOnly() throws IOException {
+    controller.setStatus("Loading data");
     initialise();
     loadPoints();
     loadConnections();
@@ -91,6 +92,15 @@ public class FileLoaderConnectionOnly {
     normal.start();
     trailsStreets.start();
     paths.start();
+    try{
+      secondary.join();
+      normal.join();
+      trailsStreets.join();
+      paths.join();
+    }catch(Exception e){
+//      controller
+    }
+    controller.setStatus("Data loaded");
   }
 
   /**
