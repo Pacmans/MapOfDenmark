@@ -98,7 +98,6 @@ public class FileLoaderConnectionOnly {
       Controller.catchException(e);
     }
     
-    
     normal.start();
     try{
       normal.join();
