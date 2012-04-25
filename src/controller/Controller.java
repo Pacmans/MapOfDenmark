@@ -162,6 +162,15 @@ public final class Controller {
   public static void setStatus(String s) {
     // GUI.setStatus(s);
   }
+  
+  /**
+   * Catch an exception and send it 
+   * to the ExceptionController
+   * @param e
+   */
+  public static void catchException(Exception e) {
+  	ExceptionController.recieveException(e);
+  }
 
   /**
    * Show or hide a type of road

@@ -17,6 +17,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -91,9 +95,9 @@ public class GUI {
     map = controller.getMap();
     mapPanel = new JPanel(new GridLayout(1, 1));
     mapPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2,
-        Color.darkGray));
+    		Color.darkGray));
     mapPanel.add(map);
-    contentPane.remove(loadingPanel);
+		contentPane.remove(loadingPanel);
     contentPane.add(mapPanel, "Center");
     contentPane.add(statusbar, "South");
     frame.addComponentListener(new ComponentAdapter() {
@@ -103,9 +107,12 @@ public class GUI {
       }
     });
     frame.pack();
-    contentPane.setEnabled(true);
-    frame.setBackground(Color.lightGray);
     frame.setSize(800, 600);
+  }
+  
+  public void enableFrame() {
+	  contentPane.setEnabled(true);
+	  frame.setBackground(Color.lightGray);
   }
 
   private void makeFrame() {
@@ -189,7 +196,9 @@ public class GUI {
     // from row
     JLabel label = new JLabel("From");
     label = setLabelFont(label);
+    
     JTextField text = new JTextField(10);
+
     text = addLiveSearch(text);
     text.setBackground(Color.lightGray);
     JPanel fromPanel = new JPanel(new FlowLayout(2));

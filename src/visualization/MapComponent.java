@@ -109,25 +109,25 @@ public class MapComponent extends JComponent {
 		for (Connection c : connections) {
 			switch (type){
 				case 0:
-					f = (float) (2 + 3*(1.3-xScale));
+					f = (float) (0.5 + 3*(1.3-xScale));
 					break;
 				case 1:
-					f = (float) (0 + 3*(1.3-xScale));
+					f = (float) (1 + 3*(1.3-xScale));
 					break;
 				case 2:
-					f = (float) (-2 + 3*(1.3-xScale));
+					f = (float) (-1 + 3*(1.3-xScale));
 					break;
 				case 3:
-					f = (float) (-4 + 3*(1.3-xScale));
+					f = (float) (-2 + 3*(1.3-xScale));
 					break;
 				case 4:
-					f = (float) (-6 + 3*(1.3-xScale));
+					f = (float) (-3 + 3*(1.3-xScale));
 					break;
 				case 5:
-					f = (float) (-8 + 3*(1.3-xScale));
+					f = (float) (-3.5 + 3*(1.3-xScale));
 					break;
 				case 6:
-					f = (float) (-10 + 3*(1.3-xScale));
+					f = (float) (-4 + 3*(1.3-xScale));
 					break;
 			}
 			

@@ -73,6 +73,7 @@ public class FileLoaderConnectionOnly {
       expressways.join();
       primary.join();
     } catch (InterruptedException e) {
+    	Controller.catchException(e);
     }
     
     controller.getGUI().setupMap();
@@ -104,7 +105,7 @@ public class FileLoaderConnectionOnly {
     catch(Exception e){
     	
     }
-    controller.setStatus("Data loaded");
+    Controller.setStatus("Data loaded");
   }
 
   /**
