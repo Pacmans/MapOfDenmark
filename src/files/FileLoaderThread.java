@@ -39,13 +39,10 @@ public class FileLoaderThread implements Runnable {
   @Override
   public void run() {
     try {
-    	System.out.println("Thread "+txtname+" started");
       makeQT();
+    } catch (Exception e) {
+      System.out.println(e);
     }
-    catch (IOException e) {
-    	
-    }
-    System.out.println("Thread "+txtname+" done");
   }
 
   /**
@@ -61,6 +58,7 @@ public class FileLoaderThread implements Runnable {
     String line;
     Point p1, p2;
     // qtr = new ConnectionQuadTree();
+    System.out.println("qaudtree " + txtname + " start");
 
     if (connectionInput.ready()) { // if loaded
       while ((line = connectionInput.readLine()) != null) {
@@ -84,7 +82,9 @@ public class FileLoaderThread implements Runnable {
         qtr.insert(p2.getX(), p2.getY(), id);
         tst.put(split[7], id);
       }
+      System.out.println("quadtree " + txtname + " done!");
     }
+
   }
 
   /**

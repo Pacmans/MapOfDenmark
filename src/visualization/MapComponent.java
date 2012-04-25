@@ -260,7 +260,7 @@ public class MapComponent extends JComponent {
 	/**
 	 * updates the map
 	 */
-	private void updateMap() {
+	private synchronized void updateMap() {
 		calcCoordinates();
 		setWithinBoundaries();
 		repaint();

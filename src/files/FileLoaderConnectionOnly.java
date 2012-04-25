@@ -8,7 +8,6 @@ import controller.Controller;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
-import dataStructure.RoadType;
 import dataStructure.TernarySearchTries;
 
 /**
@@ -88,16 +87,22 @@ public class FileLoaderConnectionOnly {
         connections, pathsQT, tst));
 
     secondary.start();
-    normal.start();
     trailsStreets.start();
     paths.start();
     try{
       secondary.join();
-      normal.join();
       trailsStreets.join();
       paths.join();
     }catch(Exception e){
 //      controller
+    }
+    
+    normal.start();
+    try{
+    	normal.join();
+    }
+    catch(Exception e){
+    	
     }
     controller.setStatus("Data loaded");
   }
