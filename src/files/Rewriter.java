@@ -29,7 +29,7 @@ public class Rewriter {
     File road_3 = new File("./src/Files/primary.txt");
     File road_4 = new File("./src/Files/secondary.txt");
     File road_5 = new File("./src/Files/normal.txt");
-    File road_6 = new File("./src/Files/trailsStreets.txt");
+    File road_6 = new File("./src/Files/small.txt");
     File road_7 = new File("./src/Files/paths.txt");
 
     PrintWriter r1 = new PrintWriter(road_1);
@@ -66,10 +66,10 @@ public class Rewriter {
         case 5: case 25: case 34: case 45:
           r5.println(line);
           break;
-        case 6: case 10: case 11: case 26: case 35: case 46:
+        case 6: 
           r6.println(line);
           break;
-        case 8: case 28: case 48: case 99:
+        case 10: case 11: case 26: case 35: case 46: case 8: case 28: case 48: case 99:
           r7.println(line);
           break;
         default:

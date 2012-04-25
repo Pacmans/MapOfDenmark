@@ -32,7 +32,7 @@ public class FileLoaderConnectionOnly {
   volatile private ConnectionQuadTree primaryQT;
   volatile private ConnectionQuadTree secondaryQT;
   volatile private ConnectionQuadTree normalQT;
-  volatile private ConnectionQuadTree trailsStreetsQT;
+  volatile private ConnectionQuadTree smallQT;
   volatile private ConnectionQuadTree pathsQT;
   volatile private Connection[] connections;
   volatile private TernarySearchTries<Integer> tst;
@@ -51,7 +51,7 @@ public class FileLoaderConnectionOnly {
     primaryQT = controller.getPrimaryQT();
     secondaryQT = controller.getSecondaryQT();
     normalQT = controller.getNormalQT();
-    trailsStreetsQT = controller.getTrailsStreetsQT();
+    smallQT = controller.getSmallQT();
     pathsQT = controller.getPathsQT();
     controller.setConnections(new Connection[812302]);
     connections = controller.getConnections();
@@ -84,22 +84,26 @@ public class FileLoaderConnectionOnly {
         connections, secondaryQT, tst));
     Thread normal = new Thread(new FileLoaderThread("normal", points,
         connections, normalQT, tst));
-    Thread trailsStreets = new Thread(new FileLoaderThread("trailsStreets",
-        points, connections, trailsStreetsQT, tst));
+    Thread small = new Thread(new FileLoaderThread("small",
+        points, connections, smallQT, tst));
     Thread paths = new Thread(new FileLoaderThread("paths", points,
         connections, pathsQT, tst));
 
     secondary.start();
     normal.start();
-    trailsStreets.start();
     paths.start();
     try{
       secondary.join();
       normal.join();
-      trailsStreets.join();
       paths.join();
     }catch(Exception e){
     	Controller.catchException(e);
+    }
+    small.start();
+    try{
+      small.join();
+    }catch(Exception e){
+      Controller.catchException(e);
     }
     Controller.setStatus("Data loaded");
   }
@@ -196,7 +200,7 @@ public class FileLoaderConnectionOnly {
   }
 
   public ConnectionQuadTree getTrailsStreetsQT() {
-    return trailsStreetsQT;
+    return smallQT;
   }
 
   public ConnectionQuadTree getPaths() {
