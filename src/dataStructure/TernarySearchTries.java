@@ -3,6 +3,8 @@ package dataStructure;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import controller.Controller;
+
 public class TernarySearchTries<Value> {
 
 	private Node root;

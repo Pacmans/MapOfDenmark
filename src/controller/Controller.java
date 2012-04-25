@@ -2,7 +2,7 @@ package controller;
 
 
 import files.FileLoaderConnectionOnly;
-import GUI.GUI;
+import gui.GUI;
 
 import java.awt.Component;
 import java.io.IOException;
