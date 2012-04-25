@@ -96,7 +96,7 @@ public final class Controller {
    * @return
    */
 
-  synchronized public Connection[] getConnections(int type, double x1, double y1, double x2,
+  public synchronized Connection[] getConnections(int type, double x1, double y1, double x2,
       double y2) {
     ConnectionQuadTree qt = new ConnectionQuadTree();
     switch (type) {
@@ -180,7 +180,7 @@ public final class Controller {
    * @param b
    *          To show or not to show
    */
-  public void updateMap(int n, boolean m) {
+  public synchronized void updateMap(int n, boolean m) {
     map.updateRoadTypes(n, m);
   }
 
@@ -360,14 +360,4 @@ public final class Controller {
   public static void main(String[] args) {
     new Controller();
   }
-
-//  public void initialize(Connection[] connections,
-//      ConnectionQuadTree highwaysQT, ConnectionQuadTree expresswaysQT,
-//      ConnectionQuadTree primaryQT) {
-//    this.connections = connections;
-//    this.highwaysQT = highwaysQT;
-//    this.expresswaysQT = expresswaysQT;
-//    this.primaryQT = primaryQT;
-//    gui.setupMap();
-//  }
 }

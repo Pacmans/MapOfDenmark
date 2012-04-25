@@ -19,7 +19,7 @@ public class MapComponent extends JComponent {
 	private int xClick, yClick; // for the mouselistener
 //	private int height = 400, width = 600; //for the scaling
 	private boolean[] roadtypes;
-	private Connection[] connections;
+	private volatile Connection[] connections;
 	private Controller controller = Controller.getInstance();
 
 	public MapComponent() {

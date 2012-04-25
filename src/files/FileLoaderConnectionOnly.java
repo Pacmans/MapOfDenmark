@@ -88,22 +88,29 @@ public class FileLoaderConnectionOnly {
         connections, pathsQT, tst));
 
     secondary.start();
-    trailsStreets.start();
     paths.start();
     try{
       secondary.join();
-      trailsStreets.join();
       paths.join();
     }catch(Exception e){
-//      controller
+      Controller.catchException(e);
     }
     
     normal.start();
-    try{
+    
+    try {
     	normal.join();
     }
-    catch(Exception e){
+    catch (Exception e) {
     	
+    }
+    
+    trailsStreets.start();
+    try {
+    	trailsStreets.join();
+    }
+    catch(Exception e) {
+    	Controller.catchException(e);
     }
     Controller.setStatus("Data loaded");
   }
