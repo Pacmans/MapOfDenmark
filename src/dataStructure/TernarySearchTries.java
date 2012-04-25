@@ -3,12 +3,9 @@ package dataStructure;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import controller.Controller;
-
 public class TernarySearchTries<Value> {
 
 	private Node root;
-	private int size = 0;
 	private class Node
 	{
 		char c;
@@ -33,13 +30,8 @@ public class TernarySearchTries<Value> {
 		else if (d < key.length()-1) return get(x.mid, key, d+1);
 		else return x;
 	}
-	public void getSize(){
-		System.out.println(size);
-	}
-	
 	public void put(String key, Value val)
-	{ root = put(root, key, val, 0);
-	size++;}
+	{ root = put(root, key, val, 0);}
 	
 	public Node put(Node x, String key, Value val, int d)
 	{

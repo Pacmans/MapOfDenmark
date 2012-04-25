@@ -95,7 +95,6 @@ private void loadConnections() throws IOException {
     	trailsStreets.join();
         paths.run();
 		paths.join();
-		tst.getSize();
 	} catch (InterruptedException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
