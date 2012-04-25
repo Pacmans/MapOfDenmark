@@ -112,7 +112,7 @@ public class FileLoaderConnectionOnly {
     }catch(Exception e){
       Controller.catchException(e);
     }
-    Controller.setStatus("Data loaded");
+    controller.setStatus("Data loaded");
   }
 
   /**
