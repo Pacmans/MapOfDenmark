@@ -65,23 +65,25 @@ public class FileLoaderConnectionOnly {
         connections, expresswaysQT, tst));
     Thread primary = new Thread(new FileLoaderThread("primary", points,
         connections, primaryQT, tst));
+    Thread secondary = new Thread(new FileLoaderThread("secondary", points,
+        connections, secondaryQT, tst));
 
     highways.start();
     expressways.start();
     primary.start();
+    secondary.start();
     try {
       highways.join();
       expressways.join();
       primary.join();
+      secondary.join();
     } catch (InterruptedException e) {
     	Controller.catchException(e);
     }
     
-    System.out.println("3 first qaudtrees done");
+    System.out.println("4 first qaudtrees done");
     controller.getGUI().setupMap();
-
-    Thread secondary = new Thread(new FileLoaderThread("secondary", points,
-        connections, secondaryQT, tst));
+    
     Thread normal = new Thread(new FileLoaderThread("normal", points,
         connections, normalQT, tst));
     Thread small = new Thread(new FileLoaderThread("small",
@@ -89,11 +91,10 @@ public class FileLoaderConnectionOnly {
     Thread paths = new Thread(new FileLoaderThread("paths", points,
         connections, pathsQT, tst));
 
-    secondary.start();
+    
     normal.start();
     paths.start();
     try{
-      secondary.join();
       normal.join();
       paths.join();
     }catch(Exception e){

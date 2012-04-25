@@ -23,7 +23,7 @@ public class MapComponent extends JComponent {
 	private Controller controller = Controller.getInstance();
 
 	public MapComponent() {
-		roadtypes = new boolean[] { true, true, true, false, false, false,
+		roadtypes = new boolean[] { true, true, true, true, false, false,
 				false };
 		totalxMin = (double) (controller.getxMin()-40); 
 		totalxMax = (double) (controller.getxMax()+40); 

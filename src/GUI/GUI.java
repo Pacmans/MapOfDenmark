@@ -336,7 +336,7 @@ public class GUI {
     checkboxPanel.add(createRoadtypeBox("Highways", true)); // Priority 1 roads
     checkboxPanel.add(createRoadtypeBox("Expressways", true)); // Priority 2
     checkboxPanel.add(createRoadtypeBox("Primary roads", true)); // and so on..
-    checkboxPanel.add(createRoadtypeBox("Secondary roads", false));
+    checkboxPanel.add(createRoadtypeBox("Secondary roads", true));
     checkboxPanel.add(createRoadtypeBox("Normal roads", false));
     checkboxPanel.add(createRoadtypeBox("Small roads", false));
     checkboxPanel.add(createRoadtypeBox("Paths", false));
