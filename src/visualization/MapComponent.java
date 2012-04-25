@@ -17,7 +17,7 @@ public class MapComponent extends JComponent {
 	private double dx, dy;
 	private double xScale, yScale;
 	private int xClick, yClick; // for the mouselistener
-	private int height = 400, width = 600; //for the scaling
+//	private int height = 400, width = 600; //for the scaling
 	private boolean[] roadtypes;
 	volatile private Connection[] connections;
 	private Controller controller = Controller.getInstance();
@@ -206,26 +206,26 @@ public class MapComponent extends JComponent {
 			}
 		});
 
-		//Listener to keep the scaling when resizing
-		addComponentListener(new ComponentAdapter(){
-			public void componentResized(ComponentEvent e) {
-				 //gets the currentWidth and currentHeight after resize
-				 int currentWidth = getWidth();
-				 int currentHeight = getHeight();
-		
-				 //width and height is before resize
-				 if (currentWidth-width < (currentHeight-height)*1.5){
-					 height = (int) (currentWidth*0.66);
-					 width = currentWidth;
-					 setSize(new Dimension(width, height));
-				 }
-				 else {
-					 width = (int) (currentHeight*1.5);
-					 height = currentHeight;
-					 setSize(new Dimension(width, height));
-				 }
-		 	}
-		});
+//		//Listener to keep the scaling when resizing
+//		addComponentListener(new ComponentAdapter(){
+//			public void componentResized(ComponentEvent e) {
+//				 //gets the currentWidth and currentHeight after resize
+//				 int currentWidth = getWidth();
+//				 int currentHeight = getHeight();
+//		
+//				 //width and height is before resize
+//				 if (currentWidth-width < (currentHeight-height)*1.5){
+//					 height = (int) (currentWidth*0.66);
+//					 width = currentWidth;
+//					 setSize(new Dimension(width, height));
+//				 }
+//				 else {
+//					 width = (int) (currentHeight*1.5);
+//					 height = currentHeight;
+//					 setSize(new Dimension(width, height));
+//				 }
+//		 	}
+//		});
 	}
 
 	/**
