@@ -17,13 +17,13 @@ public class MapComponent extends JComponent {
 	private double dx, dy;
 	private double xScale, yScale;
 	private int xClick, yClick; // for the mouselistener
-			// private int height = 400, width = 600; //for the scaling
 	private boolean[] roadtypes;
 	private Connection[] connections;
 	private Controller controller = Controller.getInstance();
 
 	public MapComponent() {
-		roadtypes = new boolean[] { true, true, true, false, false, false, false };
+		roadtypes = new boolean[] { true, true, true, false, false, false,
+				false };
 		totalxMin = (double) (controller.getxMin() - 40);
 		totalxMax = (double) (controller.getxMax() + 40);
 		totalyMin = (double) (controller.getyMin() - 20);
@@ -31,7 +31,6 @@ public class MapComponent extends JComponent {
 		resetCoordinates();
 		calcCoordinates();
 		addListener();
-		setPreferredSize(new Dimension(600, 400));
 	}
 
 	/**
@@ -60,19 +59,19 @@ public class MapComponent extends JComponent {
 	 */
 	private void zoom(int n) {
 		double xDifference = dx * zoomScale, yDifference = dy * zoomScale;
-		if (n == 1 && zoomNiveau>0) { // zooms in
+		if (n == 1 && zoomNiveau > 0) { // zooms in
 			zoomNiveau--;
 			xMin += xDifference;
 			xMax -= xDifference;
 			yMin += yDifference;
 			yMax -= yDifference;
 		}
-		if (n == -1 && zoomNiveau<30) { // zooms out
+		if (n == -1 && zoomNiveau < 30) { // zooms out
 			zoomNiveau++;
-			xMin -= xDifference*1.25;
-			xMax += xDifference*1.25;
-			yMin -= yDifference*1.25;
-			yMax += yDifference*1.25;
+			xMin -= xDifference * 1.25;
+			xMax += xDifference * 1.25;
+			yMin -= yDifference * 1.25;
+			yMax += yDifference * 1.25;
 		}
 		updateMap();
 	}
@@ -95,10 +94,12 @@ public class MapComponent extends JComponent {
 			if (roadtypes[i])
 				paintRoadsOfType(i, g2);
 		}
+		paintBorder(g2);
 	}
-
+	
 	private void paintRoadsOfType(int type, Graphics2D g2) {
-		connections = controller.getConnections(type + 1, xMin, yMin, xMax, yMax);
+		connections = controller.getConnections(type + 1, xMin, yMin, xMax,
+				yMax);
 		float f = 0;
 		double startSize;
 		BasicStroke stroke;
@@ -151,6 +152,17 @@ public class MapComponent extends JComponent {
 		}
 	}
 
+	private void paintBorder(Graphics2D g)
+	{
+		g.setStroke(new BasicStroke(3));
+		g.setColor(Color.darkGray);
+		
+		g.drawLine(0, 0, 0, getHeight()); //left line
+		g.drawLine(getWidth()-1, 0, getWidth()-1, getHeight()); //rigth line
+		g.drawLine(0, 0, getWidth(), 0); //top line
+		g.drawLine(0, getHeight()-1, getWidth(), getHeight()-1); //bottom line
+	}
+	
 	/**
 	 * set zoom to the original zoom-perspective
 	 */
@@ -178,8 +190,8 @@ public class MapComponent extends JComponent {
 		addMouseMotionListener(new MouseMotionAdapter() {
 			public void mouseDragged(MouseEvent e) {
 				/*
-				 * -= is because the map has to move the opposite way of the way your
-				 * dragging the a mouse
+				 * -= is because the map has to move the opposite way of the way
+				 * your dragging the a mouse
 				 */
 				xMin -= (e.getX() - xClick) * xScale;
 				xMax -= (e.getX() - xClick) * xScale;
@@ -208,26 +220,21 @@ public class MapComponent extends JComponent {
 			}
 		});
 
-		// //Listener to keep the scaling when resizing
-		// addComponentListener(new ComponentAdapter(){
-		// public void componentResized(ComponentEvent e) {
-		// //gets the currentWidth and currentHeight after resize
-		// int currentWidth = getWidth();
-		// int currentHeight = getHeight();
-		//
-		// //width and height is before resize
-		// if (currentWidth-width < (currentHeight-height)*1.5){
-		// height = (int) (currentWidth*0.66);
-		// width = currentWidth;
-		// setSize(new Dimension(width, height));
-		// }
-		// else {
-		// width = (int) (currentHeight*1.5);
-		// height = currentHeight;
-		// setSize(new Dimension(width, height));
-		// }
-		// }
-		// });
+		// Listener to keep the scaling when resizing
+		addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				int height, width;
+
+				if (getWidth() < getHeight()*1.1) {
+					height = (int) (getWidth() * 0.91);
+					width = getWidth();
+				} else {
+					width = (int) (getHeight()*1.1);
+					height = getHeight();
+				}
+				setSize(new Dimension(width, height));
+			}
+		});
 	}
 
 	public int getZoomNiveau() {
@@ -238,10 +245,10 @@ public class MapComponent extends JComponent {
 	 * always set's the zoom within the boundaries of the map
 	 */
 	private void setWithinBoundaries() {
-//		if (dx > maxDx) {
-//			dx = maxDx;
-//			dy = maxDy;
-//		}
+		// if (dx > maxDx) {
+		// dx = maxDx;
+		// dy = maxDy;
+		// }
 
 		// makes sure you're within the map
 		if (xMin < totalxMin) {
@@ -271,6 +278,11 @@ public class MapComponent extends JComponent {
 		repaint();
 	}
 
+	public Dimension getComponentSize()
+	{
+		return getSize();
+	}
+	
 	/**
 	 * Sets the scale for the component
 	 */
