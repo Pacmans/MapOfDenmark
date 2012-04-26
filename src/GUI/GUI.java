@@ -27,12 +27,13 @@ public class GUI {
 	// The main frame of our program.
 	private JFrame frame;
 	private Controller controller;
-	private JPanel contentPane, mapPanel, loadingPanel, optionPanel, roadtypeBoxes;
+	private JPanel contentPane, mapPanel, loadingPanel, optionPanel,
+			roadtypeBoxes;
 	// The map from the controller
 	private MapComponent map;
 	// A ButtonGroup with car, bike, and walk.
 	private ButtonGroup group;
-	private HashMap<String, JCheckBox> boxes = new HashMap<String, JCheckBox>(); 
+	private HashMap<String, JCheckBox> boxes = new HashMap<String, JCheckBox>();
 	// selected JToggleButton - 0 if car, 1 if bike, 2 if walk.
 	private int selectedTransport = 0, number;
 	private JLabel statusbar = new JLabel(" ");
@@ -52,8 +53,8 @@ public class GUI {
 		frame.setSize(800, 600);
 		// place the frame at the center of the screen and show.
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setLocation(d.width / 2 - frame.getWidth() / 2,
-				d.height / 2 - frame.getHeight() / 2);
+		frame.setLocation(d.width / 2 - frame.getWidth() / 2, d.height / 2
+				- frame.getHeight() / 2);
 		contentPane.setEnabled(false);
 		frame.setBackground(Color.darkGray);
 		frame.setState(Frame.NORMAL);
@@ -62,29 +63,24 @@ public class GUI {
 	}
 
 	private void updateGUI() {
-		if (manuelControl){
+		if (manuelControl) {
 			roadtypeBoxes.setVisible(true);
-		}
-		else {
+		} else {
 			roadtypeBoxes.setVisible(false);
 		}
 	}
 
 	public void setupMap() {
 		map = controller.getMap();
-		mapPanel = new JPanel(new GridLayout(1, 1));
-		mapPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2,
-				Color.darkGray));
-		mapPanel.add(map);
 		map.addMouseWheelListener(new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				if (!manuelControl){ //manuel control is not selected
+				if (!manuelControl) { // manuel control is not selected
 					int wheelDirection = e.getWheelRotation();
 					int zoom = map.getZoomNiveau();
-					
+
 					if (wheelDirection < 0) { // zooms in
-						switch (zoom){
-						case 25: 
+						switch (zoom) {
+						case 25:
 							controller.updateMap(4, true);
 							boxes.get("Secondary roads").setSelected(true);
 							break;
@@ -101,10 +97,9 @@ public class GUI {
 							boxes.get("Paths").setSelected(true);
 							break;
 						}
-					}
-					else { // scrolls down
-						switch (zoom){
-						case 26: 
+					} else { // scrolls down
+						switch (zoom) {
+						case 26:
 							controller.updateMap(4, false);
 							boxes.get("Secondary roads").setSelected(false);
 							break;
@@ -122,10 +117,13 @@ public class GUI {
 							break;
 						}
 					}
-				}	
+				}
 			}
 		});
+		frame.setVisible(false);
 		contentPane.remove(loadingPanel);
+		mapPanel = new JPanel(new GridLayout(1, 1));
+		mapPanel.add(map);
 		contentPane.add(mapPanel, "Center");
 		contentPane.add(statusbar, "South");
 		frame.addComponentListener(new ComponentAdapter() {
@@ -139,6 +137,7 @@ public class GUI {
 		updateGUI();
 		frame.setBackground(Color.lightGray);
 		frame.setSize(800, 600);
+		frame.setVisible(true);
 	}
 
 	private void makeFrame() {
@@ -175,7 +174,8 @@ public class GUI {
 
 		// make a new menu item and add a setAccelerator to use of shortcuts.
 		item = new JMenuItem("Quit");
-		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, SHORTCUT_MASK));
+		item.setAccelerator(KeyStroke
+				.getKeyStroke(KeyEvent.VK_Q, SHORTCUT_MASK));
 		// create an actionlistener and call the method quit() when chosen.
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -189,7 +189,8 @@ public class GUI {
 		menubar.add(menu);
 
 		item = new JMenuItem("About Map Of Denmark");
-		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, SHORTCUT_MASK));
+		item.setAccelerator(KeyStroke
+				.getKeyStroke(KeyEvent.VK_A, SHORTCUT_MASK));
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showAbout();
@@ -214,7 +215,8 @@ public class GUI {
 
 	private JPanel createRouteplanningBox() {
 		JPanel routePlanning = new JPanel();
-		TitledBorder border = new TitledBorder(new EtchedBorder(), "Route planning");
+		TitledBorder border = new TitledBorder(new EtchedBorder(),
+				"Route planning");
 		border = setHeadlineFont(border);
 		routePlanning.setBorder(border);
 		routePlanning.setLayout(new BoxLayout(routePlanning, BoxLayout.Y_AXIS));
@@ -303,7 +305,8 @@ public class GUI {
 
 	private ImageIcon getScaledIcon(ImageIcon icon) {
 		Image img = icon.getImage();
-		Image newimg = img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		Image newimg = img.getScaledInstance(30, 30,
+				java.awt.Image.SCALE_SMOOTH);
 		return new ImageIcon(newimg);
 	}
 
@@ -343,14 +346,14 @@ public class GUI {
 		zoomOut = setButtonText(zoomOut);
 		zoomOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!manuelControl){
-				controller.updateMap(1, true);
-				controller.updateMap(2, true);
-				controller.updateMap(3, true);
-				controller.updateMap(4, false);
-				controller.updateMap(5, false);
-				controller.updateMap(6, false);
-				controller.updateMap(7, false);
+				if (!manuelControl) {
+					controller.updateMap(1, true);
+					controller.updateMap(2, true);
+					controller.updateMap(3, true);
+					controller.updateMap(4, false);
+					controller.updateMap(5, false);
+					controller.updateMap(6, false);
+					controller.updateMap(7, false);
 				}
 				controller.showAll();
 			}
@@ -371,30 +374,31 @@ public class GUI {
 		JCheckBox manuelControlBox = new JCheckBox("Manuel Control");
 		manuelControlBox.setSelected(false);
 		manuelControlBox = setLabelFont(manuelControlBox);
-		manuelControlBox.addItemListener(new ItemListener(){
-				public void itemStateChanged(ItemEvent e){
-					if (e.getStateChange() == 1){ //selected 
-						manuelControl = true;
-					}
-					else {
-						manuelControl = false;
-					}
-					updateGUI();
+		manuelControlBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == 1) { // selected
+					manuelControl = true;
+				} else {
+					manuelControl = false;
 				}
+				updateGUI();
+			}
 		});
 		manuelPanel.add(manuelControlBox);
-		
-		roadtypeBoxes = new JPanel(new GridLayout(7,1));
-		roadtypeBoxes.add(createRoadtypeBox("Highways", true)); // Priority 1 roads
+
+		roadtypeBoxes = new JPanel(new GridLayout(7, 1));
+		roadtypeBoxes.add(createRoadtypeBox("Highways", true)); // Priority 1
+																// roads
 		roadtypeBoxes.add(createRoadtypeBox("Expressways", true)); // Priority 2
-		roadtypeBoxes.add(createRoadtypeBox("Primary roads", true)); // and so on..
+		roadtypeBoxes.add(createRoadtypeBox("Primary roads", true)); // and so
+																		// on..
 		roadtypeBoxes.add(createRoadtypeBox("Secondary roads", false));
 		roadtypeBoxes.add(createRoadtypeBox("Normal roads", false));
 		roadtypeBoxes.add(createRoadtypeBox("Trails & streets", false));
 		roadtypeBoxes.add(createRoadtypeBox("Paths", false));
 		checkboxPanel.add(manuelPanel);
 		checkboxPanel.add(roadtypeBoxes);
-		
+
 		return checkboxPanel;
 	}
 
