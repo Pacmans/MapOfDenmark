@@ -92,7 +92,9 @@ public class MapComponent extends JComponent {
 		// paints the roads
 		for (int i = roadtypes.length - 1; i >= 0; i--) {
 			if (roadtypes[i])
-				paintRoadsOfType(i, g2);
+			  synchronized(controller){
+			    paintRoadsOfType(i, g2);
+			  }
 		}
 		paintBorder(g2);
 	}
