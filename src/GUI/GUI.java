@@ -37,7 +37,7 @@ public class GUI {
 	// selected JToggleButton - 0 if car, 1 if bike, 2 if walk.
 	private int selectedTransport = 0, number;
 	private JLabel statusbar = new JLabel(" ");
-	private boolean manuelControl = false;
+	private boolean manualControl = false;
 
 	public GUI() {
 		makeFrame();
@@ -63,7 +63,7 @@ public class GUI {
 	}
 
 	private void updateGUI() {
-		if (manuelControl) {
+		if (manualControl) {
 			roadtypeBoxes.setVisible(true);
 		} else {
 			roadtypeBoxes.setVisible(false);
@@ -74,7 +74,7 @@ public class GUI {
 		map = controller.getMap();
 		map.addMouseWheelListener(new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				if (!manuelControl) { // manuel control is not selected
+				if (!manualControl) { // manual control is not selected
 					int wheelDirection = e.getWheelRotation();
 					int zoom = map.getZoomNiveau();
 
@@ -346,7 +346,7 @@ public class GUI {
 		zoomOut = setButtonText(zoomOut);
 		zoomOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!manuelControl) {
+				if (!manualControl) {
 					controller.updateMap(1, true);
 					controller.updateMap(2, true);
 					controller.updateMap(3, true);
@@ -370,21 +370,21 @@ public class GUI {
 		border = setHeadlineFont(border);
 		checkboxPanel.setBorder(border);
 		// fill the checkboxPanel
-		JPanel manuelPanel = new JPanel(new FlowLayout(0));
-		JCheckBox manuelControlBox = new JCheckBox("Manuel Control");
-		manuelControlBox.setSelected(false);
-		manuelControlBox = setLabelFont(manuelControlBox);
-		manuelControlBox.addItemListener(new ItemListener() {
+		JPanel manualPanel = new JPanel(new FlowLayout(0));
+		JCheckBox manualControlBox = new JCheckBox("Manual Control");
+		manualControlBox.setSelected(false);
+		manualControlBox = setLabelFont(manualControlBox);
+		manualControlBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == 1) { // selected
-					manuelControl = true;
+					manualControl = true;
 				} else {
-					manuelControl = false;
+					manualControl = false;
 				}
 				updateGUI();
 			}
 		});
-		manuelPanel.add(manuelControlBox);
+		manualPanel.add(manualControlBox);
 
 		roadtypeBoxes = new JPanel(new GridLayout(7, 1));
 		roadtypeBoxes.add(createRoadtypeBox("Highways", true)); // Priority 1
@@ -396,7 +396,7 @@ public class GUI {
 		roadtypeBoxes.add(createRoadtypeBox("Normal roads", false));
 		roadtypeBoxes.add(createRoadtypeBox("Trails & streets", false));
 		roadtypeBoxes.add(createRoadtypeBox("Paths", false));
-		checkboxPanel.add(manuelPanel);
+		checkboxPanel.add(manualPanel);
 		checkboxPanel.add(roadtypeBoxes);
 
 		return checkboxPanel;
