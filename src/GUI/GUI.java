@@ -350,7 +350,7 @@ public class GUI {
 					controller.updateMap(1, true);
 					controller.updateMap(2, true);
 					controller.updateMap(3, true);
-					controller.updateMap(4, false);
+					controller.updateMap(4, true);
 					controller.updateMap(5, false);
 					controller.updateMap(6, false);
 					controller.updateMap(7, false);
@@ -392,7 +392,7 @@ public class GUI {
 		roadtypeBoxes.add(createRoadtypeBox("Expressways", true)); // Priority 2
 		roadtypeBoxes.add(createRoadtypeBox("Primary roads", true)); // and so
 																		// on..
-		roadtypeBoxes.add(createRoadtypeBox("Secondary roads", false));
+		roadtypeBoxes.add(createRoadtypeBox("Secondary roads", true));
 		roadtypeBoxes.add(createRoadtypeBox("Normal roads", false));
 		roadtypeBoxes.add(createRoadtypeBox("Trails & streets", false));
 		roadtypeBoxes.add(createRoadtypeBox("Paths", false));
