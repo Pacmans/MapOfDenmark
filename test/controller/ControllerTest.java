@@ -53,9 +53,9 @@ public class ControllerTest {
     @Test
     public void testGetGUI() {
         System.out.println("getGUI");
-        GUI gui = Controller.getGUI();
-        GUI expResult = gui;
-        GUI result = Controller.getGUI();
+        GUI gui = Controller.getInstance().getGUI();
+        GUI expResult = gui; 
+        GUI result = instance.getGUI();
         assertEquals(expResult, result);
     }
 
@@ -68,8 +68,6 @@ public class ControllerTest {
         MapComponent expResult = instance.getMap();
         MapComponent result = instance.getMap();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
 //    /**
@@ -137,9 +135,7 @@ public class ControllerTest {
         System.out.println("getxMin");
         double expResult = 589;
         double result = instance.getxMin();
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result, 1.0);
     }
 
     /**
@@ -150,9 +146,7 @@ public class ControllerTest {
         System.out.println("getyMin");
         double expResult = 8066;
         double result = instance.getyMin();
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result, 1.0);
     }
 
     /**
@@ -163,9 +157,7 @@ public class ControllerTest {
         System.out.println("getxMax");
         double expResult = 1190;
         double result = instance.getxMax();
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result, 1.0);
     }
 
     /**
@@ -176,8 +168,6 @@ public class ControllerTest {
         System.out.println("getyMax");
         double expResult = 8536;
         double result = instance.getyMax();
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result, 1.0);
     }
 }

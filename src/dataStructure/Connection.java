@@ -9,7 +9,7 @@ package dataStructure;
  */
 
 public class Connection implements Comparable<Connection> {
-  private double x1, x2, y1, y2;
+  private double x1, x2, y1, y2, length = -1;
   private RoadType type;
   private String name;
   private int id;
@@ -62,4 +62,18 @@ public class Connection implements Comparable<Connection> {
     else
       return 0;
   }
+  
+//  public double getLength(){
+//    //if length has not been calculated
+//    if(length < 0){
+//      double dx = right.getX() - left.getX();
+//      double dy = 0;
+//      if (left.getY() < right.getY())
+//        dy = right.getY() - left.getY();
+//      else
+//        dy = left.getY() - right.getY();
+//      length = Math.sqrt((dx*dx) + (dy*dy)); 
+//    }
+//    return length;
+//  }
 }
