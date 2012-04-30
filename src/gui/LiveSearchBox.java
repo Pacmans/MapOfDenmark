@@ -18,8 +18,11 @@ public class LiveSearchBox {
 	private JTextField component;
 	private DocumentListener listener;
 	private Document doc;
+	private Controller controller;
+
 	
 	public LiveSearchBox() {
+		controller = Controller.getInstance();
 		adress = new JComboBox();
 		Dimension d = adress.getPreferredSize();
 		adress.setPreferredSize(new Dimension(120,(int) d.getHeight()));
@@ -57,7 +60,7 @@ public class LiveSearchBox {
 		      public void run() {
 		      	doc.removeDocumentListener(listener);
 		      	String typedRoad = component.getText();
-		      	String[] roads = Controller.getRoads(typedRoad);
+		      	String[] roads = controller.getRoads(typedRoad);
 						adress.removeAllItems();
 						adress.addItem(typedRoad);
 						for (String road : roads) {
