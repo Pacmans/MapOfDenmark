@@ -57,7 +57,7 @@ public final class Controller {
     
     setStatus("Creating graph");
     graph = new Graph();
-    setStatus("Graph created");
+    setStatus("Graph created. All done");
   }
 
   /**
