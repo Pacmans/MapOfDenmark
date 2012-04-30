@@ -37,9 +37,6 @@ import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.JTextComponent;
 
 import controller.Controller;
 
@@ -60,9 +57,6 @@ public class GUI {
   private JPanel contentPane, mapPanel, loadingPanel, optionPanel;
   // The map from the controller
   private JComponent map;
-  // The from and to combobox
-//  private JComboBox adressFrom, adressTo;
-//  private LiveSearchBox fromBox;
   // A ButtonGroup with car, bike, and walk.
   private ButtonGroup group;
   // selected JToggleButton - 0 if car, 1 if bike, 2 if walk.
@@ -208,11 +202,10 @@ public class GUI {
     label = new JLabel("To");
     label = setLabelFont(label);
     
-//    JComboBox toBox = new LiveSearchBox();
-//    adressTo = toBox.getBox();
+    JComboBox toBox = new LiveSearchBox().getBox();
     JPanel toPanel = new JPanel(new FlowLayout(2));
     toPanel.add(label);
-//    toPanel.add(adressTo);
+    toPanel.add(toBox);
 
     // go button
     JButton go = new JButton("Go");
