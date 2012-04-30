@@ -20,19 +20,19 @@ public class Graph {
   private Connection[] connections;
   
   public Graph(){
-    //Get points 
-//    Point[] points = Controller.getInstance().getPoints();
+//    Get points 
+    Point[] points = Controller.getInstance().getPoints();
     
     //Get roads
     connections = Controller.getInstance().getConnections();
 
     //Create graph
-//    g = new EdgeWeightedDigraph(points.length, connections.length); //vertices, edges 
+    g = new EdgeWeightedDigraph(points.length, connections.length); //vertices, edges 
     
     //add edges
     for(Connection c : connections){
       //from, to, weight
-//      g.addEdge(new DirectedEdge(c.getLeft().getID(), c.getRight().getID(), c.getWeight()));
+      g.addEdge(new DirectedEdge(c.getLeft().getID(), c.getRight().getID(), c.getWeight()));
     }
   }
   
