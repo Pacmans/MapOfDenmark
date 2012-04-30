@@ -75,8 +75,7 @@ public class FileLoaderThread implements Runnable {
         int id = Integer.parseInt(split[0]);
 
         // creates and saves the Connection
-        connections[id] = new Connection(id, p1.getX(), p1.getY(), p2.getX(),
-            p2.getY(), r, split[7]);
+        connections[id] = new Connection(id, p1, p2, r, split[7]);
 
         // adds p1 and p2 to the quadtree
         synchronized (qtr) {

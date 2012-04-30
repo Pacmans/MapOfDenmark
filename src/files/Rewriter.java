@@ -42,7 +42,7 @@ public class Rewriter {
     System.out.println("Rewriter: Inputs and outputs ready");
     
     //Read and write
-    System.out.println("Rewriter: Writting files...");
+    System.out.println("Rewirter: Writing files...");
     String line = null;
     int id = -1;
     while((line = input.readLine()) != null){

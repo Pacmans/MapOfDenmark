@@ -4,7 +4,6 @@
  */
 package dataStructure;
 
-import java.math.BigDecimal;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -20,12 +19,13 @@ public class ConnectionTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        instance = new Connection(1,
-                new BigDecimal(3),
-                new BigDecimal(4),
-                new BigDecimal(5),
-                new BigDecimal(6),
-                RoadType.EXPRESSWAY);
+        instance = new Connection(1, //ID
+                3, //x1
+                4, //y1
+                5, //x2
+                6, //y2
+                RoadType.EXPRESSWAY, //type
+                "Test road"); //name
     }
 
     @AfterClass
@@ -112,7 +112,7 @@ public class ConnectionTest {
     @Test
     public void testCompareTo() {
         System.out.println("compareTo");
-        Connection con = new Connection(2, null, null, null, null, null);
+        Connection con = new Connection(2, 0, 0, 0, 0, null, null);
         int expResult = -1;
         int result = instance.compareTo(con);
         assertEquals(expResult, result);

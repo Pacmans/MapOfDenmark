@@ -2,8 +2,11 @@ package controller;
 
 import java.util.HashSet;
 
+import com.sun.swing.internal.plaf.synth.resources.synth;
+
 import exceptions.ExceptionController;
 import files.FileLoaderConnectionOnly;
+import graph.Graph;
 import gui.GUI;
 
 import visualization.MapComponent;
@@ -11,6 +14,7 @@ import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Interval;
 import dataStructure.Interval2D;
+import dataStructure.Point;
 import dataStructure.TernarySearchTries;
 
 /**
@@ -24,8 +28,10 @@ public final class Controller {
   private static Controller instance; // singleton
   private GUI gui;
   private MapComponent map;
+  private Graph graph;
   volatile private TernarySearchTries<Integer> tst;
   volatile private Connection[] connections;
+  volatile private Point[] points;
   volatile private ConnectionQuadTree highwaysQT; // 1
   volatile private ConnectionQuadTree expresswaysQT; // 2
   volatile private ConnectionQuadTree primaryQT; // 3
@@ -48,6 +54,10 @@ public final class Controller {
     } catch (Exception e) {
       ExceptionController.recieveException(e);
     }
+    
+    setStatus("Creating graph");
+    graph = new Graph();
+    setStatus("Graph created. All done");
   }
 
   /**
@@ -152,6 +162,10 @@ public final class Controller {
    synchronized public Connection[] getConnections() {
     return connections;
   }
+   
+   synchronized public Point[] getPoints(){
+     return points;
+   }
 
   /**
    * Set status label on GUI
@@ -328,6 +342,10 @@ public final class Controller {
   public synchronized void setConnections(Connection[] connections) {
     this.connections = connections;
   }
+  
+  public synchronized void setPoints(Point[] points){
+    this.points = points;
+  }
 
   /**
    * @param xMin the xMin to set
@@ -355,6 +373,10 @@ public final class Controller {
    */
   public synchronized void setyMax(double yMax) {
     this.yMax = yMax;
+  }
+  
+  public Graph getGraph(){
+    return graph;
   }
 
   /**

@@ -35,7 +35,7 @@ public class FileLoaderConnectionOnly {
   volatile private ConnectionQuadTree pathsQT;
   volatile private Connection[] connections;
   volatile private TernarySearchTries<Integer> tst;
-  volatile private Point[] points = new Point[675902];
+  volatile private Point[] points;
 
   public FileLoaderConnectionOnly() throws IOException {
     controller.setStatus("Loading data...");
@@ -54,6 +54,8 @@ public class FileLoaderConnectionOnly {
     pathsQT = controller.getPathsQT();
     controller.setConnections(new Connection[812302]);
     connections = controller.getConnections();
+    controller.setPoints(new Point[675902]);
+    points = controller.getPoints();
     tst = controller.getTst();
   }
 
