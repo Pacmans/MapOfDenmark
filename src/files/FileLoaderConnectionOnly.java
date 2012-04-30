@@ -8,7 +8,6 @@ import controller.Controller;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
-import dataStructure.RoadType;
 import dataStructure.TernarySearchTries;
 
 /**
@@ -39,7 +38,7 @@ public class FileLoaderConnectionOnly {
   volatile private Point[] points = new Point[675902];
 
   public FileLoaderConnectionOnly() throws IOException {
-    controller.setStatus("Loading data");
+    controller.setStatus("Loading data...");
     initialise();
     loadPoints();
     loadConnections();
@@ -60,18 +59,22 @@ public class FileLoaderConnectionOnly {
 
   private void loadConnections() throws IOException {
     Thread highways = new Thread(new FileLoaderThread("highways", points,
-        connections, highwaysQT, tst));
+        connections, highwaysQT, tst),"highways");
     Thread expressways = new Thread(new FileLoaderThread("expressways", points,
-        connections, expresswaysQT, tst));
+        connections, expresswaysQT, tst),"expressways");
     Thread primary = new Thread(new FileLoaderThread("primary", points,
-        connections, primaryQT, tst));
+        connections, primaryQT, tst),"primary");
     Thread secondary = new Thread(new FileLoaderThread("secondary", points,
-        connections, secondaryQT, tst));
+        connections, secondaryQT, tst),"secondary");
 
-
-    
-
-
+    highways.isDaemon();
+    highways.start();
+    expressways.isDaemon();
+    expressways.start();
+    primary.isDaemon();
+    primary.start();
+    secondary.isDaemon();
+    secondary.start();
     try {
       highways.start();
       highways.join();
@@ -86,24 +89,41 @@ public class FileLoaderConnectionOnly {
     }
     
     System.out.println("4 first qaudtrees done");
+
+    controller.getGUI().setupMap();
     
     Thread normal = new Thread(new FileLoaderThread("normal", points,
-        connections, normalQT, tst));
+        connections, normalQT, tst),"normal");
     Thread small = new Thread(new FileLoaderThread("small",
-        points, connections, smallQT, tst));
+        points, connections, smallQT, tst),"small");
     Thread paths = new Thread(new FileLoaderThread("paths", points,
-        connections, pathsQT, tst));
-
-    
+        connections, pathsQT, tst),"paths");
 
 
+    paths.isDaemon();
+    paths.start();
+    normal.isDaemon();
+    normal.start();
     try{
-      normal.start();
-      normal.join();
-      paths.start();
       paths.join();
+      normal.join();
     }catch(Exception e){
-    	Controller.catchException(e);
+      Controller.catchException(e);
+    }
+    
+//    
+//    try{
+//      normal.join();
+//    }catch(Exception e){
+//      Controller.catchException(e);
+//    }
+    
+    small.isDaemon();
+    small.start();
+    try{
+      small.join();
+    }catch(Exception e){
+      Controller.catchException(e);
     }
     small.start();
     try{
@@ -111,7 +131,7 @@ public class FileLoaderConnectionOnly {
     }catch(Exception e){
       Controller.catchException(e);
     }
-    Controller.setStatus("Data loaded");
+    controller.setStatus("Data loaded");
     controller.getGUI().setupMap();
   }
 

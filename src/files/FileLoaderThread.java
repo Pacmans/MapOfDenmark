@@ -79,11 +79,14 @@ public class FileLoaderThread implements Runnable {
             p2.getY(), r, split[7]);
 
         // adds p1 and p2 to the quadtree
-        qtr.insert(p1.getX(), p1.getY(), id);
-        qtr.insert(p2.getX(), p2.getY(), id);
-        tst.put(split[7], id);
+        synchronized (qtr) {
+          qtr.insert(p1.getX(), p1.getY(), id);
+          qtr.insert(p2.getX(), p2.getY(), id);
+        }
+        synchronized(tst){
+          tst.put(split[7], id);
+        }
 
-        
       }
       System.out.println("quadtree " + txtname + " done!");
     }

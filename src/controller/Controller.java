@@ -95,7 +95,8 @@ public final class Controller {
    *          ArrayList of connections within rectangle
    * @return
    */
-  public Connection[] getConnections(int type, double x1, double y1, double x2,
+
+  public synchronized Connection[] getConnections(int type, double x1, double y1, double x2,
       double y2) {
     ConnectionQuadTree qt = new ConnectionQuadTree();
     switch (type) {
@@ -135,6 +136,7 @@ public final class Controller {
     return cs;
   }
 
+
   public TernarySearchTries<Integer> getTst() {
     if(tst == null) tst = new TernarySearchTries<Integer>();
     return tst;
@@ -146,7 +148,8 @@ public final class Controller {
    * @return Array of all connections
    * @see Connection
    */
-  public synchronized Connection[] getConnections() {
+
+   synchronized public Connection[] getConnections() {
     return connections;
   }
 
@@ -156,8 +159,8 @@ public final class Controller {
    * @param s
    *          Status to be shown
    */
-  public static void setStatus(String s) {
-    // GUI.setStatus(s);
+  public void setStatus(String s) {
+    gui.setStatus(s);
   }
   
   /**
@@ -168,6 +171,12 @@ public final class Controller {
   public static void catchException(Exception e) {
   	ExceptionController.recieveException(e);
   }
+  
+  /**
+   * Catch an exception and send it 
+   * to the ExceptionController
+   * @param e
+   */
 
   /**
    * Show or hide a type of road
@@ -177,7 +186,7 @@ public final class Controller {
    * @param b
    *          To show or not to show
    */
-  public void updateMap(int n, boolean m) {
+  public synchronized void updateMap(int n, boolean m) {
     map.updateRoadTypes(n, m);
   }
 
@@ -357,14 +366,4 @@ public final class Controller {
   public static void main(String[] args) {
     new Controller();
   }
-
-//  public void initialize(Connection[] connections,
-//      ConnectionQuadTree highwaysQT, ConnectionQuadTree expresswaysQT,
-//      ConnectionQuadTree primaryQT) {
-//    this.connections = connections;
-//    this.highwaysQT = highwaysQT;
-//    this.expresswaysQT = expresswaysQT;
-//    this.primaryQT = primaryQT;
-//    gui.setupMap();
-//  }
 }
