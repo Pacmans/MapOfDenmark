@@ -68,21 +68,24 @@ public class FileLoaderConnectionOnly {
     Thread secondary = new Thread(new FileLoaderThread("secondary", points,
         connections, secondaryQT, tst));
 
-    highways.start();
-    expressways.start();
-    primary.start();
-    secondary.start();
+
+    
+
+
     try {
+      highways.start();
       highways.join();
+      expressways.start();
       expressways.join();
+      primary.start();
       primary.join();
+      secondary.start();
       secondary.join();
     } catch (InterruptedException e) {
     	Controller.catchException(e);
     }
     
     System.out.println("4 first qaudtrees done");
-    controller.getGUI().setupMap();
     
     Thread normal = new Thread(new FileLoaderThread("normal", points,
         connections, normalQT, tst));
@@ -92,10 +95,12 @@ public class FileLoaderConnectionOnly {
         connections, pathsQT, tst));
 
     
-    normal.start();
-    paths.start();
+
+
     try{
+      normal.start();
       normal.join();
+      paths.start();
       paths.join();
     }catch(Exception e){
     	Controller.catchException(e);
@@ -107,6 +112,7 @@ public class FileLoaderConnectionOnly {
       Controller.catchException(e);
     }
     Controller.setStatus("Data loaded");
+    controller.getGUI().setupMap();
   }
 
   /**
