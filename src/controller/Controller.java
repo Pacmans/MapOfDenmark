@@ -368,6 +368,10 @@ public final class Controller {
   public synchronized void setyMax(double yMax) {
     this.yMax = yMax;
   }
+  
+  public Graph getGraph(){
+    return graph;
+  }
 
   /**
    * Main method creates a new GUI
