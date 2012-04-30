@@ -15,12 +15,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -28,6 +23,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,12 +32,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.JTextComponent;
 
 import controller.Controller;
 
@@ -62,6 +60,9 @@ public class GUI {
   private JPanel contentPane, mapPanel, loadingPanel, optionPanel;
   // The map from the controller
   private JComponent map;
+  // The from and to combobox
+//  private JComboBox adressFrom, adressTo;
+//  private LiveSearchBox fromBox;
   // A ButtonGroup with car, bike, and walk.
   private ButtonGroup group;
   // selected JToggleButton - 0 if car, 1 if bike, 2 if walk.
@@ -197,23 +198,21 @@ public class GUI {
     JLabel label = new JLabel("From");
     label = setLabelFont(label);
     
-    JTextField text = new JTextField(10);
+    JComboBox fromBox = new LiveSearchBox().getBox();
 
-    text = addLiveSearch(text);
-    text.setBackground(Color.lightGray);
     JPanel fromPanel = new JPanel(new FlowLayout(2));
     fromPanel.add(label);
-    fromPanel.add(text);
+    fromPanel.add(fromBox);
 
     // to row
     label = new JLabel("To");
     label = setLabelFont(label);
-    text = new JTextField(10);
-    text = addLiveSearch(text);
-    text.setBackground(Color.lightGray);
+    
+//    JComboBox toBox = new LiveSearchBox();
+//    adressTo = toBox.getBox();
     JPanel toPanel = new JPanel(new FlowLayout(2));
     toPanel.add(label);
-    toPanel.add(text);
+//    toPanel.add(adressTo);
 
     // go button
     JButton go = new JButton("Go");
@@ -236,16 +235,7 @@ public class GUI {
     return routePlanning;
   }
   
-  private JTextField addLiveSearch(JTextField text) {
-	  text.addKeyListener(new KeyAdapter() {
-		  public void keyReleased(KeyEvent e) {
-			  JTextField textField = (JTextField) e.getSource();
-			  String string = textField.getText();
-			  setStatus(string);
-		  }
-	  });
-	  return text;
-  }
+  
 
   private <T extends JComponent> T setLabelFont(T label) {
 	  label.setFont(new Font("Verdana", Font.PLAIN, 14));
@@ -315,7 +305,7 @@ public class GUI {
   private JPanel createZoomOutButton() {
     JPanel zoomPanel = new JPanel(new FlowLayout(1));
     JButton zoomOut = new JButton("Zoom out");
-    zoomOut.setPreferredSize(new Dimension(90, 35));
+    zoomOut.setPreferredSize(new Dimension(110, 35));
     zoomOut = setButtonText(zoomOut);
     zoomOut.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
