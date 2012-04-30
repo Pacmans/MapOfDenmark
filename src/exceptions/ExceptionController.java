@@ -14,6 +14,7 @@ public class ExceptionController {
 	 */
 	public static void recieveException(Exception e) {
 		System.out.println("Error: " + e);
+		
 		if(e instanceof IOException)
 			handleIOException((IOException) e);
 		if(e instanceof InterruptedException)

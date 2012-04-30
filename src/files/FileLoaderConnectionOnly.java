@@ -76,13 +76,9 @@ public class FileLoaderConnectionOnly {
     secondary.isDaemon();
     secondary.start();
     try {
-      highways.start();
       highways.join();
-      expressways.start();
       expressways.join();
-      primary.start();
       primary.join();
-      secondary.start();
       secondary.join();
     } catch (InterruptedException e) {
     	Controller.catchException(e);
@@ -119,12 +115,6 @@ public class FileLoaderConnectionOnly {
 //    }
     
     small.isDaemon();
-    small.start();
-    try{
-      small.join();
-    }catch(Exception e){
-      Controller.catchException(e);
-    }
     small.start();
     try{
       small.join();
