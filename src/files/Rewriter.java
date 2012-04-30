@@ -39,7 +39,7 @@ public class Rewriter {
     PrintWriter r5 = new PrintWriter(road_5);
     PrintWriter r6 = new PrintWriter(road_6);
     PrintWriter r7 = new PrintWriter(road_7);
-    System.out.println("Rewirter: Inputs and outputs ready");
+    System.out.println("Rewriter: Inputs and outputs ready");
     
     //Read and write
     System.out.println("Rewirter: Writing files...");

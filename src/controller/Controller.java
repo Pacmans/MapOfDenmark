@@ -151,6 +151,18 @@ public final class Controller {
     if(tst == null) tst = new TernarySearchTries<Integer>();
     return tst;
   }
+  
+  public String[] getRoads(String key)
+  {
+	  HashSet<Integer> tmp = tst.get(key);
+	  String[] roads = new String[tmp.size()];
+	  int size = 0;
+	  for(Integer i : tmp)
+	  {
+		  roads[size++] = connections[i].getName();
+	  }
+	  return roads;
+  }
 
   /**
    * Get array of all connections
@@ -185,6 +197,12 @@ public final class Controller {
   public static void catchException(Exception e) {
   	ExceptionController.recieveException(e);
   }
+  
+  /**
+   * Catch an exception and send it 
+   * to the ExceptionController
+   * @param e
+   */
 
   /**
    * Show or hide a type of road

@@ -5,6 +5,40 @@ import java.awt.event.*;
 import java.util.HashMap;
 
 import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -21,7 +55,6 @@ import controller.Controller;
  * 
  */
 public class GUI {
-
 	// This field contains the current version of the program.
 	private static final String VERSION = "Version 1.0";
 	// The main frame of our program.
@@ -215,32 +248,31 @@ public class GUI {
 
 	private JPanel createRouteplanningBox() {
 		JPanel routePlanning = new JPanel();
-		TitledBorder border = new TitledBorder(new EtchedBorder(),
-				"Route planning");
+		TitledBorder border = new TitledBorder(
+				new EtchedBorder(), "Route planning");
 		border = setHeadlineFont(border);
 		routePlanning.setBorder(border);
 		routePlanning.setLayout(new BoxLayout(routePlanning, BoxLayout.Y_AXIS));
 
 		// from row
-		JLabel label = new JLabel("From");
-		label = setLabelFont(label);
-		JTextField text = new JTextField(10);
-		text = addLiveSearch(text);
-		text.setBackground(Color.lightGray);
-		JPanel fromPanel = new JPanel(new FlowLayout(2));
-		fromPanel.add(label);
-		fromPanel.add(text);
+    JLabel label = new JLabel("From");
+    label = setLabelFont(label);
+    
+    JComboBox fromBox = new LiveSearchBox().getBox();
 
-		// to row
-		label = new JLabel("To");
-		label = setLabelFont(label);
-		text = new JTextField(10);
-		text = addLiveSearch(text);
-		text.setBackground(Color.lightGray);
-		JPanel toPanel = new JPanel(new FlowLayout(2));
-		toPanel.add(label);
-		toPanel.add(text);
+    JPanel fromPanel = new JPanel(new FlowLayout(2));
+    fromPanel.add(label);
+    fromPanel.add(fromBox);
 
+    // to row
+    label = new JLabel("To");
+    label = setLabelFont(label);
+    
+    JComboBox toBox = new LiveSearchBox().getBox();
+    JPanel toPanel = new JPanel(new FlowLayout(2));
+    toPanel.add(label);
+    toPanel.add(toBox);
+		
 		// go button
 		JButton go = new JButton("Go");
 		go = setButtonText(go);
@@ -260,17 +292,6 @@ public class GUI {
 		routePlanning.add(goPanel);
 
 		return routePlanning;
-	}
-
-	private JTextField addLiveSearch(JTextField text) {
-		text.addKeyListener(new KeyAdapter() {
-			public void keyReleased(KeyEvent e) {
-				JTextField textField = (JTextField) e.getSource();
-				String string = textField.getText();
-				setStatus(string);
-			}
-		});
-		return text;
 	}
 
 	private <T extends JComponent> T setLabelFont(T label) {
@@ -453,4 +474,9 @@ public class GUI {
 				+ "\nMade by Claus, BjÃ¸rn, Phillip, Morten & Anders.",
 				"About Map Of Denmark", JOptionPane.INFORMATION_MESSAGE);
 	}
+  
+  public void enableFrame() {
+	  contentPane.setEnabled(true);
+	  frame.setBackground(Color.lightGray);
+  }
 }

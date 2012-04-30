@@ -57,12 +57,13 @@ public class FileLoaderThread implements Runnable {
         new InputStreamReader(b));
     String line;
     Point p1, p2;
+    String[] split;
     // qtr = new ConnectionQuadTree();
     System.out.println("qaudtree " + txtname + " start");
 
     if (connectionInput.ready()) { // if loaded
       while ((line = connectionInput.readLine()) != null) {
-        String[] split = line.split(",");
+        split = line.split(",");
         // gets the correct RoadType
         RoadType r = getRoadType(Integer.parseInt(split[6]));
 
@@ -84,6 +85,7 @@ public class FileLoaderThread implements Runnable {
         synchronized(tst){
           tst.put(split[7], id);
         }
+
       }
       System.out.println("quadtree " + txtname + " done!");
     }

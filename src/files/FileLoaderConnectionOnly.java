@@ -88,6 +88,7 @@ public class FileLoaderConnectionOnly {
     }
     
     System.out.println("4 first qaudtrees done");
+
     controller.getGUI().setupMap();
     
     Thread normal = new Thread(new FileLoaderThread("normal", points,
@@ -96,6 +97,7 @@ public class FileLoaderConnectionOnly {
         points, connections, smallQT, tst),"small");
     Thread paths = new Thread(new FileLoaderThread("paths", points,
         connections, pathsQT, tst),"paths");
+
 
     paths.isDaemon();
     paths.start();
@@ -123,6 +125,7 @@ public class FileLoaderConnectionOnly {
       Controller.catchException(e);
     }
     controller.setStatus("Data loaded");
+    controller.getGUI().setupMap();
   }
 
   /**
