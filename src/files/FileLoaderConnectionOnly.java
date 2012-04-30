@@ -78,6 +78,7 @@ public class FileLoaderConnectionOnly {
       secondary.join();
     } catch (InterruptedException e) {
     	Controller.catchException(e);
+    	System.out.println(e);
     }
     
     System.out.println("4 first qaudtrees done");
