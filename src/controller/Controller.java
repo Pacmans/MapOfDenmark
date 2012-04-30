@@ -6,6 +6,7 @@ import com.sun.swing.internal.plaf.synth.resources.synth;
 
 import exceptions.ExceptionController;
 import files.FileLoaderConnectionOnly;
+import graph.Graph;
 import gui.GUI;
 
 import visualization.MapComponent;
@@ -27,6 +28,7 @@ public final class Controller {
   private static Controller instance; // singleton
   private GUI gui;
   private MapComponent map;
+  private Graph graph;
   volatile private TernarySearchTries<Integer> tst;
   volatile private Connection[] connections;
   volatile private Point[] points;
@@ -52,6 +54,10 @@ public final class Controller {
     } catch (Exception e) {
       ExceptionController.recieveException(e);
     }
+    
+    setStatus("Creating graph");
+    graph = new Graph();
+    setStatus("Graph created");
   }
 
   /**
