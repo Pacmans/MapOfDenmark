@@ -156,13 +156,19 @@ public final class Controller {
   
   public String[] getRoads(String key)
   {
-	  Iterator<Integer> tmp = tst.keysWithPrefix(key).iterator();
 	  String[] roads = new String[10];
+	  Iterator<Integer> tmp = null;
+	  try{
+	   tmp = tst.keysWithPrefix(key).iterator();
+	  } catch (NullPointerException e){
+		  roads[0] = "(none)";
+		  return roads;
+	  }
 	  for(int i = 0; i < 10; i++)
 	  {
 		  if(tmp.hasNext()){
 		  roads[i] = connections[tmp.next()].getName();
-		  System.out.println(roads[i]);
+
 		  }
 		  else return roads;
 	  }
