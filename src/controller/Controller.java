@@ -1,6 +1,8 @@
 package controller;
 
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import com.sun.swing.internal.plaf.synth.resources.synth;
 
@@ -154,12 +156,15 @@ public final class Controller {
   
   public String[] getRoads(String key)
   {
-	  HashSet<Integer> tmp = tst.get(key);
-	  String[] roads = new String[tmp.size()];
-	  int size = 0;
-	  for(Integer i : tmp)
+	  Iterator<Integer> tmp = tst.keysWithPrefix(key).iterator();
+	  String[] roads = new String[10];
+	  for(int i = 0; i < 10; i++)
 	  {
-		  roads[size++] = connections[i].getName();
+		  if(tmp.hasNext()){
+		  roads[i] = connections[tmp.next()].getName();
+		  System.out.println(roads[i]);
+		  }
+		  else return roads;
 	  }
 	  return roads;
   }
