@@ -67,9 +67,13 @@ public class FileLoaderConnectionOnly {
     Thread secondary = new Thread(new FileLoaderThread("secondary", points,
         connections, secondaryQT, tst),"secondary");
 
+    highways.isDaemon();
     highways.start();
+    expressways.isDaemon();
     expressways.start();
+    primary.isDaemon();
     primary.start();
+    secondary.isDaemon();
     secondary.start();
     try {
       highways.join();
@@ -91,22 +95,25 @@ public class FileLoaderConnectionOnly {
     Thread paths = new Thread(new FileLoaderThread("paths", points,
         connections, pathsQT, tst),"paths");
 
-
+    paths.isDaemon();
     paths.start();
-    try{
-      paths.join();
-    }catch(Exception e){
-      Controller.catchException(e);
-    }
-    
-    
+    normal.isDaemon();
     normal.start();
     try{
+      paths.join();
       normal.join();
     }catch(Exception e){
       Controller.catchException(e);
     }
     
+//    
+//    try{
+//      normal.join();
+//    }catch(Exception e){
+//      Controller.catchException(e);
+//    }
+    
+    small.isDaemon();
     small.start();
     try{
       small.join();
