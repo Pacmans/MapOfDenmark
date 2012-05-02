@@ -359,7 +359,7 @@ public class GUI {
 	private JPanel createZoomOutButton() {
 		JPanel zoomPanel = new JPanel(new FlowLayout(1));
 		JButton zoomOut = new JButton("Zoom out");
-		zoomOut.setPreferredSize(new Dimension(90, 35));
+		zoomOut.setPreferredSize(new Dimension(110, 40));
 		zoomOut = setButtonText(zoomOut);
 		zoomOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
