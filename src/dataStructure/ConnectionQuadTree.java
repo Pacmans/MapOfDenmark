@@ -24,7 +24,7 @@ public class ConnectionQuadTree{
   private class Node{
     Node NW, NE, SE, SW; //Four subtrees
     double x, y;
-    DynArray<Integer> connections = new DynArray(Integer.class);
+    DynArray<Integer> connections = new DynArray<Integer>(Integer[].class);
     
     Node(double x, double y, int connection){
       this.x = x;
@@ -90,7 +90,7 @@ public class ConnectionQuadTree{
     ymin = rect.getIntervalY().getLow();
     xmax = rect.getIntervalX().getHigh();
     ymax = rect.getIntervalY().getHigh();
-    array = new DynArray(Integer.class);
+    array = new DynArray<Integer>(Integer[].class);
     getRect(root, rect);
     return array;
   }
