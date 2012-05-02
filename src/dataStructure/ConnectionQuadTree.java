@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 public class ConnectionQuadTree{
   private Node root;
-  private HashSet<Integer> array;
+  private DynArray<Integer> array;
   private int nodes = 0;
   private double xmin, ymin, xmax, ymax;
   
@@ -24,7 +24,7 @@ public class ConnectionQuadTree{
   private class Node{
     Node NW, NE, SE, SW; //Four subtrees
     double x, y;
-    HashSet<Integer> connections = new HashSet<Integer>();
+    DynArray<Integer> connections = new DynArray<Integer>(Integer[].class);
     
     Node(double x, double y, int connection){
       this.x = x;
@@ -36,7 +36,7 @@ public class ConnectionQuadTree{
       connections.add(id);
     }
     
-    public HashSet<Integer> getConnections(){
+    public DynArray<Integer> getConnections(){
       return connections;
     }
   }
@@ -85,12 +85,12 @@ public class ConnectionQuadTree{
     return h;
   }
   
-  public HashSet<Integer> getConnections(Interval2D rect){
+  public DynArray<Integer> getConnections(Interval2D rect){
     xmin = rect.getIntervalX().getLow();
     ymin = rect.getIntervalY().getLow();
     xmax = rect.getIntervalX().getHigh();
     ymax = rect.getIntervalY().getHigh();
-    array = new HashSet<Integer>();
+    array = new DynArray<Integer>(Integer[].class);
     getRect(root, rect);
     return array;
   }
@@ -107,7 +107,11 @@ public class ConnectionQuadTree{
     }
     
     if (rect.contains(h.x, h.y)){
-      array.addAll(h.getConnections());
+      //Add all
+      for(Integer i : h.getConnections()){
+        //TODO Adds each connection twice. ArrayList.sort, check?
+        array.add(i);
+      }
     }
     
     if(xmin <= h.x && ymin <= h.y) getRect(h.SW, rect);

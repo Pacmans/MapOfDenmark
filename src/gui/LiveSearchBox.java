@@ -20,7 +20,6 @@ public class LiveSearchBox {
 	private Document doc;
 	private Controller controller;
 
-	
 	public LiveSearchBox() {
 		controller = Controller.getInstance();
 		adress = new JComboBox();
@@ -40,15 +39,18 @@ public class LiveSearchBox {
 		return new DocumentListener() {
 			@Override
 			public void changedUpdate(DocumentEvent e) {
+				update();
 			}
 	
 			@Override
 			public void insertUpdate(DocumentEvent e) {
+				System.out.println("insert");
 				update();
 			}
 	
 			@Override
 			public void removeUpdate(DocumentEvent e) {
+				System.out.println("remove");
 				update();
 			}
 			
@@ -58,6 +60,7 @@ public class LiveSearchBox {
 				SwingUtilities.invokeLater(new Runnable() {
 		      @Override 
 		      public void run() {
+				if(component.getText().length()==0) return;
 		      	doc.removeDocumentListener(listener);
 		      	String typedRoad = component.getText();
 		      	String[] roads = controller.getRoads(typedRoad);
