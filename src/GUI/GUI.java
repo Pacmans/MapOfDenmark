@@ -109,10 +109,6 @@ public class GUI {
 
 					if (wheelDirection < 0) { // zooms in
 						switch (zoom) {
-						case 25:
-							controller.updateMap(4, true);
-							boxes.get("Secondary roads").setSelected(true);
-							break;
 						case 17:
 							controller.updateMap(5, true);
 							boxes.get("Normal roads").setSelected(true);
@@ -128,10 +124,6 @@ public class GUI {
 						}
 					} else { // scrolls down
 						switch (zoom) {
-						case 26:
-							controller.updateMap(4, false);
-							boxes.get("Secondary roads").setSelected(false);
-							break;
 						case 18:
 							controller.updateMap(5, false);
 							boxes.get("Normal roads").setSelected(false);
@@ -388,6 +380,7 @@ public class GUI {
 		checkboxPanel.setBorder(border);
 		// fill the checkboxPanel
 		JPanel manualPanel = new JPanel(new FlowLayout(0));
+		manualPanel.setBorder(BorderFactory.createMatteBorder(0,0,1,0,Color.black));
 		JCheckBox manualControlBox = new JCheckBox("Manual Control");
 		manualControlBox.setSelected(false);
 		manualControlBox = setLabelFont(manualControlBox);
