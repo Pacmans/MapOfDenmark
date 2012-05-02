@@ -108,7 +108,7 @@ public class DynArray<T> implements Iterable<T>  {
    *
    * @return The size
    */
-  public int length()
+  public int size()
   {
     return size;
   }
