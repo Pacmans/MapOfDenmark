@@ -13,7 +13,7 @@ import java.util.HashSet;
 public class Point implements Comparable<Point>{
 	private int ID, numberOfConnections = 0;
 	private double xk, yk;
-	private HashSet<Integer> connections = new HashSet<Integer>();
+	//private HashSet<Integer> connections = new HashSet<Integer>();
 	
 	public Point(int id, double xk, double yk){
 		this.ID = id;
@@ -33,10 +33,10 @@ public class Point implements Comparable<Point>{
 		return ID;
 	}
 	
-	public void addConnection(int id){
-	  connections.add(id);
-	}
-	
+//	public void addConnection(int id){
+//	  connections.add(id);
+//	}
+//	
 	public int compareTo(Point point){
 	  int a = point.getID();
 	  if(a>ID) return -1;
@@ -44,9 +44,9 @@ public class Point implements Comparable<Point>{
 	  else return 0;
 	}
 	
-	public Collection<? extends Integer> getConnections(){
-	  return connections;
-	}
+//	public Collection<? extends Integer> getConnections(){
+//	  return connections;
+//	}
 	
 //	private void resize(int newsize){
 //	  int[] tmp = new int[newsize];
