@@ -1,10 +1,5 @@
 package gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.HashMap;
-
-import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,8 +16,10 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.util.HashMap;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -44,7 +41,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import visualization.MapComponent;
-
 import controller.Controller;
 
 /**
