@@ -1,7 +1,5 @@
 package dataStructure;
 
-import java.util.HashSet;
-
 public class ConnectionQuadTree{
   private Node root;
   private DynArray<Integer> array;
