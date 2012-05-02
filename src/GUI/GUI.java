@@ -68,7 +68,6 @@ public class GUI {
 	private int selectedTransport = 0, number;
 	private JLabel statusbar = new JLabel(" ");
 	private boolean manualControl = false;
-	private final Dimension minimumSize = new Dimension(850,650);
 
 	public GUI() {
 		makeFrame();
@@ -81,7 +80,7 @@ public class GUI {
 	private void setupFrame() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
-		frame.setMinimumSize(minimumSize);
+		frame.setSize(800, 600);
 		// place the frame at the center of the screen and show.
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation(d.width / 2 - frame.getWidth() / 2, d.height / 2
@@ -159,6 +158,7 @@ public class GUI {
 		contentPane.setEnabled(true);
 		updateGUI();
 		frame.setBackground(Color.lightGray);
+		frame.setSize(800, 600);
 		frame.setVisible(true);
 	}
 
@@ -261,7 +261,7 @@ public class GUI {
     JPanel toPanel = new JPanel(new FlowLayout(2));
     toPanel.add(label);
     toPanel.add(toBox);
-		
+
 		// go button
 		JButton go = new JButton("Go");
 		go = setButtonText(go);
@@ -381,10 +381,10 @@ public class GUI {
 		checkboxPanel.setBorder(border);
 		// fill the checkboxPanel
 		JPanel manualPanel = new JPanel(new FlowLayout(0));
-		manualPanel.setBorder(BorderFactory.createMatteBorder(0,0,1,0,Color.black));
 		JCheckBox manualControlBox = new JCheckBox("Manual Control");
+		manualControlBox.setFont(new Font("Verdana", Font.CENTER_BASELINE, 15));
 		manualControlBox.setSelected(false);
-		manualControlBox = setLabelFont(manualControlBox);
+		//manualControlBox = setLabelFont(manualControlBox);
 		manualControlBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == 1) { // selected
