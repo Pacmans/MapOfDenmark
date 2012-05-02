@@ -39,6 +39,7 @@ public class LiveSearchBox {
 		return new DocumentListener() {
 			@Override
 			public void changedUpdate(DocumentEvent e) {
+				update();
 			}
 	
 			@Override
@@ -59,6 +60,7 @@ public class LiveSearchBox {
 				SwingUtilities.invokeLater(new Runnable() {
 		      @Override 
 		      public void run() {
+				if(component.getText().length()==0) return;
 		      	doc.removeDocumentListener(listener);
 		      	String typedRoad = component.getText();
 		      	String[] roads = controller.getRoads(typedRoad);

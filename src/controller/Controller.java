@@ -1,6 +1,8 @@
 package controller;
 
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import com.sun.swing.internal.plaf.synth.resources.synth;
 
@@ -12,6 +14,7 @@ import gui.GUI;
 import visualization.MapComponent;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
+import dataStructure.DynArray;
 import dataStructure.Interval;
 import dataStructure.Interval2D;
 import dataStructure.Point;
@@ -136,7 +139,7 @@ public final class Controller {
       break;
     }
     // get HashSet of connection IDs from QuadTree
-    HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1,
+    DynArray<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1,
         x2), new Interval(y1, y2)));
     Connection[] cs = new Connection[cons.size()];
     int size = 0;
@@ -154,12 +157,21 @@ public final class Controller {
   
   public String[] getRoads(String key)
   {
-	  HashSet<Integer> tmp = tst.get(key);
-	  String[] roads = new String[tmp.size()];
-	  int size = 0;
-	  for(Integer i : tmp)
+	  String[] roads = new String[10];
+	  Iterator<Integer> tmp = null;
+	  try{
+	   tmp = tst.keysWithPrefix(key).iterator();
+	  } catch (NullPointerException e){
+		  roads[0] = "(none)";
+		  return roads;
+	  }
+	  for(int i = 0; i < 10; i++)
 	  {
-		  roads[size++] = connections[i].getName();
+		  if(tmp.hasNext()){
+		  roads[i] = connections[tmp.next()].getName();
+
+		  }
+		  else return roads;
 	  }
 	  return roads;
   }
