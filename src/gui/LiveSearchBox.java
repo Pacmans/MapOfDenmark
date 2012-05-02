@@ -44,13 +44,11 @@ public class LiveSearchBox {
 	
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				System.out.println("insert");
 				update();
 			}
 	
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				System.out.println("remove");
 				update();
 			}
 			
