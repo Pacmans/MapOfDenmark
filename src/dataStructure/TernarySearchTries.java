@@ -50,14 +50,13 @@ public class TernarySearchTries<Value> {
 	}
 	
 	public Iterable<Value> keysWithPrefix(String pre){
-		pre.toLowerCase();
+		pre = pre.toLowerCase();
 		LinkedList<Value> q = new LinkedList<Value>();
 		try{
 		collect(get(root, pre, 0).mid, pre, q);
 		} catch(NullPointerException e){
 			return null;
 		}
-		System.out.println(q.size());
 		return q;
 	}
 	
