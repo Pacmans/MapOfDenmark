@@ -24,11 +24,11 @@ public class LiveSearchBox {
 		controller = Controller.getInstance();
 		adress = new JComboBox();
 		Dimension d = adress.getPreferredSize();
-		adress.setPreferredSize(new Dimension(120,(int) d.getHeight()));
+		adress.setPreferredSize(new Dimension(150,(int) d.getHeight()));
 		adress.setEditable(true);
 	  adress.setBackground(Color.lightGray);
 		component = (JTextField) adress.getEditor().getEditorComponent();
-		component.setSize(50, 10);
+		component.setSize(60, 10);
 		doc = component.getDocument();
 		listener = createListener();
 		doc.addDocumentListener(listener);
@@ -44,7 +44,6 @@ public class LiveSearchBox {
 	
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-
 				update();
 			}
 	

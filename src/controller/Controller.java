@@ -1,10 +1,6 @@
 package controller;
 
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
-
-import com.sun.swing.internal.plaf.synth.resources.synth;
 
 import exceptions.ExceptionController;
 import files.FileLoaderConnectionOnly;
