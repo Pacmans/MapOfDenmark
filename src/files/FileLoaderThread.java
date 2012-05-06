@@ -70,6 +70,8 @@ public class FileLoaderThread implements Runnable {
         // gets the points associated with the connection
         p1 = points[Integer.parseInt(split[1]) - 1];
         p2 = points[Integer.parseInt(split[2]) - 1];
+        p1.setZip(Integer.parseInt(split[18]));
+        p2.setZip(Integer.parseInt(split[19]));
 
         // Get ConnectionID
         int id = Integer.parseInt(split[0]);

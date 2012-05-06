@@ -165,10 +165,13 @@ public final class Controller {
 		  roads[0] = "(none)";
 		  return roads;
 	  }
+	  Connection q;
 	  for(int i = 0; i < 10; i++)
 	  {
 		  if(tmp.hasNext()){
-		  roads[i] = connections[tmp.next()].getName();
+			  q = connections[tmp.next()];
+			  if(q.getLeft().getZip()!=0) roads[i] = q.getName()+" 1, "+q.getLeft().getZip();
+			  else roads[i] = q.getName()+" 1, sverige";
 
 		  }
 		  else return roads;
