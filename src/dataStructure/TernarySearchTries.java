@@ -23,33 +23,43 @@ public class TernarySearchTries<Value> {
 	private Node get(Node x, String key)
 	{
 		if( x == null) return null;
-		if 		(compareStrings(key,x.s) == 1) return get(x.left, key);
-		else if (compareStrings(key,x.s) == -1) return get(x.right, key);
-		else if (compareStrings(key,x.s) == 0){
-			int tmp = compareString(x.s, key);
+		if 		(compareString(key,x.s) == 1) return get(x.mid, key);
+		else if (compareString(key,x.s) == -1) return get(x.right, key);
+		else if (compareString(key,x.s) == 0){
+			int tmp = compareStrings(x.s, key);
 			if(tmp == key.length()) return x;
 			else return get(x.mid, key.substring(tmp));
 		}
 		else return x;
 	}
-	public void put(String key, Value val)
-	{ root = put(root, key, val);}
+	public void put(String key, Value val){
+	 key.toLowerCase();
+	 root = put(root, key, val, 0);}
 	
-	public Node put(Node x, String key, Value val)
+	public Node put(Node x, String key, Value val, int d)
 	{
-		if (key == "" || key == "''") return null;
+		if (key == "" || key =="''") return null;
 		if( x == null) { 
 			x = new Node(); 
 			x.s = key; 
 			x.val.add(val);
+			x.road = true;
 			}
-		if (compareStrings(key,x.s) == 1) x.left = put(x.left, key, val);
-		else if (compareStrings(key,x.s) == -1) x.right = put(x.right, key, val);
-		else if (compareStrings(key,x.s) == 0) {
-			int tmp = compareString(x.s, key);
-			if(tmp == key.length()) x.val.add(val);
-			else Split(x, tmp);
-			put(x.mid, key.substring(tmp), val);
+		else if (compareString(key.substring(d),x.s) == 1) x.left = put(x.left, key, val, d);
+		else if (compareString(key.substring(d),x.s) == -1) x.right = put(x.right, key, val, d);
+		else if (compareString(key.substring(d),x.s) == 0) {
+			int tmp = compareStrings(x.s, key.substring(d));
+			if(tmp < x.s.length()){
+				Split(x, tmp);
+				put(x.mid, key, val, d+tmp);
+			}
+			else if(tmp == x.s.length()){
+				if(key.substring(d).length() < 2){
+					x.val.add(val); 
+				}
+				else
+				put(x.mid, key, val, d+tmp);
+			}
 		}
 		
 		return x;
@@ -78,6 +88,7 @@ public class TernarySearchTries<Value> {
 	}
 	private Integer compareString(String key, String Node){
 		char k, n;
+		if(key.length() < 1) return 0;
 		k = key.charAt(0);
 		n = Node.charAt(0);
 		if(k > n) return 1;
@@ -86,8 +97,12 @@ public class TernarySearchTries<Value> {
 	}
 	
 	private Integer compareStrings(String key, String Node){
+		if(key == "") return 0;
 		char k, n;
-		for(int i = 0; i < key.length(); i++)
+		int size;
+		if(key.length() < Node.length()) size = key.length();
+		else size = Node.length();
+		for(int i = 0; i < size; i++)
 		{
 			k = key.charAt(i);
 			n = Node.charAt(i);
@@ -95,7 +110,7 @@ public class TernarySearchTries<Value> {
 				return i;
 			}
 		}
-		return key.length();
+		return size;
 		
 	}
 	
@@ -111,12 +126,6 @@ public class TernarySearchTries<Value> {
 	}
 	private void replace(Node x){
 		if(x.mid != null)replace(x.mid);
-		x.mid = new Node();
-		x.mid.s = x.s;
-		x.mid.val = x.val;
-		x.mid.left = x.left;
-		x.mid.right = x.right;
-		if(x.road) x.mid.road = true;
-		
+		x.mid = x;
 	}
 }
