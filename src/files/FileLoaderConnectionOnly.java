@@ -146,7 +146,7 @@ public class FileLoaderConnectionOnly {
     InputStream pointFile = getClass().getResourceAsStream(
         "kdv_node_unload.txt");
     BufferedReader pointInput = new BufferedReader(new InputStreamReader(
-        pointFile, "UTF-8"));
+        pointFile));
 
     String line = null;
     double x, y;

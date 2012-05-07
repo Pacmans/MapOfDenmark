@@ -13,7 +13,7 @@ public class ExceptionController {
 	 * @param Exception e
 	 */
 	public static void recieveException(Exception e) {
-		System.out.println("Error: " + e.getStackTrace());
+		System.out.println("Error: " + e);
 		
 		if(e instanceof IOException)
 			handleIOException((IOException) e);

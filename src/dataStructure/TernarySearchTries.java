@@ -11,13 +11,13 @@ public class TernarySearchTries<Value> {
 		char c;
 
 		Node left, mid, right;
-		boolean road;
 		HashSet<Value> val = new HashSet<Value>();
 	}
 	public HashSet<Value> get(String key)
 	{
 		Node x = get(root, key, 0);
 		if (x == null) return null;
+		System.out.println(x.val);
 		return  x.val;
 	}
 	
@@ -35,35 +35,27 @@ public class TernarySearchTries<Value> {
 	
 	public Node put(Node x, String key, Value val, int d)
 	{
-		char c = Character.toLowerCase(key.charAt(d));
-		if (key == "") return null;
+		char c = key.charAt(d);
+		if (key == "" || key == "''") return null;
 		if( x == null) { x = new Node(); x.c = c;}
 		if (c < x.c) x.left = put(x.left, key, val, d);
 		else if (c > x.c) x.right = put(x.right, key, val , d);
 		else if (d < key.length()-1) x.mid = put(x.mid, key, val, d+1);
-		else {
-			x.val.add(val);
-			x.road = true;
-		}
+		else x.val.add(val);
 		return x;
 	
 	}
 	
-	public Iterable<Value> keysWithPrefix(String pre){
-		pre = pre.toLowerCase();
-		LinkedList<Value> q = new LinkedList<Value>();
-		try{
-		collect(get(root, pre, 0).mid, pre, q);
-		} catch(NullPointerException e){
-			return null;
-		}
+	public Iterable<String> keysWithPrefix(String pre){
+		
+		LinkedList<String> q = new LinkedList<String>();
+		collect(get(root, pre, 0), pre, q);
 		return q;
 	}
 	
-	private void collect(Node x, String pre, LinkedList<Value> q){
+	private void collect(Node x, String pre, LinkedList<String> q){
 		if( x == null) return;
-		if( q.size() > 10) return;
-		if(x.road) q.add(x.val.iterator().next());
+		if( x.val != null) q.add(pre);
 			collect(x.left, pre+x.c, q);
 			collect(x.right, pre+x.c, q);
 			collect(x.mid, pre+x.c, q);

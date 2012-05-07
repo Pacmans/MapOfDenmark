@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -20,7 +21,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.HashMap;
 
-import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -30,6 +31,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -42,6 +44,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import visualization.MapComponent;
+import visualization.SliderComponent;
 import controller.Controller;
 
 /**
@@ -57,10 +60,12 @@ public class GUI {
 	// The main frame of our program.
 	private JFrame frame;
 	private Controller controller;
-	private JPanel contentPane, mapPanel, loadingPanel, optionPanel,
-			roadtypeBoxes;
+	private JPanel contentPane, loadingPanel, optionPanel, roadtypeBoxes, checkboxPanel;
 	// The map from the controller
 	private MapComponent map;
+	private JLayeredPane layer;
+	private SliderComponent sliderComp;
+	private Component area;
 	// A ButtonGroup with car, bike, and walk.
 	private ButtonGroup group;
 	private HashMap<String, JCheckBox> boxes = new HashMap<String, JCheckBox>();
@@ -68,6 +73,7 @@ public class GUI {
 	private int selectedTransport = 0, number;
 	private JLabel statusbar = new JLabel(" ");
 	private boolean manualControl = false;
+	private Dimension windowSize = new Dimension(860, 650);
 
 	public GUI() {
 		makeFrame();
@@ -80,19 +86,21 @@ public class GUI {
 	private void setupFrame() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
-		frame.setSize(800, 600);
+		frame.setMinimumSize(windowSize);
+		frame.setSize(windowSize);
+		frame.setState(Frame.NORMAL);
 		// place the frame at the center of the screen and show.
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation(d.width / 2 - frame.getWidth() / 2, d.height / 2
 				- frame.getHeight() / 2);
 		contentPane.setEnabled(false);
 		frame.setBackground(Color.darkGray);
-		frame.setState(Frame.NORMAL);
-		frame.setVisible(true);
 		updateGUI();
 	}
 
 	private void updateGUI() {
+		frame.pack();
+		frame.setVisible(true);
 		if (manualControl) {
 			roadtypeBoxes.setVisible(true);
 		} else {
@@ -102,64 +110,76 @@ public class GUI {
 
 	public void setupMap() {
 		map = controller.getMap();
+		sliderComp = controller.getSlider();
+		
 		map.addMouseWheelListener(new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {
+				int zoom = map.getZoomNiveau();
+				sliderComp.setSlider(zoom);
+				
 				if (!manualControl) { // manual control is not selected
-					int wheelDirection = e.getWheelRotation();
-					int zoom = map.getZoomNiveau();
-
-					if (wheelDirection < 0) { // zooms in
-						switch (zoom) {
-						case 17:
-							controller.updateMap(5, true);
-							boxes.get("Normal roads").setSelected(true);
-							break;
-						case 14:
-							controller.updateMap(6, true);
-							boxes.get("Trails & streets").setSelected(true);
-							break;
-						case 11:
-							controller.updateMap(7, true);
-							boxes.get("Paths").setSelected(true);
-							break;
-						}
-					} else { // scrolls down
-						switch (zoom) {
-						case 18:
-							controller.updateMap(5, false);
-							boxes.get("Normal roads").setSelected(false);
-							break;
-						case 15:
-							controller.updateMap(6, false);
-							boxes.get("Trails & streets").setSelected(false);
-							break;
-						case 12:
-							controller.updateMap(7, false);
-							boxes.get("Paths").setSelected(false);
-							break;
-						}
-					}
+					//when normal roads is showed when it shouldn't
+					if (zoom < 13 && boxes.get("Normal roads").isSelected())
+						boxes.get("Normal roads").setSelected(false);
+					
+					//when normal roads isn't showed when it should
+					if (zoom >= 13 && !boxes.get("Normal roads").isSelected())
+						boxes.get("Normal roads").setSelected(true);
+					
+					//when Trails & streets is showed when it shouldn't
+					if (zoom < 16 && boxes.get("Trails & streets").isSelected())
+						boxes.get("Trails & streets").setSelected(false);
+					
+					//when Trails & streets isn't showed when it should
+					if (zoom >= 16 && !boxes.get("Trails & streets").isSelected())
+						boxes.get("Trails & streets").setSelected(true);
+					
+					//when Paths is showed when it shouldn't
+					if (zoom < 19 && boxes.get("Paths").isSelected())
+						boxes.get("Paths").setSelected(false);
+					
+					//when Paths isn't showed when it should
+					if (zoom >= 19 && !boxes.get("Paths").isSelected())
+						boxes.get("Paths").setSelected(true);
+					
+					//always shows big road types if they ain't showed
+					if (!boxes.get("Highways").isSelected())
+						boxes.get("Highways").setSelected(true);
+					if (!boxes.get("Expressways").isSelected())
+						boxes.get("Expressways").setSelected(true);
+					if (!boxes.get("Primary roads").isSelected())
+						boxes.get("Primary roads").setSelected(true);
+					if (!boxes.get("Secondary roads").isSelected())
+						boxes.get("Secondary roads").setSelected(true);
 				}
 			}
 		});
 		frame.setVisible(false);
 		contentPane.remove(loadingPanel);
-		mapPanel = new JPanel(new GridLayout(1, 1));
-		mapPanel.add(map);
-		contentPane.add(mapPanel, "Center");
-		contentPane.add(statusbar, "South");
-		frame.addComponentListener(new ComponentAdapter() {
+//		mapPanel = new JPanel(new GridLayout(1,1));
+//		mapPanel.add(map);
+		
+		sliderComp.setBounds(15,10,70,200);
+		
+		layer = new JLayeredPane();
+		layer.add(map, new Integer(1));
+		layer.add(sliderComp, new Integer(2));
+		layer.addComponentListener(new ComponentAdapter(){
+
+			@Override
 			public void componentResized(ComponentEvent e) {
-				// Controller.scaleMap(mapPanel.getWidth(),mapPanel.getHeight());
-				mapPanel.updateUI();
+				frame.repaint();
+				map.setBounds(0,0,layer.getWidth(),layer.getHeight());
 			}
 		});
-		frame.pack();
+		contentPane.add(layer, "Center");
+		contentPane.add(statusbar, "South");	
+		
 		contentPane.setEnabled(true);
-		updateGUI();
 		frame.setBackground(Color.lightGray);
-		frame.setSize(800, 600);
 		frame.setVisible(true);
+		updateGUI();
+		map.setBounds(0,0,layer.getWidth(),layer.getHeight());
 	}
 
 	private void makeFrame() {
@@ -230,6 +250,8 @@ public class GUI {
 		// add the checkbox, and the other GUI to the right panel.
 		optionPanel.add(createRouteplanningBox());
 		optionPanel.add(createCheckbox());
+		area = Box.createRigidArea(new Dimension(50,300));
+		optionPanel.add(area);
 		optionPanel.add(createZoomOutButton());
 		// add the optionPanel to the contentPanes borderlayout.
 		contentPane.add(optionPanel, "East");
@@ -365,6 +387,7 @@ public class GUI {
 					controller.updateMap(6, false);
 					controller.updateMap(7, false);
 				}
+				sliderComp.setSlider(0);
 				controller.showAll();
 			}
 		});
@@ -374,23 +397,26 @@ public class GUI {
 
 	private JPanel createCheckbox() {
 		// initialize checkboxPanel
-		JPanel checkboxPanel = new JPanel();
+		checkboxPanel = new JPanel();
 		checkboxPanel.setLayout(new BoxLayout(checkboxPanel, BoxLayout.Y_AXIS));
 		TitledBorder border = new TitledBorder(new EtchedBorder(), "Road types");
 		border = setHeadlineFont(border);
 		checkboxPanel.setBorder(border);
+		
 		// fill the checkboxPanel
 		JPanel manualPanel = new JPanel(new FlowLayout(0));
 		JCheckBox manualControlBox = new JCheckBox("Manual Control");
 		manualControlBox.setFont(new Font("Verdana", Font.CENTER_BASELINE, 15));
 		manualControlBox.setSelected(false);
-		//manualControlBox = setLabelFont(manualControlBox);
 		manualControlBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == 1) { // selected
 					manualControl = true;
+					optionPanel.remove(area);
+					
 				} else {
 					manualControl = false;
+					optionPanel.add(area);
 				}
 				updateGUI();
 			}
@@ -409,7 +435,7 @@ public class GUI {
 		roadtypeBoxes.add(createRoadtypeBox("Paths", false));
 		checkboxPanel.add(manualPanel);
 		checkboxPanel.add(roadtypeBoxes);
-
+		
 		return checkboxPanel;
 	}
 
@@ -435,7 +461,7 @@ public class GUI {
 					number = 6;
 				if (box.getText().equals("Paths"))
 					number = 7;
-				if (e.getStateChange() == 1)
+				if (e.getStateChange() == ItemEvent.SELECTED)
 					controller.updateMap(number, true);
 				else
 					controller.updateMap(number, false);
@@ -461,7 +487,7 @@ public class GUI {
 	 */
 	private void showAbout() {
 		JOptionPane.showMessageDialog(frame, "Map Of Denmark - " + VERSION
-				+ "\nMade by Claus, BjÃ¸rn, Phillip, Morten & Anders.",
+				+ "\nMade by Claus, Bjørn, Phillip, Morten & Anders.",
 				"About Map Of Denmark", JOptionPane.INFORMATION_MESSAGE);
 	}
   
