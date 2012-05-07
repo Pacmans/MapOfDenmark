@@ -1,10 +1,5 @@
 package gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.HashMap;
-
-import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,6 +16,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -44,7 +42,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import visualization.MapComponent;
-
 import controller.Controller;
 
 /**
@@ -113,10 +110,6 @@ public class GUI {
 
 					if (wheelDirection < 0) { // zooms in
 						switch (zoom) {
-						case 25:
-							controller.updateMap(4, true);
-							boxes.get("Secondary roads").setSelected(true);
-							break;
 						case 17:
 							controller.updateMap(5, true);
 							boxes.get("Normal roads").setSelected(true);
@@ -132,10 +125,6 @@ public class GUI {
 						}
 					} else { // scrolls down
 						switch (zoom) {
-						case 26:
-							controller.updateMap(4, false);
-							boxes.get("Secondary roads").setSelected(false);
-							break;
 						case 18:
 							controller.updateMap(5, false);
 							boxes.get("Normal roads").setSelected(false);
@@ -272,7 +261,7 @@ public class GUI {
     JPanel toPanel = new JPanel(new FlowLayout(2));
     toPanel.add(label);
     toPanel.add(toBox);
-		
+
 		// go button
 		JButton go = new JButton("Go");
 		go = setButtonText(go);
@@ -363,7 +352,7 @@ public class GUI {
 	private JPanel createZoomOutButton() {
 		JPanel zoomPanel = new JPanel(new FlowLayout(1));
 		JButton zoomOut = new JButton("Zoom out");
-		zoomOut.setPreferredSize(new Dimension(90, 35));
+		zoomOut.setPreferredSize(new Dimension(110, 40));
 		zoomOut = setButtonText(zoomOut);
 		zoomOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -393,8 +382,9 @@ public class GUI {
 		// fill the checkboxPanel
 		JPanel manualPanel = new JPanel(new FlowLayout(0));
 		JCheckBox manualControlBox = new JCheckBox("Manual Control");
+		manualControlBox.setFont(new Font("Verdana", Font.CENTER_BASELINE, 15));
 		manualControlBox.setSelected(false);
-		manualControlBox = setLabelFont(manualControlBox);
+		//manualControlBox = setLabelFont(manualControlBox);
 		manualControlBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == 1) { // selected
