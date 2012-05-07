@@ -1,8 +1,10 @@
 package dataStructure;
 
+import java.util.HashSet;
+
 public class ConnectionQuadTree{
   private Node root;
-  private DynArray<Integer> array;
+  private HashSet<Integer> array;
   private int nodes = 0;
   private double xmin, ymin, xmax, ymax;
   
@@ -22,7 +24,7 @@ public class ConnectionQuadTree{
   private class Node{
     Node NW, NE, SE, SW; //Four subtrees
     double x, y;
-    DynArray<Integer> connections = new DynArray<Integer>(Integer[].class);
+    HashSet<Integer> connections = new HashSet<Integer>();
     
     Node(double x, double y, int connection){
       this.x = x;
@@ -34,7 +36,7 @@ public class ConnectionQuadTree{
       connections.add(id);
     }
     
-    public DynArray<Integer> getConnections(){
+    public HashSet<Integer> getConnections(){
       return connections;
     }
   }
@@ -83,12 +85,12 @@ public class ConnectionQuadTree{
     return h;
   }
   
-  public DynArray<Integer> getConnections(Interval2D rect){
+  public HashSet<Integer> getConnections(Interval2D rect){
     xmin = rect.getIntervalX().getLow();
     ymin = rect.getIntervalY().getLow();
     xmax = rect.getIntervalX().getHigh();
     ymax = rect.getIntervalY().getHigh();
-    array = new DynArray<Integer>(Integer[].class);
+    array = new HashSet<Integer>();
     getRect(root, rect);
     return array;
   }
@@ -105,11 +107,7 @@ public class ConnectionQuadTree{
     }
     
     if (rect.contains(h.x, h.y)){
-      //Add all
-      for(Integer i : h.getConnections()){
-        //TODO Adds each connection twice. ArrayList.sort, check?
-        array.add(i);
-      }
+      array.addAll(h.getConnections());
     }
     
     if(xmin <= h.x && ymin <= h.y) getRect(h.SW, rect);
