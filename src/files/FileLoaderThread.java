@@ -85,7 +85,7 @@ public class FileLoaderThread implements Runnable {
           qtr.insert(p2.getX(), p2.getY(), id);
         }
         synchronized(tst){
-        	if(split[7].length()>3) tst.put(split[7].substring(1,split[7].length()-1), id);
+        	if(split[7].length()>3) tst.put(split[7].substring(1,split[7].length()-1), id, Integer.parseInt(split[18]));
         }
 
       }

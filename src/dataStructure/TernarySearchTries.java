@@ -8,124 +8,72 @@ public class TernarySearchTries<Value> {
 	private Node root;
 	private class Node
 	{
-		String s;
-		Node left, mid, right;
-		boolean road;
+		char c;
+
+		Node left, mid, right, post;
+		int postal;
 		HashSet<Value> val = new HashSet<Value>();
 	}
 	public HashSet<Value> get(String key)
 	{
-		Node x = get(root, key);
+		Node x = get(root, key, 0);
 		if (x == null) return null;
 		return  x.val;
 	}
 	
-	private Node get(Node x, String key)
+	private Node get(Node x, String key, int d)
 	{
 		if( x == null) return null;
-		if 		(compareString(key,x.s) == 1) return get(x.mid, key);
-		else if (compareString(key,x.s) == -1) return get(x.right, key);
-		else if (compareString(key,x.s) == 0){
-			int tmp = compareStrings(x.s, key);
-			if(tmp == key.length()) return x;
-			else return get(x.mid, key.substring(tmp));
-		}
+		char c = key.charAt(d);
+		if 		(c < x.c) 			 return get(x.left, key, d);
+		else if (c > x.c) 			 return get(x.right, key, d);
+		else if (d < key.length()-1) return get(x.mid, key, d+1);
 		else return x;
 	}
-	public void put(String key, Value val){
-	 key.toLowerCase();
-	 root = put(root, key, val, 0);}
 	
-	public Node put(Node x, String key, Value val, int d)
+	public Node get(String key, int postal){
+		Node x = get(root, key, 0);
+		if(x.postal == postal) return x;
+		else return x.post;
+	}
+	public void put(String key, Value val, int postal){
+		key = key.toLowerCase();
+	 root = put(root, key, val, 0, postal);}
+	
+	public Node put(Node x, String key, Value val, int d, int postal)
 	{
-		if (key == "" || key =="''") return null;
-		if( x == null) { 
-			x = new Node(); 
-			x.s = key; 
-			x.val.add(val);
-			x.road = true;
-			}
-		else if (compareString(key.substring(d),x.s) == 1) x.left = put(x.left, key, val, d);
-		else if (compareString(key.substring(d),x.s) == -1) x.right = put(x.right, key, val, d);
-		else if (compareString(key.substring(d),x.s) == 0) {
-			int tmp = compareStrings(x.s, key.substring(d));
-			if(tmp < x.s.length()){
-				Split(x, tmp);
-				put(x.mid, key, val, d+tmp);
-			}
-			else if(tmp == x.s.length()){
-				if(key.substring(d).length() < 2){
-					x.val.add(val); 
-				}
-				else
-				put(x.mid, key, val, d+tmp);
-			}
-		}
-		
+		char c = key.charAt(d);
+		if (key == "" || key == "''") return null;
+		if( x == null) { x = new Node(); x.c = c; x.postal = postal;}
+		if (c < x.c) x.left = put(x.left, key, val, d, postal);
+		else if (c > x.c) x.right = put(x.right, key, val , d, postal);
+		else if (d < key.length()-1) x.mid = put(x.mid, key, val, d+1, postal);
+		else if (postal != x.postal) x.post = put(x.post, key, val, d, postal);
+		else x.val.add(val);
 		return x;
-		}
 	
-	public Iterable<Value> keysWithPrefix(String pre){
+	}
+	
+	public Iterable<Integer> keysWithPrefix(String pre){
 		pre = pre.toLowerCase();
-		LinkedList<Value> q = new LinkedList<Value>();
-		try{
-		collect(get(root, pre).mid, q);
-		} catch(NullPointerException e){
-			return null;
-		}
+		LinkedList<Integer> q = new LinkedList<Integer>();
+		collect(get(root, pre, 0), q);
 		return q;
 	}
 	
-	private void collect(Node x, LinkedList<Value> q){
+	private void collect(Node x, LinkedList<Integer> q){
 		if( x == null) return;
-		if( q.size() > 10) return;
-		if(x.road){
-			q.add(x.val.iterator().next());
-		}
+		if( q.isEmpty()){
+			if( x.val != null && x.val.size() > 0) q.add((Integer) x.val.iterator().next());
+			collect(x.mid,q);
+			collect(x.post,q);
+		}else{
+		if( x.val != null && x.val.size() > 0) q.add((Integer) x.val.iterator().next());
 			collect(x.left, q);
 			collect(x.right, q);
 			collect(x.mid, q);
-	}
-	private Integer compareString(String key, String Node){
-		char k, n;
-		if(key.length() < 1) return 0;
-		k = key.charAt(0);
-		n = Node.charAt(0);
-		if(k > n) return 1;
-		if(k < n) return -1;
-		else return 0;
-	}
-	
-	private Integer compareStrings(String key, String Node){
-		if(key == "") return 0;
-		char k, n;
-		int size;
-		if(key.length() < Node.length()) size = key.length();
-		else size = Node.length();
-		for(int i = 0; i < size; i++)
-		{
-			k = key.charAt(i);
-			n = Node.charAt(i);
-			if(k != n){
-				return i;
-			}
+			collect(x.post,q);
 		}
-		return size;
-		
-	}
-	
-	private void Split(Node x, int d){
-		String tmp = x.s.substring(0,d);
-		x.s = x.s.substring(d);
-		replace(x);
-		x.s = tmp;
-		x.val.clear();
-		x.road = false;
-		x.left = null;
-		x.right = null;
-	}
-	private void replace(Node x){
-		if(x.mid != null)replace(x.mid);
-		x.mid = x;
+			
 	}
 }
