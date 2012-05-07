@@ -124,7 +124,6 @@ public class FileLoaderConnectionOnly {
       Controller.catchException(e);
     }
     controller.setStatus("Data loaded");
-    controller.getGUI().setupMap();
   }
 
   /**
