@@ -52,6 +52,11 @@ public class MapComponent extends JComponent {
 		zoomNiveau = minZoom;
 	}
 
+	public boolean[] getRoadtypes()
+	{
+		return roadtypes;
+	}
+	
 	private void calcCoordinates() {
 		dx = (xMax - xMin) / 2;
 		dy = (yMax - yMin) / 2;
@@ -87,7 +92,7 @@ public class MapComponent extends JComponent {
 		}
 		updateMap();
 	}
-
+	
 	/**
 	 * paints the whole component
 	 */
@@ -100,6 +105,7 @@ public class MapComponent extends JComponent {
 		// paints the white background
 		g.setColor(Color.white);
 		g.fillRect(2, 2, getWidth() - 4, getHeight() - 4);
+		g2.setRenderingHints(createRenderingHints());
 
 		// paints the roads
 		for (int i = roadtypes.length - 1; i >= 0; i--) {
@@ -145,19 +151,19 @@ public class MapComponent extends JComponent {
 		connections = controller.getConnections(type + 1, xMin, yMin, xMax,
 				yMax);
 		
-		double widthFactor = 3*(1.3 - xScale) - 5;
+		double widthFactor = 4*(1.3 - xScale) - 5;
 		BasicStroke stroke;
 
 		for (Connection c : connections) {
-			
 			// calculates the width of the line
 			float width = (float) (c.getType().width() + widthFactor);
 
 			if (width < 1) // minimum width is 1
-				stroke = new BasicStroke(1);
-			else
-				stroke = new BasicStroke(width);
+				width = 1;
 
+			stroke = new BasicStroke(width, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+			stroke = new BasicStroke(width);
+			
 			// get the coordinates for the line
 			int x1 = (int) ((c.getX1() - xMin) / xScale);
 			int y1 = (int) ((yMax - c.getY1()) / yScale);
@@ -285,6 +291,18 @@ public class MapComponent extends JComponent {
 			yMin = yMax - (2 * dy);
 		}
 	}
+	
+	/**
+	 * creates rendering hints for Graphic2D to make smooth lines
+	 */
+	public RenderingHints createRenderingHints()
+	{
+		RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+		renderHints.put(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
+		return renderHints;
+	}
 
 	/**
 	 * updates the map
@@ -311,3 +329,4 @@ public class MapComponent extends JComponent {
 		// JComponent
 	}
 }
+
