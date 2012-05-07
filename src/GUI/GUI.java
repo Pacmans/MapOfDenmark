@@ -67,6 +67,7 @@ public class GUI {
 	private int selectedTransport = 0, number;
 	private JLabel statusbar = new JLabel(" ");
 	private boolean manualControl = false;
+	private Dimension windowSize = new Dimension(860, 650);
 
 	public GUI() {
 		makeFrame();
@@ -79,7 +80,7 @@ public class GUI {
 	private void setupFrame() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
-		frame.setSize(800, 600);
+		frame.setMinimumSize(windowSize);
 		// place the frame at the center of the screen and show.
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation(d.width / 2 - frame.getWidth() / 2, d.height / 2
@@ -157,7 +158,6 @@ public class GUI {
 		contentPane.setEnabled(true);
 		updateGUI();
 		frame.setBackground(Color.lightGray);
-		frame.setSize(800, 600);
 		frame.setVisible(true);
 	}
 
