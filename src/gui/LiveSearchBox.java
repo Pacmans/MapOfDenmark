@@ -78,5 +78,4 @@ public class LiveSearchBox {
 	public JComboBox getBox() {
 		return adress;
 	}
-	
 }
