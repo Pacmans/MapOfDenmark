@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -20,6 +21,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.HashMap;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -62,6 +64,7 @@ public class GUI {
 	// The map from the controller
 	private MapComponent map;
 	private JLayeredPane layer;
+	private Component area = Box.createRigidArea(new Dimension(200,253));
 	private SliderComponent slider;
 	// A ButtonGroup with car, bike, and walk.
 	private ButtonGroup group;
@@ -71,7 +74,7 @@ public class GUI {
 	private int number;
 	private JLabel statusbar = new JLabel(" ");
 	private JCheckBox manualControlBox;
-	private Dimension windowSize = new Dimension(860, 650);
+	private Dimension windowSize = new Dimension(860, 655);
 
 	public GUI() {
 		makeFrame();
@@ -99,10 +102,13 @@ public class GUI {
 	private void updateGUI() {
 		frame.pack();
 		frame.setVisible(true);
+//		area = Box.createRigidArea(roadtypeBoxes.getSize());
 		if (manualControlBox.isSelected()) {
+			area.setVisible(false);
 			roadtypeBoxes.setVisible(true);
 		} else {
 			roadtypeBoxes.setVisible(false);
+			area.setVisible(true);
 		}
 	}
 
@@ -209,11 +215,12 @@ public class GUI {
 		// add the checkbox, and the other GUI to the right panel.
 		optionPanel.add(createRouteplanningBox());
 		optionPanel.add(createCheckbox());
+		optionPanel.add(area);
 		optionPanel.add(createZoomOutButton());
 		// add the optionPanel to the contentPanes borderlayout.
 		contentPane.add(optionPanel, "East");
 	}
-
+	
 	private JPanel createRouteplanningBox() {
 		JPanel routePlanning = new JPanel();
 		TitledBorder border = new TitledBorder(
@@ -300,7 +307,7 @@ public class GUI {
 	}
 
 	private JToggleButton createJToggleButton(ImageIcon ico, boolean selected,
-																						TransportationType type) {
+			TransportationType type) {
 		JToggleButton button = new JToggleButton();
 		final TransportationType _type = type;
 		if (selected == true)
@@ -318,13 +325,14 @@ public class GUI {
 		return button;
 	}
 
-	//return an enum
+	// return an enum
 	private TransportationType getSelectedTransportation() {
 		return selectedTransport;
 	}
-	
-	private void setSelectedTransportation(TransportationType _type) {
-		selectedTransport = _type;
+
+	// return 0 if car, 1 if bike, 2 if walk.
+	private void setSelectedTransportation(TransportationType type) {
+		selectedTransport = type;
 	}
 
 	private JPanel createZoomOutButton() {
@@ -357,8 +365,10 @@ public class GUI {
 		manualControlBox.setSelected(false);
 		manualControlBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-			  if (e.getStateChange() == ItemEvent.SELECTED)
-          map.setManualControl(true);
+			  if (e.getStateChange() == ItemEvent.SELECTED){
+			  	setRoadtypeSelections();
+			  	map.setManualControl(true);
+			  }
         else
           map.setManualControl(false);
         updateGUI();
@@ -382,6 +392,19 @@ public class GUI {
 		return checkboxPanel;
 	}
 
+	private void setRoadtypeSelections()
+	{
+		boolean[] roadtypes = map.getRoadtypes();
+		
+		boxes.get("Highways").setSelected(roadtypes[0]);
+		boxes.get("Expressways").setSelected(roadtypes[1]);
+		boxes.get("Primary roads").setSelected(roadtypes[2]);
+		boxes.get("Secondary roads").setSelected(roadtypes[3]);
+		boxes.get("Normal roads").setSelected(roadtypes[4]);
+		boxes.get("Trails & streets").setSelected(roadtypes[5]);
+		boxes.get("Paths").setSelected(roadtypes[6]);
+	}
+	
 	private JPanel createRoadtypeBox(String string, boolean selected) {
 		JPanel fl = new JPanel(new FlowLayout(0));
 		JCheckBox box = new JCheckBox(string);
@@ -430,7 +453,7 @@ public class GUI {
 	 */
 	private void showAbout() {
 		JOptionPane.showMessageDialog(frame, "Map Of Denmark - " + VERSION
-				+ "\nMade by Claus, Bjørn, Phillip, Morten & Anders.",
+				+ "\nMade by Claus, BjÃ¸rn, Phillip, Morten & Anders.",
 				"About Map Of Denmark", JOptionPane.INFORMATION_MESSAGE);
 	}
   
