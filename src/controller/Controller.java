@@ -1,6 +1,6 @@
 package controller;
 
-import java.util.Iterator;
+import java.util.HashSet;
 
 import exceptions.ExceptionController;
 import files.FileLoaderConnectionOnly;
@@ -8,9 +8,9 @@ import graph.Graph;
 import gui.GUI;
 
 import visualization.MapComponent;
+import visualization.SliderComponent;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
-import dataStructure.DynArray;
 import dataStructure.Interval;
 import dataStructure.Interval2D;
 import dataStructure.Point;
@@ -27,6 +27,7 @@ public final class Controller {
   private static Controller instance; // singleton
   private GUI gui;
   private MapComponent map;
+  private SliderComponent slider;
   private Graph graph;
   volatile private TernarySearchTries<Integer> tst;
   volatile private Connection[] connections;
@@ -84,7 +85,7 @@ public final class Controller {
 
   /**
    * 
-   * @return Returns instance of the singleton class Map which paints the map
+   * @return Returns instance of the singleton class MapComponent which paints the map
    * @see MapComponent
    */
   public MapComponent getMap() {
@@ -92,6 +93,18 @@ public final class Controller {
       map = new MapComponent();
     }
     return map;
+  }
+  
+  /**
+   * 
+   * @return Returns instance of the singleton class SliderComponent which paints the slider
+   * @see MapComponent
+   */
+  public SliderComponent getSlider() {
+    if (slider == null) {
+      slider = new SliderComponent();
+    }
+    return slider;
   }
 
   /**
@@ -135,7 +148,7 @@ public final class Controller {
       break;
     }
     // get HashSet of connection IDs from QuadTree
-    DynArray<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1,
+    HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1,
         x2), new Interval(y1, y2)));
     Connection[] cs = new Connection[cons.size()];
     int size = 0;
@@ -153,21 +166,12 @@ public final class Controller {
   
   public String[] getRoads(String key)
   {
-	  String[] roads = new String[10];
-	  Iterator<Integer> tmp = null;
-	  try{
-	   tmp = tst.keysWithPrefix(key).iterator();
-	  } catch (NullPointerException e){
-		  roads[0] = "(none)";
-		  return roads;
-	  }
-	  for(int i = 0; i < 10; i++)
+	  HashSet<Integer> tmp = tst.get(key);
+	  String[] roads = new String[tmp.size()];
+	  int size = 0;
+	  for(Integer i : tmp)
 	  {
-		  if(tmp.hasNext()){
-		  roads[i] = connections[tmp.next()].getName();
-
-		  }
-		  else return roads;
+		  roads[size++] = connections[i].getName();
 	  }
 	  return roads;
   }
