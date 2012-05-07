@@ -32,17 +32,17 @@ public class Rewriter {
     File road_6 = new File("./src/Files/small.txt");
     File road_7 = new File("./src/Files/paths.txt");
 
-    PrintWriter r1 = new PrintWriter(road_1);
-    PrintWriter r2 = new PrintWriter(road_2);
-    PrintWriter r3 = new PrintWriter(road_3);
-    PrintWriter r4 = new PrintWriter(road_4);
-    PrintWriter r5 = new PrintWriter(road_5);
-    PrintWriter r6 = new PrintWriter(road_6);
-    PrintWriter r7 = new PrintWriter(road_7);
+    PrintWriter r1 = new PrintWriter(road_1, "UTF-8");
+    PrintWriter r2 = new PrintWriter(road_2, "UTF-8");
+    PrintWriter r3 = new PrintWriter(road_3, "UTF-8");
+    PrintWriter r4 = new PrintWriter(road_4, "UTF-8");
+    PrintWriter r5 = new PrintWriter(road_5, "UTF-8");
+    PrintWriter r6 = new PrintWriter(road_6, "UTF-8");
+    PrintWriter r7 = new PrintWriter(road_7, "UTF-8");
     System.out.println("Rewriter: Inputs and outputs ready");
     
     //Read and write
-    System.out.println("Rewirter: Writing files...");
+    System.out.println("Rewriter: Writing files...");
     String line = null;
     int id = -1;
     while((line = input.readLine()) != null){
