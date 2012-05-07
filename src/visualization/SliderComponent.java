@@ -12,7 +12,7 @@ import controller.Controller;
 
 /**
  * This class creates the JComponent that shows the slider for zooming on the map 
- * @author bjørne
+ * @author bjorn
  *
  */
 
@@ -57,9 +57,8 @@ public class SliderComponent extends JComponent{
 		slider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider) e.getSource();
-		        int zoomNiveau = (int) source.getValue();
-		        map.zoom(zoomNiveau);
-		        repaint();
+		    int zoomNiveau = (int) source.getValue();
+		    map.zoom(zoomNiveau);
 			}
 		});
 	}
@@ -101,15 +100,31 @@ public class SliderComponent extends JComponent{
 	}
 	
 	/**
+	 * creates rendering hints for Graphic2D to make smooth lines with antialiasing
+	 */
+	public RenderingHints createRenderingHints()
+	{
+		RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+		renderHints.put(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
+		return renderHints;
+	}
+	
+	/**
 	 * overrides paint to draw transparent background 
 	 */
 	public void paintComponent(Graphics g)
 	{
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHints(createRenderingHints());
+		
 		//draws the transparent box with rounded edges
-		g.setColor(new Color(200,200,200,210));
-		g.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 20, 20);
-		g.setColor(Color.darkGray);
-		g.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 20, 20);
+		g2.setColor(new Color(220,220,220,190));
+		g2.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 20, 20);
+		g2.setColor(Color.darkGray);
+		g2.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 20, 20);
 		super.paintComponents(g);
 	}
 }
+
