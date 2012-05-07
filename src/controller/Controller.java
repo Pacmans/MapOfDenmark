@@ -11,6 +11,7 @@ import visualization.MapComponent;
 import visualization.SliderComponent;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
+import dataStructure.DynArray;
 import dataStructure.Interval;
 import dataStructure.Interval2D;
 import dataStructure.Point;
@@ -148,7 +149,7 @@ public final class Controller {
       break;
     }
     // get HashSet of connection IDs from QuadTree
-    HashSet<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1,
+    DynArray<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1,
         x2), new Interval(y1, y2)));
     Connection[] cs = new Connection[cons.size()];
     int size = 0;
