@@ -65,7 +65,8 @@ public class LiveSearchBox {
 						adress.removeAllItems();
 						adress.addItem(typedRoad);
 						for (String road : roads) {
-							adress.addItem(road);
+							if(road != null)
+								adress.addItem(road.trim());
 						}
 						adress.showPopup();
 						doc.addDocumentListener(listener);
