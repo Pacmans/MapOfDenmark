@@ -69,8 +69,9 @@ public class GUI {
 	// A ButtonGroup with car, bike, and walk.
 	private ButtonGroup group;
 	private HashMap<String, JCheckBox> boxes = new HashMap<String, JCheckBox>();
+	private TransportationType selectedTransport;
 	// selected JToggleButton - 0 if car, 1 if bike, 2 if walk.
-	private int selectedTransport = 0, number;
+	private int number;
 	private JLabel statusbar = new JLabel(" ");
 	private boolean manualControl = false;
 	private Dimension windowSize = new Dimension(860, 650);
@@ -325,13 +326,13 @@ public class GUI {
 		JPanel togglePanel = new JPanel(new FlowLayout(1));
 		group = new ButtonGroup();
 		ImageIcon icon = getScaledIcon(new ImageIcon("./src/icons/car.png"));
-		togglePanel.add(createJToggleButton(icon, true, 0));
+		togglePanel.add(createJToggleButton(icon, true, TransportationType.CAR));
 
 		icon = getScaledIcon(new ImageIcon("./src/icons/bike.png"));
-		togglePanel.add(createJToggleButton(icon, false, 1));
+		togglePanel.add(createJToggleButton(icon, false, TransportationType.BIKE));
 
 		icon = getScaledIcon(new ImageIcon("./src/icons/walk.png"));
-		togglePanel.add(createJToggleButton(icon, false, 2));
+		togglePanel.add(createJToggleButton(icon, false, TransportationType.WALK));
 		return togglePanel;
 	}
 
@@ -343,16 +344,16 @@ public class GUI {
 	}
 
 	private JToggleButton createJToggleButton(ImageIcon ico, boolean selected,
-			int number) {
+																						TransportationType type) {
 		JToggleButton button = new JToggleButton();
-		final int _number = number;
+		final TransportationType _type = type;
 		if (selected == true)
 			button.setSelected(true);
 		button.setIcon(ico);
 		button.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					setSelectedTransportation(_number);
+					setSelectedTransportation(_type);
 					System.out.println(getSelectedTransportation());
 				}
 			}
@@ -361,14 +362,13 @@ public class GUI {
 		return button;
 	}
 
-	// return 0 if car, 1 if bike, 2 if walk.
-	private int getSelectedTransportation() {
+	//return an enum
+	private TransportationType getSelectedTransportation() {
 		return selectedTransport;
 	}
-
-	// return 0 if car, 1 if bike, 2 if walk.
-	private void setSelectedTransportation(int number) {
-		selectedTransport = number;
+	
+	private void setSelectedTransportation(TransportationType _type) {
+		selectedTransport = _type;
 	}
 
 	private JPanel createZoomOutButton() {
