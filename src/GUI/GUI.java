@@ -88,6 +88,7 @@ public class GUI {
 		frame.setState(Frame.NORMAL);
 		// place the frame at the center of the screen and show.
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setSize(800, 600);
 		frame.setLocation(d.width / 2 - frame.getWidth() / 2, d.height / 2
 				- frame.getHeight() / 2);
 		contentPane.setEnabled(false);
