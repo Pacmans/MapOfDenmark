@@ -65,14 +65,13 @@ public class GUI {
 	private MapComponent map;
 	private JLayeredPane layer;
 	private SliderComponent slider;
-	private Component area;
 	// A ButtonGroup with car, bike, and walk.
 	private ButtonGroup group;
 	private HashMap<String, JCheckBox> boxes = new HashMap<String, JCheckBox>();
 	// selected JToggleButton - 0 if car, 1 if bike, 2 if walk.
 	private int selectedTransport = 0, number;
 	private JLabel statusbar = new JLabel(" ");
-	private boolean manualControl = false;
+	private JCheckBox manualControlBox;
 	private Dimension windowSize = new Dimension(860, 650);
 
 	public GUI() {
@@ -101,7 +100,7 @@ public class GUI {
 	private void updateGUI() {
 		frame.pack();
 		frame.setVisible(true);
-		if (manualControl) {
+		if (manualControlBox.isSelected()) {
 			roadtypeBoxes.setVisible(true);
 		} else {
 			roadtypeBoxes.setVisible(false);
@@ -211,8 +210,6 @@ public class GUI {
 		// add the checkbox, and the other GUI to the right panel.
 		optionPanel.add(createRouteplanningBox());
 		optionPanel.add(createCheckbox());
-		area = Box.createRigidArea(new Dimension(50,300));
-		optionPanel.add(area);
 		optionPanel.add(createZoomOutButton());
 		// add the optionPanel to the contentPanes borderlayout.
 		contentPane.add(optionPanel, "East");
@@ -357,7 +354,7 @@ public class GUI {
 		
 		// fill the checkboxPanel
 		JPanel manualPanel = new JPanel(new FlowLayout(0));
-		JCheckBox manualControlBox = new JCheckBox("Manual Control");
+		manualControlBox = new JCheckBox("Manual Control");
 		manualControlBox.setFont(new Font("Verdana", Font.CENTER_BASELINE, 15));
 		manualControlBox.setSelected(false);
 		manualControlBox.addItemListener(new ItemListener() {
