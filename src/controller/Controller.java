@@ -28,6 +28,7 @@ import dataStructure.TernarySearchTries;
  * 
  */
 public final class Controller {
+
   private static Controller instance; // singleton
   private GUI gui;
   private MapComponent map;
