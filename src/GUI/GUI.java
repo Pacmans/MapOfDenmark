@@ -74,7 +74,7 @@ public class GUI {
 	private int number;
 	private JLabel statusbar = new JLabel(" ");
 	private JCheckBox manualControlBox;
-	private Dimension windowSize = new Dimension(860, 655);
+	private Dimension windowSize = new Dimension(880, 655);
 
 	public GUI() {
 		makeFrame();

@@ -25,7 +25,7 @@ public class LiveSearchBox {
 		controller = Controller.getInstance();
 		adress = new JComboBox();
 		Dimension d = adress.getPreferredSize();
-		adress.setPreferredSize(new Dimension(150,(int) d.getHeight()));
+		adress.setPreferredSize(new Dimension(170,(int) d.getHeight()));
 		adress.setEditable(true);
 	  adress.setBackground(Color.lightGray);
 		component = (JTextField) adress.getEditor().getEditorComponent();
@@ -68,7 +68,7 @@ public class LiveSearchBox {
 								if(road != null)
 									adress.addItem(road);
 							}
-						adress.showPopup();
+							adress.showPopup();
 						}
 						doc.addDocumentListener(listener);
 					}
