@@ -302,7 +302,6 @@ public class MapComponent extends JComponent {
 	{
 		GradientPaint gradient =
 			    new GradientPaint(0, 0, Color.cyan,100, 100, Color.yellow,true);
-		System.out.println("hejsa");
 //		g2.setColor(Color.cyan);
 		g2.setPaint(gradient);
 		g2.setStroke(new BasicStroke(6));

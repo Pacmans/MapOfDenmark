@@ -18,13 +18,12 @@ public class TernarySearchTries<Value> {
 	{
 		Node x = get(root, key, 0);
 		if (x == null) return null;
-		System.out.println(x.val);
 		return  x.val;
 	}
 	
 	private Node get(Node x, String key, int d)
 	{
-		if( x == null || key.length()-1 < d) return null;
+		if( x == null || key.length() == 0)return null;
 		char c = key.charAt(d);
 		if 		(c < x.c) 			 return get(x.left, key, d);
 		else if (c > x.c) 			 return get(x.right, key, d);
@@ -33,19 +32,19 @@ public class TernarySearchTries<Value> {
 	}
 	
 	public int get(String key, int postal){
-		Node x = get(root, key, 0);
-		if(x.postal == postal) return (Integer) x.val.iterator().next();
-		else return (Integer) x.post.val.iterator().next();
+		key = key.toLowerCase();
+		Node x = get(root,key,0);
+		x = checkPostal(x, postal);
+		return (Integer) x.val.iterator().next();
 	}
 	public void put(String key, Value val, int postal){
 		key = key.toLowerCase();
-	 root = put(root, key, val, 0, postal);}
+	    root = put(root, key, val, 0, postal);}
 	
 	public Node put(Node x, String key, Value val, int d, int postal)
 	{
 		char c = key.charAt(d);
 		if (key == "" || key == "''") return null;
-
 		if( x == null) { x = new Node(); x.c = c; x.postal = postal;}
 		if (c < x.c) x.left = put(x.left, key, val, d, postal);
 		else if (c > x.c) x.right = put(x.right, key, val , d, postal);
@@ -73,5 +72,10 @@ public class TernarySearchTries<Value> {
 			collect(x.mid, q);
 			collect(x.post, q);
 		
+	}
+	
+	private Node checkPostal(Node x, int postal){
+		if(x.postal != postal && x.post != null) x = checkPostal(x.post, postal);
+		return x;
 	}
 }

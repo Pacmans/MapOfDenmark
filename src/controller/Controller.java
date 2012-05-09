@@ -217,15 +217,24 @@ public final class Controller {
   }
   
   public void getRoadPlan(String a, String b){
-	  String[] address1 = null,address2 = null;
+	  String[] address1 = null;
+	  String t = null, f = null;
+	  int tzip = 0, fzip = 0;
 		try {
 			address1 = parser.parseAddress(a);
-			address2 = parser.parseAddress(b);
+			f = address1[0];
+			fzip =  Integer.parseInt(address1[3]);
+			address1 = parser.parseAddress(b);
+			t = address1[0];
+			tzip =  Integer.parseInt(address1[3]);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-	  Connection[] con = getGraph().shortestPath(connections[tst.get(address1[0], Integer.parseInt(address1[3]))].getLeft(),connections[tst.get(address2[0], Integer.parseInt(address2[3]))].getLeft());
-	  //send con to map
+		Point start = connections[tst.get(f, fzip)].getLeft();
+		Point finish = connections[tst.get(t, tzip)].getLeft();
+	    Connection[] con = getGraph().shortestPath(start, finish);
+	    System.out.println(con.length);
+	    map.setRoute(con);
 	  
   }
 
