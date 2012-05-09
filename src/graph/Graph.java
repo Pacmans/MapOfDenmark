@@ -20,7 +20,7 @@ public class Graph {
   private Connection[] connections;
   
   public Graph(){
-//    Get points 
+    //Get points 
     Point[] points = Controller.getInstance().getPoints();
     
     //Get roads
