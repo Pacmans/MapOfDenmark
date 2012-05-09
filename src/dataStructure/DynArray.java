@@ -125,6 +125,7 @@ public class DynArray<T> implements Iterable<T>  {
 
   /**
    * Returns the iterator to enable users to iterate the elements
+   * @return Returns an iterator
    */
   public Iterator<T> iterator(){ //return an iterator over the items
       return new DynArrayIterator();
