@@ -9,8 +9,6 @@ public class TernarySearchTries<Value> {
 	private class Node
 	{
 		char c;
-
-
 		Node left, mid, right, post;
 		int postal;
 
