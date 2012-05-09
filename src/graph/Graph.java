@@ -27,7 +27,7 @@ public class Graph {
     connections = Controller.getInstance().getConnections();
 
     //Create graph
-    g = new EdgeWeightedDigraph(points.length+1, connections.length+1); //vertices, edges 
+    g = new EdgeWeightedDigraph(points.length+1); //vertices
     
     //add edges
     for(Connection c : connections){
@@ -39,11 +39,11 @@ public class Graph {
   }
   
   //Return length or calc on handle?
-  public Connection[] shortestPath(Point from, Point to){
+  public Connection[] shortestPath(Point from, Point to) throws RuntimeException{
     //See DijkstraSP class
     DijkstraSP dijk = new DijkstraSP(g, from.getID());
     //If there is no path between points
-    if(!dijk.hasPathTo(to.getID())) return null;
+    if(!dijk.hasPathTo(to.getID())) throw new RuntimeException("No path");
     
     DynArray<Integer> cs = new DynArray<Integer>(Integer[].class);
     Iterator<DirectedEdge> it = dijk.pathTo(to.getID()).iterator();
