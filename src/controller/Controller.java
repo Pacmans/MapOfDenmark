@@ -203,7 +203,7 @@ public final class Controller {
 			  
 			  }else{
 			  if(q.getLeft().getZip()!=0) roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip();
-			  else roads[i] = q.getName()+" "+address[1]+address[2]+", "+"sverige";
+			  else roads[i] = q.getName()+" "+address[1]+address[2]+", "+"Sverige";
 			  }
 		  }
 		  if(roads[i] == null) roads[i] = " ";
