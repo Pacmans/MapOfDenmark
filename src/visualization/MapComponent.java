@@ -7,6 +7,8 @@ import javax.swing.JComponent;
 
 import controller.Controller;
 import dataStructure.Connection;
+import dataStructure.Point;
+import dataStructure.RoadType;
 
 /**
  * This class paints the map and makes the user capable of zooming and panning around the map
@@ -28,7 +30,7 @@ public class MapComponent extends JComponent {
 	private int xClick, yClick; // for the mouse listener
 	private boolean[] roadtypes;
 	private boolean manualControl = false;
-	private Connection[] connections;
+	private Connection[] route;
 	private Controller controller = Controller.getInstance();
 
 	public MapComponent() {
@@ -223,11 +225,11 @@ public class MapComponent extends JComponent {
 		calcCoordinates();
 		setScale();
 
-		Graphics2D g2 = (Graphics2D) g;
-
 		// paints the white background
 		g.setColor(Color.white);
 		g.fillRect(2, 2, getWidth() - 4, getHeight() - 4);
+		
+		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHints(createRenderingHints());
 
 		// paints the roads
@@ -237,6 +239,10 @@ public class MapComponent extends JComponent {
 					paintRoadsOfType(i, g2);
 				}
 		}
+		
+		//paints the route
+		if (route != null)
+			paintRoute(g2);
 		
 		//paints border
 		paintBorder(g2);
@@ -267,8 +273,8 @@ public class MapComponent extends JComponent {
 	 */
 	private void paintRoadsOfType(int type, Graphics2D g2) {
 		// get roads if the type and within area
-		connections = controller.getConnections(type + 1, xMin, yMin, xMax,
-				yMax);
+		Connection[] connections = controller.getConnections(type + 1, 
+				xMin, yMin, xMax,yMax);
 
 		double widthFactor = 4 * (1.3 - xScale) - 5;
 
@@ -293,6 +299,20 @@ public class MapComponent extends JComponent {
 		}
 	}
 
+	private void paintRoute(Graphics2D g2)
+	{
+		g2.setColor(Color.cyan);
+		g2.setStroke(new BasicStroke(6));
+		
+		for (Connection c: route){
+			int x1 = (int) ((c.getX1() - xMin) / xScale);
+			int y1 = (int) ((yMax - c.getY1()) / yScale);
+			int x2 = (int) ((c.getX2() - xMin) / xScale);
+			int y2 = (int) ((yMax - c.getY2()) / yScale);
+			g2.drawLine(x1, y1, x2, y2);
+		}
+	}
+	
 	/**
 	 * paint the border around the map component
 	 */
@@ -309,6 +329,12 @@ public class MapComponent extends JComponent {
 	}
 	
 
+	public void setRoute(Connection[] route)
+	{
+		this.route = route;
+		updateMap();
+	}
+	
 	public void resetZoom() {
 		resetCoordinates();
 		updateMap();

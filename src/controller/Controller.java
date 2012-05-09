@@ -2,7 +2,6 @@ package controller;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.HashSet;
 
 import exceptions.ExceptionController;
 import files.FileLoaderConnectionOnly;
@@ -215,6 +214,19 @@ public final class Controller {
 		  roads[9-i] = t;
 	  }
 	  return roads;
+  }
+  
+  public void getRoadPlan(String a, String b){
+	  String[] address1 = null,address2 = null;
+		try {
+			address1 = parser.parseAddress(a);
+			address2 = parser.parseAddress(b);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	  Connection[] con = getGraph().shortestPath(connections[tst.get(address1[0], Integer.parseInt(address1[3]))].getLeft(),connections[tst.get(address2[0], Integer.parseInt(address2[3]))].getLeft());
+	  //send con to map
+	  
   }
 
   /**
