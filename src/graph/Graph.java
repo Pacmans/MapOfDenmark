@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import controller.Controller;
 import dataStructure.Connection;
+import dataStructure.DynArray;
 import dataStructure.Point;
 
 /**Graph handler class for points. 
@@ -45,7 +46,7 @@ public class Graph {
     //If there is no path between points
     if(!dijk.hasPathTo(to.getID())) return null;
     
-    HashSet<Integer> cs = new HashSet<Integer>();
+    DynArray<Integer> cs = new DynArray<Integer>(Integer[].class);
     Iterator<DirectedEdge> it = dijk.pathTo(to.getID()).iterator();
     
     while(it.hasNext()){
