@@ -47,6 +47,7 @@ public class TernarySearchTries<Value> {
 	{
 		char c = key.charAt(d);
 		if (key == "" || key == "''") return null;
+
 		if( x == null) { x = new Node(); x.c = c; x.postal = postal;}
 		if (c < x.c) x.left = put(x.left, key, val, d, postal);
 		else if (c > x.c) x.right = put(x.right, key, val , d, postal);
@@ -56,7 +57,7 @@ public class TernarySearchTries<Value> {
 		return x;
 	
 	}
-	
+
 	public Iterable<Integer> keysWithPrefix(String pre){
 		pre = pre.toLowerCase();
 		LinkedList<Integer> q = new LinkedList<Integer>();
@@ -77,6 +78,5 @@ public class TernarySearchTries<Value> {
 			collect(x.mid, q);
 			collect(x.post,q);
 		}
-			
 	}
 }
