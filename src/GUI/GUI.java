@@ -27,7 +27,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -256,6 +255,7 @@ public class GUI {
 		go.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// get the selected transportation type and DO SOMETHING
+				System.out.println("Fra " + fromBox.getText() + ", til " + toBox.getText());
 				controller.getRoadPlan(fromBox.getText(), toBox.getText());
 			}
 		});
