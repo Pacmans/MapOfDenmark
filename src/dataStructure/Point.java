@@ -1,8 +1,5 @@
 package dataStructure;
 
-import java.util.Collection;
-import java.util.HashSet;
-
 /**
  * Simple class containing a single point.
  * @author Claus L. Henriksen clih@itu.dk
@@ -11,7 +8,7 @@ import java.util.HashSet;
  *
  */
 public class Point implements Comparable<Point>{
-	private int ID, numberOfConnections = 0;
+	private int ID;
 	private int zip;
 	
 	private double xk, yk;
@@ -40,7 +37,6 @@ public class Point implements Comparable<Point>{
 	public void setZip(int zip) {
 		this.zip = zip;
 	}
-
 	
 	public int compareTo(Point point){
 	  int a = point.getID();
