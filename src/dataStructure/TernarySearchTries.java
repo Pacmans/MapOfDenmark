@@ -10,14 +10,17 @@ public class TernarySearchTries<Value> {
 	{
 		char c;
 
+
 		Node left, mid, right, post;
 		int postal;
+
 		HashSet<Value> val = new HashSet<Value>();
 	}
 	public HashSet<Value> get(String key)
 	{
 		Node x = get(root, key, 0);
 		if (x == null) return null;
+		System.out.println(x.val);
 		return  x.val;
 	}
 	

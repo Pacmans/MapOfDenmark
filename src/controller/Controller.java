@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.HashSet;
 
 import exceptions.ExceptionController;
 import files.FileLoaderConnectionOnly;
@@ -10,6 +11,7 @@ import gui.GUI;
 
 import visualization.MapComponent;
 import dataStructure.AddressParser;
+import visualization.SliderComponent;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.DynArray;
@@ -29,6 +31,7 @@ public final class Controller {
   private static Controller instance; // singleton
   private GUI gui;
   private MapComponent map;
+  private SliderComponent slider;
   private Graph graph;
   private AddressParser parser;
   volatile private TernarySearchTries<Integer> tst;
@@ -88,7 +91,7 @@ public final class Controller {
 
   /**
    * 
-   * @return Returns instance of the singleton class Map which paints the map
+   * @return Returns instance of the singleton class MapComponent which paints the map
    * @see MapComponent
    */
   public MapComponent getMap() {
@@ -96,6 +99,18 @@ public final class Controller {
       map = new MapComponent();
     }
     return map;
+  }
+  
+  /**
+   * 
+   * @return Returns instance of the singleton class SliderComponent which paints the slider
+   * @see MapComponent
+   */
+  public SliderComponent getSlider() {
+    if (slider == null) {
+      slider = new SliderComponent();
+    }
+    return slider;
   }
 
   /**

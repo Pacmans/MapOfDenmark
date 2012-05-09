@@ -1,5 +1,8 @@
 package dataStructure;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 /**
  * Simple class containing a single point.
  * @author Claus L. Henriksen clih@itu.dk
