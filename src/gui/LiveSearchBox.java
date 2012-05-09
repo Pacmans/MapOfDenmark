@@ -19,7 +19,6 @@ public class LiveSearchBox {
 	private DocumentListener listener;
 	private Document doc;
 	private Controller controller;
-
 	
 	public LiveSearchBox() {
 		controller = Controller.getInstance();
@@ -80,5 +79,9 @@ public class LiveSearchBox {
 	// returns the JComboBox
 	public JComboBox getBox() {
 		return adress;
+	}
+	
+	public String getText() {
+		return component.getText();
 	}
 }
