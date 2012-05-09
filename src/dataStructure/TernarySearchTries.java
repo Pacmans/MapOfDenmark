@@ -57,24 +57,21 @@ public class TernarySearchTries<Value> {
 	}
 
 	public Iterable<Integer> keysWithPrefix(String pre){
-		pre = pre.toLowerCase();
+		Node x = get(root, pre.toLowerCase(), 0);
 		LinkedList<Integer> q = new LinkedList<Integer>();
-		collect(get(root, pre, 0), q);
+		if(x.val.size() > 0) collect(x,q);
+		else collect(x.mid, q);
 		return q;
 	}
 	
 	private void collect(Node x, LinkedList<Integer> q){
 		if( x == null) return;
-		if( q.isEmpty()){
-			if( x.val != null && x.val.size() > 0) q.add((Integer) x.val.iterator().next());
-			collect(x.mid,q);
-			collect(x.post,q);
-		}else{
-		if( x.val != null && x.val.size() > 0) q.add((Integer) x.val.iterator().next());
+		if( q.size() > 10) return;
+		if( x.val.size() > 0) q.add((Integer) x.val.iterator().next());
 			collect(x.left, q);
 			collect(x.right, q);
 			collect(x.mid, q);
-			collect(x.post,q);
-		}
+			collect(x.post, q);
+		
 	}
 }
