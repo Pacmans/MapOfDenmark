@@ -21,21 +21,12 @@ public class SliderComponent extends JComponent{
 	
 	private Controller control = Controller.getInstance();
 	private MapComponent map = control.getMap();
-	private final int width = 70, height = 200;
 	private JSlider slider;
 	
 	public SliderComponent()
 	{
 		createSlider();
 		createPanel();
-	}
-	
-	/**
-	 * for gui to update slider once the zoom is invoked by the mousewheel
-	 */
-	public void setSlider(int value)
-	{
-		slider.setValue(value);
 	}
 	
 	/**
@@ -57,8 +48,8 @@ public class SliderComponent extends JComponent{
 		slider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider) e.getSource();
-		    int zoomNiveau = (int) source.getValue();
-		    map.zoom(zoomNiveau);
+		    int zoomLevel = (int) source.getValue();
+		    map.zoom(zoomLevel);
 			}
 		});
 	}
@@ -95,22 +86,9 @@ public class SliderComponent extends JComponent{
 		setLayout(new GridLayout(1,1));
 		setBorder(new EmptyBorder(5,0,5,0));
 		setOpaque(false);
-		setPreferredSize(new Dimension(width,height));
 		add(slider);
 	}
-	
-	/**
-	 * creates rendering hints for Graphic2D to make smooth lines with antialiasing
-	 */
-	public RenderingHints createRenderingHints()
-	{
-		RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-		renderHints.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
-		return renderHints;
-	}
-	
+
 	/**
 	 * overrides paint to draw transparent background 
 	 */
@@ -120,11 +98,32 @@ public class SliderComponent extends JComponent{
 		g2.setRenderingHints(createRenderingHints());
 		
 		//draws the transparent box with rounded edges
-		g2.setColor(new Color(220,220,220,190));
+		g2.setColor(new Color(210,210,210,190));
 		g2.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 20, 20);
 		g2.setColor(Color.darkGray);
 		g2.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 20, 20);
 		super.paintComponents(g);
 	}
+	
+	/**
+	 * creates rendering hints for Graphic2D to make smooth lines with antialiasing
+	 */
+	private RenderingHints createRenderingHints()
+	{
+		RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+		renderHints.put(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
+		return renderHints;
+	}
+	
+	/**
+	 * for GUI to update slider once the zoom is invoked by the mouse wheel
+	 */
+	public void setSlider(int value)
+	{
+		slider.setValue(value);
+	}
 }
+
 
