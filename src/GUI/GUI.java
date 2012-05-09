@@ -118,7 +118,7 @@ public class GUI {
 
     map.addMouseWheelListener(new MouseWheelListener() {
       public void mouseWheelMoved(MouseWheelEvent e) {
-        int zoom = map.getZoomNiveau();
+        int zoom = map.getZoomLevel();
         slider.setSlider(zoom);
       }
     });

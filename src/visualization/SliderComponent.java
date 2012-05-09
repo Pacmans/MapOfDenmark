@@ -21,21 +21,12 @@ public class SliderComponent extends JComponent{
 	
 	private Controller control = Controller.getInstance();
 	private MapComponent map = control.getMap();
-	private final int width = 70, height = 200;
 	private JSlider slider;
 	
 	public SliderComponent()
 	{
 		createSlider();
 		createPanel();
-	}
-	
-	/**
-	 * for gui to update slider once the zoom is invoked by the mousewheel
-	 */
-	public void setSlider(int value)
-	{
-		slider.setValue(value);
 	}
 	
 	/**
@@ -57,8 +48,8 @@ public class SliderComponent extends JComponent{
 		slider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider) e.getSource();
-		    int zoomNiveau = (int) source.getValue();
-		    map.zoom(zoomNiveau);
+		    int zoomLevel = (int) source.getValue();
+		    map.zoom(zoomLevel);
 			}
 		});
 	}
@@ -95,8 +86,23 @@ public class SliderComponent extends JComponent{
 		setLayout(new GridLayout(1,1));
 		setBorder(new EmptyBorder(5,0,5,0));
 		setOpaque(false);
-		setPreferredSize(new Dimension(width,height));
 		add(slider);
+	}
+
+	/**
+	 * overrides paint to draw transparent background 
+	 */
+	public void paintComponent(Graphics g)
+	{
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHints(createRenderingHints());
+		
+		//draws the transparent box with rounded edges
+		g2.setColor(new Color(210,210,210,190));
+		g2.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 20, 20);
+		g2.setColor(Color.darkGray);
+		g2.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 20, 20);
+		super.paintComponents(g);
 	}
 	
 	/**
@@ -112,19 +118,12 @@ public class SliderComponent extends JComponent{
 	}
 	
 	/**
-	 * overrides paint to draw transparent background 
+	 * for GUI to update slider once the zoom is invoked by the mouse wheel
 	 */
-	public void paintComponent(Graphics g)
+	public void setSlider(int value)
 	{
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setRenderingHints(createRenderingHints());
-		
-		//draws the transparent box with rounded edges
-		g2.setColor(new Color(220,220,220,190));
-		g2.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 20, 20);
-		g2.setColor(Color.darkGray);
-		g2.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 20, 20);
-		super.paintComponents(g);
+		slider.setValue(value);
 	}
 }
+
 
