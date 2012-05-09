@@ -108,7 +108,7 @@ public class SliderComponent extends JComponent{
 	/**
 	 * creates rendering hints for Graphic2D to make smooth lines with antialiasing
 	 */
-	public RenderingHints createRenderingHints()
+	private RenderingHints createRenderingHints()
 	{
 		RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
