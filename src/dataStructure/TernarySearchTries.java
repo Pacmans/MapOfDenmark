@@ -32,10 +32,10 @@ public class TernarySearchTries<Value> {
 		else return x;
 	}
 	
-	public Node get(String key, int postal){
+	public int get(String key, int postal){
 		Node x = get(root, key, 0);
-		if(x.postal == postal) return x;
-		else return x.post;
+		if(x.postal == postal) return (Integer) x.val.iterator().next();
+		else return (Integer) x.post.val.iterator().next();
 	}
 	public void put(String key, Value val, int postal){
 		key = key.toLowerCase();
