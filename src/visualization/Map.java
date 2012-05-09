@@ -2,31 +2,28 @@ package visualization;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.JComponent;
 
 import controller.Controller;
 import dataStructure.Connection;
 
 @SuppressWarnings("serial")
-public class MapComponent extends JComponent {
-	
-	private final int maxZoom = 30, minZoom = 0; // maxZoom = close view and
-													// minZoom = far view
-	private int zoomNiveau = minZoom;
+public class Map extends JComponent {
+
+	private int zoomNiveau = 0; //0 = minimum zoom and 30 = maximum zoom
 	private final double totalxMin, totalxMax, totalyMin, totalyMax;
 	private final double zoomScale = 0.2;
 	private double xMin, yMin, xMax, yMax;
 	private double dx, dy;
 	private double xScale, yScale;
-	private int xClick, yClick; // for the mouse listener
+	private int xClick, yClick; // for the mouselistener
 	private boolean[] roadtypes;
-	private boolean manualControl = false;
 	private Connection[] connections;
 	private Controller controller = Controller.getInstance();
 
-	public MapComponent() {
-		roadtypes = new boolean[] { true, true, true, true, false, false, false};
+	public Map() {
+		roadtypes = new boolean[] { true, true, true, false, false, false,
+				false };
 		totalxMin = (double) (controller.getxMin() - 40);
 		totalxMax = (double) (controller.getxMax() + 40);
 		totalyMin = (double) (controller.getyMin() - 20);
@@ -36,11 +33,6 @@ public class MapComponent extends JComponent {
 		addListener();
 	}
 
-	public void setManualControl(boolean selected)
-	{
-		manualControl = selected;
-	}
-	
 	/**
 	 * gets all the needed coordinates
 	 */
@@ -49,14 +41,9 @@ public class MapComponent extends JComponent {
 		yMin = totalyMin;
 		xMax = totalxMax;
 		yMax = totalyMax;
-		zoomNiveau = minZoom;
+		zoomNiveau = 0;
 	}
 
-	public boolean[] getRoadtypes()
-	{
-		return roadtypes;
-	}
-	
 	private void calcCoordinates() {
 		dx = (xMax - xMin) / 2;
 		dy = (yMax - yMin) / 2;
@@ -72,31 +59,27 @@ public class MapComponent extends JComponent {
 	 */
 	public void zoom(int n) {
 		double xDifference = dx * zoomScale, yDifference = dy * zoomScale;
-		if (n > zoomNiveau && zoomNiveau < maxZoom) { // zooms in
-			while (zoomNiveau != n) {
-				xMin += xDifference;
-				xMax -= xDifference;
-				yMin += yDifference;
-				yMax -= yDifference;
-				zoomNiveau++;
-			}
+		if (n == 1 && zoomNiveau < 30) { // zooms in
+			zoomNiveau++;
+			xMin += xDifference;
+			xMax -= xDifference;
+			yMin += yDifference;
+			yMax -= yDifference;
 		}
-		if (n < zoomNiveau && zoomNiveau > minZoom) { // zooms out
-			while (zoomNiveau != n) {
-				xMin -= xDifference * 1.25;
-				xMax += xDifference * 1.25;
-				yMin -= yDifference * 1.25;
-				yMax += yDifference * 1.25;
-				zoomNiveau--;
-			}
+		if (n == -1 && zoomNiveau > 0) { // zooms out
+			zoomNiveau--;
+			xMin -= xDifference * 1.25;
+			xMax += xDifference * 1.25;
+			yMin -= yDifference * 1.25;
+			yMax += yDifference * 1.25;
 		}
 		updateMap();
 	}
-	
+
 	/**
 	 * paints the whole component
 	 */
-	public void paintComponent(Graphics g) {
+	public void paint(Graphics g) {
 		calcCoordinates();
 		setScale();
 
@@ -105,65 +88,57 @@ public class MapComponent extends JComponent {
 		// paints the white background
 		g.setColor(Color.white);
 		g.fillRect(2, 2, getWidth() - 4, getHeight() - 4);
-		g2.setRenderingHints(createRenderingHints());
 
 		// paints the roads
 		for (int i = roadtypes.length - 1; i >= 0; i--) {
 			if (roadtypes[i])
-				synchronized (controller) {
-					paintRoadsOfType(i, g2);
-				}
+				paintRoadsOfType(i, g2);
 		}
 		paintBorder(g2);
-	}
-	
-	private void computeRoadsToShow()
-	{
-		if (!manualControl) { // manual control is not selected
-			
-			//always shows 4 biggest road types
-			roadtypes[0] = true;
-			roadtypes[1] = true;
-			roadtypes[2] = true;
-			roadtypes[3] = true;
-			
-			//computes if normal roads should be painted
-			if (zoomNiveau < 13)
-				roadtypes[4] = false;
-			else 
-				roadtypes[4] = true;
-
-			//computes if Trails & streets should be painted
-			if (zoomNiveau < 16)
-				roadtypes[5] = false;
-			else
-				roadtypes[5] = true;
-			
-			//computes if Paths should be painted
-			if (zoomNiveau < 19)
-				roadtypes[6] = false;
-			else 
-				roadtypes[6] = true;
-		}
 	}
 	
 	private void paintRoadsOfType(int type, Graphics2D g2) {
 		connections = controller.getConnections(type + 1, xMin, yMin, xMax,
 				yMax);
-		
-		double widthFactor = 4*(1.3 - xScale) - 5;
+		float f = 0;
+		double startSize;
 		BasicStroke stroke;
 
 		for (Connection c : connections) {
+			switch (type) { // calculates starting width of lines
+			case 0:
+				startSize = 0;
+				break;
+			case 1:
+				startSize = -0.5;
+				break;
+			case 2:
+				startSize = -1;
+				break;
+			case 3:
+				startSize = -2;
+				break;
+			case 4:
+				startSize = -3;
+				break;
+			case 5:
+				startSize = -3.5;
+				break;
+			case 6:
+				startSize = -4;
+				break;
+			default:
+				startSize = -5;
+				break;
+			}
 			// calculates the width of the line
-			float width = (float) (c.getType().width() + widthFactor);
+			f = (float) (startSize + 3 * (1.3 - xScale));
 
-			if (width < 1) // minimum width is 1
-				width = 1;
+			if (f < 1) // minimum width is 1
+				stroke = new BasicStroke(1);
+			else
+				stroke = new BasicStroke(f);
 
-			stroke = new BasicStroke(width, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
-			stroke = new BasicStroke(width);
-			
 			// get the coordinates for the line
 			int x1 = (int) ((c.getX1() - xMin) / xScale);
 			int y1 = (int) ((yMax - c.getY1()) / yScale);
@@ -177,18 +152,17 @@ public class MapComponent extends JComponent {
 		}
 	}
 
-	private void paintBorder(Graphics2D g) {
+	private void paintBorder(Graphics2D g)
+	{
 		g.setStroke(new BasicStroke(3));
 		g.setColor(Color.darkGray);
-
-		g.drawLine(0, 0, 0, getHeight()); // left line
-		g.drawLine(getWidth() - 1, 0, getWidth() - 1, getHeight()); // rigth
-																	// line
-		g.drawLine(0, 0, getWidth(), 0); // top line
-		g.drawLine(0, getHeight() - 1, getWidth(), getHeight() - 1); // bottom
-																		// line
+		
+		g.drawLine(0, 0, 0, getHeight()); //left line
+		g.drawLine(getWidth()-1, 0, getWidth()-1, getHeight()); //rigth line
+		g.drawLine(0, 0, getWidth(), 0); //top line
+		g.drawLine(0, getHeight()-1, getWidth(), getHeight()-1); //bottom line
 	}
-
+	
 	/**
 	 * set zoom to the original zoom-perspective
 	 */
@@ -237,9 +211,10 @@ public class MapComponent extends JComponent {
 				int wheelDirection = e.getWheelRotation();
 
 				if (wheelDirection < 0) // scrolls up
-					zoom(zoomNiveau + 1);// zoom in
-				else // scrolls down
-					zoom(zoomNiveau - 1); // zoom out
+					zoom(1);// zoom in
+				else
+					// scrolls down
+					zoom(-1); // zoom out
 
 				updateMap();
 			}
@@ -250,11 +225,11 @@ public class MapComponent extends JComponent {
 			public void componentResized(ComponentEvent e) {
 				int height, width;
 
-				if (getWidth() < getHeight() * 1.1) {
+				if (getWidth() < getHeight()*1.1) {
 					height = (int) (getWidth() * 0.91);
 					width = getWidth();
 				} else {
-					width = (int) (getHeight() * 1.1);
+					width = (int) (getHeight()*1.1);
 					height = getHeight();
 				}
 				setSize(new Dimension(width, height));
@@ -262,9 +237,6 @@ public class MapComponent extends JComponent {
 		});
 	}
 
-	/**
-	 * returns the current niveau of the zoom
-	 */
 	public int getZoomNiveau() {
 		return zoomNiveau;
 	}
@@ -273,6 +245,11 @@ public class MapComponent extends JComponent {
 	 * always set's the zoom within the boundaries of the map
 	 */
 	private void setWithinBoundaries() {
+		// if (dx > maxDx) {
+		// dx = maxDx;
+		// dy = maxDy;
+		// }
+
 		// makes sure you're within the map
 		if (xMin < totalxMin) {
 			xMin = totalxMin;
@@ -291,18 +268,6 @@ public class MapComponent extends JComponent {
 			yMin = yMax - (2 * dy);
 		}
 	}
-	
-	/**
-	 * creates rendering hints for Graphic2D to make smooth lines
-	 */
-	public RenderingHints createRenderingHints()
-	{
-		RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-		renderHints.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
-		return renderHints;
-	}
 
 	/**
 	 * updates the map
@@ -310,15 +275,14 @@ public class MapComponent extends JComponent {
 	private void updateMap() {
 		calcCoordinates();
 		setWithinBoundaries();
-		if (!manualControl)
-			computeRoadsToShow();
 		repaint();
 	}
 
-	public Dimension getComponentSize() {
+	public Dimension getComponentSize()
+	{
 		return getSize();
 	}
-
+	
 	/**
 	 * Sets the scale for the component
 	 */
@@ -329,4 +293,3 @@ public class MapComponent extends JComponent {
 		// JComponent
 	}
 }
-

@@ -29,11 +29,7 @@ public class Connection implements Comparable<Connection>{
     }
   }
 
-  public int getId() {
-	return id;
-}
-
-public int getID() {
+  public int getID() {
     return id;
   }
   public double getX1(){
