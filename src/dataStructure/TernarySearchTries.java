@@ -13,6 +13,7 @@ public class TernarySearchTries<Value> {
 
 		Node left, mid, right, post;
 		int postal;
+
 		HashSet<Value> val = new HashSet<Value>();
 	}
 	public HashSet<Value> get(String key)
@@ -56,6 +57,7 @@ public class TernarySearchTries<Value> {
 		return x;
 	
 	}
+
 	public Iterable<Integer> keysWithPrefix(String pre){
 		pre = pre.toLowerCase();
 		LinkedList<Integer> q = new LinkedList<Integer>();
