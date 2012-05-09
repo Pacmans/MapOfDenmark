@@ -27,7 +27,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -74,6 +73,7 @@ public class GUI {
 	private int number;
 	private JLabel statusbar = new JLabel(" ");
 	private JCheckBox manualControlBox;
+	private LiveSearchBox fromBox, toBox;
 	private Dimension windowSize = new Dimension(880, 655);
 
 	public GUI() {
@@ -233,20 +233,20 @@ public class GUI {
     JLabel label = new JLabel("From");
     label = setLabelFont(label);
     
-    JComboBox fromBox = new LiveSearchBox().getBox();
+    fromBox = new LiveSearchBox();
 
     JPanel fromPanel = new JPanel(new FlowLayout(2));
     fromPanel.add(label);
-    fromPanel.add(fromBox);
+    fromPanel.add(fromBox.getBox());
 
     // to row
     label = new JLabel("To");
     label = setLabelFont(label);
     
-    JComboBox toBox = new LiveSearchBox().getBox();
+    toBox = new LiveSearchBox();
     JPanel toPanel = new JPanel(new FlowLayout(2));
     toPanel.add(label);
-    toPanel.add(toBox);
+    toPanel.add(toBox.getBox());
 
 		// go button
 		JButton go = new JButton("Go");
@@ -255,7 +255,8 @@ public class GUI {
 		go.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// get the selected transportation type and DO SOMETHING
-				// getSelectedTransportation()
+				System.out.println("Fra " + fromBox.getText() + ", til " + toBox.getText());
+				controller.getRoadPlan(fromBox.getText(), toBox.getText());
 			}
 		});
 		JPanel goPanel = new JPanel(new FlowLayout(1));
