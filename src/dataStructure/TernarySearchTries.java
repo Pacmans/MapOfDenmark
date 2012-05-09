@@ -9,8 +9,6 @@ public class TernarySearchTries<Value> {
 	private class Node
 	{
 		char c;
-
-
 		Node left, mid, right, post;
 		int postal;
 
@@ -26,7 +24,7 @@ public class TernarySearchTries<Value> {
 	
 	private Node get(Node x, String key, int d)
 	{
-		if( x == null) return null;
+		if( x == null || key.length()-1 < d) return null;
 		char c = key.charAt(d);
 		if 		(c < x.c) 			 return get(x.left, key, d);
 		else if (c > x.c) 			 return get(x.right, key, d);
