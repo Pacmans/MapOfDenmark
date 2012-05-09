@@ -12,6 +12,8 @@ import java.util.HashSet;
  */
 public class Point implements Comparable<Point>{
 	private int ID, numberOfConnections = 0;
+	private int zip;
+	
 	private double xk, yk;
 	
 	public Point(int id, double xk, double yk){
@@ -31,6 +33,14 @@ public class Point implements Comparable<Point>{
 	public int getID(){
 		return ID;
 	}
+	public int getZip() {
+		return zip;
+	}
+
+	public void setZip(int zip) {
+		this.zip = zip;
+	}
+
 	
 	public int compareTo(Point point){
 	  int a = point.getID();
