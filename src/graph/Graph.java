@@ -32,8 +32,8 @@ public class Graph {
     //add edges
     for(Connection c : connections){
       if(c != null){
-        //from, to, weight
-        g.addEdge(new DirectedEdge(c.getLeft().getID(), c.getRight().getID(), c.getWeight()));
+        //from, to, connection ID, weight
+        g.addEdge(new DirectedEdge(c.getLeft().getID(), c.getRight().getID(), c.getID(), c.getWeight()));
       }
     }
   }
@@ -50,8 +50,7 @@ public class Graph {
     
     while(it.hasNext()){
       DirectedEdge edge = it.next();
-      cs.add(edge.from());
-      cs.add(edge.to());
+      cs.add(edge.id());
     }
     
     //Convert int to actual connections and return them
