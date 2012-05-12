@@ -34,6 +34,7 @@ public class Graph {
       if(c != null){
         //from, to, connection ID, weight
         g.addEdge(new DirectedEdge(c.getLeft().getID(), c.getRight().getID(), c.getID(), c.getWeight()));
+        g.addEdge(new DirectedEdge(c.getRight().getID(), c.getLeft().getID(), c.getID(), c.getWeight()));
       }
     }
   }
