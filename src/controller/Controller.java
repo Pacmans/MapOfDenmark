@@ -173,8 +173,7 @@ public final class Controller {
   
   public String[] getRoads(String key) {
 	  String[] address = null;
-	try {
-		address = parser.parseAddress(key);
+	try {		address = parser.parseAddress(key);
 	} catch (Exception e1) {
 		e1.printStackTrace();
 	}
