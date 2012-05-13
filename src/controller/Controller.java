@@ -239,7 +239,8 @@ public final class Controller {
 		  
 		  //con, xmin, ymin, xmax, ymax
       map.setRoute(con, graph.getXmin(), graph.getYmin(), graph.getXmax(), graph.getYmax()); 
-		} catch (RuntimeException e){
+      System.out.println(graph.getXmin() + " " + graph.getYmin() + " " + graph.getXmax() + " " + graph.getYmax());
+		} catch (RuntimeException e){ 
 		  ExceptionController.recieveException(e);
 		}
   }
