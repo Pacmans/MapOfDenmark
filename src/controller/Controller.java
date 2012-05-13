@@ -194,12 +194,11 @@ public final class Controller {
 		  if(tmp.hasNext()){
 			  q = connections[tmp.next()];
 			  if(Integer.parseInt(address[1]) != 0){
-				  if(q.getName().equalsIgnoreCase(address[0]) && address[3] != null){
-					  if(((""+q.getLeft().getZip()).startsWith(address[3]))){
+				  if(q.getName().equalsIgnoreCase(address[0]) && address[3] != null && ((""+q.getLeft().getZip()).startsWith(address[3]) && address[3].length() > 3)){
 					  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
-				   }
-			  } else if(q.getName().equalsIgnoreCase(address[0])){
-				  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
+				  }
+			  else if(q.getName().equalsIgnoreCase(address[0])){
+				  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());
 			  }
 			  
 			  }else{

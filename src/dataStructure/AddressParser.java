@@ -114,9 +114,9 @@ public class AddressParser {
         }
          if ((slut + start) >= 0) { //if zip
             zip = x.substring(start, slut+1);
+            address[3] = zip.trim();
             x = x.substring(slut).trim();
         }
-        address[3] = zip.trim();
         if(zip == "0") address[4] = "Sverige";
         else address[4] = Controller.getInstance().getPostal().get(address[3]);
     }
