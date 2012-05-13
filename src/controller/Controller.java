@@ -171,13 +171,11 @@ public final class Controller {
     return tst;
   }
   
-  public String[] getRoads(String key)
-  {
+  public String[] getRoads(String key) {
 	  String[] address = null;
 	try {
 		address = parser.parseAddress(key);
 	} catch (Exception e1) {
-		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
 	  String[] roads = new String[10];
@@ -196,10 +194,10 @@ public final class Controller {
 			  if(Integer.parseInt(address[1]) != 0){
 				  if(q.getName().equalsIgnoreCase(address[0]) && address[3] != null){
 					  if(((""+q.getLeft().getZip()).startsWith(address[3]))){
-					  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
+					  roads[i] = q.getName()+" "+address[1]+address[2]+", " + q.getLeft().getZip()+" "+address[4];
 				   }
 			  } else if(q.getName().equalsIgnoreCase(address[0])){
-				  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
+				  roads[i] = q.getName()+" "+address[1]+address[2]+", " + q.getLeft().getZip()+" "+address[4];
 			  }
 			  
 			  }else{
