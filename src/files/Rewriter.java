@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.HashMap;
 
 public class Rewriter {
 
@@ -42,9 +41,6 @@ public class Rewriter {
     PrintWriter r7 = new PrintWriter(road_7);
     System.out.println("Rewriter: Inputs and outputs ready");
     
-    //Post speed limits
-    HashMap<String, String> speed = new HashMap<String, String>();
-    
     //Read and write
     System.out.println("Rewirter: Writing files...");
     String line = null;
@@ -54,10 +50,6 @@ public class Rewriter {
       else{
         line = id+","+line;
         String split[] = line.split(",");
-        
-        //Record speedlimit
-        speed.put(split[26], split[6]); //type, speed
-        
         switch(Integer.parseInt(split[6])){
         case 1: case 21: case 41: case 80:
           r1.println(line);
@@ -87,11 +79,6 @@ public class Rewriter {
       }
       id++;
     }
-    //Print speedlimits
-    for(String s : speed.keySet()){
-      System.out.println("Type: " + s + " Speed: " + speed.get(s));
-    }
-    
     r1.close();
     r2.close();
     r3.close();

@@ -20,7 +20,8 @@ public class Connection implements Comparable<Connection>{
     this.id = id;
     this.name = name;
     this.type = type;
-    this.speed = speed;
+    if(speed < 1) this.speed = 1;
+    else this.speed = speed;
     if(p.getX() > q.getX()){
       right = p;
       left = q;
@@ -75,8 +76,7 @@ public class Connection implements Comparable<Connection>{
   
   //TODO Make this realistic
   public double getWeight(){
-    return getLength();
-//    return getLength()*type.priority();
+    return getLength()*(100/speed);
   }
   
   public int compareTo(Connection con) {
