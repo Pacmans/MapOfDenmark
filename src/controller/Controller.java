@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import exceptions.ExceptionController;
@@ -44,6 +45,7 @@ public final class Controller {
   volatile private ConnectionQuadTree smallQT; // 6
   volatile private ConnectionQuadTree pathsQT; // 7
   private double xMin, yMin, xMax, yMax;
+  private HashMap<String, String> postal = new HashMap<String, String>();
 
   /**
    * Constructor for this class loads connections and points from FileLoader
@@ -467,6 +469,10 @@ public final class Controller {
   
   public Graph getGraph(){
     return graph;
+  }
+  
+  public HashMap<String, String> getPostal(){
+    return postal;
   }
 
   /**

@@ -31,6 +31,7 @@ public class Rewriter {
     File road_5 = new File("./src/Files/normal.txt");
     File road_6 = new File("./src/Files/small.txt");
     File road_7 = new File("./src/Files/paths.txt");
+    
 
     PrintWriter r1 = new PrintWriter(road_1);
     PrintWriter r2 = new PrintWriter(road_2);

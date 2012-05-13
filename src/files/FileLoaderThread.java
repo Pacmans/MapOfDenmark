@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import controller.Controller;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
@@ -41,7 +43,7 @@ public class FileLoaderThread implements Runnable {
     try {
       makeQT();
     } catch (Exception e) {
-      System.out.println(e);
+      Controller.catchException(e);
     }
   }
 
