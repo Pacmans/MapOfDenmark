@@ -45,7 +45,7 @@ public final class Controller {
   volatile private ConnectionQuadTree smallQT; // 6
   volatile private ConnectionQuadTree pathsQT; // 7
   private double xMin, yMin, xMax, yMax;
-  private HashMap<String, String> postal = new HashMap<String, String>();
+  private HashMap<String, String> postal = new HashMap<String, String>(); //zip, city
 
   /**
    * Constructor for this class loads connections and points from FileLoader

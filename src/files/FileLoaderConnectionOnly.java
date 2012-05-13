@@ -67,18 +67,19 @@ public class FileLoaderConnectionOnly {
    */
   private void loadPoints() throws IOException {
     Thread pointload = new Thread(new FileLoaderPointThread(points, xMin, xMax, yMin, yMax, Scale));
+    Thread postalLoad = new Thread(new FileLoaderPostal());
+    
     pointload.isDaemon();
+    postalLoad.isDaemon();
     pointload.start();
+    postalLoad.start();
     
     try{
       pointload.join();
+      postalLoad.join();
     } catch (InterruptedException e) {
       Controller.catchException(e);
     }
-    controller.setxMax(xMax);
-    controller.setxMin(xMin);
-    controller.setyMax(yMax);
-    controller.setyMin(yMin);
   }
 
   private void loadConnections() throws IOException {

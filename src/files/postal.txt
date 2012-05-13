@@ -1,5 +1,5 @@
 ﻿0800 Høje
-0877 Københvn
+0877 København
 0892 Sjælland
 0893 Sjælland
 0897 eBrevsprækken

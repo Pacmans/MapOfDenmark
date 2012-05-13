@@ -13,6 +13,7 @@ public class FileLoaderPointThread implements Runnable {
   
   private double xMin, xMax, yMin, yMax, Scale;
   private Point[] points;
+  private Controller controller = Controller.getInstance();
   
   public FileLoaderPointThread(Point[] points, double xMin, double xMax, double yMin, double yMax, double Scale){
     this.points = points;
@@ -60,6 +61,9 @@ public class FileLoaderPointThread implements Runnable {
     } catch (IOException e) {
       Controller.catchException(e);
     }
+    controller.setxMax(xMax);
+    controller.setxMin(xMin);
+    controller.setyMax(yMax);
+    controller.setyMin(yMin);
   }
-
 }
