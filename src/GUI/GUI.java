@@ -258,7 +258,13 @@ public class GUI {
 		go.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// get the selected transportation type and DO SOMETHING
-				controller.getRoadPlan(fromBox.getText(), toBox.getText());
+				if(fromBox.getText().equals("") || toBox.getText().equals(""))
+					setStatus("Please fill in both address fields");
+				else {
+					controller.getRoadPlan(fromBox.getText(), toBox.getText());
+					setStatus("You route is the blue line");
+				}
+				
 			}
 		});
 		JPanel goPanel = new JPanel(new FlowLayout(1));
