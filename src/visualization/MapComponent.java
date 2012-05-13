@@ -47,6 +47,7 @@ public class MapComponent extends JComponent {
 	 */
 	private void addListener() {
 		addMouseListener(new MouseAdapter() {
+			@Override
 			public void mousePressed(MouseEvent e) {
 				if (e.getButton() == MouseEvent.BUTTON1) { // leftclicking
 					// remember where you start draggin to "panorere" with the
@@ -59,6 +60,7 @@ public class MapComponent extends JComponent {
 
 		// for "panorering" with the map
 		addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
 			public void mouseDragged(MouseEvent e) {
 				/*
 				 * -= is because the map has to move the opposite way of the way
@@ -78,6 +80,7 @@ public class MapComponent extends JComponent {
 
 		// Listener to mousewheel for zooming
 		addMouseWheelListener(new MouseWheelListener() {
+			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
 				int wheelDirection = e.getWheelRotation();
 
@@ -93,6 +96,7 @@ public class MapComponent extends JComponent {
 
 		// Listener to keep the scaling when resizing
 		addComponentListener(new ComponentAdapter() {
+			@Override
 			public void componentResized(ComponentEvent e) {
 				int height, width;
 
