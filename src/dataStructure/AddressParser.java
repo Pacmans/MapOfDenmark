@@ -1,5 +1,7 @@
 package dataStructure;
 
+import controller.Controller;
+
 /**
  * @(#)AddressParser.java
  *
@@ -115,7 +117,7 @@ public class AddressParser {
             x = x.substring(slut).trim();
         }
         address[3] = zip.trim();
-        if(x.length() > 1) address[4] = x.trim();
-        else address[4] = "";
+        if(zip == "0") address[4] = "Sverige";
+        else address[4] = Controller.getInstance().getPostal().get(address[3]);
     }
 }

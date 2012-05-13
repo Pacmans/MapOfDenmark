@@ -203,8 +203,8 @@ public final class Controller {
 			  }
 			  
 			  }else{
-			  if(q.getLeft().getZip()!=0) roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip();
-			  else roads[i] = q.getName()+" "+address[1]+address[2]+", "+"Sverige";
+			  if(getPostal().get(""+q.getLeft().getZip()) != null)roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());
+			  else roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" Sverige";
 			  }
 		  }
 		  if(roads[i] == null) roads[i] = " ";
