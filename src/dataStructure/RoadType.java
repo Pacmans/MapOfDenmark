@@ -34,7 +34,7 @@ public enum RoadType {
   PRIMARYWAYINTERSECTION(new Color(125,125,125), 3),
   SECONDARYWAYTUNNEL(new Color(125,125,125), 3),
   ROAD3M(new Color(200,200,200), 2), //3-6m
-  OTHERROAD(new Color(200,200,200), 2), //PAS PÃ… HVORDAN DEN SKULLE OVERSÃ†TTES
+  OTHERROAD(new Color(200,200,200), 2), 
   PROJROAD6M(new Color(200,200,200), 2), //3-6 m
   SECONDARYWAYINTERSECTION(new Color(200,200,200), 2),
   OTHERROADTUNNEL(new Color(200,200,200), 2), // ANDEN VEJ
@@ -57,9 +57,17 @@ public enum RoadType {
     this.width = width;
   }
 
+  /**
+   * Color the road type should be painted
+   * @return Color fitting the road type
+   */
   public Color color(){
     return color;
   }
+  
+  /**
+   * @return Draw width of road
+   */
   public double width(){
     return width;
   }
