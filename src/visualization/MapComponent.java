@@ -171,7 +171,7 @@ public class MapComponent extends JComponent {
 		int level = 0;
 		//zooms in until it finds the correct zoom level
 		while(level<30){
-			if (dx > (x2-x1)/2){
+			if (dx > (x2-x1)/2 && dy > (y2-y1)/2){
 				//zooms in without updating map
 				zoom(level+1, false);
 				calcCoordinates(); //refresh dx and dy
@@ -343,7 +343,7 @@ public class MapComponent extends JComponent {
 	 */
 	private void paintRoute(Graphics2D g2)
 	{
-		g2.setColor(Color.cyan);
+		g2.setColor(new Color(0,102,204)); //blue
 		double widthFactor = 4 * (1.3 - xScale) - 5;
 		g2.setStroke(new BasicStroke((float)widthFactor+6));
 		
