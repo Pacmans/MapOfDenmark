@@ -18,7 +18,7 @@ import dataStructure.Point;
 public class Graph {
   private EdgeWeightedDigraph g;
   private Connection[] connections;
-  private double xMin = 10000, xMax = 0, yMin = 10000, yMax = 0;
+  private double xMin = 70000, xMax = 0, yMin = 70000, yMax = 0;
   
   public Graph(){
     //Get points 
