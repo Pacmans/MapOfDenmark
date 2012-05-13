@@ -74,7 +74,6 @@ public class Connection implements Comparable<Connection>{
     return length;
   }
   
-  //TODO Make this realistic
   public double getWeight(){
     return getLength()*(100/speed);
   }
