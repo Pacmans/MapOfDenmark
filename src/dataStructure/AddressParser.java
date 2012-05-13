@@ -24,7 +24,7 @@ public class AddressParser {
     		 address[i] = null;
     	}
     	parseStreet(s);
-        return address;
+    	return address;
     }
 
     /*
@@ -111,7 +111,7 @@ public class AddressParser {
             }
         }
          if ((slut + start) >= 0) { //if zip
-            zip = x.substring(start-1, slut);
+            zip = x.substring(start, slut+1);
             x = x.substring(slut).trim();
         }
         address[3] = zip.trim();
