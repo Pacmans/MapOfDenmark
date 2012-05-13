@@ -248,6 +248,8 @@ public class GUI {
     JPanel toPanel = new JPanel(new FlowLayout(2));
     toPanel.add(label);
     toPanel.add(toBox.getBox());
+    
+    enableSearch(false);
 
 		// go button
 		JButton go = new JButton("Go");
@@ -461,5 +463,12 @@ public class GUI {
   public void enableFrame() {
 	  contentPane.setEnabled(true);
 	  frame.setBackground(Color.lightGray);
+  }
+  
+  public void enableSearch(boolean bool){
+    toBox.getBox().setEnabled(bool);
+    fromBox.getBox().setEnabled(bool);
+    toBox.getBox().setEditable(bool);
+    fromBox.getBox().setEditable(bool);
   }
 }

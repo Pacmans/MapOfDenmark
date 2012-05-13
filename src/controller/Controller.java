@@ -65,6 +65,7 @@ public final class Controller {
     setStatus("Creating graph");
     graph = new Graph();
     setStatus("Graph created. All done");
+    gui.enableSearch(true);
   }
 
   /**
@@ -239,7 +240,6 @@ public final class Controller {
 		  
 		  //con, xmin, ymin, xmax, ymax
       map.setRoute(con, graph.getXmin(), graph.getYmin(), graph.getXmax(), graph.getYmax()); 
-      System.out.println(graph.getXmin() + " " + graph.getYmin() + " " + graph.getXmax() + " " + graph.getYmax());
 		} catch (RuntimeException e){ 
 		  ExceptionController.recieveException(e);
 		}
