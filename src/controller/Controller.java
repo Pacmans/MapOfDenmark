@@ -233,7 +233,6 @@ public final class Controller {
 		Point start = connections[tst.get(f, fzip)].getLeft();
 		Point finish = connections[tst.get(t, tzip)].getLeft();
 	    Connection[] con = getGraph().shortestPath(start, finish);
-	    System.out.println(con.length);
 	    map.setRoute(con);
 	  
   }
