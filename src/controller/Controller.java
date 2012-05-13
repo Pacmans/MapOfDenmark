@@ -201,8 +201,7 @@ public final class Controller {
 			  }
 			  
 			  }else{
-			  if(q.getLeft().getZip()!=0) roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip();
-			  else roads[i] = q.getName()+" "+address[1]+address[2]+", "+"Sverige";
+			  roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip();
 			  }
 		  }
 		  if(roads[i] == null) roads[i] = " ";
