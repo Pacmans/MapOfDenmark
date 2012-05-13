@@ -58,6 +58,29 @@ public class FileLoaderConnectionOnly {
     points = controller.getPoints();
     tst = controller.getTst();
   }
+  
+  /**
+   * creates Points from file "kdv_node_unload" and calculates min and max
+   * coordinates
+   * 
+   * @throws IOException
+   */
+  private void loadPoints() throws IOException {
+    Thread pointload = new Thread(new FileLoaderPointThread(points, xMin, xMax, yMin, yMax, Scale));
+    Thread postalLoad = new Thread(new FileLoaderPostal());
+    
+    pointload.isDaemon();
+    postalLoad.isDaemon();
+    pointload.start();
+    postalLoad.start();
+    
+    try{
+      pointload.join();
+      postalLoad.join();
+    } catch (InterruptedException e) {
+      Controller.catchException(e);
+    }
+  }
 
   private void loadConnections() throws IOException {
     Thread highways = new Thread(new FileLoaderThread("highways", points,
@@ -133,57 +156,6 @@ public class FileLoaderConnectionOnly {
     }
     controller.setStatus("Data loaded");
     controller.getGUI().setupMap();
-  }
-
-  /**
-   * creates Points from file "kdv_node_unload" and calculates min and max
-   * coordinates
-   * 
-   * @throws IOException
-   */
-  /**
-   * creates Points from file "kdv_node_unload" and calculates min and max
-   * coordinates
-   * 
-   * @throws IOException
-   */
-  private void loadPoints() throws IOException {
-    // loads the file "kdv_node_unload"
-    // File pointsFile = new File("./src/files/kdv_node_unload.txt");
-    InputStream pointFile = getClass().getResourceAsStream(
-        "kdv_node_unload.txt");
-    BufferedReader pointInput = new BufferedReader(new InputStreamReader(
-        pointFile));
-
-    String line = null;
-    double x, y;
-    int index = -1;
-    if (pointInput.ready()) { // if file is loaded
-      while ((line = pointInput.readLine()) != null) {
-        if (index >= 0) { // does nothing at the first line
-          // creates the point
-          String[] info = line.split(",");
-          x = (Double.parseDouble(info[3]) / Scale);
-          y = (Double.parseDouble(info[4]) / Scale);
-          points[index] = new Point(index + 1, x, y);
-
-          // sets max and min coordinates
-          if (x < xMin)
-            xMin = x;
-          if (x > xMax)
-            xMax = x;
-          if (y < yMin)
-            yMin = y;
-          if (y > yMax)
-            yMax = y;
-        }
-        index++;
-      }
-    }
-    controller.setxMax(xMax);
-    controller.setxMin(xMin);
-    controller.setyMax(yMax);
-    controller.setyMin(yMin);
   }
 
   public double getxMax() {
