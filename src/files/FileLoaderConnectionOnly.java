@@ -61,13 +61,13 @@ public class FileLoaderConnectionOnly {
 
   private void loadConnections() throws IOException {
     Thread highways = new Thread(new FileLoaderThread("highways", points,
-        connections, highwaysQT, tst),"highways");
+        connections, highwaysQT, tst), "highways");
     Thread expressways = new Thread(new FileLoaderThread("expressways", points,
-        connections, expresswaysQT, tst),"expressways");
+        connections, expresswaysQT, tst), "expressways");
     Thread primary = new Thread(new FileLoaderThread("primary", points,
-        connections, primaryQT, tst),"primary");
+        connections, primaryQT, tst), "primary");
     Thread secondary = new Thread(new FileLoaderThread("secondary", points,
-        connections, secondaryQT, tst),"secondary");
+        connections, secondaryQT, tst), "secondary");
 
     highways.isDaemon();
     highways.start();
@@ -83,45 +83,53 @@ public class FileLoaderConnectionOnly {
       primary.join();
       secondary.join();
     } catch (InterruptedException e) {
-    	Controller.catchException(e);
+      Controller.catchException(e);
     }
-    
+
     System.out.println("4 first qaudtrees done");
 
     controller.getGUI().setupMap();
-    
+
     Thread normal = new Thread(new FileLoaderThread("normal", points,
-        connections, normalQT, tst),"normal");
-    Thread small = new Thread(new FileLoaderThread("small",
-        points, connections, smallQT, tst),"small");
+        connections, normalQT, tst), "normal");
+    Thread small = new Thread(new FileLoaderThread("small", points,
+        connections, smallQT, tst), "small");
     Thread paths = new Thread(new FileLoaderThread("paths", points,
-        connections, pathsQT, tst),"paths");
-
-
+        connections, pathsQT, tst), "paths");
+    
     paths.isDaemon();
-    paths.start();
     normal.isDaemon();
-    normal.start();
-    try{
-      paths.join();
-      normal.join();
-    }catch(Exception e){
-      Controller.catchException(e);
-    }
-    
-//    
-//    try{
-//      normal.join();
-//    }catch(Exception e){
-//      Controller.catchException(e);
-//    }
-    
     small.isDaemon();
-    small.start();
-    try{
-      small.join();
-    }catch(Exception e){
-      Controller.catchException(e);
+
+    int threads = Runtime.getRuntime().availableProcessors();
+    System.out.println("You have " + threads + " threads available");
+    if (threads < 3) {
+      paths.start();
+      normal.start();
+      try {
+        paths.join();
+        normal.join();
+      } catch (Exception e) {
+        Controller.catchException(e);
+      }
+      
+      small.start();
+      try {
+        small.join();
+      } catch (Exception e) {
+        Controller.catchException(e);
+      }
+    }else{
+      paths.start();
+      normal.start();
+      small.start();
+      try {
+        paths.join();
+        normal.join();
+        small.join();
+      } catch (Exception e) {
+        Controller.catchException(e);
+      }
     }
     controller.setStatus("Data loaded");
     controller.getGUI().setupMap();

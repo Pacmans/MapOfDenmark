@@ -7,8 +7,6 @@ import javax.swing.JComponent;
 
 import controller.Controller;
 import dataStructure.Connection;
-import dataStructure.Point;
-import dataStructure.RoadType;
 
 /**
  * This class paints the map and makes the user capable of zooming and panning around the map
@@ -231,7 +229,7 @@ public class MapComponent extends JComponent {
 		
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHints(createRenderingHints());
-
+		
 		// paints the roads
 		for (int i = roadtypes.length - 1; i >= 0; i--) {
 			if (roadtypes[i])
@@ -241,7 +239,8 @@ public class MapComponent extends JComponent {
 		}
 		
 		//paints the route
-		paintRoute(g2);
+		if (route != null)
+			paintRoute(g2);
 		
 		//paints border
 		paintBorder(g2);
@@ -300,24 +299,18 @@ public class MapComponent extends JComponent {
 
 	private void paintRoute(Graphics2D g2)
 	{
-		GradientPaint gradient =
-			    new GradientPaint(0, 0, Color.cyan,100, 100, Color.yellow,true);
-//		g2.setColor(Color.cyan);
-		g2.setPaint(gradient);
-		g2.setStroke(new BasicStroke(6));
+		g2.setColor(Color.cyan);
+		double widthFactor = 4 * (1.3 - xScale) - 5;
+		g2.setStroke(new BasicStroke((float)widthFactor+6));
 		
-//		for (Connection c: route){
-//			int x1 = (int) ((c.getX1() - xMin) / xScale);
-//			int y1 = (int) ((yMax - c.getY1()) / yScale);
-//			int x2 = (int) ((c.getX2() - xMin) / xScale);
-//			int y2 = (int) ((yMax - c.getY2()) / yScale);
-//			g2.drawLine(x1, y1, x2, y2);
-//		}
-		g2.drawLine(105, 305, 20, 50);
-		g2.drawLine(20, 50, 120, 250);
-		g2.drawLine(120, 250, 50, 150);
-		g2.drawLine(120, 250, 950, 450);
-		g2.drawLine(950, 450, 950, 850);
+		for (Connection c: route){
+			System.out.println(c.getName());
+			int x1 = (int) ((c.getX1() - xMin) / xScale);
+			int y1 = (int) ((yMax - c.getY1()) / yScale);
+			int x2 = (int) ((c.getX2() - xMin) / xScale);
+			int y2 = (int) ((yMax - c.getY2()) / yScale);
+			g2.drawLine(x1, y1, x2, y2);
+		}
 	}
 	
 	/**
@@ -384,4 +377,3 @@ public class MapComponent extends JComponent {
 		manualControl = selected;
 	}
 }
-

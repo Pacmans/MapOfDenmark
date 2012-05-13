@@ -16,16 +16,16 @@ package graph;
  */
 
 public class DirectedEdge { 
-    private final int v;
-    private final int w;
+    private final int v, w, id;
     private final double weight;
 
    /**
      * Create a directed edge from v to w with given weight.
      */
-    public DirectedEdge(int v, int w, double weight) {
+    public DirectedEdge(int v, int w, int id, double weight) {
         this.v = v;
         this.w = w;
+        this.id = id;
         this.weight = weight;
     }
 
@@ -41,6 +41,13 @@ public class DirectedEdge {
      */
     public int to() {
         return w;
+    }
+    
+    /**
+     * @return Return edge ID
+     */
+    public int id(){
+      return id;
     }
 
    /**
