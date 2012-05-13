@@ -49,7 +49,7 @@ public class SliderComponent extends JComponent{
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider) e.getSource();
 		    int zoomLevel = (int) source.getValue();
-		    map.zoom(zoomLevel);
+		    map.zoom(zoomLevel, true);
 			}
 		});
 	}
@@ -125,5 +125,3 @@ public class SliderComponent extends JComponent{
 		slider.setValue(value);
 	}
 }
-
-
