@@ -233,8 +233,9 @@ public final class Controller {
 		Point finish = connections[tst.get(t, tzip)].getLeft();
 		try{
 		  Connection[] con = getGraph().shortestPath(start, finish);
-      System.out.println(con.length);
-      map.setRoute(con);
+		  
+		  //con, xmin, ymin, xmax, ymax
+      map.setRoute(con, graph.getXmin(), graph.getYmin(), graph.getXmax(), graph.getYmax()); 
 		} catch (RuntimeException e){
 		  ExceptionController.recieveException(e);
 		}

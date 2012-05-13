@@ -18,6 +18,7 @@ import dataStructure.Point;
 public class Graph {
   private EdgeWeightedDigraph g;
   private Connection[] connections;
+  private double xMin = 10000, xMax = 0, yMin = 10000, yMax = 0;
   
   public Graph(){
     //Get points 
@@ -58,8 +59,39 @@ public class Graph {
     Connection[] path = new Connection[cs.size()];
     int index = 0;
     for(Integer i : cs){
-      path[index++] = connections[i];
+      Connection con = connections[i];
+      path[index++] = con;
+      
+      //Set xMin, xMax, yMin, yMax. These are used for zooming in on route
+      double xLow = con.getLeft().getX();
+      double xHigh = con.getRight().getX();
+      double yLow, yHigh;
+      if(con.getY1() < con.getY2()){
+        yLow = con.getY1();
+        yHigh = con.getY2();
+      }else{
+        yLow = con.getY2();
+        yHigh = con.getY1();
+      }
+      
+      if(xLow  < xMin) xMin = xLow;
+      if(yLow  < yMin) yMin = yLow;
+      if(xHigh > xMax) xMax = xHigh;
+      if(yHigh > yMax) yMax = yHigh;
     }
     return path;
-  }  
+  }
+  
+  public double getXmin(){
+    return xMin;
+  }
+  public double getXmax(){
+    return xMax;
+  }
+  public double getYmin(){
+    return yMin;
+  }
+  public double getYmax(){
+    return yMax;
+  }
 }
