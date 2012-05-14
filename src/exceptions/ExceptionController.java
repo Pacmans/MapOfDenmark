@@ -4,7 +4,11 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-
+/**
+ * The ExceptionController handles all exceptions and displays an
+ * error to the user.
+ * @author Pacmans
+ */
 public class ExceptionController {
 
 	/**
@@ -74,8 +78,4 @@ public class ExceptionController {
 		JOptionPane.showMessageDialog(null, message, title,
 		JOptionPane.ERROR_MESSAGE);
 	}
-
-
-
-	
 }
