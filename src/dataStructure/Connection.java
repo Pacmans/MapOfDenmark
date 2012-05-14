@@ -3,6 +3,8 @@ package dataStructure;
 /**
  * @(#)Connection.java
  * 
+ * Holds information about the connection/road between to points. 
+ * 
  * @author Claus L. Henriksen clih@itu.dk
  * @author Pacmans
  * @version 20. Marts. 2012
