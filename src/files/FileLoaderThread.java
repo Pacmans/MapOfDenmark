@@ -28,6 +28,16 @@ public class FileLoaderThread implements Runnable {
   private ConnectionQuadTree qtr;
   volatile private TernarySearchTries<Integer> tst;
 
+  /**
+   * Constructor of FileLoaderThread.
+   * @param txtname. The name of the group of roads.
+   * @param points. The point array where all points' coordinates are stored.
+   * @param connections. The array which contains all connections and their relevant data.
+   * 					Is build by this class.
+   * @param qtr. The road group's quadtree. Used to quickly find roads. Contains references to
+   * 			connections.
+   * @param tst. A search try containing all road names. Used by the live search feature and route planner.
+   */
   public FileLoaderThread(String txtname, Point[] points,
       Connection[] connections, ConnectionQuadTree qtr,
       TernarySearchTries<Integer> tst) {
@@ -38,6 +48,9 @@ public class FileLoaderThread implements Runnable {
     this.tst = tst;
   }
 
+  /**
+   * The run method that starts when the thread is started.
+   */
   @Override
   public void run() {
     try {

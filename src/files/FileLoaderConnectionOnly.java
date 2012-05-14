@@ -1,9 +1,7 @@
 package files;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
 import controller.Controller;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;

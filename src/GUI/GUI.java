@@ -248,6 +248,8 @@ public class GUI {
     JPanel toPanel = new JPanel(new FlowLayout(2));
     toPanel.add(label);
     toPanel.add(toBox.getBox());
+    
+    enableSearch(false);
 
 		// go button
 		JButton go = new JButton("Go");
@@ -256,7 +258,13 @@ public class GUI {
 		go.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// get the selected transportation type and DO SOMETHING
-				controller.getRoadPlan(fromBox.getText(), toBox.getText());
+				if(fromBox.getText().equals("") || toBox.getText().equals(""))
+					setStatus("Please fill in both address fields");
+				else {
+					controller.getRoadPlan(fromBox.getText(), toBox.getText());
+					setStatus("You route is the blue line");
+				}
+				
 			}
 		});
 		JPanel goPanel = new JPanel(new FlowLayout(1));
@@ -461,5 +469,12 @@ public class GUI {
   public void enableFrame() {
 	  contentPane.setEnabled(true);
 	  frame.setBackground(Color.lightGray);
+  }
+  
+  public void enableSearch(boolean bool){
+    toBox.getBox().setEnabled(bool);
+    fromBox.getBox().setEnabled(bool);
+    toBox.getBox().setEditable(bool);
+    fromBox.getBox().setEditable(bool);
   }
 }
