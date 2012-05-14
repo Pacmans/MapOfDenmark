@@ -1,5 +1,8 @@
 package dataStructure;
 
+import graph.DijkstraSP;
+import graph.Graph;
+
 /**
  * @(#)Connection.java
  * 
@@ -32,36 +35,97 @@ public class Connection implements Comparable<Connection>{
       left = p;
     }
   }
+  
+  /**
+   * This Main-method is a test of this class. 
+   */
+  public static void main(String[] args){
+    Connection c = new Connection(1,
+        new Point(1, 5, 7), //(5,7)
+        new Point(1, 7, 5), //(7,5)
+        RoadType.EXPRESSWAY, null, 1);
+    boolean right = c.left.getX() < c.right.getX();
+    System.out.println("Left is left and Right is right: " + right);
+    System.out.println("Length should be 2.828: " + c.getLength());
+  }
 
+  /**
+   * 
+   * @return Returns the ID of the connection
+   */
   public int getID() {
     return id;
   }
+  
+  /**
+   * 
+   * @return x-coordinate of the left point
+   */
   public double getX1(){
     return left.getX();
   }
+  
+  /**
+   * 
+   * @return x-coordinate of the right point
+   */
   public double getX2(){
     return right.getX();
   }
+  
+  /**
+   * 
+   * @return y-coordinate of the left point
+   */
   public double getY1(){
     return left.getY();
   }
+  
+  /**
+   * 
+   * @return y-coordinate of the right point
+   */
   public double getY2(){
     return right.getY();
   }
 
+  /**
+   * 
+   * @return Street name
+   */
   public String getName() {
     return name;
   }
+  
+  /**
+   * 
+   * @return RoadType
+   * @see RoadType
+   */
   public RoadType getType() {
     return type;
   }
+  
+  /**
+   * @return Left point
+   * @see Point
+   */
   public Point getLeft(){
     return left;
   }
+  
+  /**
+   * @return Right point
+   * @see Point
+   */
   public Point getRight(){
     return right;
   }
   
+  /**
+   * 
+   * @return Length of connection
+   */
   public double getLength(){
     //if length has not been calculated
     if(length < 0){
@@ -76,10 +140,23 @@ public class Connection implements Comparable<Connection>{
     return length;
   }
   
+  /**
+   * Weight is used when finding shortest path.
+   * Weight is calculated from length of connection and speedlimit on connection.
+   * @return Weight of connection
+   * @see Graph
+   * @see DijkstraSP
+   */
   public double getWeight(){
     return getLength()*(100/speed);
   }
   
+  /**
+   * Compare two connections by IDs
+   * @see Comparable
+   * @param Connection to be compared with this
+   * @return -1 if this is less than param, 0 if equal, 1 if this is greater than.
+   */
   public int compareTo(Connection con) {
     int a = id - con.getID();
     if (a < 0)
@@ -88,15 +165,5 @@ public class Connection implements Comparable<Connection>{
       return 1;
     else
       return 0;
-  }
-  
-  public static void main(String[] args){
-    Connection c = new Connection(1,
-        new Point(1, 5, 7), //(5,7)
-        new Point(1, 7, 5), //(7,5)
-        RoadType.EXPRESSWAY, null, 1);
-    boolean right = c.left.getX() < c.right.getX();
-    System.out.println("Left is left and Right is right: " + right);
-    System.out.println("Length should be 2.828: " + c.getLength());
   }
 }
