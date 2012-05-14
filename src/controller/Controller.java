@@ -395,7 +395,13 @@ public final class Controller {
     return cs;
   }
 
-  //TODO Phillip: Wirte JavaDoc
+  /**
+   * Get Roads method takes a String and sends it to address parser. The address parser chops it up into an array of strings
+   * it then sends the first string (road name) to TST and ask it to find keys with the given prefix
+   * then it creates an array of strings containing roads with the given prefix.
+   * @param key		the test written in LiveSearchBox.
+   * @return		array of String that can be placed in the drop down menu in the LiveSearchBox.
+   */
   public String[] getRoads(String key) {
 	  String[] address = null;
 	try {		address = parser.parseAddress(key);
@@ -406,32 +412,35 @@ public final class Controller {
 	  Iterator<Integer> tmp = null;
 	  try{
 	   tmp = tst.keysWithPrefix(address[0]).iterator();
-	  } catch (NullPointerException e){
+	  } catch (NullPointerException e){// if there is no roads starting with the given string
 		  roads[0] = "(none)";
 		  return roads;
 	  }
 	  Connection q;
-	  for(int i = 0; i < roads.length; i++)
+	  for(int i = 0; i < roads.length; i++) //doing a for loop over the road array
 	  {
-		  if(tmp.hasNext()){
-			  q = connections[tmp.next()];
-			  if(Integer.parseInt(address[1]) != 0){
+		  if(tmp.hasNext()){ // doing it as long as the tmp still got more elements.
+			  q = connections[tmp.next()]; //sets q to the next value from the tmp.
+			  if(Integer.parseInt(address[1]) != 0){ // does it have a house number?
 				  if(q.getName().equalsIgnoreCase(address[0]) && address[3] != null && ((""+q.getLeft().getZip()).startsWith(address[3]) && address[3].length() > 3)){
+					  //only here if there is a zip code.
 					  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
 				  }
-			  else if(q.getName().equalsIgnoreCase(address[0])){
+			  else if(q.getName().equalsIgnoreCase(address[0])){ //if the string does not have a zip code
 				  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());
 			  }
 			  
-			  }else{
-			  if(getPostal().get(""+q.getLeft().getZip()) != null)roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());
-			  else roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" Sverige";
+			  }else{ //if there is no house number
+			  if(getPostal().get(""+q.getLeft().getZip()) != null){ //if we are not in Sweden
+				  roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());
+			  }
+			  else roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" Sweden";
 			  }
 		  }
-		  if(roads[i] == null) roads[i] = " ";
+		  if(roads[i] == null) roads[i] = " "; //removing all null values from the array
 	  }
-	  Arrays.sort(roads);
-	  for(int i = 0; i < 5; i++){
+	  Arrays.sort(roads); //sort the array so we dont get empty rooms before at the end
+	  for(int i = 0; i < 5; i++){ // turning the array around.
 		  String t = roads[i];
 		  roads[i] = roads[9-i];
 		  roads[9-i] = t;
@@ -439,28 +448,32 @@ public final class Controller {
 	  return roads;
   }
   
-  //TODO Phillip: Wirte JavaDoc
-  public void getRoadPlan(String a, String b){
+  /**
+   * THis methods gets 2 String representing a from and a to, it then gives them to the address parser (to chop up the string), 
+   * then to the TST (to get the corresponding connection ID), then to Graph (to calculated the shortest route) and then to map
+   * to paint the route.
+   * that calculates the shortest route.
+   * @param from		the "from" String
+   * @param to			the "to" String
+   */
+  public void getRoadPlan(String from, String to){
 	  String[] address1 = null;
-	  String t = null, f = null;
 	  int tzip = 0, fzip = 0;
-		try {
-			address1 = parser.parseAddress(a);
-			f = address1[0];
+		try { // try sending them to the address parser
+			address1 = parser.parseAddress(from);
+			from = address1[0];
 			fzip =  Integer.parseInt(address1[3]);
-			address1 = parser.parseAddress(b);
-			t = address1[0];
+			address1 = parser.parseAddress(to);
+			to = address1[0];
 			tzip =  Integer.parseInt(address1[3]);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		Point start = connections[tst.get(f, fzip)].getLeft();
-		Point finish = connections[tst.get(t, tzip)].getLeft();
-		try{
+		Point start = connections[tst.get(from, fzip)].getLeft(); //get the connection using the TST to get the value.
+		Point finish = connections[tst.get(to, tzip)].getLeft();
+		try{// try finding the value in graph and use them to paint the route.
 		  Connection[] con = getGraph().shortestPath(start, finish);
-		  
-		  //con, xmin, ymin, xmax, ymax
-      map.setRoute(con, graph.getXmin(), graph.getYmin(), graph.getXmax(), graph.getYmax()); 
+		  map.setRoute(con, graph.getXmin(), graph.getYmin(), graph.getXmax(), graph.getYmax()); 
 		} catch (RuntimeException e){ 
 		  ExceptionController.recieveException(e);
 		}
