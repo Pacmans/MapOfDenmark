@@ -9,12 +9,28 @@ import controller.Controller;
 
 import dataStructure.Point;
 
+/**
+ * Creates a new thread which takes a point array
+ * and uses it to fill the connections array. 
+ * It also finds maximum and minimum x and y coordinates.
+ * Scale is used to down scale the map.
+ * 	@author Pacmans
+ */
 public class FileLoaderPointThread implements Runnable {
   
   private double xMin, xMax, yMin, yMax, Scale;
   private Point[] points;
   private Controller controller = Controller.getInstance();
   
+  /**
+   * Constructor for the class. Creates a pointer to the given fields.
+   * @param points
+   * @param xMin
+   * @param xMax
+   * @param yMin
+   * @param yMax
+   * @param Scale
+   */
   public FileLoaderPointThread(Point[] points, double xMin, double xMax, double yMin, double yMax, double Scale){
     this.points = points;
     this.xMin = xMin;
@@ -24,6 +40,9 @@ public class FileLoaderPointThread implements Runnable {
     this.Scale = Scale;
   }
 
+  /**
+   *	The method to execute when this thread is started.
+   */
   @Override
   public void run() {
  // loads the file "kdv_node_unload"
