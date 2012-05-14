@@ -1,10 +1,7 @@
 package controller;
 
 import java.util.Arrays;
-<<<<<<< HEAD
-=======
 import java.util.HashMap;
->>>>>>> a6faaf556b0bad2cedaea3a934eccbe826b35068
 import java.util.Iterator;
 
 import exceptions.ExceptionController;
@@ -14,10 +11,8 @@ import gui.GUI;
 
 import visualization.MapComponent;
 import dataStructure.AddressParser;
-<<<<<<< HEAD
-=======
+
 import visualization.SliderComponent;
->>>>>>> a6faaf556b0bad2cedaea3a934eccbe826b35068
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.DynArray;
@@ -200,20 +195,6 @@ public final class Controller {
 		  if(tmp.hasNext()){
 			  q = connections[tmp.next()];
 			  if(Integer.parseInt(address[1]) != 0){
-<<<<<<< HEAD
-				  if(q.getName().equalsIgnoreCase(address[0]) && address[3] != null){
-					  System.out.println(address[3]);
-					  if(((""+q.getLeft().getZip()).startsWith(address[3]))){
-					  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
-				   }
-			  } else if(q.getName().equalsIgnoreCase(address[0])){
-				  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
-			  }
-			  
-			  }else{
-			  if(q.getLeft().getZip()!=0) roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip();
-			  else roads[i] = q.getName()+" "+address[1]+address[2]+", "+"sverige";
-=======
 				  if(q.getName().equalsIgnoreCase(address[0]) && address[3] != null && ((""+q.getLeft().getZip()).startsWith(address[3]) && address[3].length() > 3)){
 					  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
 				  }
@@ -224,7 +205,6 @@ public final class Controller {
 			  }else{
 			  if(getPostal().get(""+q.getLeft().getZip()) != null)roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());
 			  else roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" Sverige";
->>>>>>> a6faaf556b0bad2cedaea3a934eccbe826b35068
 			  }
 		  }
 		  if(roads[i] == null) roads[i] = " ";
