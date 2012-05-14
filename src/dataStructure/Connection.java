@@ -152,7 +152,8 @@ public class Connection implements Comparable<Connection>{
   }
   
   /**
-   * Compare two connections by IDs
+   * Compare two connections by IDs.
+   * Useful for sorting array of Connections
    * @see Comparable
    * @param Connection to be compared with this
    * @return -1 if this is less than param, 0 if equal, 1 if this is greater than.
