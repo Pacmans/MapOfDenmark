@@ -8,6 +8,7 @@ import exceptions.ExceptionController;
 import files.FileLoaderConnectionOnly;
 import graph.Graph;
 import gui.GUI;
+import gui.LiveSearchBox;
 
 import visualization.MapComponent;
 import dataStructure.AddressParser;
@@ -29,15 +30,16 @@ import dataStructure.TernarySearchTries;
  * 
  */
 public final class Controller {
+
   private static Controller instance; // singleton
-  private GUI gui;
-  private MapComponent map;
-  private SliderComponent slider;
-  private Graph graph;
-  private AddressParser parser;
-  volatile private TernarySearchTries<Integer> tst;
-  volatile private Connection[] connections;
-  volatile private Point[] points;
+  private GUI gui; //singleton
+  private MapComponent map; //singleton
+  private SliderComponent slider; //singleton
+  private Graph graph; //singleton
+  private AddressParser parser; //Parses human written address
+  volatile private TernarySearchTries<Integer> tst; //Trie for finding roads based on street name
+  volatile private Connection[] connections; //Array of all connections
+  volatile private Point[] points; //Array of all points
   volatile private ConnectionQuadTree highwaysQT; // 1
   volatile private ConnectionQuadTree expresswaysQT; // 2
   volatile private ConnectionQuadTree primaryQT; // 3
@@ -45,12 +47,11 @@ public final class Controller {
   volatile private ConnectionQuadTree normalQT; // 5
   volatile private ConnectionQuadTree smallQT; // 6
   volatile private ConnectionQuadTree pathsQT; // 7
-  private double xMin, yMin, xMax, yMax;
+  private double xMin, yMin, xMax, yMax; //Boundary limit values used to center map on view
   private HashMap<String, String> postal = new HashMap<String, String>(); //zip, city
 
   /**
    * Constructor for this class loads connections and points from FileLoader
-   * 
    * @see FileLoader
    */
   public Controller() {
@@ -68,9 +69,19 @@ public final class Controller {
     setStatus("Graph created. All done");
     gui.enableSearch(true);
   }
+  
+  /**
+   * Main method creates a new Controller
+   * 
+   * @see GUI-class
+   * @see MapComponent
+   * @see FileLoaderConnectionOnly
+   */
+  public static void main(String[] args) {
+    new Controller();
+  }
 
   /**
-   * 
    * @return Returns an instance of the singleton Controller (this class)
    */
   public static Controller getInstance() {
@@ -81,7 +92,6 @@ public final class Controller {
   }
 
   /**
-   * 
    * @return Returns instance of the singleton class GUI
    * @see GUI
    */
@@ -93,7 +103,6 @@ public final class Controller {
   }
 
   /**
-   * 
    * @return Returns instance of the singleton class MapComponent which paints the map
    * @see MapComponent
    */
@@ -105,7 +114,15 @@ public final class Controller {
   }
   
   /**
-   * 
+   * @return Returns instance of the singleton class Graph used for route finding
+   * @see Graph
+   */
+  public Graph getGraph(){
+    if(graph == null) graph = new Graph();
+    return graph;
+  }
+  
+  /**
    * @return Returns instance of the singleton class SliderComponent which paints the slider
    * @see MapComponent
    */
@@ -115,20 +132,231 @@ public final class Controller {
     }
     return slider;
   }
+  
+  /**
+   * @return Returns instance of the singleton class TernarySearchTries used for finding roads by street name
+   * @see TernarySearchTries
+   */
+  public TernarySearchTries<Integer> getTst() {
+    if(tst == null) tst = new TernarySearchTries<Integer>();
+    return tst;
+  }
+  
+  /**
+   * Get array of all connections
+   * 
+   * @return Array of all connections
+   * @see Connection
+   */
+   synchronized public Connection[] getConnections() {
+    return connections;
+  }
+   
+   /**
+    * 
+    * @return Array of all points
+    * @see Point
+    */
+   synchronized public Point[] getPoints(){
+     return points;
+   }
+
+  /**
+   * Set status label on GUI
+   * 
+   * @param s Status to be shown
+   */
+  public void setStatus(String s) {
+    gui.setStatus(s);
+  }
+  
+  /**
+   * Catch an exception and send it 
+   * to the ExceptionController
+   * @param e
+   */
+  public static void catchException(Exception e) {
+    ExceptionController.recieveException(e);
+  }
+  
+  /**
+   * Show or hide a type of road
+   * @param n type_id
+   * @param b To show or not to show
+   */
+  public synchronized void updateMap(int n, boolean m) {
+    map.updateRoadTypes(n, m);
+  }
+
+  /**
+   * Zoom out and center map
+   */
+  public void showAll() {
+    map.resetZoom();
+  }
+
+  /**
+   * Getter for boundary limit value
+   * @return Smallest x-value on map
+   */
+  public double getxMin() {
+    return xMin;
+  }
+
+  /**
+   * Getter for boundary limit value
+   * @return Smallest y-value on map
+   */
+  public double getyMin() {
+    return yMin;
+  }
+
+  /**
+   * Getter for boundary limit value
+   * @return Biggest x-value on map
+   */
+  public double getxMax() {
+    return xMax;
+  }
+
+  /**
+   * Getter for boundary limit value
+   * @return Biggest y-value on map
+   */
+  public double getyMax() {
+    return yMax;
+  }
+  
+
+  /**
+   * Setter for boundary limit value
+   * @param xMin the xMin to set
+   */
+  public synchronized void setxMin(double xMin) {
+    this.xMin = xMin;
+  }
+
+  /**
+   * Setter for boundary limit value
+   * @param yMin the yMin to set
+   */
+  public synchronized void setyMin(double yMin) {
+    this.yMin = yMin;
+  }
+
+  /**
+   * Setter for boundary limit value
+   * @param xMax the xMax to set
+   */
+  public synchronized void setxMax(double xMax) {
+    this.xMax = xMax;
+  }
+
+  /**
+   * Setter for boundary limit value
+   * @param yMax the yMax to set
+   */
+  public synchronized void setyMax(double yMax) {
+    this.yMax = yMax;
+  }
+
+  /**
+   * Getters for QuadTrees holding connection-IDs
+   * @return the highwaysQT
+   */
+  public synchronized ConnectionQuadTree getHighwaysQT() {
+    if(highwaysQT == null) highwaysQT = new ConnectionQuadTree();
+    return highwaysQT;
+  }
+
+  /**
+   * Getters for QuadTrees holding connection-IDs
+   * @return the expresswaysQT
+   */
+  public synchronized ConnectionQuadTree getExpresswaysQT() {
+    if(expresswaysQT == null) expresswaysQT = new ConnectionQuadTree();
+    return expresswaysQT;
+  }
+
+  /**
+   * Getters for QuadTrees holding connection-IDs
+   * @return the primaryQT
+   */
+  public synchronized ConnectionQuadTree getPrimaryQT() {
+    if(primaryQT == null) primaryQT = new ConnectionQuadTree();
+    return primaryQT;
+  }
+
+  /**
+   * Getters for QuadTrees holding connection-IDs
+   * @return the secondaryQT
+   */
+  public synchronized ConnectionQuadTree getSecondaryQT() {
+    if(secondaryQT == null) secondaryQT = new ConnectionQuadTree();
+    return secondaryQT;
+  }
+
+  /**
+   * Getters for QuadTrees holding connection-IDs
+   * @return the normalQT
+   */
+  public synchronized ConnectionQuadTree getNormalQT() {
+    if(normalQT == null) normalQT = new ConnectionQuadTree();
+    return normalQT;
+  }
+
+  /**
+   * Getters for QuadTrees holding connection-IDs
+   * @return the smallQT
+   */
+  public synchronized ConnectionQuadTree getSmallQT() {
+    if(smallQT == null) smallQT = new ConnectionQuadTree();
+    return smallQT;
+  }
+
+  /**
+   * Getters for QuadTrees holding connection-IDs
+   * @return the pathsQT
+   */
+  public synchronized ConnectionQuadTree getPathsQT() {
+    if(pathsQT == null) pathsQT = new ConnectionQuadTree();
+    return pathsQT;
+  }
+
+  /** 
+   * Set the array of connections held by Controller
+   * @param connections 
+   */
+  public synchronized void setConnections(Connection[] connections) {
+    this.connections = connections;
+  }
+  
+  /**
+   * Set the array of points held by Controller
+   * @param points
+   */
+  public synchronized void setPoints(Point[] points){
+    this.points = points;
+  }
+  
+  /**
+   * 
+   * @return HashMap with <k, v> <Zip, City> as Strings
+   */
+  public HashMap<String, String> getPostal(){
+    return postal;
+  }
 
   /**
    * Get all connections within rectangle
-   * 
    * @param x1
    * @param y1
    * @param x2
    * @param y2
-   *          ArrayList of connections within rectangle
-   * @return
+   * @return ArrayList of connections within rectangle
    */
-
-  public synchronized Connection[] getConnections(int type, double x1, double y1, double x2,
-      double y2) {
+  public synchronized Connection[] getConnections(int type, double x1, double y1, double x2, double y2) {
+    //Determine road type
     ConnectionQuadTree qt = new ConnectionQuadTree();
     switch (type) {
     case 1:
@@ -156,23 +384,28 @@ public final class Controller {
       qt = pathsQT;
       break;
     }
-    // get HashSet of connection IDs from QuadTree
+    // get array of connection IDs from QuadTree
     DynArray<Integer> cons = qt.getConnections(new Interval2D(new Interval(x1,
         x2), new Interval(y1, y2)));
     Connection[] cs = new Connection[cons.size()];
     int size = 0;
+    //Parse IDs to actual connections
     for (Integer i : cons) { // this is slow
       cs[size++] = connections[i];
     }
     return cs;
   }
 
-
-  public TernarySearchTries<Integer> getTst() {
-    if(tst == null) tst = new TernarySearchTries<Integer>();
-    return tst;
-  }
-  
+  /**
+   * Get Roads method takes a String and sends it to address parser. The address parser chops it up into an array of strings.
+   * It then sends the first string (road name) to TST and ask it to find keys with the given prefix.
+   * Then it creates an array of strings containing roads with the given prefix.
+   * Method is used by LiveSearchBox
+   * @param key The text written in LiveSearchBox.
+   * @return Array of String that can be placed in the drop down menu in the LiveSearchBox.
+   * @see LiveSearchBox
+   * @see GUI
+   */
   public String[] getRoads(String key) {
 	  String[] address = null;
 	try {		address = parser.parseAddress(key);
@@ -183,32 +416,35 @@ public final class Controller {
 	  Iterator<Integer> tmp = null;
 	  try{
 	   tmp = tst.keysWithPrefix(address[0]).iterator();
-	  } catch (NullPointerException e){
+	  } catch (NullPointerException e){// if there is no roads starting with the given string
 		  roads[0] = "(none)";
 		  return roads;
 	  }
 	  Connection q;
-	  for(int i = 0; i < roads.length; i++)
+	  for(int i = 0; i < roads.length; i++) //doing a for loop over the road array
 	  {
-		  if(tmp.hasNext()){
-			  q = connections[tmp.next()];
-			  if(Integer.parseInt(address[1]) != 0){
+		  if(tmp.hasNext()){ // doing it as long as the tmp still got more elements.
+			  q = connections[tmp.next()]; //sets q to the next value from the tmp.
+			  if(Integer.parseInt(address[1]) != 0){ // does it have a house number?
 				  if(q.getName().equalsIgnoreCase(address[0]) && address[3] != null && ((""+q.getLeft().getZip()).startsWith(address[3]) && address[3].length() > 3)){
+					  //only here if there is a zip code.
 					  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
 				  }
-			  else if(q.getName().equalsIgnoreCase(address[0])){
+			  else if(q.getName().equalsIgnoreCase(address[0])){ //if the string does not have a zip code
 				  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());
 			  }
 			  
-			  }else{
-			  if(getPostal().get(""+q.getLeft().getZip()) != null)roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());
-			  else roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" Sverige";
+			  }else{ //if there is no house number
+			  if(getPostal().get(""+q.getLeft().getZip()) != null){ //if we are not in Sweden
+				  roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());
+			  }
+			  else roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" Sweden";
 			  }
 		  }
-		  if(roads[i] == null) roads[i] = " ";
+		  if(roads[i] == null) roads[i] = " "; //removing all null values from the array
 	  }
-	  Arrays.sort(roads);
-	  for(int i = 0; i < 5; i++){
+	  Arrays.sort(roads); //sort the array so we dont get empty rooms before at the end
+	  for(int i = 0; i < 5; i++){ // turning the array around.
 		  String t = roads[i];
 		  roads[i] = roads[9-i];
 		  roads[9-i] = t;
@@ -216,270 +452,33 @@ public final class Controller {
 	  return roads;
   }
   
-  public void getRoadPlan(String a, String b){
+  /**
+   * This methods gets 2 String representing from and to. It gives them to the address parser (to chop up the string), 
+   * then to the TST (to get the corresponding connection ID), then to Graph (to calculated the shortest route) and then to map
+   * to paint the route.
+   * @param from		the "from" String
+   * @param to			the "to" String
+   */
+  public void getRoadPlan(String from, String to){
 	  String[] address1 = null;
-	  String t = null, f = null;
 	  int tzip = 0, fzip = 0;
-		try {
-			address1 = parser.parseAddress(a);
-			f = address1[0];
+		try { // try sending them to the address parser
+			address1 = parser.parseAddress(from);
+			from = address1[0];
 			fzip =  Integer.parseInt(address1[3]);
-			address1 = parser.parseAddress(b);
-			t = address1[0];
+			address1 = parser.parseAddress(to);
+			to = address1[0];
 			tzip =  Integer.parseInt(address1[3]);
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+		  ExceptionController.recieveException(e);
 		}
-		Point start = connections[tst.get(f, fzip)].getLeft();
-		Point finish = connections[tst.get(t, tzip)].getLeft();
-		try{
+		Point start = connections[tst.get(from, fzip)].getLeft(); //get the connection using the TST to get the value.
+		Point finish = connections[tst.get(to, tzip)].getLeft();
+		try{// try finding the value in graph and use them to paint the route.
 		  Connection[] con = getGraph().shortestPath(start, finish);
-		  
-		  //con, xmin, ymin, xmax, ymax
-      map.setRoute(con, graph.getXmin(), graph.getYmin(), graph.getXmax(), graph.getYmax()); 
+		  map.setRoute(con, graph.getXmin(), graph.getYmin(), graph.getXmax(), graph.getYmax()); 
 		} catch (RuntimeException e){ 
 		  ExceptionController.recieveException(e);
 		}
-  }
-
-  /**
-   * Get array of all connections
-   * 
-   * @return Array of all connections
-   * @see Connection
-   */
-
-   synchronized public Connection[] getConnections() {
-    return connections;
-  }
-   
-   synchronized public Point[] getPoints(){
-     return points;
-   }
-
-  /**
-   * Set status label on GUI
-   * 
-   * @param s
-   *          Status to be shown
-   */
-  public void setStatus(String s) {
-    gui.setStatus(s);
-  }
-  
-  /**
-   * Catch an exception and send it 
-   * to the ExceptionController
-   * @param e
-   */
-  public static void catchException(Exception e) {
-  	ExceptionController.recieveException(e);
-  }
-  
-  /**
-   * Catch an exception and send it 
-   * to the ExceptionController
-   * @param e
-   */
-
-  /**
-   * Show or hide a type of road
-   * 
-   * @param n
-   *          type_id
-   * @param b
-   *          To show or not to show
-   */
-  public synchronized void updateMap(int n, boolean m) {
-    map.updateRoadTypes(n, m);
-  }
-
-  public void showAll() {
-    map.resetZoom();
-  }
-
-  public double getxMin() {
-    return xMin;
-  }
-
-  public double getyMin() {
-    return yMin;
-  }
-
-  public double getxMax() {
-    return xMax;
-  }
-
-  public double getyMax() {
-    return yMax;
-  }
-
-  /**
-   * @return the highwaysQT
-   */
-  public synchronized ConnectionQuadTree getHighwaysQT() {
-    if(highwaysQT == null) highwaysQT = new ConnectionQuadTree();
-    return highwaysQT;
-  }
-
-  /**
-   * @param highwaysQT the highwaysQT to set
-   */
-  public synchronized void setHighwaysQT(ConnectionQuadTree highwaysQT) {
-    this.highwaysQT = highwaysQT;
-  }
-
-  /**
-   * @return the expresswaysQT
-   */
-  public synchronized ConnectionQuadTree getExpresswaysQT() {
-    if(expresswaysQT == null) expresswaysQT = new ConnectionQuadTree();
-    return expresswaysQT;
-  }
-
-  /**
-   * @param expresswaysQT the expresswaysQT to set
-   */
-  public synchronized void setExpresswaysQT(ConnectionQuadTree expresswaysQT) {
-    this.expresswaysQT = expresswaysQT;
-  }
-
-  /**
-   * @return the primaryQT
-   */
-  public synchronized ConnectionQuadTree getPrimaryQT() {
-    if(primaryQT == null) primaryQT = new ConnectionQuadTree();
-    return primaryQT;
-  }
-
-  /**
-   * @param primaryQT the primaryQT to set
-   */
-  public synchronized void setPrimaryQT(ConnectionQuadTree primaryQT) {
-    this.primaryQT = primaryQT;
-  }
-
-  /**
-   * @return the secondaryQT
-   */
-  public synchronized ConnectionQuadTree getSecondaryQT() {
-    if(secondaryQT == null) secondaryQT = new ConnectionQuadTree();
-    return secondaryQT;
-  }
-
-  /**
-   * @param secondaryQT the secondaryQT to set
-   */
-  public synchronized void setSecondaryQT(ConnectionQuadTree secondaryQT) {
-    this.secondaryQT = secondaryQT;
-  }
-
-  /**
-   * @return the normalQT
-   */
-  public synchronized ConnectionQuadTree getNormalQT() {
-    if(normalQT == null) normalQT = new ConnectionQuadTree();
-    return normalQT;
-  }
-
-  /**
-   * @param normalQT the normalQT to set
-   */
-  public synchronized void setNormalQT(ConnectionQuadTree normalQT) {
-    this.normalQT = normalQT;
-  }
-
-  /**
-   * @return the smallQT
-   */
-  public synchronized ConnectionQuadTree getSmallQT() {
-    if(smallQT == null) smallQT = new ConnectionQuadTree();
-    return smallQT;
-  }
-
-  /**
-   * @param smallQT the smallQT to set
-   */
-  public synchronized void setSmallQT(ConnectionQuadTree smallQT) {
-    this.smallQT = smallQT;
-  }
-
-  /**
-   * @return the pathsQT
-   */
-  public synchronized ConnectionQuadTree getPathsQT() {
-    if(pathsQT == null) pathsQT = new ConnectionQuadTree();
-    return pathsQT;
-  }
-
-  /**
-   * @param pathsQT the pathsQT to set
-   */
-  public synchronized void setPathsQT(ConnectionQuadTree pathsQT) {
-    this.pathsQT = pathsQT;
-  }
-
-  /**
-   * @param tst the tst to set
-   */
-  public synchronized void setTst(TernarySearchTries<Integer> tst) {
-    this.tst = tst;
-  }
-
-  /**
-   * @param connections the connections to set
-   */
-  public synchronized void setConnections(Connection[] connections) {
-    this.connections = connections;
-  }
-  
-  public synchronized void setPoints(Point[] points){
-    this.points = points;
-  }
-
-  /**
-   * @param xMin the xMin to set
-   */
-  public synchronized void setxMin(double xMin) {
-    this.xMin = xMin;
-  }
-
-  /**
-   * @param yMin the yMin to set
-   */
-  public synchronized void setyMin(double yMin) {
-    this.yMin = yMin;
-  }
-
-  /**
-   * @param xMax the xMax to set
-   */
-  public synchronized void setxMax(double xMax) {
-    this.xMax = xMax;
-  }
-
-  /**
-   * @param yMax the yMax to set
-   */
-  public synchronized void setyMax(double yMax) {
-    this.yMax = yMax;
-  }
-  
-  public Graph getGraph(){
-    return graph;
-  }
-  
-  public HashMap<String, String> getPostal(){
-    return postal;
-  }
-
-  /**
-   * Main method creates a new GUI
-   * 
-   * @see GUI-class
-   * @param args
-   */
-  public static void main(String[] args) {
-    new Controller();
   }
 }
