@@ -47,10 +47,9 @@ import visualization.SliderComponent;
 import controller.Controller;
 
 /**
- * 
+ * The main class of the graphical user interface
  * @author Pacmans
- * @version 10. April 2012
- * 
+ * @version 14. May 2012
  */
 public class GUI {
 	// This field contains the current version of the application.

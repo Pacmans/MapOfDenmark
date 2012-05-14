@@ -10,8 +10,7 @@ import dataStructure.Connection;
 
 /**
  * This class paints the map and makes the user capable of zooming and panning around the map
- * @author bjorn
- *
+ * @author Pacmans
  */
 
 @SuppressWarnings("serial")
