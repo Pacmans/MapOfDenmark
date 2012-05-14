@@ -7,8 +7,6 @@ import javax.swing.JComponent;
 
 import controller.Controller;
 import dataStructure.Connection;
-import dataStructure.Point;
-import dataStructure.RoadType;
 
 /**
  * This class paints the map and makes the user capable of zooming and panning around the map
@@ -49,6 +47,7 @@ public class MapComponent extends JComponent {
 	 */
 	private void addListener() {
 		addMouseListener(new MouseAdapter() {
+			@Override
 			public void mousePressed(MouseEvent e) {
 				if (e.getButton() == MouseEvent.BUTTON1) { // leftclicking
 					// remember where you start draggin to "panorere" with the
@@ -61,6 +60,7 @@ public class MapComponent extends JComponent {
 
 		// for "panorering" with the map
 		addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
 			public void mouseDragged(MouseEvent e) {
 				/*
 				 * -= is because the map has to move the opposite way of the way
@@ -80,14 +80,15 @@ public class MapComponent extends JComponent {
 
 		// Listener to mousewheel for zooming
 		addMouseWheelListener(new MouseWheelListener() {
+			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
 				int wheelDirection = e.getWheelRotation();
 
 				if (wheelDirection < 0) // scrolls up
-					zoom(zoomLevel + 1);// zoom in
+					zoom(zoomLevel + 1, true);// zoom in
 				else
 					// scrolls down
-					zoom(zoomLevel - 1); // zoom out
+					zoom(zoomLevel - 1, true); // zoom out
 
 				updateMap();
 			}
@@ -95,6 +96,7 @@ public class MapComponent extends JComponent {
 
 		// Listener to keep the scaling when resizing
 		addComponentListener(new ComponentAdapter() {
+			@Override
 			public void componentResized(ComponentEvent e) {
 				int height, width;
 
@@ -130,9 +132,10 @@ public class MapComponent extends JComponent {
 	}
 
 	/**
-	 * zooms 1 level towards the given parameter.
+	 * zooms 1 level towards the given parameter. param update decides whether
+	 * the map should update or not after zooming
 	 */
-	public void zoom(int n) {
+	public void zoom(int n, boolean update) {
 		double xDifference = dx * zoomScale, yDifference = dy * zoomScale;
 		if (n > zoomLevel && zoomLevel < maxZoom) { // zooms in
 			xMin += xDifference;
@@ -148,9 +151,45 @@ public class MapComponent extends JComponent {
 			yMax += yDifference * 1.25;
 			zoomLevel--;
 		}
-		updateMap();
+		if (update)
+			updateMap();
 	}
 
+	/**
+	 * set the zoom to cover the route
+	 */
+	private void zoomOnRoute(double x1, double y1, double x2, double y2)
+	{
+		if (route == null) return;
+		
+		//coordinates for the center of the rute
+		double centerX = x1+(x2-x1)/2;
+		double centerY = y1+(y2-y1)/2;
+		
+		resetCoordinates();
+		
+		int level = 0;
+		//zooms in until it finds the correct zoom level
+		while(level<30){
+			if (dx > (x2-x1)/2 && dy > (y2-y1)/2){
+				//zooms in without updating map
+				zoom(level+1, false);
+				calcCoordinates(); //refresh dx and dy
+			}
+			else{
+				//calculates coordinates and update map
+				zoom(level-1, false);
+				calcCoordinates(); //refresh dx and dy
+				xMin = centerX-dx;
+				xMax = centerX+dx;
+				yMin = centerY-dy;
+				yMax = centerY+dy;
+				return;
+			}
+			level++;
+		}
+	}
+	
 	/**
 	 * updates the map
 	 */
@@ -231,7 +270,7 @@ public class MapComponent extends JComponent {
 		
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHints(createRenderingHints());
-
+		
 		// paints the roads
 		for (int i = roadtypes.length - 1; i >= 0; i--) {
 			if (roadtypes[i])
@@ -241,7 +280,8 @@ public class MapComponent extends JComponent {
 		}
 		
 		//paints the route
-		paintRoute(g2);
+		if (route != null)
+			paintRoute(g2);
 		
 		//paints border
 		paintBorder(g2);
@@ -298,27 +338,23 @@ public class MapComponent extends JComponent {
 		}
 	}
 
+	/**
+	 * paints the requested route on the map
+	 */
 	private void paintRoute(Graphics2D g2)
 	{
-		GradientPaint gradient =
-			    new GradientPaint(0, 0, Color.cyan,100, 100, Color.yellow,true);
-		System.out.println("hejsa");
-//		g2.setColor(Color.cyan);
-		g2.setPaint(gradient);
-		g2.setStroke(new BasicStroke(6));
+		g2.setColor(new Color(0,102,204)); //blue
+		double widthFactor = 4 * (1.3 - xScale) - 5;
+		g2.setStroke(new BasicStroke((float)widthFactor+6));
 		
-//		for (Connection c: route){
-//			int x1 = (int) ((c.getX1() - xMin) / xScale);
-//			int y1 = (int) ((yMax - c.getY1()) / yScale);
-//			int x2 = (int) ((c.getX2() - xMin) / xScale);
-//			int y2 = (int) ((yMax - c.getY2()) / yScale);
-//			g2.drawLine(x1, y1, x2, y2);
-//		}
-		g2.drawLine(105, 305, 20, 50);
-		g2.drawLine(20, 50, 120, 250);
-		g2.drawLine(120, 250, 50, 150);
-		g2.drawLine(120, 250, 950, 450);
-		g2.drawLine(950, 450, 950, 850);
+		//paints the route
+		for (Connection c: route){
+			int x1 = (int) ((c.getX1() - xMin) / xScale);
+			int y1 = (int) ((yMax - c.getY1()) / yScale);
+			int x2 = (int) ((c.getX2() - xMin) / xScale);
+			int y2 = (int) ((yMax - c.getY2()) / yScale);
+			g2.drawLine(x1, y1, x2, y2);
+		}
 	}
 	
 	/**
@@ -340,9 +376,11 @@ public class MapComponent extends JComponent {
 	/**
 	 * set the route
 	 */
-	public void setRoute(Connection[] route)
+	public void setRoute(Connection[] route, double x1, 
+						double y1, double x2, double y2)
 	{
 		this.route = route;
+		zoomOnRoute(x1, y1, x2, y2);
 		updateMap();
 	}
 	
@@ -385,4 +423,3 @@ public class MapComponent extends JComponent {
 		manualControl = selected;
 	}
 }
-

@@ -86,9 +86,9 @@ public class GUI {
 
 	private void setupFrame() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
 		frame.setMinimumSize(windowSize);
 		frame.setSize(windowSize);
+		frame.pack();
 		frame.setState(Frame.NORMAL);
 		// place the frame at the center of the screen and show.
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -96,13 +96,13 @@ public class GUI {
 				- frame.getHeight() / 2);
 		contentPane.setEnabled(false);
 		frame.setBackground(Color.darkGray);
+		frame.pack();
 		updateGUI();
 	}
 
 	private void updateGUI() {
-		frame.pack();
+//		frame.pack();
 		frame.setVisible(true);
-//		area = Box.createRigidArea(roadtypeBoxes.getSize());
 		if (manualControlBox.isSelected()) {
 			area.setVisible(false);
 			roadtypeBoxes.setVisible(true);
@@ -216,11 +216,12 @@ public class GUI {
 		optionPanel.add(createRouteplanningBox());
 		optionPanel.add(createCheckbox());
 		optionPanel.add(area);
+		area.setVisible(false);
 		optionPanel.add(createZoomOutButton());
 		// add the optionPanel to the contentPanes borderlayout.
 		contentPane.add(optionPanel, "East");
 	}
-	
+
 	private JPanel createRouteplanningBox() {
 		JPanel routePlanning = new JPanel();
 		TitledBorder border = new TitledBorder(
@@ -247,6 +248,8 @@ public class GUI {
     JPanel toPanel = new JPanel(new FlowLayout(2));
     toPanel.add(label);
     toPanel.add(toBox.getBox());
+    
+    enableSearch(false);
 
 		// go button
 		JButton go = new JButton("Go");
@@ -255,8 +258,13 @@ public class GUI {
 		go.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// get the selected transportation type and DO SOMETHING
-				System.out.println("Fra " + fromBox.getText() + ", til " + toBox.getText());
-				controller.getRoadPlan(fromBox.getText(), toBox.getText());
+				if(fromBox.getText().equals("") || toBox.getText().equals(""))
+					setStatus("Please fill in both address fields");
+				else {
+					controller.getRoadPlan(fromBox.getText(), toBox.getText());
+					setStatus("You route is the blue line");
+				}
+				
 			}
 		});
 		JPanel goPanel = new JPanel(new FlowLayout(1));
@@ -358,7 +366,7 @@ public class GUI {
 		TitledBorder border = new TitledBorder(new EtchedBorder(), "Road types");
 		border = setHeadlineFont(border);
 		checkboxPanel.setBorder(border);
-		
+
 		// fill the checkboxPanel
 		JPanel manualPanel = new JPanel(new FlowLayout(0));
 		manualControlBox = new JCheckBox("Manual Control");
@@ -389,14 +397,14 @@ public class GUI {
 		roadtypeBoxes.add(createRoadtypeBox("Paths", false));
 		checkboxPanel.add(manualPanel);
 		checkboxPanel.add(roadtypeBoxes);
-		
+
 		return checkboxPanel;
 	}
 
 	private void setRoadtypeSelections()
 	{
 		boolean[] roadtypes = map.getRoadtypes();
-		
+
 		boxes.get("Highways").setSelected(roadtypes[0]);
 		boxes.get("Expressways").setSelected(roadtypes[1]);
 		boxes.get("Primary roads").setSelected(roadtypes[2]);
@@ -405,7 +413,7 @@ public class GUI {
 		boxes.get("Trails & streets").setSelected(roadtypes[5]);
 		boxes.get("Paths").setSelected(roadtypes[6]);
 	}
-	
+
 	private JPanel createRoadtypeBox(String string, boolean selected) {
 		JPanel fl = new JPanel(new FlowLayout(0));
 		JCheckBox box = new JCheckBox(string);
@@ -461,5 +469,12 @@ public class GUI {
   public void enableFrame() {
 	  contentPane.setEnabled(true);
 	  frame.setBackground(Color.lightGray);
+  }
+  
+  public void enableSearch(boolean bool){
+    toBox.getBox().setEnabled(bool);
+    fromBox.getBox().setEnabled(bool);
+    toBox.getBox().setEditable(bool);
+    fromBox.getBox().setEditable(bool);
   }
 }

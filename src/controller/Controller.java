@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import exceptions.ExceptionController;
@@ -45,6 +46,7 @@ public final class Controller {
   volatile private ConnectionQuadTree smallQT; // 6
   volatile private ConnectionQuadTree pathsQT; // 7
   private double xMin, yMin, xMax, yMax;
+  private HashMap<String, String> postal = new HashMap<String, String>(); //zip, city
 
   /**
    * Constructor for this class loads connections and points from FileLoader
@@ -64,6 +66,7 @@ public final class Controller {
     setStatus("Creating graph");
     graph = new Graph();
     setStatus("Graph created. All done");
+    gui.enableSearch(true);
   }
 
   /**
@@ -170,13 +173,10 @@ public final class Controller {
     return tst;
   }
   
-  public String[] getRoads(String key)
-  {
+  public String[] getRoads(String key) {
 	  String[] address = null;
-	try {
-		address = parser.parseAddress(key);
+	try {		address = parser.parseAddress(key);
 	} catch (Exception e1) {
-		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
 	  String[] roads = new String[10];
@@ -195,15 +195,15 @@ public final class Controller {
 			  if(Integer.parseInt(address[1]) != 0){
 				  if(q.getName().equalsIgnoreCase(address[0]) && address[3] != null){
 					  if(((""+q.getLeft().getZip()).startsWith(address[3]))){
-					  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
+					  roads[i] = q.getName()+" "+address[1]+address[2]+", " + q.getLeft().getZip()+" "+address[4];
 				   }
 			  } else if(q.getName().equalsIgnoreCase(address[0])){
-				  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
+				  roads[i] = q.getName()+" "+address[1]+address[2]+", " + q.getLeft().getZip()+" "+address[4];
 			  }
 			  
 			  }else{
-			  if(q.getLeft().getZip()!=0) roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip();
-			  else roads[i] = q.getName()+" "+address[1]+address[2]+", "+"Sverige";
+			  if(getPostal().get(""+q.getLeft().getZip()) != null)roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());
+			  else roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" Sverige";
 			  }
 		  }
 		  if(roads[i] == null) roads[i] = " ";
@@ -218,16 +218,29 @@ public final class Controller {
   }
   
   public void getRoadPlan(String a, String b){
-	  String[] address1 = null,address2 = null;
+	  String[] address1 = null;
+	  String t = null, f = null;
+	  int tzip = 0, fzip = 0;
 		try {
 			address1 = parser.parseAddress(a);
-			address2 = parser.parseAddress(b);
+			f = address1[0];
+			fzip =  Integer.parseInt(address1[3]);
+			address1 = parser.parseAddress(b);
+			t = address1[0];
+			tzip =  Integer.parseInt(address1[3]);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-	  Connection[] con = getGraph().shortestPath(connections[tst.get(address1[0], Integer.parseInt(address1[3]))].getLeft(),connections[tst.get(address2[0], Integer.parseInt(address2[3]))].getLeft());
-	  //send con to map
-	  
+		Point start = connections[tst.get(f, fzip)].getLeft();
+		Point finish = connections[tst.get(t, tzip)].getLeft();
+		try{
+		  Connection[] con = getGraph().shortestPath(start, finish);
+		  
+		  //con, xmin, ymin, xmax, ymax
+      map.setRoute(con, graph.getXmin(), graph.getYmin(), graph.getXmax(), graph.getYmax()); 
+		} catch (RuntimeException e){ 
+		  ExceptionController.recieveException(e);
+		}
   }
 
   /**
@@ -455,6 +468,10 @@ public final class Controller {
   
   public Graph getGraph(){
     return graph;
+  }
+  
+  public HashMap<String, String> getPostal(){
+    return postal;
   }
 
   /**
