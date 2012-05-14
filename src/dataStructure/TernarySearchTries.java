@@ -9,9 +9,9 @@ public class TernarySearchTries<Value> {
 	private class Node
 	{
 		char c;
-
 		Node left, mid, right, post;
 		int postal;
+
 		HashSet<Value> val = new HashSet<Value>();
 	}
 	public HashSet<Value> get(String key)
@@ -23,7 +23,7 @@ public class TernarySearchTries<Value> {
 	
 	private Node get(Node x, String key, int d)
 	{
-		if( x == null) return null;
+		if( x == null || key.length() == 0)return null;
 		char c = key.charAt(d);
 		if 		(c < x.c) 			 return get(x.left, key, d);
 		else if (c > x.c) 			 return get(x.right, key, d);
@@ -31,14 +31,15 @@ public class TernarySearchTries<Value> {
 		else return x;
 	}
 	
-	public Node get(String key, int postal){
-		Node x = get(root, key, 0);
-		if(x.postal == postal) return x;
-		else return x.post;
+	public int get(String key, int postal){
+		key = key.toLowerCase();
+		Node x = get(root,key,0);
+		x = checkPostal(x, postal);
+		return (Integer) x.val.iterator().next();
 	}
 	public void put(String key, Value val, int postal){
 		key = key.toLowerCase();
-	 root = put(root, key, val, 0, postal);}
+	    root = put(root, key, val, 0, postal);}
 	
 	public Node put(Node x, String key, Value val, int d, int postal)
 	{
@@ -53,27 +54,28 @@ public class TernarySearchTries<Value> {
 		return x;
 	
 	}
-	
+
 	public Iterable<Integer> keysWithPrefix(String pre){
-		pre = pre.toLowerCase();
+		Node x = get(root, pre.toLowerCase(), 0);
 		LinkedList<Integer> q = new LinkedList<Integer>();
-		collect(get(root, pre, 0), q);
+		if(x.val.size() > 0) collect(x,q);
+		else collect(x.mid, q);
 		return q;
 	}
 	
 	private void collect(Node x, LinkedList<Integer> q){
 		if( x == null) return;
-		if( q.isEmpty()){
-			if( x.val != null && x.val.size() > 0) q.add((Integer) x.val.iterator().next());
-			collect(x.mid,q);
-			collect(x.post,q);
-		}else{
-		if( x.val != null && x.val.size() > 0) q.add((Integer) x.val.iterator().next());
+		if( q.size() > 10) return;
+		if( x.val.size() > 0) q.add((Integer) x.val.iterator().next());
 			collect(x.left, q);
 			collect(x.right, q);
 			collect(x.mid, q);
-			collect(x.post,q);
-		}
-			
+			collect(x.post, q);
+		
+	}
+	
+	private Node checkPostal(Node x, int postal){
+		if(x.postal != postal && x.post != null) x = checkPostal(x.post, postal);
+		return x;
 	}
 }

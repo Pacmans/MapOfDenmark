@@ -19,16 +19,16 @@ public class LiveSearchBox {
 	private DocumentListener listener;
 	private Document doc;
 	private Controller controller;
-
+	
 	public LiveSearchBox() {
 		controller = Controller.getInstance();
 		adress = new JComboBox();
 		Dimension d = adress.getPreferredSize();
-		adress.setPreferredSize(new Dimension(150,(int) d.getHeight()));
+		adress.setPreferredSize(new Dimension(170,(int) d.getHeight()));
 		adress.setEditable(true);
 	  adress.setBackground(Color.lightGray);
 		component = (JTextField) adress.getEditor().getEditorComponent();
-		component.setSize(60, 10);
+		component.setSize(50, 10);
 		doc = component.getDocument();
 		listener = createListener();
 		doc.addDocumentListener(listener);
@@ -39,7 +39,6 @@ public class LiveSearchBox {
 		return new DocumentListener() {
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				update();
 			}
 	
 			@Override
@@ -58,16 +57,18 @@ public class LiveSearchBox {
 				SwingUtilities.invokeLater(new Runnable() {
 		      @Override 
 		      public void run() {
-				if(component.getText().length()==0) return;
 		      	doc.removeDocumentListener(listener);
 		      	String typedRoad = component.getText();
 		      	String[] roads = controller.getRoads(typedRoad);
 						adress.removeAllItems();
-						adress.addItem(typedRoad);
-						for (String road : roads) {
-							adress.addItem(road);
+						if(typedRoad != "") {
+							adress.addItem(typedRoad);
+							for (String road : roads) {
+								if(road != null)
+									adress.addItem(road);
+							}
+							adress.showPopup();
 						}
-						adress.showPopup();
 						doc.addDocumentListener(listener);
 					}
 				} );
@@ -80,4 +81,7 @@ public class LiveSearchBox {
 		return adress;
 	}
 	
+	public String getText() {
+		return component.getText();
+	}
 }

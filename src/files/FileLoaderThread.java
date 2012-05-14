@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import controller.Controller;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.Point;
@@ -41,7 +43,7 @@ public class FileLoaderThread implements Runnable {
     try {
       makeQT();
     } catch (Exception e) {
-      System.out.println(e);
+      Controller.catchException(e);
     }
   }
 
@@ -77,7 +79,7 @@ public class FileLoaderThread implements Runnable {
         int id = Integer.parseInt(split[0]);
 
         // creates and saves the Connection
-        connections[id] = new Connection(id, p1, p2, r, split[7].substring(1,split[7].length()-1));
+        connections[id] = new Connection(id, p1, p2, r, split[7].substring(1,split[7].length()-1), Integer.parseInt(split[26]));
 
         // adds p1 and p2 to the quadtree
         synchronized (qtr) {

@@ -2,182 +2,52 @@ package visualization;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.JComponent;
 
 import controller.Controller;
 import dataStructure.Connection;
 
+/**
+ * This class paints the map and makes the user capable of zooming and panning around the map
+ * @author bjorn
+ *
+ */
+
 @SuppressWarnings("serial")
 public class MapComponent extends JComponent {
 
-	private int zoomNiveau = 30;
+	private final int maxZoom = 30, minZoom = 0; // maxZoom = close view and
+													// minZoom = far view
+	private int zoomLevel = minZoom;
 	private final double totalxMin, totalxMax, totalyMin, totalyMax;
 	private final double zoomScale = 0.2;
 	private double xMin, yMin, xMax, yMax;
 	private double dx, dy;
 	private double xScale, yScale;
-	private int xClick, yClick; // for the mouselistener
+	private int xClick, yClick; // for the mouse listener
 	private boolean[] roadtypes;
-	private Connection[] connections;
+	private boolean manualControl = false;
+	private Connection[] route;
 	private Controller controller = Controller.getInstance();
 
 	public MapComponent() {
-		roadtypes = new boolean[] { true, true, true, true, false, false,
-				false };
-		totalxMin = (double) (controller.getxMin() - 40);
-		totalxMax = (double) (controller.getxMax() + 40);
-		totalyMin = (double) (controller.getyMin() - 20);
-		totalyMax = (double) (controller.getyMax() + 20);
+		roadtypes = new boolean[] { true, true, true, true, false, false, false };
+		totalxMin = controller.getxMin() - 40;
+		totalxMax = controller.getxMax() + 40;
+		totalyMin = controller.getyMin() - 20;
+		totalyMax = controller.getyMax() + 20;
 		resetCoordinates();
 		calcCoordinates();
 		addListener();
 	}
 
 	/**
-	 * gets all the needed coordinates
-	 */
-	private void resetCoordinates() {
-		xMin = totalxMin;
-		yMin = totalyMin;
-		xMax = totalxMax;
-		yMax = totalyMax;
-		zoomNiveau = 30;
-	}
-
-	private void calcCoordinates() {
-		dx = (xMax - xMin) / 2;
-		dy = (yMax - yMin) / 2;
-	}
-
-	public void updateRoadTypes(int n, boolean isSelected) {
-		roadtypes[n - 1] = isSelected;
-		updateMap();
-	}
-
-	/**
-	 * if n = 1 it will zoom in otherwise if n = -1 it will zoom out
-	 */
-	private void zoom(int n) {
-		double xDifference = dx * zoomScale, yDifference = dy * zoomScale;
-		if (n == 1 && zoomNiveau > 0) { // zooms in
-			zoomNiveau--;
-			xMin += xDifference;
-			xMax -= xDifference;
-			yMin += yDifference;
-			yMax -= yDifference;
-		}
-		if (n == -1 && zoomNiveau < 30) { // zooms out
-			zoomNiveau++;
-			xMin -= xDifference * 1.25;
-			xMax += xDifference * 1.25;
-			yMin -= yDifference * 1.25;
-			yMax += yDifference * 1.25;
-		}
-		updateMap();
-	}
-
-	/**
-	 * paints the whole component
-	 */
-	public void paint(Graphics g) {
-		calcCoordinates();
-		setScale();
-
-		Graphics2D g2 = (Graphics2D) g;
-
-		// paints the white background
-		g.setColor(Color.white);
-		g.fillRect(2, 2, getWidth() - 4, getHeight() - 4);
-
-		// paints the roads
-		for (int i = roadtypes.length - 1; i >= 0; i--) {
-			if (roadtypes[i])
-			  synchronized(controller){
-			    paintRoadsOfType(i, g2);
-			  }
-		}
-		paintBorder(g2);
-	}
-	
-	private void paintRoadsOfType(int type, Graphics2D g2) {
-		connections = controller.getConnections(type + 1, xMin, yMin, xMax,
-				yMax);
-		float f = 0;
-		double startSize;
-		BasicStroke stroke;
-
-		for (Connection c : connections) {
-			switch (type) { // calculates starting width of lines
-			case 0:
-				startSize = 0;
-				break;
-			case 1:
-				startSize = -0.5;
-				break;
-			case 2:
-				startSize = -1;
-				break;
-			case 3:
-				startSize = -2;
-				break;
-			case 4:
-				startSize = -3;
-				break;
-			case 5:
-				startSize = -3.5;
-				break;
-			case 6:
-				startSize = -4;
-				break;
-			default:
-				startSize = -5;
-				break;
-			}
-			// calculates the width of the line
-			f = (float) (startSize + 3 * (1.3 - xScale));
-
-			if (f < 1) // minimum width is 1
-				stroke = new BasicStroke(1);
-			else
-				stroke = new BasicStroke(f);
-
-			// get the coordinates for the line
-			int x1 = (int) ((c.getX1() - xMin) / xScale);
-			int y1 = (int) ((yMax - c.getY1()) / yScale);
-			int x2 = (int) ((c.getX2() - xMin) / xScale);
-			int y2 = (int) ((yMax - c.getY2()) / yScale);
-
-			// draws the line
-			g2.setColor(c.getType().color());
-			g2.setStroke(stroke);
-			g2.drawLine(x1, y1, x2, y2);
-		}
-	}
-
-	private void paintBorder(Graphics2D g)
-	{
-		g.setStroke(new BasicStroke(3));
-		g.setColor(Color.darkGray);
-		
-		g.drawLine(0, 0, 0, getHeight()); //left line
-		g.drawLine(getWidth()-1, 0, getWidth()-1, getHeight()); //rigth line
-		g.drawLine(0, 0, getWidth(), 0); //top line
-		g.drawLine(0, getHeight()-1, getWidth(), getHeight()-1); //bottom line
-	}
-	
-	/**
-	 * set zoom to the original zoom-perspective
-	 */
-	public void resetZoom() {
-		resetCoordinates();
-		updateMap();
-	}
-
-	/**
-	 * adds the mouselisteners to the component
+	 * adds the mouse listeners to the component
 	 */
 	private void addListener() {
 		addMouseListener(new MouseAdapter() {
+			@Override
 			public void mousePressed(MouseEvent e) {
 				if (e.getButton() == MouseEvent.BUTTON1) { // leftclicking
 					// remember where you start draggin to "panorere" with the
@@ -190,6 +60,7 @@ public class MapComponent extends JComponent {
 
 		// for "panorering" with the map
 		addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
 			public void mouseDragged(MouseEvent e) {
 				/*
 				 * -= is because the map has to move the opposite way of the way
@@ -209,14 +80,15 @@ public class MapComponent extends JComponent {
 
 		// Listener to mousewheel for zooming
 		addMouseWheelListener(new MouseWheelListener() {
+			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
 				int wheelDirection = e.getWheelRotation();
 
 				if (wheelDirection < 0) // scrolls up
-					zoom(1);// zoom in
+					zoom(zoomLevel + 1, true);// zoom in
 				else
 					// scrolls down
-					zoom(-1); // zoom out
+					zoom(zoomLevel - 1, true); // zoom out
 
 				updateMap();
 			}
@@ -224,14 +96,15 @@ public class MapComponent extends JComponent {
 
 		// Listener to keep the scaling when resizing
 		addComponentListener(new ComponentAdapter() {
+			@Override
 			public void componentResized(ComponentEvent e) {
 				int height, width;
 
-				if (getWidth() < getHeight()*1.1) {
+				if (getWidth() < getHeight() * 1.1) {
 					height = (int) (getWidth() * 0.91);
 					width = getWidth();
 				} else {
-					width = (int) (getHeight()*1.1);
+					width = (int) (getHeight() * 1.1);
 					height = getHeight();
 				}
 				setSize(new Dimension(width, height));
@@ -239,19 +112,99 @@ public class MapComponent extends JComponent {
 		});
 	}
 
-	public int getZoomNiveau() {
-		return zoomNiveau;
+	/**
+	 * gets all the needed coordinates
+	 */
+	private void resetCoordinates() {
+		xMin = totalxMin;
+		yMin = totalyMin;
+		xMax = totalxMax;
+		yMax = totalyMax;
+		zoomLevel = minZoom;
 	}
 
 	/**
-	 * always set's the zoom within the boundaries of the map
+	 * calculates dx and dy
 	 */
-	private void setWithinBoundaries() {
-		// if (dx > maxDx) {
-		// dx = maxDx;
-		// dy = maxDy;
-		// }
+	private void calcCoordinates() {
+		dx = (xMax - xMin) / 2;
+		dy = (yMax - yMin) / 2;
+	}
 
+	/**
+	 * zooms 1 level towards the given parameter. param update decides whether
+	 * the map should update or not after zooming
+	 */
+	public void zoom(int n, boolean update) {
+		double xDifference = dx * zoomScale, yDifference = dy * zoomScale;
+		if (n > zoomLevel && zoomLevel < maxZoom) { // zooms in
+			xMin += xDifference;
+			xMax -= xDifference;
+			yMin += yDifference;
+			yMax -= yDifference;
+			zoomLevel++;
+		}
+		if (n < zoomLevel && zoomLevel > minZoom) { // zooms out
+			xMin -= xDifference * 1.25;
+			xMax += xDifference * 1.25;
+			yMin -= yDifference * 1.25;
+			yMax += yDifference * 1.25;
+			zoomLevel--;
+		}
+		if (update)
+			updateMap();
+	}
+
+	/**
+	 * set the zoom to cover the route
+	 */
+	private void zoomOnRoute(double x1, double y1, double x2, double y2)
+	{
+		if (route == null) return;
+		
+		//coordinates for the center of the rute
+		double centerX = x1+(x2-x1)/2;
+		double centerY = y1+(y2-y1)/2;
+		
+		resetCoordinates();
+		
+		int level = 0;
+		//zooms in until it finds the correct zoom level
+		while(level<30){
+			if (dx > (x2-x1)/2 && dy > (y2-y1)/2){
+				//zooms in without updating map
+				zoom(level+1, false);
+				calcCoordinates(); //refresh dx and dy
+			}
+			else{
+				//calculates coordinates and update map
+				zoom(level-1, false);
+				calcCoordinates(); //refresh dx and dy
+				xMin = centerX-dx;
+				xMax = centerX+dx;
+				yMin = centerY-dy;
+				yMax = centerY+dy;
+				return;
+			}
+			level++;
+		}
+	}
+	
+	/**
+	 * updates the map
+	 */
+	private void updateMap() {
+		calcCoordinates();
+		setWithinBounds();
+		if (!manualControl)
+			computeRoadsToShow();
+		repaint();
+	}
+	
+	/**
+	 * always set's the zoom within the bounds of the map
+	 */
+	private void setWithinBounds() {
 		// makes sure you're within the map
 		if (xMin < totalxMin) {
 			xMin = totalxMin;
@@ -270,28 +223,203 @@ public class MapComponent extends JComponent {
 			yMin = yMax - (2 * dy);
 		}
 	}
-
+	
 	/**
-	 * updates the map
+	 * computes which road types to be painted (depends on the current zoom
+	 * level)
 	 */
-	private void updateMap() {
-		calcCoordinates();
-		setWithinBoundaries();
-		repaint();
+	private void computeRoadsToShow() {
+		if (manualControl)
+			return; // do nothing if manual control is selected
+
+		// always paints the 4 biggest road types
+		roadtypes[0] = true;
+		roadtypes[1] = true;
+		roadtypes[2] = true;
+		roadtypes[3] = true;
+
+		// computes if normal roads should be painted
+		if (zoomLevel < 13)
+			roadtypes[4] = false;
+		else
+			roadtypes[4] = true;
+
+		// computes if Trails & streets should be painted
+		if (zoomLevel < 16)
+			roadtypes[5] = false;
+		else
+			roadtypes[5] = true;
+
+		// computes if Paths should be painted
+		if (zoomLevel < 19)
+			roadtypes[6] = false;
+		else
+			roadtypes[6] = true;
 	}
 
-	public Dimension getComponentSize()
-	{
-		return getSize();
+	/**
+	 * paints the whole component
+	 */
+	public void paintComponent(Graphics g) {
+		calcCoordinates();
+		setScale();
+
+		// paints the white background
+		g.setColor(Color.white);
+		g.fillRect(2, 2, getWidth() - 4, getHeight() - 4);
+		
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHints(createRenderingHints());
+		
+		// paints the roads
+		for (int i = roadtypes.length - 1; i >= 0; i--) {
+			if (roadtypes[i])
+				synchronized (controller) {
+					paintRoadsOfType(i, g2);
+				}
+		}
+		
+		//paints the route
+		if (route != null)
+			paintRoute(g2);
+		
+		//paints border
+		paintBorder(g2);
 	}
 	
 	/**
 	 * Sets the scale for the component
 	 */
 	private void setScale() {
-		xScale = (xMax - xMin) / getWidth();// getWidth is inherited from
-		// JComponent
-		yScale = (yMax - yMin) / getHeight(); // getHeight is inherited from
-		// JComponent
+		xScale = (xMax - xMin) / getWidth();
+		yScale = (yMax - yMin) / getHeight();
+	}
+	
+	/**
+	 * creates rendering hints for Graphic2D to make smooth lines
+	 */
+	private RenderingHints createRenderingHints() {
+		RenderingHints renderHints = new RenderingHints(
+				RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		renderHints.put(RenderingHints.KEY_RENDERING,
+				RenderingHints.VALUE_RENDER_QUALITY);
+		return renderHints;
+	}
+	
+	/**
+	 * paint the roads of a given type within the area
+	 */
+	private void paintRoadsOfType(int type, Graphics2D g2) {
+		// get roads if the type and within area
+		Connection[] connections = controller.getConnections(type + 1, 
+				xMin, yMin, xMax,yMax);
+
+		double widthFactor = 4 * (1.3 - xScale) - 5;
+
+		for (Connection c : connections) {
+			// set the correct width for the stroke
+			float width = (float) (c.getType().width() + widthFactor);
+			if (width < 1) // minimum width is 1
+				width = 1;
+			g2.setStroke(new BasicStroke(width));
+
+			// set the color of the road type
+			g2.setColor(c.getType().color());
+
+			// get the coordinates for the line
+			int x1 = (int) ((c.getX1() - xMin) / xScale);
+			int y1 = (int) ((yMax - c.getY1()) / yScale);
+			int x2 = (int) ((c.getX2() - xMin) / xScale);
+			int y2 = (int) ((yMax - c.getY2()) / yScale);
+
+			// draws the line
+			g2.drawLine(x1, y1, x2, y2);
+		}
+	}
+
+	/**
+	 * paints the requested route on the map
+	 */
+	private void paintRoute(Graphics2D g2)
+	{
+		g2.setColor(new Color(0,102,204)); //blue
+		double widthFactor = 4 * (1.3 - xScale) - 5;
+		g2.setStroke(new BasicStroke((float)widthFactor+6));
+		
+		//paints the route
+		for (Connection c: route){
+			int x1 = (int) ((c.getX1() - xMin) / xScale);
+			int y1 = (int) ((yMax - c.getY1()) / yScale);
+			int x2 = (int) ((c.getX2() - xMin) / xScale);
+			int y2 = (int) ((yMax - c.getY2()) / yScale);
+			g2.drawLine(x1, y1, x2, y2);
+		}
+	}
+	
+	/**
+	 * paint the border around the map component
+	 */
+	private void paintBorder(Graphics2D g) {
+		g.setStroke(new BasicStroke(3));
+		g.setColor(Color.darkGray);
+
+		g.drawLine(0, 0, 0, getHeight()); // left line
+		g.drawLine(getWidth() - 1, 0, getWidth() - 1, getHeight()); // rigth
+																	// line
+		g.drawLine(0, 0, getWidth(), 0); // top line
+		g.drawLine(0, getHeight() - 1, getWidth(), getHeight() - 1); // bottom
+																		// line
+	}
+	
+
+	/**
+	 * set the route
+	 */
+	public void setRoute(Connection[] route, double x1, 
+						double y1, double x2, double y2)
+	{
+		this.route = route;
+		zoomOnRoute(x1, y1, x2, y2);
+		updateMap();
+	}
+	
+	
+	public void resetZoom() {
+		resetCoordinates();
+		updateMap();
+	}
+	
+	
+	/**
+	 * returns the current level of the zoom so SliderComponent can adjust the slider
+	 */
+	public int getZoomLevel() {
+		return zoomLevel;
+	}
+	
+	
+	/**
+	 * returns the array of road types so GUI know which is selected
+	 */
+	public boolean[] getRoadtypes() {
+		return roadtypes;
+	}
+	
+	/**
+	 * update which road types to be painted
+	 * @param n is the road type
+	 * @param isSelected is whether it's selected or not
+	 */
+	public void updateRoadTypes(int n, boolean isSelected) {
+		roadtypes[n - 1] = isSelected;
+		updateMap();
+	}
+	
+	/**
+	 * for GUI to set the manual control to true or false
+	 */
+	public void setManualControl(boolean selected) {
+		manualControl = selected;
 	}
 }

@@ -1,5 +1,10 @@
 package dataStructure;
 
+<<<<<<< HEAD
+=======
+import controller.Controller;
+
+>>>>>>> a6faaf556b0bad2cedaea3a934eccbe826b35068
 /**
  * @(#)AddressParser.java
  *
@@ -24,7 +29,11 @@ public class AddressParser {
     		 address[i] = null;
     	}
     	parseStreet(s);
+<<<<<<< HEAD
         return address;
+=======
+    	return address;
+>>>>>>> a6faaf556b0bad2cedaea3a934eccbe826b35068
     }
 
     /*
@@ -84,7 +93,11 @@ public class AddressParser {
                 house = split[0];
         }
         
+<<<<<<< HEAD
         x = s.substring(house.length()+1);
+=======
+        x = s.substring(house.length());
+>>>>>>> a6faaf556b0bad2cedaea3a934eccbe826b35068
         //We don't consider house letter to be larger than two characters
 
         address[2] = house.trim();
@@ -111,11 +124,20 @@ public class AddressParser {
             }
         }
          if ((slut + start) >= 0) { //if zip
+<<<<<<< HEAD
             zip = x.substring(start-1, slut);
             x = x.substring(slut).trim();
         }
         address[3] = zip.trim();
         if(x.length() > 1) address[4] = x.trim();
         else address[4] = "";
+=======
+            zip = x.substring(start, slut+1);
+            address[3] = zip.trim();
+            x = x.substring(slut).trim();
+        }
+        if(zip == "0") address[4] = "Sverige";
+        else address[4] = Controller.getInstance().getPostal().get(address[3]);
+>>>>>>> a6faaf556b0bad2cedaea3a934eccbe826b35068
     }
 }

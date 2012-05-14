@@ -1,6 +1,10 @@
 package controller;
 
 import java.util.Arrays;
+<<<<<<< HEAD
+=======
+import java.util.HashMap;
+>>>>>>> a6faaf556b0bad2cedaea3a934eccbe826b35068
 import java.util.Iterator;
 
 import exceptions.ExceptionController;
@@ -10,6 +14,10 @@ import gui.GUI;
 
 import visualization.MapComponent;
 import dataStructure.AddressParser;
+<<<<<<< HEAD
+=======
+import visualization.SliderComponent;
+>>>>>>> a6faaf556b0bad2cedaea3a934eccbe826b35068
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.DynArray;
@@ -29,6 +37,7 @@ public final class Controller {
   private static Controller instance; // singleton
   private GUI gui;
   private MapComponent map;
+  private SliderComponent slider;
   private Graph graph;
   private AddressParser parser;
   volatile private TernarySearchTries<Integer> tst;
@@ -42,6 +51,7 @@ public final class Controller {
   volatile private ConnectionQuadTree smallQT; // 6
   volatile private ConnectionQuadTree pathsQT; // 7
   private double xMin, yMin, xMax, yMax;
+  private HashMap<String, String> postal = new HashMap<String, String>(); //zip, city
 
   /**
    * Constructor for this class loads connections and points from FileLoader
@@ -88,7 +98,7 @@ public final class Controller {
 
   /**
    * 
-   * @return Returns instance of the singleton class Map which paints the map
+   * @return Returns instance of the singleton class MapComponent which paints the map
    * @see MapComponent
    */
   public MapComponent getMap() {
@@ -96,6 +106,18 @@ public final class Controller {
       map = new MapComponent();
     }
     return map;
+  }
+  
+  /**
+   * 
+   * @return Returns instance of the singleton class SliderComponent which paints the slider
+   * @see MapComponent
+   */
+  public SliderComponent getSlider() {
+    if (slider == null) {
+      slider = new SliderComponent();
+    }
+    return slider;
   }
 
   /**
@@ -178,6 +200,7 @@ public final class Controller {
 		  if(tmp.hasNext()){
 			  q = connections[tmp.next()];
 			  if(Integer.parseInt(address[1]) != 0){
+<<<<<<< HEAD
 				  if(q.getName().equalsIgnoreCase(address[0]) && address[3] != null){
 					  System.out.println(address[3]);
 					  if(((""+q.getLeft().getZip()).startsWith(address[3]))){
@@ -190,6 +213,18 @@ public final class Controller {
 			  }else{
 			  if(q.getLeft().getZip()!=0) roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip();
 			  else roads[i] = q.getName()+" "+address[1]+address[2]+", "+"sverige";
+=======
+				  if(q.getName().equalsIgnoreCase(address[0]) && address[3] != null && ((""+q.getLeft().getZip()).startsWith(address[3]) && address[3].length() > 3)){
+					  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
+				  }
+			  else if(q.getName().equalsIgnoreCase(address[0])){
+				  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());
+			  }
+			  
+			  }else{
+			  if(getPostal().get(""+q.getLeft().getZip()) != null)roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());
+			  else roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" Sverige";
+>>>>>>> a6faaf556b0bad2cedaea3a934eccbe826b35068
 			  }
 		  }
 		  if(roads[i] == null) roads[i] = " ";
@@ -201,6 +236,33 @@ public final class Controller {
 		  roads[9-i] = t;
 	  }
 	  return roads;
+  }
+  
+  public void getRoadPlan(String a, String b){
+	  String[] address1 = null;
+	  String t = null, f = null;
+	  int tzip = 0, fzip = 0;
+		try {
+			address1 = parser.parseAddress(a);
+			f = address1[0];
+			fzip =  Integer.parseInt(address1[3]);
+			address1 = parser.parseAddress(b);
+			t = address1[0];
+			tzip =  Integer.parseInt(address1[3]);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		Point start = connections[tst.get(f, fzip)].getLeft();
+		Point finish = connections[tst.get(t, tzip)].getLeft();
+		try{
+		  Connection[] con = getGraph().shortestPath(start, finish);
+		  
+		  //con, xmin, ymin, xmax, ymax
+      map.setRoute(con, graph.getXmin(), graph.getYmin(), graph.getXmax(), graph.getYmax()); 
+      System.out.println(graph.getXmin() + " " + graph.getYmin() + " " + graph.getXmax() + " " + graph.getYmax());
+		} catch (RuntimeException e){ 
+		  ExceptionController.recieveException(e);
+		}
   }
 
   /**
@@ -428,6 +490,10 @@ public final class Controller {
   
   public Graph getGraph(){
     return graph;
+  }
+  
+  public HashMap<String, String> getPostal(){
+    return postal;
   }
 
   /**

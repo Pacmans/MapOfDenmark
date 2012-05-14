@@ -3,7 +3,6 @@ package dataStructure;
 public class ConnectionQuadTree{
   private Node root;
   private DynArray<Integer> array;
-  private int nodes = 0;
   private double xmin, ymin, xmax, ymax;
   
   /**
@@ -42,7 +41,6 @@ public class ConnectionQuadTree{
   public void insert(double x, double y, int connection){
     if(root == null){
       root = new Node(x, y, connection);
-      nodes++;
       return;
     }
     //Check if exists
@@ -79,7 +77,6 @@ public class ConnectionQuadTree{
     else if (x <= h.x && y >  h.y) h.NW = insert(h.NW, x, y, connection);
     else if (x >  h.x && y <= h.y) h.SE = insert(h.SE, x, y, connection);
     else if (x >  h.x && y >  h.y) h.NE = insert(h.NE, x, y, connection);
-    else nodes++;
     return h;
   }
   

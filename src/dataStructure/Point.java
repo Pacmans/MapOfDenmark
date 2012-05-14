@@ -8,7 +8,7 @@ package dataStructure;
  *
  */
 public class Point implements Comparable<Point>{
-	private int ID, numberOfConnections = 0;
+	private int ID;
 	private int zip;
 	
 	private double xk, yk;
@@ -37,7 +37,6 @@ public class Point implements Comparable<Point>{
 	public void setZip(int zip) {
 		this.zip = zip;
 	}
-
 	
 	public int compareTo(Point point){
 	  int a = point.getID();

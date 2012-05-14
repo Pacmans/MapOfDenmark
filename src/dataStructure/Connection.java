@@ -12,14 +12,16 @@ public class Connection implements Comparable<Connection>{
   private Point left, right;
   private RoadType type;
   private String name;
-  private int id;
+  private int id, speed;
   private double length = -1;
 
-  public Connection(int id, Point p, Point q, RoadType type, String name) {
+  public Connection(int id, Point p, Point q, RoadType type, String name, int speed) {
     this.id = id;
     this.id = id;
     this.name = name;
     this.type = type;
+    if(speed < 1) this.speed = 1;
+    else this.speed = speed;
     if(p.getX() > q.getX()){
       right = p;
       left = q;
@@ -29,11 +31,7 @@ public class Connection implements Comparable<Connection>{
     }
   }
 
-  public int getId() {
-	return id;
-}
-
-public int getID() {
+  public int getID() {
     return id;
   }
   public double getX1(){
@@ -76,10 +74,8 @@ public int getID() {
     return length;
   }
   
-  //TODO Make this realistic
   public double getWeight(){
-    return getLength();
-//    return getLength()*type.priority();
+    return getLength()*(100/speed);
   }
   
   public int compareTo(Connection con) {
@@ -96,7 +92,7 @@ public int getID() {
     Connection c = new Connection(1,
         new Point(1, 5, 7), //(5,7)
         new Point(1, 7, 5), //(7,5)
-        RoadType.EXPRESSWAY, null);
+        RoadType.EXPRESSWAY, null, 1);
     boolean right = c.left.getX() < c.right.getX();
     System.out.println("Left is left and Right is right: " + right);
     System.out.println("Length should be 2.828: " + c.getLength());
