@@ -18,6 +18,7 @@ import java.awt.Color;
  *
  */
 public enum RoadType {
+  //Road types used in this application
   HIGHWAY(Color.red, 5),
   PROJHIGHWAY(Color.red, 5),
   HIGHWAYTUNNEL(Color.red, 5),
@@ -52,6 +53,11 @@ public enum RoadType {
   private final Color color;
   private final double width;
 
+  /**
+   * 
+   * @param color Color this RoadType should be painted in
+   * @param width Width of paint stroke
+   */
   RoadType(Color color, double width){
     this.color = color;
     this.width = width;
