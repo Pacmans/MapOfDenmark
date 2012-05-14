@@ -1,5 +1,7 @@
 package dataStructure;
 
+import controller.Controller;
+
 /**
  * 
  * @author Claus L. Henriksen clih@itu.dk
@@ -11,7 +13,9 @@ public class Interval {
   private final double low, high;
   
   public Interval(double low, double high){
-    //TODO if(high < low) throw new RuntimeException("Illegal argument"); (problem will not occur, Map got it covered bitch)
+    if(high < low){
+      Controller.catchException(new RuntimeException("Low > high in Interval class"));
+    }
     this.low = low;
     this.high = high;
   }
@@ -38,9 +42,18 @@ public class Interval {
     return true;
   }
   
+  /**
+   * 
+   * @return low double value in interval
+   */
   public double getLow(){
     return low;
   }
+  
+  /**
+   * 
+   * @return high double value in interval
+   */
   public double getHigh(){
     return high;
   }

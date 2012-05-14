@@ -9,6 +9,12 @@ package dataStructure;
 public class Interval2D {
   private final Interval intervalX, intervalY;
   
+  /**
+   * 
+   * @param intervalX
+   * @param intervalY
+   * @see Interval
+   */
   public Interval2D(Interval intervalX, Interval intervalY){
     this.intervalX = intervalX;
     this.intervalY = intervalY;
@@ -35,9 +41,20 @@ public class Interval2D {
     return intervalX.contains(x) && intervalY.contains(y);
   }
   
+  /**
+   * 
+   * @return x-interval
+   * @see Interval
+   */
   public Interval getIntervalX(){
     return intervalX;
   }
+  
+  /**
+   * 
+   * @return y-interval
+   * @see Interval
+   */
   public Interval getIntervalY(){
     return intervalY;
   }
