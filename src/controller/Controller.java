@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 import exceptions.ExceptionController;
@@ -8,6 +9,7 @@ import graph.Graph;
 import gui.GUI;
 
 import visualization.MapComponent;
+import dataStructure.AddressParser;
 import dataStructure.Connection;
 import dataStructure.ConnectionQuadTree;
 import dataStructure.DynArray;
@@ -28,6 +30,7 @@ public final class Controller {
   private GUI gui;
   private MapComponent map;
   private Graph graph;
+  private AddressParser parser;
   volatile private TernarySearchTries<Integer> tst;
   volatile private Connection[] connections;
   volatile private Point[] points;
@@ -46,6 +49,7 @@ public final class Controller {
    * @see FileLoader
    */
   public Controller() {
+	parser = new AddressParser();
     instance = this;
     gui = new GUI();
     try {
@@ -153,24 +157,48 @@ public final class Controller {
   
   public String[] getRoads(String key)
   {
+	  String[] address = null;
+	try {
+		address = parser.parseAddress(key);
+	} catch (Exception e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
 	  String[] roads = new String[10];
 	  Iterator<Integer> tmp = null;
 	  try{
-	   tmp = tst.keysWithPrefix(key).iterator();
+	   tmp = tst.keysWithPrefix(address[0]).iterator();
 	  } catch (NullPointerException e){
 		  roads[0] = "(none)";
 		  return roads;
 	  }
 	  Connection q;
-	  for(int i = 0; i < 10; i++)
+	  for(int i = 0; i < roads.length; i++)
 	  {
 		  if(tmp.hasNext()){
 			  q = connections[tmp.next()];
-			  if(q.getLeft().getZip()!=0) roads[i] = q.getName()+" 1, "+q.getLeft().getZip();
-			  else roads[i] = q.getName()+" 1, sverige";
-
+			  if(Integer.parseInt(address[1]) != 0){
+				  if(q.getName().equalsIgnoreCase(address[0]) && address[3] != null){
+					  System.out.println(address[3]);
+					  if(((""+q.getLeft().getZip()).startsWith(address[3]))){
+					  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
+				   }
+			  } else if(q.getName().equalsIgnoreCase(address[0])){
+				  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
+			  }
+			  
+			  }else{
+			  if(q.getLeft().getZip()!=0) roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip();
+			  else roads[i] = q.getName()+" "+address[1]+address[2]+", "+"sverige";
+			  }
 		  }
-		  else return roads;
+		  if(roads[i] == null) roads[i] = " ";
+	  }
+	  Arrays.sort(roads);
+	  for(int i = 0; i < 5; i++){
+		  String t = roads[i];
+		  roads[i] = roads[9-i];
+		  roads[9-i] = t;
 	  }
 	  return roads;
   }
