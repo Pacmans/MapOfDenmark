@@ -8,6 +8,7 @@ import exceptions.ExceptionController;
 import files.FileLoaderConnectionOnly;
 import graph.Graph;
 import gui.GUI;
+import gui.LiveSearchBox;
 
 import visualization.MapComponent;
 import dataStructure.AddressParser;
@@ -396,11 +397,14 @@ public final class Controller {
   }
 
   /**
-   * Get Roads method takes a String and sends it to address parser. The address parser chops it up into an array of strings
-   * it then sends the first string (road name) to TST and ask it to find keys with the given prefix
-   * then it creates an array of strings containing roads with the given prefix.
-   * @param key		the test written in LiveSearchBox.
-   * @return		array of String that can be placed in the drop down menu in the LiveSearchBox.
+   * Get Roads method takes a String and sends it to address parser. The address parser chops it up into an array of strings.
+   * It then sends the first string (road name) to TST and ask it to find keys with the given prefix.
+   * Then it creates an array of strings containing roads with the given prefix.
+   * Method is used by LiveSearchBox
+   * @param key The text written in LiveSearchBox.
+   * @return Array of String that can be placed in the drop down menu in the LiveSearchBox.
+   * @see LiveSearchBox
+   * @see GUI
    */
   public String[] getRoads(String key) {
 	  String[] address = null;
@@ -449,10 +453,9 @@ public final class Controller {
   }
   
   /**
-   * THis methods gets 2 String representing a from and a to, it then gives them to the address parser (to chop up the string), 
+   * This methods gets 2 String representing from and to. It gives them to the address parser (to chop up the string), 
    * then to the TST (to get the corresponding connection ID), then to Graph (to calculated the shortest route) and then to map
    * to paint the route.
-   * that calculates the shortest route.
    * @param from		the "from" String
    * @param to			the "to" String
    */
@@ -466,8 +469,8 @@ public final class Controller {
 			address1 = parser.parseAddress(to);
 			to = address1[0];
 			tzip =  Integer.parseInt(address1[3]);
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+		  ExceptionController.recieveException(e);
 		}
 		Point start = connections[tst.get(from, fzip)].getLeft(); //get the connection using the TST to get the value.
 		Point finish = connections[tst.get(to, tzip)].getLeft();
