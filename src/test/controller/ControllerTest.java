@@ -26,28 +26,11 @@ public class ControllerTest {
   public ControllerTest() {
   }
 
-  @BeforeClass
-  public static void setUpClass() throws Exception {
-  }
-
-  @AfterClass
-  public static void tearDownClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() {
-  }
-
-  @After
-  public void tearDown() {
-  }
-
   /**
    * Test of getInstance method, of class Controller.
    */
   @Test
   public void testGetInstance() {
-    System.out.println("getInstance");
     Controller expResult = instance;
     Controller result = Controller.getInstance();
     assertEquals(expResult, result);
@@ -58,7 +41,6 @@ public class ControllerTest {
    */
   @Test
   public void testGetGUI() {
-    System.out.println("getGUI");
     GUI gui = Controller.getInstance().getGUI();
     GUI expResult = gui;
     GUI result = instance.getGUI();
@@ -70,7 +52,6 @@ public class ControllerTest {
    */
   @Test
   public void testGetMap() {
-    System.out.println("getMap");
     MapComponent expResult = instance.getMap();
     MapComponent result = instance.getMap();
     assertEquals(expResult, result);
@@ -116,7 +97,6 @@ public class ControllerTest {
    */
   @Test
   public void testGetxMin() {
-    System.out.println("getxMin");
     double expResult = 589;
     double result = instance.getxMin();
     assertEquals(expResult, result, 1.0);
@@ -127,7 +107,6 @@ public class ControllerTest {
    */
   @Test
   public void testGetyMin() {
-    System.out.println("getyMin");
     double expResult = 8066;
     double result = instance.getyMin();
     assertEquals(expResult, result, 1.0);
@@ -138,7 +117,6 @@ public class ControllerTest {
    */
   @Test
   public void testGetxMax() {
-    System.out.println("getxMax");
     double expResult = 1190;
     double result = instance.getxMax();
     assertEquals(expResult, result, 1.0);
@@ -149,7 +127,6 @@ public class ControllerTest {
    */
   @Test
   public void testGetyMax() {
-    System.out.println("getyMax");
     double expResult = 8536;
     double result = instance.getyMax();
     assertEquals(expResult, result, 1.0);

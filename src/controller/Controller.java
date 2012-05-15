@@ -30,7 +30,6 @@ import dataStructure.TernarySearchTries;
  * 
  */
 public final class Controller {
-
   private static Controller instance; // singleton
   private GUI gui; //singleton
   private MapComponent map; //singleton
@@ -55,7 +54,7 @@ public final class Controller {
    * @see FileLoader
    */
   public Controller() {
-	parser = new AddressParser();
+    parser = new AddressParser();
     instance = this;
     gui = new GUI();
     try {
