@@ -120,10 +120,10 @@ public final class Controller {
   /**
    * Get all connections within rectangle
    * 
-   * @param x1
-   * @param y1
-   * @param x2
-   * @param y2
+   * @param x1 the x coordinate of the first point.
+   * @param y1 the y coordinate of the first point.
+   * @param x2 the x coordinate of the second point.
+   * @param y2 the y coordinate of the second point.
    *          ArrayList of connections within rectangle
    * @return
    */
