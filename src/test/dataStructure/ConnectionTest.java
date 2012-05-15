@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package test.dataStructure;
 
 import static org.junit.Assert.assertEquals;
@@ -17,112 +13,161 @@ import dataStructure.Point;
 import dataStructure.RoadType;
 
 /**
- *
- * @author Admin
+ * 
+ * @author Pacmans
  */
 public class ConnectionTest {
-    static Connection instance = null;
-    
-    public ConnectionTest() {
-    }
+  static Connection instance = null;
+  static Point p1, p2;
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-        instance = new Connection(1, //ID
-            new Point(1, 3, 4), //id, x, y 
-            new Point(2, 5, 6), //id, x, y
-                RoadType.EXPRESSWAY, //type
-                "Test road", //name
-                0); //speed limit
-    }
+  public ConnectionTest() {
+  }
 
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
+  @BeforeClass
+  public static void setUpClass() throws Exception {
+    p1 = new Point(1, 5, 7); // id, x, y
+    p2 = new Point(2, 7, 5); // id, x, y
+    instance = new Connection(1, // ID
+        p1, p2, //points 
+        RoadType.EXPRESSWAY, // type
+        "Test road", // name
+        20); // speed limit
+  }
 
-    /**
-     * Test of getID method, of class Connection.
-     */
-    @Test
-    public void testGetID() {
-        System.out.println("getID");
-        int expResult = 1;
-        int result = instance.getID();
-        assertEquals(expResult, result);
-    }
+  @AfterClass
+  public static void tearDownClass() throws Exception {
+  }
 
-    /**
-     * Test of getX1 method, of class Connection.
-     */
-    @Test
-    public void testGetX1() {
-        System.out.println("getX1");
-        double expResult = 3;
-        double result = instance.getX1();
-        assertEquals(expResult, result, 0.0);
-    }
+  @Before
+  public void setUp() {
+  }
 
-    /**
-     * Test of getX2 method, of class Connection.
-     */
-    @Test
-    public void testGetX2() {
-        System.out.println("getX2");
-        double expResult = 5;
-        double result = instance.getX2();
-        assertEquals(expResult, result, 0.0);
-    }
+  @After
+  public void tearDown() {
+  }
 
-    /**
-     * Test of getY1 method, of class Connection.
-     */
-    @Test
-    public void testGetY1() {
-        System.out.println("getY1");
-        double expResult = 4;
-        double result = instance.getY1();
-        assertEquals(expResult, result, 0.0);
-    }
+  /**
+   * Test of getID method, of class Connection.
+   */
+  @Test
+  public void testGetID() {
+    int expResult = 1;
+    int result = instance.getID();
+    assertEquals(expResult, result);
+  }
 
-    /**
-     * Test of getY2 method, of class Connection.
-     */
-    @Test
-    public void testGetY2() {
-        System.out.println("getY2");
-        double expResult = 6;
-        double result = instance.getY2();
-        assertEquals(expResult, result, 0.0);
-    }
+  /**
+   * Test of getX1 method, of class Connection.
+   */
+  @Test
+  public void testGetX1() {
+    double expResult = 5;
+    double result = instance.getX1();
+    assertEquals(expResult, result, 0.0);
+  }
 
-    /**
-     * Test of getType method, of class Connection.
-     */
-    @Test
-    public void testGetType() {
-        System.out.println("getType");
-        RoadType expResult = RoadType.EXPRESSWAY;
-        RoadType result = instance.getType();
-        assertEquals(expResult, result);
-    }
+  /**
+   * Test of getX2 method, of class Connection.
+   */
+  @Test
+  public void testGetX2() {
+    double expResult = 7;
+    double result = instance.getX2();
+    assertEquals(expResult, result, 0.0);
+  }
 
-    /**
-     * Test of compareTo method, of class Connection.
-     */
-    @Test
-    public void testCompareTo() {
-        System.out.println("compareTo");
-        Connection con = new Connection(2, new Point(1, 0, 0), new Point(2, 0, 0), null, null, 0);
-        int expResult = -1;
-        int result = instance.compareTo(con);
-        assertEquals(expResult, result);
-    }
+  /**
+   * Test of getY1 method, of class Connection.
+   */
+  @Test
+  public void testGetY1() {
+    double expResult = 7;
+    double result = instance.getY1();
+    assertEquals(expResult, result, 0.0);
+  }
+
+  /**
+   * Test of getY2 method, of class Connection.
+   */
+  @Test
+  public void testGetY2() {
+    double expResult = 5;
+    double result = instance.getY2();
+    assertEquals(expResult, result, 0.0);
+  }
+
+  /**
+   * Test of getType method, of class Connection.
+   */
+  @Test
+  public void testGetType() {
+    RoadType expResult = RoadType.EXPRESSWAY;
+    RoadType result = instance.getType();
+    assertEquals(expResult, result);
+  }
+
+  @Test
+  public void testGetName() {
+    String expResult = "Test road";
+    String result = instance.getName();
+    assertEquals(expResult, result);
+  }
+  
+  @Test
+  public void testGetLeft() {
+    Point expResult = p1;
+    Point result = instance.getLeft();
+    assertEquals(expResult, result);
+  }
+  
+  @Test
+  public void testGetRight() {
+    Point expResult = p2;
+    Point result = instance.getRight();
+    assertEquals(expResult, result);
+  }
+  
+  @Test
+  public void testGetLength() {
+    double expResult = 2.828;
+    double result = instance.getLength();
+    assertEquals(expResult, result, 0.1);
+  }
+  
+  @Test
+  public void testGetWeight1() {
+    double expResult = 14.14;
+    double result = instance.getWeight();
+    assertEquals(expResult, result, 0.01);
+  }
+  
+  @Test
+  public void testGetWeight2() {
+    Connection test = new Connection(5,
+        new Point(8, 2, 3), //id, x, y
+        new Point(7, 2, 4), //id, x, y
+        RoadType.EXPRESSWAY, //type
+        null, //name
+        20); //speedlimit
+    assert(test.getLength()<instance.getLength());
+  }
+  
+  @Test
+  public void testLeftRight() {
+    double x1 = instance.getLeft().getX();
+    double x2 = instance.getRight().getX();
+    assert(x1<x2);
+  }
+
+  /**
+   * Test of compareTo method, of class Connection.
+   */
+  @Test
+  public void testCompareTo() {
+    Connection con = new Connection(2, new Point(1, 0, 0), new Point(2, 0, 0),
+        null, null, 0);
+    int expResult = -1;
+    int result = instance.compareTo(con);
+    assertEquals(expResult, result);
+  }
 }
