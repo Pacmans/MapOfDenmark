@@ -35,18 +35,6 @@ public class ConnectionTest {
         20); // speed limit
   }
 
-  @AfterClass
-  public static void tearDownClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() {
-  }
-
-  @After
-  public void tearDown() {
-  }
-
   /**
    * Test of getID method, of class Connection.
    */
