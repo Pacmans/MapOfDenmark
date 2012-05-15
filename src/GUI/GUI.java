@@ -47,35 +47,48 @@ import visualization.SliderComponent;
 import controller.Controller;
 
 /**
- * 
- * @author Anders
+ * The main class of the graphical user interface
  * @author Pacmans
- * @version 10. April 2012
- * 
+ * @version 14. May 2012
  */
 public class GUI {
-	// This field contains the current version of the program.
+	// This field contains the current version of the application.
 	private static final String VERSION = "Version 1.0";
-	// The main frame of our program.
+	// The main frame of our application.
 	private JFrame frame;
 	private Controller controller;
 	private JPanel contentPane, loadingPanel, optionPanel, roadtypeBoxes, checkboxPanel;
 	// The map from the controller
 	private MapComponent map;
+	// A layer which is in top of the map
 	private JLayeredPane layer;
+	// An empty area in the right option panel
 	private Component area = Box.createRigidArea(new Dimension(200,253));
+	// The map slider
 	private SliderComponent slider;
 	// A ButtonGroup with car, bike, and walk.
 	private ButtonGroup group;
+	// A HashMap with a roadtype string and a checkbox attached to it.
 	private HashMap<String, JCheckBox> boxes = new HashMap<String, JCheckBox>();
+	// An enum which is the selected transport.
 	private TransportationType selectedTransport;
-	// selected JToggleButton - 0 if car, 1 if bike, 2 if walk.
+	// The roadtype
 	private int number;
+	// A field for the statusbar in the bottom of the frame
 	private JLabel statusbar = new JLabel(" ");
+	// The checkbox for switching manual control
 	private JCheckBox manualControlBox;
+	// The address fields from and to
 	private LiveSearchBox fromBox, toBox;
+	// The minimum size of the frame.
 	private Dimension windowSize = new Dimension(880, 655);
 
+	/**
+	 * Constructor for the GUI class.
+	 * First it makes the frame and then the menu bar.
+	 * Then the right panel is made and inserted into the frame.
+	 * The frame is then set up and a pointer to the controller is created. 
+	 */
 	public GUI() {
 		makeFrame();
 		makeMenuBar();
@@ -83,7 +96,31 @@ public class GUI {
 		setupFrame();
 		controller = Controller.getInstance();
 	}
+	
+	/**
+	 * Creates a new JFrame and set's the layout to a BorderLayout.
+	 * Then a loading panel is added to the JFrame's contentPane.
+	 */
+	private void makeFrame() {
+		// create the frame set the layout and border.
+		frame = new JFrame("Map Of Denmark");
+		contentPane = (JPanel) frame.getContentPane();
+		contentPane.setBorder(new EmptyBorder(4, 4, 4, 4));
+		contentPane.setLayout(new BorderLayout(5, 5));
+		loadingPanel = new JPanel(new FlowLayout(1));
+		loadingPanel.setBorder(new EmptyBorder(150, 6, 6, 6));
+		JLabel loadingLabel = new JLabel("Loading map...");
+		loadingLabel.setForeground(Color.white);
+		loadingLabel.setFont(new Font("Verdana", Font.BOLD, 40));
+		loadingPanel.add(loadingLabel);
+		contentPane.add(loadingPanel, "Center");
+	}
 
+	/**
+	 * First make sure that the application exit's when the user closes the frame.
+	 * Setup the size and make sure it doesn't get smaller than the minimum size.
+	 *  
+	 */
 	private void setupFrame() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setMinimumSize(windowSize);
@@ -96,12 +133,14 @@ public class GUI {
 				- frame.getHeight() / 2);
 		contentPane.setEnabled(false);
 		frame.setBackground(Color.darkGray);
-		frame.pack();
 		updateGUI();
 	}
 
+	/**
+	 * Updates the GUI by showing it and shows/hides the road type boxes,
+	 * depending on the manual control box's state.
+	 */
 	private void updateGUI() {
-//		frame.pack();
 		frame.setVisible(true);
 		if (manualControlBox.isSelected()) {
 			area.setVisible(false);
@@ -112,6 +151,13 @@ public class GUI {
 		}
 	}
 
+	/**
+	 * Calls the controller to retrieve the map and the slider.
+	 * Add a mouse wheel listener to the map and 
+	 * get the zoom level to the slider. 
+	 * Then remove the loadingPanel, setup the slider and map,
+	 * and then enable the contentPane at last. 
+	 */
 	public void setupMap() {
     map = controller.getMap();
     slider = controller.getSlider();
@@ -147,21 +193,9 @@ public class GUI {
     map.setBounds(0,0,layer.getWidth(),layer.getHeight());
   }
 
-	private void makeFrame() {
-		// create the frame set the layout and border.
-		frame = new JFrame("Map Of Denmark");
-		contentPane = (JPanel) frame.getContentPane();
-		contentPane.setBorder(new EmptyBorder(4, 4, 4, 4));
-		contentPane.setLayout(new BorderLayout(5, 5));
-		loadingPanel = new JPanel(new FlowLayout(1));
-		loadingPanel.setBorder(new EmptyBorder(150, 6, 6, 6));
-		JLabel loadingLabel = new JLabel("Loading map...");
-		loadingLabel.setForeground(Color.white);
-		loadingLabel.setFont(new Font("Verdana", Font.BOLD, 40));
-		loadingPanel.add(loadingLabel);
-		contentPane.add(loadingPanel, "Center");
-	}
-
+	/**
+	 * Create a menu bar with key stroke shortcut attached.
+	 */
 	private void makeMenuBar() {
 		// Create key stroke shortcuts for the menu.
 		final int SHORTCUT_MASK = Toolkit.getDefaultToolkit()
@@ -206,22 +240,39 @@ public class GUI {
 		menu.add(item);
 	}
 
+	/**
+	 * Creates a JPanel with a BoxLayout for the right side of the JFrame.
+	 * First add the route planning box and the check box.
+	 * Then add an empty area to make it look nice. At last create the zoom out
+	 * button and add to the JPanel and then to the contentPane. 
+	 */
 	private void makeRightPanel() {
 		// initialize a new JPanel.
 		optionPanel = new JPanel();
 		// create a vertical BoxLayout on the optionPanel.
 		optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
 
-		// add the checkbox, and the other GUI to the right panel.
+		// add the check box, and the other GUI to the right panel.
 		optionPanel.add(createRouteplanningBox());
 		optionPanel.add(createCheckbox());
 		optionPanel.add(area);
 		area.setVisible(false);
 		optionPanel.add(createZoomOutButton());
-		// add the optionPanel to the contentPanes borderlayout.
+		// add the optionPanel to the contentPanes BorderLayout.
 		contentPane.add(optionPanel, "East");
 	}
 
+	/**
+	 * Create a JPanel routePlanning with route planning elements
+	 * First create the border for the JPanel with a headline font 
+	 * then set the layout. Then it creates two labels and LiveSearchBoxes
+	 * and adds to the JPanel. The LiveSearchBoxes are then disabled so 
+	 * the user can't search until everything is loaded.
+	 * The go button is created and a listener is attached and after that
+	 * everything is added to routePlanning.
+	 * 
+	 * @return routePlanning
+	 */
 	private JPanel createRouteplanningBox() {
 		JPanel routePlanning = new JPanel();
 		TitledBorder border = new TitledBorder(
@@ -253,18 +304,24 @@ public class GUI {
 
 		// go button
 		JButton go = new JButton("Go");
-		go = setButtonText(go);
+		go = setButtonFont(go);
 		go.setPreferredSize(new Dimension(55, 33));
 		go.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// get the selected transportation type and DO SOMETHING
+				// get the text from the address boxes get a route if not empty.
 				if(fromBox.getText().equals("") || toBox.getText().equals(""))
 					setStatus("Please fill in both address fields");
 				else {
-					controller.getRoadPlan(fromBox.getText(), toBox.getText());
-					setStatus("You route is the blue line");
-				}
-				
+					if(getSelectedTransportation() == TransportationType.BIKE || 
+							getSelectedTransportation() == TransportationType.WALK)
+						// Bike and walk is not supported so show fail status
+						setStatus("Bike and walking route is unfortunately not" +
+											" supported yet so please choose car instead");
+					else {
+						controller.getRoadPlan(fromBox.getText(), toBox.getText());
+						setStatus("You route is the blue line");
+					}
+				}			
 			}
 		});
 		JPanel goPanel = new JPanel(new FlowLayout(1));
@@ -274,25 +331,44 @@ public class GUI {
 		routePlanning.add(toPanel);
 		routePlanning.add(createTogglePanel());
 		routePlanning.add(goPanel);
-
 		return routePlanning;
 	}
 
+	/**
+	 * Takes a label and sets the font to Verdana, size 14.
+	 * @param label
+	 * @return label
+	 */
 	private <T extends JComponent> T setLabelFont(T label) {
 		label.setFont(new Font("Verdana", Font.PLAIN, 14));
 		return label;
 	}
 
+	/**
+	 * Takes a border and sets the font to of the text to Verdana, size 14.
+	 * @param TitledBorder
+	 * @return TitledBorder
+	 */
 	private TitledBorder setHeadlineFont(TitledBorder label) {
 		label.setTitleFont(new Font("Verdana", Font.BOLD, 15));
 		return label;
 	}
 
-	private <T extends JComponent> T setButtonText(T label) {
+	/**
+	 * Takes a button and sets the font to of the text to Verdana, size 14.
+	 * @param Button
+	 * @return Button
+	 */
+	private <T extends JComponent> T setButtonFont(T label) {
 		label.setFont(new Font("Verdana", Font.PLAIN, 14));
 		return label;
 	}
 
+	/**
+	 * Creates a JPanel togglePanel. 
+	 * Then add the icons to the buttons which are added to the togglePanel.
+	 * @return togglePanel
+	 */
 	// toggleButtons in a ButtonGroup
 	private JPanel createTogglePanel() {
 		JPanel togglePanel = new JPanel(new FlowLayout(1));
@@ -308,6 +384,11 @@ public class GUI {
 		return togglePanel;
 	}
 
+	/**
+	 * Takes an icon and returns a scaled version of it.
+	 * @param icon
+	 * @return icon
+	 */
 	private ImageIcon getScaledIcon(ImageIcon icon) {
 		Image img = icon.getImage();
 		Image newimg = img.getScaledInstance(30, 30,
@@ -315,6 +396,17 @@ public class GUI {
 		return new ImageIcon(newimg);
 	}
 
+	/**
+	 * Creates a JToggleButton.
+	 * Adds an ItemListener to the button 
+	 * to set the selected transportation type.
+	 * Finally it adds the button to the ButtonGroup
+	 * and returns it.
+	 * @param ico - The icon of the button
+	 * @param selected - The selected state of the button
+	 * @param type - The transportation type for the button
+	 * @return
+	 */
 	private JToggleButton createJToggleButton(ImageIcon ico, boolean selected,
 			TransportationType type) {
 		JToggleButton button = new JToggleButton();
@@ -326,7 +418,6 @@ public class GUI {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					setSelectedTransportation(_type);
-					System.out.println(getSelectedTransportation());
 				}
 			}
 		});
@@ -334,21 +425,35 @@ public class GUI {
 		return button;
 	}
 
-	// return an enum
+	/**
+	 * Returns an enum which is the selected transportation type.
+	 * @return selectedTransport
+	 */
 	private TransportationType getSelectedTransportation() {
 		return selectedTransport;
 	}
 
-	// return 0 if car, 1 if bike, 2 if walk.
+	/**
+	 * Sets the enum which is the selected transportation type.
+	 * @param type
+	 */
 	private void setSelectedTransportation(TransportationType type) {
 		selectedTransport = type;
 	}
 
+	/**
+	 * Creates the zoom out buttons JPanel and the JButton.
+	 * The JButton then has a preferred size and font set.
+	 * Then an ActionListener is attached to set the slider 
+	 * and then show everything when pushed. The JButton is then
+	 * added to JPanel and the JPanel is returned 
+	 * @return zoomPanel
+	 */
 	private JPanel createZoomOutButton() {
     JPanel zoomPanel = new JPanel(new FlowLayout(1));
     JButton zoomOut = new JButton("Zoom out");
     zoomOut.setPreferredSize(new Dimension(110, 40));
-    zoomOut = setButtonText(zoomOut);
+    zoomOut = setButtonFont(zoomOut);
     zoomOut.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         slider.setSlider(0);
@@ -359,6 +464,18 @@ public class GUI {
     return zoomPanel;
   }
 
+	/**
+	 * Creates a JPanel and sets a BoxLayout.
+	 * A border is then added to the JPanel.
+	 * Then a new JCheckBox is created for the "Manual Control" box 
+	 * and added to the JPanel manualPanel.
+	 * It has a ItemListener attached which calls setRoadtypeSelections
+	 * and calls the map to set manual control to true.
+	 * Then a JPanel for the road type boxes is created with a GridLayout,
+	 * and a checkbox for each road type is create and added to the JPanel.
+	 * 
+	 * @return checkboxPanel 
+	 */
 	private JPanel createCheckbox() {
 		// initialize checkboxPanel
 		checkboxPanel = new JPanel();
@@ -386,21 +503,22 @@ public class GUI {
 		manualPanel.add(manualControlBox);
 
 		roadtypeBoxes = new JPanel(new GridLayout(7, 1));
-		roadtypeBoxes.add(createRoadtypeBox("Highways", true)); // Priority 1
-																// roads
+		roadtypeBoxes.add(createRoadtypeBox("Highways", true)); 
+																			// Priority 1 roads
 		roadtypeBoxes.add(createRoadtypeBox("Expressways", true)); // Priority 2
-		roadtypeBoxes.add(createRoadtypeBox("Primary roads", true)); // and so
-																		// on..
+		roadtypeBoxes.add(createRoadtypeBox("Primary roads", true)); // and so on...
 		roadtypeBoxes.add(createRoadtypeBox("Secondary roads", true));
 		roadtypeBoxes.add(createRoadtypeBox("Normal roads", false));
 		roadtypeBoxes.add(createRoadtypeBox("Trails & streets", false));
 		roadtypeBoxes.add(createRoadtypeBox("Paths", false));
 		checkboxPanel.add(manualPanel);
 		checkboxPanel.add(roadtypeBoxes);
-
 		return checkboxPanel;
 	}
 
+	/**
+	 * Gets the road types from the map and selects the right check boxes.
+	 */
 	private void setRoadtypeSelections()
 	{
 		boolean[] roadtypes = map.getRoadtypes();
@@ -414,9 +532,22 @@ public class GUI {
 		boxes.get("Paths").setSelected(roadtypes[6]);
 	}
 
-	private JPanel createRoadtypeBox(String string, boolean selected) {
-		JPanel fl = new JPanel(new FlowLayout(0));
-		JCheckBox box = new JCheckBox(string);
+	/**
+	 * Creates a JPanel roadTypeBoxPanel for the JCheckBox which is created with 
+	 * the given roadtypeString. Then the font is set up and the state is selected.
+	 * It has an ItemListener attached which compares the roadtypeString
+	 * and sets the variable number. When the user clicks a checkbox,
+	 * the listener call updateMap on the map. 
+	 * At last the roadtypeString and checkbox is added to the HashMap boxes,
+	 * the checkbox is added to the roadTypeBoxPanel which is returned.
+	 * 
+	 * @param roadtypeString
+	 * @param selected
+	 * @return roadTypeBoxPanel
+	 */
+	private JPanel createRoadtypeBox(String roadtypeString, boolean selected) {
+		JPanel roadTypeBoxPanel = new JPanel(new FlowLayout(0));
+		JCheckBox box = new JCheckBox(roadtypeString);
 		box = setLabelFont(box);
 		box.setSelected(selected);
 		box.addItemListener(new ItemListener() {
@@ -436,23 +567,30 @@ public class GUI {
 					number = 6;
 				if (box.getText().equals("Paths"))
 					number = 7;
+				
 				if (e.getStateChange() == ItemEvent.SELECTED)
 					controller.updateMap(number, true);
 				else
 					controller.updateMap(number, false);
 			}
 		});
-		boxes.put(string, box);
-		fl.add(box);
-		return fl;
+		boxes.put(roadtypeString, box);
+		roadTypeBoxPanel.add(box);
+		return roadTypeBoxPanel;
 	}
 
+	/**
+	 * Set the text of the JLabel statusbar
+	 * @param text
+	 */
 	public void setStatus(String text) {
 		statusbar.setText(text);
 	}
 
+	/**
+	 * Quit the application
+	 */
 	public void quit() {
-		// Exits the application.
 		System.exit(0);
 	}
 
@@ -462,15 +600,22 @@ public class GUI {
 	 */
 	private void showAbout() {
 		JOptionPane.showMessageDialog(frame, "Map Of Denmark - " + VERSION
-				+ "\nMade by Claus, BjÃ¸rn, Phillip, Morten & Anders.",
+				+ "\nMade by Claus, Bjørn, Phillip, Morten & Anders.",
 				"About Map Of Denmark", JOptionPane.INFORMATION_MESSAGE);
 	}
   
+	/**
+	 * Sets the contentPane to enabled and the background to lightGray.
+	 */
   public void enableFrame() {
 	  contentPane.setEnabled(true);
 	  frame.setBackground(Color.lightGray);
   }
   
+  /**
+   * Calls the setEnabled method on the address boxes with the given boolean.
+   * @param bool
+   */
   public void enableSearch(boolean bool){
     toBox.getBox().setEnabled(bool);
     fromBox.getBox().setEnabled(bool);

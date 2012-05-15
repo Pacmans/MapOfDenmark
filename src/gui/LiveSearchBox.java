@@ -12,6 +12,12 @@ import javax.swing.text.Document;
 
 import controller.Controller;
 
+/**
+ * This class represents a live search box where the user can
+ * type some text and it will automatically show a popup window
+ * below with suggestions.
+ * @author Pacmans
+ */
 public class LiveSearchBox {
 
 	private JComboBox adress;
@@ -20,6 +26,14 @@ public class LiveSearchBox {
 	private Document doc;
 	private Controller controller;
 	
+	/**
+	 * Constructor for the LiveSearchBox.
+	 * First create a pointer to the controller.
+	 * Then create a JComboBox, set the preferred size, set
+	 * the setEditable to true, and set the background.
+	 * The component is retrieved from adress and sets a size.
+	 * Finally a listener is added to component.
+	 */
 	public LiveSearchBox() {
 		controller = Controller.getInstance();
 		adress = new JComboBox();
@@ -34,12 +48,16 @@ public class LiveSearchBox {
 		doc.addDocumentListener(listener);
 	}
 	
-	// create a document listener and add to the field listener
+	/**
+	 * Create a document listener and add to the field listener
+	 * When the listener gets activated it temporarily deactivates
+	 * and when finished it is then activated again.
+	 * @return DocumentListener
+	 */
 	private DocumentListener createListener() {
 		return new DocumentListener() {
 			@Override
-			public void changedUpdate(DocumentEvent e) {
-			}
+			public void changedUpdate(DocumentEvent e) { }
 	
 			@Override
 			public void insertUpdate(DocumentEvent e) {
@@ -61,10 +79,11 @@ public class LiveSearchBox {
 		      	String typedRoad = component.getText();
 		      	String[] roads = controller.getRoads(typedRoad);
 						adress.removeAllItems();
-						if(typedRoad != "") {
-							adress.addItem(typedRoad);
+						if(typedRoad != "") { 
+							// if the users typed road is not empty
+							adress.addItem(typedRoad); // then add the typed road.
 							for (String road : roads) {
-								if(road != null)
+								if(road != null) // if the road string is not null then add
 									adress.addItem(road.trim());
 							}
 							adress.showPopup();
@@ -76,11 +95,18 @@ public class LiveSearchBox {
 		}; 
 	}
 	
-	// returns the JComboBox
+	/**
+	 *	Get and return the JComboBox
+	 *	@return adress
+	 */
 	public JComboBox getBox() {
 		return adress;
 	}
 	
+	/**
+	 * Get and return the text of the component
+	 * @return component
+	 */
 	public String getText() {
 		return component.getText();
 	}

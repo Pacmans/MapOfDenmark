@@ -40,22 +40,30 @@ public class Graph {
     }
   }
   
-  //Return length or calc on handle?
+  /**
+   * Find shortest path between two points.
+   * @param from
+   * @param to
+   * @return Path as array of connections
+   * @throws RuntimeException if there is no path between points
+   * @see Connection
+   * @see DijkstraSP
+   */
   public Connection[] shortestPath(Point from, Point to) throws RuntimeException{
-    //See DijkstraSP class
+    //Create Dijkstra
     DijkstraSP dijk = new DijkstraSP(g, from.getID());
     //If there is no path between points
     if(!dijk.hasPathTo(to.getID())) throw new RuntimeException("No path");
     
+    //Iterate points on path and get Connection IDs
     DynArray<Integer> cs = new DynArray<Integer>(Integer[].class);
     Iterator<DirectedEdge> it = dijk.pathTo(to.getID()).iterator();
-    
     while(it.hasNext()){
       DirectedEdge edge = it.next();
       cs.add(edge.id());
     }
     
-    //Convert int to actual connections and return them
+    //Convert IDs to actual connections and return them
     Connection[] path = new Connection[cs.size()];
     int index = 0;
     for(Integer i : cs){
@@ -82,15 +90,38 @@ public class Graph {
     return path;
   }
   
+  /**
+   * Getter for path boundary limit value.
+   * Used by MapComponent to zoom in on route.
+   * @return Smallest x-value on route
+   */
   public double getXmin(){
     return xMin;
   }
+  
+  /**
+   * Getter for path boundary limit value.
+   * Used by MapComponent to zoom in on route.
+   * @return Biggest x-value on route
+   */
   public double getXmax(){
     return xMax;
   }
+  
+  /**
+   * Getter for path boundary limit value.
+   * Used by MapComponent to zoom in on route.
+   * @return Smallest y-value on route
+   */
   public double getYmin(){
     return yMin;
   }
+  
+  /**
+   * Getter for path boundary limit value.
+   * Used by MapComponent to zoom in on route.
+   * @return Biggest y-value on route
+   */
   public double getYmax(){
     return yMax;
   }
