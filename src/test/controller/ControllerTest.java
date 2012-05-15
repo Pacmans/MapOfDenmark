@@ -1,175 +1,254 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package test.controller;
 
 import dataStructure.Connection;
+import dataStructure.ConnectionQuadTree;
+import dataStructure.Point;
+import dataStructure.TernarySearchTries;
+import graph.Graph;
 import gui.GUI;
 import org.junit.*;
 
 import controller.Controller;
 import static org.junit.Assert.*;
 import visualization.MapComponent;
+import visualization.SliderComponent;
 
 /**
- *
- * @author Admin
+ * 
+ * @author Pacmans
+ * @author Claus L. Henriksen - clih@itu.dk
  */
 public class ControllerTest {
-    static Controller instance = Controller.getInstance();
+  static Controller instance = Controller.getInstance();
+  
+  //TODO Test getConnections, getRoads, getRoadPlan
 
-    public ControllerTest() {
-    }
+  public ControllerTest() {
+  }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
+  @BeforeClass
+  public static void setUpClass() throws Exception {
+  }
 
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
+  @AfterClass
+  public static void tearDownClass() throws Exception {
+  }
 
-    @Before
-    public void setUp() {
-    }
+  @Before
+  public void setUp() {
+  }
 
-    @After
-    public void tearDown() {
-    }
+  @After
+  public void tearDown() {
+  }
 
-    /**
-     * Test of getInstance method, of class Controller.
-     */
-    @Test
-    public void testGetInstance() {
-        System.out.println("getInstance");
-        Controller expResult = instance;
-        Controller result = Controller.getInstance();
-        assertEquals(expResult, result);
-    }
+  /**
+   * Test of getInstance method, of class Controller.
+   */
+  @Test
+  public void testGetInstance() {
+    System.out.println("getInstance");
+    Controller expResult = instance;
+    Controller result = Controller.getInstance();
+    assertEquals(expResult, result);
+  }
 
-    /**
-     * Test of getGUI method, of class Controller.
-     */
-    @Test
-    public void testGetGUI() {
-        System.out.println("getGUI");
-        GUI gui = Controller.getInstance().getGUI();
-        GUI expResult = gui; 
-        GUI result = instance.getGUI();
-        assertEquals(expResult, result);
-    }
+  /**
+   * Test of getGUI method, of class Controller.
+   */
+  @Test
+  public void testGetGUI() {
+    System.out.println("getGUI");
+    GUI gui = Controller.getInstance().getGUI();
+    GUI expResult = gui;
+    GUI result = instance.getGUI();
+    assertEquals(expResult, result);
+  }
 
-    /**
-     * Test of getMap method, of class Controller.
-     */
-    @Test
-    public void testGetMap() {
-        System.out.println("getMap");
-        MapComponent expResult = instance.getMap();
-        MapComponent result = instance.getMap();
-        assertEquals(expResult, result);
-    }
+  /**
+   * Test of getMap method, of class Controller.
+   */
+  @Test
+  public void testGetMap() {
+    System.out.println("getMap");
+    MapComponent expResult = instance.getMap();
+    MapComponent result = instance.getMap();
+    assertEquals(expResult, result);
+  }
 
-//    /**
-//     * Test of getConnections method, of class Controller.
-//     */
-//    @Test
-//    public void testGetConnections_4args() {
-//        System.out.println("getConnections");
-//        double x1 = 0.0;
-//        double y1 = 0.0;
-//        double x2 = 0.0;
-//        double y2 = 0.0;
-//        Connection[] expResult = null;
-//        Connection[] result = instance.getConnections(x1, y1, x2, y2);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getConnections method, of class Controller.
-//     */
-//    @Test
-//    public void testGetConnections_0args() {
-//        System.out.println("getConnections");
-//        Controller instance = new Controller();
-//        Connection[] expResult = null;
-//        Connection[] result = instance.getConnections();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of updateMap method, of class Controller.
-//     */
-//    @Test
-//    public void testUpdateMap() {
-//        System.out.println("updateMap");
-//        int n = 0;
-//        boolean m = false;
-//        Controller instance = new Controller();
-//        instance.updateMap(n, m);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of showAll method, of class Controller.
-//     */
-//    @Test
-//    public void testShowAll() {
-//        System.out.println("showAll");
-//        Controller instance = new Controller();
-//        instance.showAll();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+  @Test
+  public void testGetGraph() {
+    Graph expResult = instance.getGraph();
+    Graph result = instance.getGraph();
+    assertEquals(expResult, result);
+  }
 
-    /**
-     * Test of getxMin method, of class Controller.
-     */
-    @Test
-    public void testGetxMin() {
-        System.out.println("getxMin");
-        double expResult = 589;
-        double result = instance.getxMin();
-        assertEquals(expResult, result, 1.0);
-    }
+  @Test
+  public void testGetTST() {
+    TernarySearchTries<Integer> expResult = instance.getTst();
+    TernarySearchTries<Integer> result = instance.getTst();
+    assertEquals(expResult, result);
+  }
 
-    /**
-     * Test of getyMin method, of class Controller.
-     */
-    @Test
-    public void testGetyMin() {
-        System.out.println("getyMin");
-        double expResult = 8066;
-        double result = instance.getyMin();
-        assertEquals(expResult, result, 1.0);
-    }
+  @Test
+  public void testGetSlider() {
+    SliderComponent expResult = instance.getSlider();
+    SliderComponent result = instance.getSlider();
+    assertEquals(expResult, result);
+  }
+  
+  @Test
+  public void testGetConnections() {
+    Connection[] expResult = instance.getConnections();
+    Connection[] result = instance.getConnections();
+    assertArrayEquals(expResult, result);
+  }
+  
+  @Test
+  public void testGetPoints() {
+    Point[] expResult = instance.getPoints();
+    Point[] result = instance.getPoints();
+    assertArrayEquals(expResult, result);
+  }
 
-    /**
-     * Test of getxMax method, of class Controller.
-     */
-    @Test
-    public void testGetxMax() {
-        System.out.println("getxMax");
-        double expResult = 1190;
-        double result = instance.getxMax();
-        assertEquals(expResult, result, 1.0);
-    }
+  /**
+   * Test of getxMin method, of class Controller.
+   */
+  @Test
+  public void testGetxMin() {
+    System.out.println("getxMin");
+    double expResult = 589;
+    double result = instance.getxMin();
+    assertEquals(expResult, result, 1.0);
+  }
 
-    /**
-     * Test of getyMax method, of class Controller.
-     */
-    @Test
-    public void testGetyMax() {
-        System.out.println("getyMax");
-        double expResult = 8536;
-        double result = instance.getyMax();
-        assertEquals(expResult, result, 1.0);
-    }
+  /**
+   * Test of getyMin method, of class Controller.
+   */
+  @Test
+  public void testGetyMin() {
+    System.out.println("getyMin");
+    double expResult = 8066;
+    double result = instance.getyMin();
+    assertEquals(expResult, result, 1.0);
+  }
+
+  /**
+   * Test of getxMax method, of class Controller.
+   */
+  @Test
+  public void testGetxMax() {
+    System.out.println("getxMax");
+    double expResult = 1190;
+    double result = instance.getxMax();
+    assertEquals(expResult, result, 1.0);
+  }
+
+  /**
+   * Test of getyMax method, of class Controller.
+   */
+  @Test
+  public void testGetyMax() {
+    System.out.println("getyMax");
+    double expResult = 8536;
+    double result = instance.getyMax();
+    assertEquals(expResult, result, 1.0);
+  }
+  
+  @Test
+  public void testSetxMin() {
+    instance.setxMin(2);
+    double expResult = 2;
+    double result = instance.getxMin();
+    assertEquals(expResult, result, 0.1);
+  }
+  
+  @Test
+  public void testsetyMin() {
+    instance.setyMin(3);
+    double expResult = 3;
+    double result = instance.getyMin();
+    assertEquals(expResult, result, 0.1);
+  }
+  
+  @Test
+  public void testSetxMax() {
+    instance.setxMax(200);
+    double expResult = 200;
+    double result = instance.getxMax();
+    assertEquals(expResult, result, 0.1);
+  }
+  
+  @Test
+  public void testSetyMax() {
+    instance.setyMax(150);
+    double expResult = 150;
+    double result = instance.getyMax();
+    assertEquals(expResult, result, 0.1);
+  }
+  
+  @Test
+  public void testQT1() {
+    ConnectionQuadTree expResult = instance.getHighwaysQT();
+    ConnectionQuadTree result = instance.getHighwaysQT();
+    assertEquals(expResult, result);
+  }
+  
+  @Test
+  public void testQT2() {
+    ConnectionQuadTree expResult = instance.getExpresswaysQT();
+    ConnectionQuadTree result = instance.getExpresswaysQT();
+    assertEquals(expResult, result);
+  }
+  
+  @Test
+  public void testQT3() {
+    ConnectionQuadTree expResult = instance.getPrimaryQT();
+    ConnectionQuadTree result = instance.getPrimaryQT();
+    assertEquals(expResult, result);
+  }
+  
+  @Test
+  public void testQT4() {
+    ConnectionQuadTree expResult = instance.getSecondaryQT();
+    ConnectionQuadTree result = instance.getSecondaryQT();
+    assertEquals(expResult, result);
+  }
+  
+  @Test
+  public void testQT5() {
+    ConnectionQuadTree expResult = instance.getNormalQT();
+    ConnectionQuadTree result = instance.getNormalQT();
+    assertEquals(expResult, result);
+  }
+  
+  @Test
+  public void testQT6() {
+    ConnectionQuadTree expResult = instance.getSmallQT();
+    ConnectionQuadTree result = instance.getSmallQT();
+    assertEquals(expResult, result);
+  }
+  
+  @Test
+  public void testQT7() {
+    ConnectionQuadTree expResult = instance.getPathsQT();
+    ConnectionQuadTree result = instance.getPathsQT();
+    assertEquals(expResult, result);
+  }
+  
+  @Test
+  public void testSetConnections() {
+    Connection[] result = new Connection[2];
+    instance.setConnections(result);
+    Connection[] expResult = instance.getConnections();
+    assertArrayEquals(expResult, result);
+  }
+  
+  @Test
+  public void testSetPoint() {
+    Point[] result = new Point[2];
+    instance.setPoints(result);
+    Point[] expResult = instance.getPoints();
+    assertArrayEquals(expResult, result);
+  }
 }

@@ -15,6 +15,7 @@ import dataStructure.RoadType;
 /**
  * 
  * @author Pacmans
+ * @author Claus L. Henriksen - clih@itu.dk
  */
 public class ConnectionTest {
   static Connection instance = null;
