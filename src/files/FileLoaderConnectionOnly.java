@@ -80,6 +80,13 @@ public class FileLoaderConnectionOnly {
     }
   }
 
+  /**
+   * Loads all connections in the connection array in different threads and at the same time
+   * making quadtrees of the different roadtypes.
+   * All road threads are daemon threads so the application will terminate when user closes it
+   * even if the threads aren't done.
+   * @throws IOException
+   */
   private void loadConnections() throws IOException {
     Thread highways = new Thread(new FileLoaderThread("highways", points,
         connections, highwaysQT, tst), "highways");
