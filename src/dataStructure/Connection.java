@@ -37,19 +37,6 @@ public class Connection implements Comparable<Connection>{
   }
   
   /**
-   * This Main-method is a test of this class. 
-   */
-  public static void main(String[] args){
-    Connection c = new Connection(1,
-        new Point(1, 5, 7), //(5,7)
-        new Point(1, 7, 5), //(7,5)
-        RoadType.EXPRESSWAY, null, 1);
-    boolean right = c.left.getX() < c.right.getX();
-    System.out.println("Left is left and Right is right: " + right);
-    System.out.println("Length should be 2.828: " + c.getLength());
-  }
-
-  /**
    * 
    * @return Returns the ID of the connection
    */
