@@ -11,28 +11,28 @@ public class IntervalTest {
 
   @Test
   public void testContains() {
-    assert(instance.contains(3));
+    assertTrue(instance.contains(3));
   }
 
   @Test
   public void testIntersects() {
     Interval test = new Interval(1, 2);
-    assert(instance.intersects(test));
+    assertTrue(instance.intersects(test));
   }
   
   @Test
   public void testIntersects2() {
     Interval test = new Interval(7, 9);
-    assert(!instance.intersects(test));
+    assertFalse(instance.intersects(test));
   }
 
   @Test
   public void testGetLow() {
-    assert(instance.getLow() == 1);
+    assertTrue(instance.getLow() == 1);
   }
 
   @Test
   public void testGetHigh() {
-    assert(instance.getHigh() == 4);
+    assertTrue(instance.getHigh() == 4);
   }
 }

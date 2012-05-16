@@ -34,18 +34,18 @@ public class PointTest {
   @Test
   public void testCompareTo() {
     Point test = new Point(2, 3, 4);
-    assert(instance.compareTo(test) == -1);
+    assertTrue(instance.compareTo(test) == -1);
   }
   
   @Test
   public void testCompareTo2() {
     Point test = new Point(0, 3, 4);
-    assert(instance.compareTo(test) == 1);
+    assertTrue(instance.compareTo(test) == 1);
   }
   
   @Test
   public void testCompareTo3() {
-    Point test = new Point(2, 3, 4);
-    assert(instance.compareTo(test) == 0);
+    Point test = new Point(1, 3, 4);
+    assertTrue(instance.compareTo(test) == 0);
   }
 }

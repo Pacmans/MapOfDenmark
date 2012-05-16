@@ -15,18 +15,18 @@ public class Interval2DTest {
   @Test
   public void testIntersects() {
     Interval2D test = new Interval2D(new Interval(1,4), new Interval(2,3));
-    assert(instance.intersects(test));
+    assertTrue(instance.intersects(test));
   }
   
   @Test
   public void testIntersects2() {
     Interval2D test = new Interval2D(new Interval(12,42), new Interval(22,32));
-    assert(!instance.intersects(test));
+    assertFalse(instance.intersects(test));
   }
 
   @Test
   public void testContains() {
-    assert(instance.contains(3, 3));
+    assertTrue(instance.contains(3, 3));
   }
 
   @Test
