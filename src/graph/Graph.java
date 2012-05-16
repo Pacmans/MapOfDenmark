@@ -50,6 +50,8 @@ public class Graph {
    * @see DijkstraSP
    */
   public Connection[] shortestPath(Point from, Point to) throws RuntimeException{
+    //Reset values
+    xMin = 70000; xMax = 0; yMin = 70000; yMax = 0;
     //Create Dijkstra
     DijkstraSP dijk = new DijkstraSP(g, from.getID());
     //If there is no path between points
