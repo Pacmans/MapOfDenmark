@@ -36,6 +36,7 @@ public class TernarySearchTries<Value> {
 	 */
 	public HashSet<Value> get(String key)
 	{
+		key = key.toLowerCase();
 		Node x = get(root, key, 0);
 		if (x == null) return null;
 		return  x.val;

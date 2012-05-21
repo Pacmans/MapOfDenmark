@@ -79,6 +79,16 @@ public final class Controller {
    */
   public static void main(String[] args) {
     new Controller();
+    //instance.getTst().put("", 11, 2000);
+    instance.getTst().put("aswdwesdwaesd", 11, 2000);
+    instance.getTst().put("dalgas Boulevard", 11, 2000);
+    instance.getTst().put("ÅÅÅ", 11, 2000);
+    instance.getTst().put("Dalgas Boulevard", 11, 9800);
+    //System.out.println(instance.getTst().get(""));
+    System.out.println(instance.getTst().get("aswdwesdwaesd"));
+    System.out.println(instance.getTst().get("dalgas Boulevard", 2000));
+    System.out.println(instance.getTst().get("ÅÅÅ"));
+    System.out.println(instance.getTst().get("Dalgas Boulevard", 9800));
   }
 
   /**
