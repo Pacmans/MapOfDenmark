@@ -437,7 +437,7 @@ public final class Controller {
 			  else if(q.getName().equalsIgnoreCase(address[0])){ //if the string does not have a zip code
 				  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());
 			  }
-			  
+
 			  }else{ //if there is no house number
 			  if(getPostal().get(""+q.getLeft().getZip()) != null){ //if we are not in Sweden
 				  roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" "+getPostal().get(""+q.getLeft().getZip());

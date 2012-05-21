@@ -18,13 +18,13 @@ public class ExceptionController {
 	 */
 	public static void recieveException(Exception e) {
 		System.out.println("Error: " + e);
-		
+
 		if(e instanceof IOException)
 			handleIOException((IOException) e);
 		if(e instanceof InterruptedException)
 			handleInterruptedException((InterruptedException) e);
 	}
-	
+
 	/**
 	 * Informs the user of an IOException error 
 	 * 
@@ -47,7 +47,7 @@ public class ExceptionController {
 			printMessage(message,title);
 			System.exit(0);
 	}
-	
+
 	/**
 	 * Informs the user of an InterruptedException error
 	 * 
@@ -70,7 +70,7 @@ public class ExceptionController {
 			printMessage(message,title);
 			System.exit(0);
 	}
-	
+
 	/**
 	 * Show a message dialog with the error.
 	 */
