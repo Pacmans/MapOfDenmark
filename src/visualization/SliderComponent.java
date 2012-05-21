@@ -13,7 +13,7 @@ import controller.Controller;
 /**
  * @(#)SliderComponent.java
  * This class creates the JComponent that shows the slider for zooming on the map 
- * @author pacmans
+ * @author Pacmans
  * @version 21. May 2012
  *
  */

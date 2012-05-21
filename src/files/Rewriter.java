@@ -7,22 +7,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+/**
+ * @(#)Rewriter.java
+ * Rewriter read input file and separates to multiple output files with one
+ * Roadtype per file. This makes multithreaded reading of input possible. This
+ * class is not responsible for checking whether rewritten files already
+ * exists.
+ * @throws IOException
+ * @author Pacmans
+ * @version 21. May 2012 
+ */
+
 public class Rewriter {
 
-  // TODO Should this class give connections ID and thereby make is possible to
-  // keep connections in a single array?
-  // Multiple arrays are only a problem when a class wants all connections.
-
-  /**
-   * @(#)Rewriter.java
-   * Rewriter read input file and separates to multiple output files with one
-   * Roadtype per file. This makes multithreaded reading of input possible. This
-   * class is not responsible for checking whether rewritten files already
-   * exists.
-   * @throws IOException
-   * @author Pacmans
-   * @version 21. May 2012 
-   */
   public Rewriter() throws IOException {
     //Ready input and outputs
     InputStream b = getClass().getResourceAsStream("kdv_unload.txt");

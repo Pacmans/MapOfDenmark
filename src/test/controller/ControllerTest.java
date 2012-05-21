@@ -16,7 +16,6 @@ import visualization.SliderComponent;
 /**
  * 
  * @author Pacmans
- * @author Claus L. Henriksen - clih@itu.dk
  */
 public class ControllerTest {
   static Controller instance = Controller.getInstance();

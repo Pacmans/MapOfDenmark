@@ -6,7 +6,6 @@ import java.awt.Color;
  * 
  * an Enum over the different RoadTypes.
  * 
- * @author Claus L. Henriksen clih@itu.dk
  * @author Pacmans
  * @version 29. Marts 2012
  *

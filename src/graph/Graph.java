@@ -11,7 +11,8 @@ import dataStructure.Point;
  * This works on a graph. 
  * This is used for finding shortest path between points in map.
  * 
- * @author Claus L. Henriksen - clih@itu.dk
+ * @author Pacmans
+ * @version 21 May 2012
  * @see EdgeWeightedDigraph
  * @see DirectedEdge
  */
