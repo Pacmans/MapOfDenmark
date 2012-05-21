@@ -11,10 +11,13 @@ import javax.swing.event.ChangeListener;
 import controller.Controller;
 
 /**
+ * @(#)SliderComponent.java
  * This class creates the JComponent that shows the slider for zooming on the map 
- * @author bjorn
+ * @author pacmans
+ * @version 21. May 2012
  *
  */
+
 
 @SuppressWarnings("serial")
 public class SliderComponent extends JComponent{

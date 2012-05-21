@@ -3,10 +3,12 @@ package dataStructure;
 import controller.Controller;
 
 /**
+ * @(#)Interval.java
+ * makes an interval between two points and is able to check if a
+ * given point lies inbetween.
  * 
- * @author Claus L. Henriksen clih@itu.dk
  * @author Pacmans
- * @version 29. Marts 2012
+ * @version 21. May 2012
  *
  */
 public class Interval {

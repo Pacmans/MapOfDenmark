@@ -4,12 +4,13 @@ import controller.Controller;
 
 /**
  * @(#)AddressParser.java
+ * 
+ * the AddressParser takes a string and chops it into lesser parts
+ * that can be used later (things like Road Name and House Number).
  *
- * KF04-F2012
- * Att. Filip Sieczkowski
  *.
  * @author Pacmans
- * @version 14. maj. 2012
+ * @version 21. May 2012
  */
 public class AddressParser {
 

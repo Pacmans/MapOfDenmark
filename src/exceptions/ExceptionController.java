@@ -5,9 +5,11 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
+ * @(#)ExceptionController.java
  * The ExceptionController handles all exceptions and displays an
  * error to the user.
  * @author Pacmans
+ * @version 21. May 2012
  */
 public class ExceptionController {
 

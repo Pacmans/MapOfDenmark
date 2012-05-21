@@ -10,11 +10,14 @@ import controller.Controller;
 import dataStructure.Point;
 
 /**
+ * @(#)FIleLoaderPointThread.java
+ * 
  * Creates a new thread which takes a point array
  * and uses it to fill the connections array. 
  * It also finds maximum and minimum x and y coordinates.
  * Scale is used to down scale the map.
  * 	@author Pacmans
+ *  @version 21. May 2012
  */
 public class FileLoaderPointThread implements Runnable {
   

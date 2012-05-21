@@ -1,8 +1,9 @@
 package dataStructure;
 
 /**
+ * @(#)Point.java
  * Simple class containing a single point.
- * @author Claus L. Henriksen clih@itu.dk
+ *
  * @author Pacmans
  * @version 29. Marts 2012
  *

@@ -23,10 +23,13 @@ import dataStructure.Point;
 import dataStructure.TernarySearchTries;
 
 /**
+ * @(#)Controller.java
  * 
- * @author Claus L. Henriksen clih@itu.dk
+ * The main controller that does the data transaction between
+ * view and model
+ * 
  * @author Pacmans
- * @version 10. April 2012
+ * @version 21. May 2012
  * 
  */
 public final class Controller {

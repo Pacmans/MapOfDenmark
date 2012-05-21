@@ -5,10 +5,13 @@ import java.util.LinkedList;
 
 
 /**
- * The Ternary Search Tries that makes a tree using characters on a Node
+ * @(#)TernarySearchTries.java
+ * 
+ * The Ternary Search Tries that makes a trie using characters on a Node
  * to easy search through a String.
- * @author Phillip
- *
+ * 
+ * @author Pacmans
+ * @version 21. May 2012
  * @param <Value>			The Value to be stored in the TST (integer in our case)
  */
 

@@ -14,11 +14,14 @@ public class Rewriter {
   // Multiple arrays are only a problem when a class wants all connections.
 
   /**
+   * @(#)Rewriter.java
    * Rewriter read input file and separates to multiple output files with one
    * Roadtype per file. This makes multithreaded reading of input possible. This
    * class is not responsible for checking whether rewritten files already
    * exists.
-   * @throws IOException 
+   * @throws IOException
+   * @author Pacmans
+   * @version 21. May 2012 
    */
   public Rewriter() throws IOException {
     //Ready input and outputs

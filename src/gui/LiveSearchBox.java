@@ -13,10 +13,14 @@ import javax.swing.text.Document;
 import controller.Controller;
 
 /**
+ * @(#)LiveSearchBox.java
+ * 
  * This class represents a live search box where the user can
  * type some text and it will automatically show a popup window
  * below with suggestions.
+ *
  * @author Pacmans
+ * @version 21. May 2012
  */
 public class LiveSearchBox {
 

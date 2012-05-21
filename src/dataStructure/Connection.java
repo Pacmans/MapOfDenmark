@@ -6,11 +6,10 @@ import graph.Graph;
 /**
  * @(#)Connection.java
  * 
- * Holds information about the connection/road between to points. 
+ * Holds information about the connection/road between two points. 
  * 
- * @author Claus L. Henriksen clih@itu.dk
  * @author Pacmans
- * @version 20. Marts. 2012
+ * @version 21. May 2012
  */
 
 public class Connection implements Comparable<Connection>{

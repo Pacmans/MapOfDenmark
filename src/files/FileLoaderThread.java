@@ -13,12 +13,12 @@ import dataStructure.RoadType;
 import dataStructure.TernarySearchTries;
 
 /**
+ * @(#)FileLoaderThread.java
  * Threads initiated by FileLoaderConnectionOnly to load the data
  * simultaneously.
  * 
- * @author Morten Drescher Salling, Phillip Hugmann Olesen
  * @author Pacmans
- * 
+ * @version 21. May 2012
  */
 public class FileLoaderThread implements Runnable {
 
