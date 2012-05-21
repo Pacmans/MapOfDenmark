@@ -1,6 +1,7 @@
 package test.dataStructure;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -33,18 +34,6 @@ public class ConnectionTest {
         RoadType.EXPRESSWAY, // type
         "Test road", // name
         20); // speed limit
-  }
-
-  @AfterClass
-  public static void tearDownClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() {
-  }
-
-  @After
-  public void tearDown() {
   }
 
   /**
@@ -150,14 +139,14 @@ public class ConnectionTest {
         RoadType.EXPRESSWAY, //type
         null, //name
         20); //speedlimit
-    assert(test.getLength()<instance.getLength());
+      assertTrue(test.getLength()<instance.getLength()); 
   }
   
   @Test
   public void testLeftRight() {
     double x1 = instance.getLeft().getX();
     double x2 = instance.getRight().getX();
-    assert(x1<x2);
+    assertTrue(x1<x2);
   }
 
   /**
