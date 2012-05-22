@@ -414,7 +414,7 @@ public final class Controller {
 	  String[] address = null;
 	try {		address = parser.parseAddress(key);
 	} catch (Exception e1) {
-		e1.printStackTrace();
+		catchException(e1);
 	}
 	  String[] roads = new String[10];
 	  Iterator<Integer> tmp = null;
