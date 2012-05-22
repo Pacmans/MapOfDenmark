@@ -17,7 +17,8 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
     private int[] qp;        // inverse of pq - qp[pq[i]] = pq[qp[i]] = i
     private Key[] keys;      // keys[i] = priority of i
 
-    public IndexMinPQ(int NMAX) {
+    @SuppressWarnings("unchecked")
+		public IndexMinPQ(int NMAX) {
         keys = (Key[]) new Comparable[NMAX + 1];    // make this of length NMAX??
         pq   = new int[NMAX + 1];
         qp   = new int[NMAX + 1];                   // make this of length NMAX??
