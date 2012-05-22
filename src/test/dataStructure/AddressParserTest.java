@@ -1,10 +1,11 @@
-package dataStructure;
+package test.dataStructure;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import controller.Controller;
+import dataStructure.AddressParser;
 
 public class AddressParserTest {
 	

@@ -1,12 +1,14 @@
-package dataStructure;
+package test.dataStructure;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedList;
 
 import org.junit.Test;
 
 import controller.Controller;
+import dataStructure.TernarySearchTries;
 
 public class TernarySearchTriesTest {
 

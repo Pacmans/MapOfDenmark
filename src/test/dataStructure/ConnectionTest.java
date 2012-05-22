@@ -3,9 +3,6 @@ package test.dataStructure;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -16,7 +13,6 @@ import dataStructure.RoadType;
 /**
  * 
  * @author Pacmans
- * @author Claus L. Henriksen - clih@itu.dk
  */
 public class ConnectionTest {
   static Connection instance = null;
