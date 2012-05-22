@@ -487,7 +487,7 @@ public class GUI {
 		// fill the checkboxPanel
 		JPanel manualPanel = new JPanel(new FlowLayout(0));
 		manualControlBox = new JCheckBox("Manual Control");
-		manualControlBox.setFont(new Font("Verdana", Font.CENTER_BASELINE, 15));
+		manualControlBox.setFont(new Font("Verdana", Font.CENTER_BASELINE, 13));
 		manualControlBox.setSelected(false);
 		manualControlBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
