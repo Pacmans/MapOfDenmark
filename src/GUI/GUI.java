@@ -374,13 +374,13 @@ public class GUI {
 	private JPanel createTogglePanel() {
 		JPanel togglePanel = new JPanel(new FlowLayout(1));
 		group = new ButtonGroup();
-		ImageIcon icon = getScaledIcon(new ImageIcon("./icons/car.png"));
+		ImageIcon icon = getScaledIcon(new ImageIcon("./src/icons/car.png"));
 		togglePanel.add(createJToggleButton(icon, true, TransportationType.CAR));
 
-		icon = getScaledIcon(new ImageIcon("./icons/bike.png"));
+		icon = getScaledIcon(new ImageIcon("./src/icons/bike.png"));
 		togglePanel.add(createJToggleButton(icon, false, TransportationType.BIKE));
 
-		icon = getScaledIcon(new ImageIcon("./icons/walk.png"));
+		icon = getScaledIcon(new ImageIcon("./src/icons/walk.png"));
 		togglePanel.add(createJToggleButton(icon, false, TransportationType.WALK));
 		return togglePanel;
 	}
@@ -488,7 +488,7 @@ public class GUI {
 		// fill the checkboxPanel
 		JPanel manualPanel = new JPanel(new FlowLayout(0));
 		manualControlBox = new JCheckBox("Manual Control");
-		manualControlBox.setFont(new Font("Verdana", Font.CENTER_BASELINE, 15));
+		manualControlBox.setFont(new Font("Verdana", Font.CENTER_BASELINE, 13));
 		manualControlBox.setSelected(false);
 		manualControlBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
