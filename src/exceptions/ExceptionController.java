@@ -21,8 +21,12 @@ public class ExceptionController {
 		
 		if(e instanceof IOException)
 			handleIOException((IOException) e);
-		if(e instanceof InterruptedException)
+		else if(e instanceof InterruptedException)
 			handleInterruptedException((InterruptedException) e);
+		else {
+			printMessage(e.toString(), "Unknown error");
+			System.exit(0);
+		}
 	}
 	
 	/**
