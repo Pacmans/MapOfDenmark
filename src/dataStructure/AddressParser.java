@@ -4,12 +4,13 @@ import controller.Controller;
 
 /**
  * @(#)AddressParser.java
+ * 
+ * the AddressParser takes a string and chops it into lesser parts
+ * that can be used later (things like Road Name and House Number).
  *
- * KF04-F2012
- * Att. Filip Sieczkowski
  *.
  * @author Pacmans
- * @version 14. maj. 2012
+ * @version 21. May 2012
  */
 public class AddressParser {
 
@@ -107,7 +108,6 @@ public class AddressParser {
         }
         
         x = s.substring(house.length());
-        //We don't consider house letter to be larger than two characters
 
         address[2] = house.trim();
         if(x.length() > 0) parseZip(x);
@@ -144,8 +144,10 @@ public class AddressParser {
             address[3] = zip.trim();
             x = x.substring(slut).trim();
         }
-         // at the end we set address[4] ot either Sverige (in the case that zip = 0) else we find it useing the postal.
-        if(zip == "0") address[4] = "Sverige";
-        else address[4] = Controller.getInstance().getPostal().get(address[3]);
+         // at the end we set address[4] to either Sweden (in the case that zip = 0) else we find it using the postal.
+        
+        address[4] = Controller.getInstance().getPostal().get(address[3]);
+         
+         if(address[4] == null) address[4] = "Sweden";
     }
 }

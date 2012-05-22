@@ -23,10 +23,13 @@ import dataStructure.Point;
 import dataStructure.TernarySearchTries;
 
 /**
+ * @(#)Controller.java
  * 
- * @author Claus L. Henriksen clih@itu.dk
+ * The main controller that does the data transaction between
+ * view and model
+ * 
  * @author Pacmans
- * @version 10. April 2012
+ * @version 21. May 2012
  * 
  */
 public final class Controller {
@@ -78,6 +81,16 @@ public final class Controller {
    */
   public static void main(String[] args) {
     new Controller();
+    //instance.getTst().put("", 11, 2000);
+    instance.getTst().put("aswdwesdwaesd", 11, 2000);
+    instance.getTst().put("dalgas Boulevard", 11, 2000);
+    instance.getTst().put("ÅÅÅ", 11, 2000);
+    instance.getTst().put("Dalgas Boulevard", 11, 9800);
+    //System.out.println(instance.getTst().get(""));
+    System.out.println(instance.getTst().get("aswdwesdwaesd"));
+    System.out.println(instance.getTst().get("dalgas Boulevard", 2000));
+    System.out.println(instance.getTst().get("ÅÅÅ"));
+    System.out.println(instance.getTst().get("Dalgas Boulevard", 9800));
   }
 
   /**
@@ -414,7 +427,7 @@ public final class Controller {
 	  String[] address = null;
 	try {		address = parser.parseAddress(key);
 	} catch (Exception e1) {
-		e1.printStackTrace();
+		catchException(e1);
 	}
 	  String[] roads = new String[10];
 	  Iterator<Integer> tmp = null;

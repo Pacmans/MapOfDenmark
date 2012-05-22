@@ -9,8 +9,10 @@ import controller.Controller;
 import dataStructure.Connection;
 
 /**
+ * @(#)MapComponent.java
  * This class paints the map and makes the user capable of zooming and panning around the map
  * @author Pacmans
+ * @version 21. May 2012
  */
 
 @SuppressWarnings("serial")

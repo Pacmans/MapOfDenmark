@@ -47,9 +47,10 @@ import visualization.SliderComponent;
 import controller.Controller;
 
 /**
- * The main class of the graphical user interface
+ * @(#)GUI.java
+ * The main class of the graphical user interface.
  * @author Pacmans
- * @version 14. May 2012
+ * @version 20. May 2012
  */
 public class GUI {
 	// This field contains the current version of the application.

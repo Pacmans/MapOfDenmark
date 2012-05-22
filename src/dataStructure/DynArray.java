@@ -5,11 +5,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 /**
+ * @(#) DynArray.java
  * Dynamic array structure. This is implemented to speed up the system, as to using HashSet or ArrayList.
  * The datastructure can contain any type but does not guarantee order.
  *
- * @author Michael Soeby Andersen msoa@itu.dk
- * @author Claus L. Henriksen - clih@itu.dk
+ * @author Pacmans
+ * @version 21. May 2012
  * This class is originally written by Michael and Claus for an Algorithm exercise.
  *
  * @param <T> The type that the datastructure can contain

@@ -1,18 +1,11 @@
 package dataStructure;
-
-/**
- * @(#)ROADTYPE.java
- *
- *
- * @author Pacmans
- * @version 20. Marts 2012
- */
-
 import java.awt.Color;
 
 /**
+ * @(#)RoadType.java
  * 
- * @author Claus L. Henriksen clih@itu.dk
+ * an Enum over the different RoadTypes.
+ * 
  * @author Pacmans
  * @version 29. Marts 2012
  *

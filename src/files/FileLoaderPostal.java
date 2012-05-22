@@ -8,10 +8,11 @@ import java.util.HashMap;
 
 import controller.Controller;
 
-/**
+/**@(#)FileLoaderPostal.java
  * Creates a new thread which creates a HashMap - postal 
  * of the postal codes in the postal.text file.
  * @author Pacmans
+ * @version 21. May 2012
  */
 public class FileLoaderPostal implements Runnable {
   private HashMap<String, String> postal = Controller.getInstance().getPostal();

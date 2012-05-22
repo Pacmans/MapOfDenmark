@@ -9,10 +9,9 @@ import dataStructure.Point;
 import dataStructure.TernarySearchTries;
 
 /**
+ * @(#)FileLoaderConnectionOnly.java
+ * - write something.
  * 
- * @author Claus L. Henriksen clih@itu.dk
- * @author Phillip Hugmann Olesen
- * @author Morten Drescher Salling
  * @author Pacmans
  * @version 10. April 2012
  */

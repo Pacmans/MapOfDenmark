@@ -1,10 +1,12 @@
 package dataStructure;
 
 /**
+ * @(#)Interval2D.java
  * 
- * @author Claus L. Henriksen clih@itu.dk
+ * makes a double dimensioned Interval useing two Intervals.
+ * 
  * @author Pacmans
- * @version 29. Marts 2012
+ * @version 21. May 2012
  */
 public class Interval2D {
   private final Interval intervalX, intervalY;

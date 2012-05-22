@@ -1,16 +1,19 @@
 package dataStructure;
 
+/**
+ * @(#)ConnectionQuadTree.java
+ * 
+ * A QuadTree that stores all the connection for easy
+ * search and access.
+ * 
+ * @author Pacmans
+ * @version 21. May 2012
+ */
+
 public class ConnectionQuadTree{
   private Node root;
   private DynArray<Integer> array;
   private double xmin, ymin, xmax, ymax;
-  
-  /**
-   * 
-   * @author Claus L. Henriksen clih@itu.dk
-   * @author Pacmans
-   * @version 30. April 2012
-   */
   
   /**
    * Wrapper class used for the 2D data structure. 
