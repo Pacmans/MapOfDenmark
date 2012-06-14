@@ -41,6 +41,9 @@ public class FileLoaderConnectionOnly {
     loadConnections();
   }
 
+  /**
+   * Get references from Controller
+   */
   private void initialise() {
     highwaysQT = controller.getHighwaysQT();
     expresswaysQT = controller.getExpresswaysQT();
@@ -57,8 +60,11 @@ public class FileLoaderConnectionOnly {
   }
   
   /**
-   * creates Points from file "kdv_node_unload" and calculates min and max
-   * coordinates
+   * Create Points from file "kdv_node_unload" and calculate min and max
+   * coordinates, while loading HashMap of postal codes and cities
+   * from postal.txt
+   * 
+   * 2 threads are used.
    * 
    * @throws IOException
    */
@@ -130,7 +136,7 @@ public class FileLoaderConnectionOnly {
 
     int threads = Runtime.getRuntime().availableProcessors();
     System.out.println("You have " + threads + " threads available");
-    if (threads < 3) {
+    if (threads < 3) { //You have two or less threads available
       paths.start();
       normal.start();
       try {
@@ -146,7 +152,7 @@ public class FileLoaderConnectionOnly {
       } catch (Exception e) {
         Controller.catchException(e);
       }
-    }else{
+    }else{ //You have more than two threads available
       paths.start();
       normal.start();
       small.start();

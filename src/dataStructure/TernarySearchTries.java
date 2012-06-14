@@ -95,14 +95,18 @@ public class TernarySearchTries<Value> {
 		char c = key.charAt(d);
 		if (key == "" || key == "''") return null;
 		if( x == null) { x = new Node(); x.c = c; x.postal = postal;}
-		if (c < x.c) x.left = put(x.left, key, val, d, postal); //if c is less than the current c go left
-		else if (c > x.c) x.right = put(x.right, key, val , d, postal); // if c is more than the current c go right
-		else if (d < key.length()-1) x.mid = put(x.mid, key, val, d+1, postal); //if they are the same go mid if we are not at the end
-		else if (postal != x.postal) x.post = put(x.post, key, val, d, postal); //if we are at the end check of postal is the same
+		//if c is less than the current c go left
+		if (c < x.c) x.left = put(x.left, key, val, d, postal); 
+		//if c is more than the current c go right
+		else if (c > x.c) x.right = put(x.right, key, val , d, postal); 
+		//if they are the same go mid if we are not at the end
+		else if (d < key.length()-1) x.mid = put(x.mid, key, val, d+1, postal); 
+		//if we are at the end check of postal is the same
+		else if (postal != x.postal) x.post = put(x.post, key, val, d, postal); 
 		else x.val.add(val);
 		return x;
-	
 	}
+	
 	/**
 	 * return keys with a given prefix
 	 * @param preq		the prefix to be searched for.
