@@ -36,7 +36,7 @@ public class FileLoaderThread implements Runnable {
    * 					Is build by this class.
    * @param qtr. The road group's quadtree. Used to quickly find roads. Contains references to
    * 			connections.
-   * @param tst. A search try containing all road names. Used by the live search feature and route planner.
+   * @param tst. A search trie containing all road names. Used by the live search feature and route planner.
    */
   public FileLoaderThread(String txtname, Point[] points,
       Connection[] connections, ConnectionQuadTree qtr,
@@ -74,7 +74,7 @@ public class FileLoaderThread implements Runnable {
     Point p1, p2;
     String[] split;
     // qtr = new ConnectionQuadTree();
-    System.out.println("qaudtree " + txtname + " start");
+    System.out.println("quadtree " + txtname + " start");
 
     if (connectionInput.ready()) { // if loaded
       while ((line = connectionInput.readLine()) != null) {
@@ -110,7 +110,7 @@ public class FileLoaderThread implements Runnable {
   }
 
   /**
-   * Enums to determind what roadtypes the road should be labeled with.
+   * Enums to determine what roadtypes the road should be labeled with.
    * 
    * @param type
    *          what roadtype the road is in the text file.

@@ -439,21 +439,21 @@ public final class Controller {
 					  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+address[4];
 				  }
 			  else if(q.getName().equalsIgnoreCase(address[0])){ //if the string does not have a zip code
-				  roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+
-			  getPostal().get(""+q.getLeft().getZip());
+				  	roads[i] = q.getName()+" "+address[1]+address[2]+", "+q.getLeft().getZip()+" "+
+				  	getPostal().get(""+q.getLeft().getZip());
 			  }
 
-			  }else{ //if there is no house number
-			  if(getPostal().get(""+q.getLeft().getZip()) != null){ //if we are not in Sweden
-				  roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" "+
-			  getPostal().get(""+q.getLeft().getZip());
+			  } else { //if there is no house number
+			  	if(getPostal().get(""+q.getLeft().getZip()) != null) { //if we are not in Sweden
+			  		roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" "+
+			  		getPostal().get(""+q.getLeft().getZip());
 			  }
 			  else roads[i] = q.getName()+" "+address[1]+", "+q.getLeft().getZip()+" Sweden";
 			  }
 		  }
 		  if(roads[i] == null) roads[i] = " "; //removing all null values from the array
 	  }
-	  Arrays.sort(roads); //sort the array so we dont get empty rooms before at the end
+	  Arrays.sort(roads); //sort the array so we don't get empty rooms before at the end
 	  for(int i = 0; i < 5; i++){ // turning the array around.
 		  String t = roads[i];
 		  roads[i] = roads[9-i];

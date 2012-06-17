@@ -25,7 +25,7 @@ public class AddressParser {
      * 						String[1] = house number
      * 						String[2] = house letter (if the house got one)
      * 						String[3] = postal code
-     * 						String[4] = County
+     * 						String[4] = country
      * @throws Exception
      */
     public String[] parseAddress(String s) throws Exception {
@@ -33,8 +33,8 @@ public class AddressParser {
     		 address[i] = null;
     	}
     	parseStreet(s);
-        return address;
-
+    	
+      return address;
     }
 
     /**
@@ -92,7 +92,7 @@ public class AddressParser {
     
     /**
      * sets address[2] (House Letter)
-     * 					only in the scenario that the string contains
+     * only in the scenario that the string contains
      * a letter right after the house number, if there is not a letter
      * right after this the method just passes the string on.
      * 
@@ -117,9 +117,9 @@ public class AddressParser {
     }
     /**
      * sets address[3] (zip/postal code)
-     * 					in the case that there is more left on the String
-     * 					we look for 4 numbers in a sequel which then must be 
-     * 					the zip code.
+     * in the case that there is more left on the String
+     * we look for 4 numbers in a sequel which then must be 
+     * the zip code.
      * @param s			the String to find the zip code from.
      */
 

@@ -50,16 +50,15 @@ public class MapComponent extends JComponent {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (e.getButton() == MouseEvent.BUTTON1) { // leftclicking
-					// remember where you start draggin to "panorere" with the
-					// map
+				if (e.getButton() == MouseEvent.BUTTON1) { // left-clicking
+					// remember where you start dragging to pan with the map
 					xClick = e.getX();
 					yClick = e.getY();
 				}
 			}
 		});
 
-		// for "panorering" with the map
+		// for panning with the map
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
@@ -79,7 +78,7 @@ public class MapComponent extends JComponent {
 			}
 		});
 
-		// Listener to mousewheel for zooming
+		// Listener to mouse wheel for zooming
 		addMouseWheelListener(new MouseWheelListener() {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
@@ -163,7 +162,7 @@ public class MapComponent extends JComponent {
 	{
 		if (route == null) return;
 		
-		//coordinates for the center of the rute
+		//coordinates for the center of the route
 		double centerX = x1+(x2-x1)/2;
 		double centerY = y1+(y2-y1)/2;
 		
@@ -346,7 +345,7 @@ public class MapComponent extends JComponent {
 	{
 		g2.setColor(new Color(0,102,204)); //blue
 		double widthFactor = 4 * (1.3 - xScale) - 5;
-		g2.setStroke(new BasicStroke((float)widthFactor+6));
+		g2.setStroke(new BasicStroke( (float) widthFactor + 6 ));
 		
 		//paints the route
 		for (Connection c: route){
@@ -366,7 +365,7 @@ public class MapComponent extends JComponent {
 		g.setColor(Color.darkGray);
 
 		g.drawLine(0, 0, 0, getHeight()); // left line
-		g.drawLine(getWidth() - 1, 0, getWidth() - 1, getHeight()); // rigth
+		g.drawLine(getWidth() - 1, 0, getWidth() - 1, getHeight()); // right
 																	// line
 		g.drawLine(0, 0, getWidth(), 0); // top line
 		g.drawLine(0, getHeight() - 1, getWidth(), getHeight() - 1); // bottom
